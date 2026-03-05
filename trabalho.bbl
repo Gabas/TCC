@@ -1,0 +1,85 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[ABNT 2012]{abnt2012}
+\abntrefinfo{ABNT}{ABNT}{2012}
+{ABNT. \textbf{Norma Brasileira NBR 6024: Informação e Documentação - Numeração Progressiva das Seções de um Documento Escrito}. Rio de Janeiro: Associação Brasileira de Normas Técnicas, 2012.}
+
+\bibitem[{Associação Brasileira de Normas Técnicas} 2018]{abnt2018}
+\abntrefinfo{{Associação Brasileira de Normas Técnicas}}{{Associação Brasileira de Normas Técnicas}}{2018}
+{{Associação Brasileira de Normas Técnicas}. \textbf{NBR 14724: Informação e Documentação: Trabalhos Acadêmicos: Apresentação}. Rio de Janeiro: ABNT, 2018.}
+
+\bibitem[Chagas \textit{et al.} 2016]{chagas2016}
+\abntrefinfo{Chagas \textit{et al.}}{CHAGAS \textit{et al.}}{2016}
+{CHAGAS, C.~A.; OLIVEIRA, F.~M.; ALMEIDA, J. R.~A. \textbf{Manual de Redação Científica: Normas e Orientações}. Recife: Editora Universitária, 2016.}
+
+\bibitem[Creswell 2014]{creswell}
+\abntrefinfo{Creswell}{CRESWELL}{2014}
+{CRESWELL, J.~W. \textbf{Research design: qualitative, quantitative, and mixed methods approaches}. Thousand Oaks, CA: SAGE Publications, 2014.}
+
+\bibitem[Gil 2008]{gil}
+\abntrefinfo{Gil}{GIL}{2008}
+{GIL, A.~C. \textbf{Como elaborar projetos de pesquisa}. São Paulo: Atlas, 2008.}
+
+\bibitem[Goossens \textit{et al.} 1997]{goossens1997latex}
+\abntrefinfo{Goossens \textit{et al.}}{GOOSSENS \textit{et al.}}{1997}
+{GOOSSENS, M.; MITTELBACH, F.; SAMARIN, A. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley, 1997.}
+
+\bibitem[Knuth 1984]{knuth1984texbook}
+\abntrefinfo{Knuth}{KNUTH}{1984}
+{KNUTH, D.~E. \textbf{The TeXbook}. [S.l.]: Addison-Wesley, 1984. A.}
+
+\bibitem[Koche 2010]{koche}
+\abntrefinfo{Koche}{KOCHE}{2010}
+{KOCHE, F. \textbf{Metodologia de pesquisa: conceitos e práticas}. São Paulo: Editora Saraiva, 2010.}
+
+\bibitem[Lakatos e Marconi 2003]{lakatos}
+\abntrefinfo{Lakatos e Marconi}{LAKATOS; MARCONI}{2003}
+{LAKATOS, E.~M.; MARCONI, M.~A. \textbf{Fundamentos de metodologia científica}. São Paulo: Editora Atlas, 2003.}
+
+\bibitem[Leite 2003]{leite}
+\abntrefinfo{Leite}{LEITE}{2003}
+{LEITE, J. \textbf{Normas Técnicas: Elaboração e Apresentação de Trabalhos Acadêmico-Científico}. 1. ed. São Paulo: Editora Acadêmica, 2003. 332~p.}
+
+\bibitem[Machine Learning 2024]{wikipedia2024}
+\abntrefinfo{Machine\ldots}{MACHINE\ldots}{2024}
+{MACHINE Learning.
+In:  WIKIP\'EDIA: a enciclop\'edia livre. Wikimedia, 2024.
+Dispon{\'\i}vel em: \url{https://en.wikipedia.org/wiki/Machine\_learning}. Acesso em: 05 out. 2024.}
+
+\bibitem[Mittelbach \textit{et al.} 2004]{mittelbach2004latex}
+\abntrefinfo{Mittelbach \textit{et al.}}{MITTELBACH \textit{et al.}}{2004}
+{MITTELBACH, F.; GOOSSENS, M.; BRAAMS, J. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley Professional, 2004.}
+
+\bibitem[Nintendo 2024]{nintendo}
+\abntrefinfo{Nintendo}{NINTENDO}{2024}
+{NINTENDO. \textbf{Personagens}. 2024.
+Dispon{\'\i}vel em: \url{https://www.nintendo.com/pt-pt/Jogos/Portal-Nintendo/Portal-Super-Mario/Personagens-2493286.html}. Acesso em: 05 out. 2024.}
+
+\bibitem[Severino 2007]{severino}
+\abntrefinfo{Severino}{SEVERINO}{2007}
+{SEVERINO, A.~J. \textbf{Metodologia da pesquisa: projeto e execução}. São Paulo: Editora Cortez, 2007.}
+
+\bibitem[Tufte 1990]{tufte1990envisioning}
+\abntrefinfo{Tufte}{TUFTE}{1990}
+{TUFTE, E.~R. \textbf{Envisioning Information}. [S.l.]: Graphics Press, 1990.}
+
+\bibitem[Universidade Tuiuti do Paraná 2024]{utp_normas2024}
+\abntrefinfo{Universidade Tuiuti do Paraná}{UNIVERSIDADE TUIUTI DO PARANá}{2024}
+{UNIVERSIDADE TUIUTI DO PARANá. \textbf{Normas para Apresentação de Trabalhos Acadêmicos}. 3. ed. Curitiba: Editora da Universidade Tuiuti do Paraná, 2024.}
+
+\bibitem[XKCD 2024]{xkcd-graph}
+\abntrefinfo{XKCD}{XKCD}{2024a}
+{XKCD. \textbf{Scientific Paper Graph Quality}. 2024.
+Dispon{\'\i}vel em: \url{https://xkcd.com/1945/}. Acesso em: 05 out. 2024.}
+
+\bibitem[XKCD 2024]{xkcd-conclusion}
+\abntrefinfo{XKCD}{XKCD}{2024b}
+{XKCD. \textbf{Thesis Defense}. 2024.
+Dispon{\'\i}vel em: \url{https://xkcd.com/605/}. Acesso em: 05 out. 2024.}
+
+\end{thebibliography}
