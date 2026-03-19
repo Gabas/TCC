@@ -29,6 +29,11 @@
 \abntrefinfo{Goossens \textit{et al.}}{GOOSSENS \textit{et al.}}{1997}
 {GOOSSENS, M.; MITTELBACH, F.; SAMARIN, A. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley, 1997.}
 
+\bibitem[INCA 2026]{Inca-781}
+\abntrefinfo{INCA}{INCA}{2026}
+{INCA. \textbf{Câncer de Mama}. Instituto Nacional de Câncer, 2026.
+Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/noticias/2026/inca-estima-781-mil-novos-casos-de-cancer-por-ano-no-brasil-entre-2026-e-2028}. Acesso em: 19 mar. 2026.}
+
 \bibitem[Knuth 1984]{knuth1984texbook}
 \abntrefinfo{Knuth}{KNUTH}{1984}
 {KNUTH, D.~E. \textbf{The TeXbook}. [S.l.]: Addison-Wesley, 1984. A.}
@@ -59,6 +64,11 @@ Dispon{\'\i}vel em: \url{https://en.wikipedia.org/wiki/Machine\_learning}. Acess
 \abntrefinfo{Nintendo}{NINTENDO}{2024}
 {NINTENDO. \textbf{Personagens}. 2024.
 Dispon{\'\i}vel em: \url{https://www.nintendo.com/pt-pt/Jogos/Portal-Nintendo/Portal-Super-Mario/Personagens-2493286.html}. Acesso em: 05 out. 2024.}
+
+\bibitem[PAHO 2026]{Paho-cancer}
+\abntrefinfo{PAHO}{PAHO}{2026}
+{PAHO. \textbf{Câncer}. Organização Pan-Americana da Saúde, 2026.
+Dispon{\'\i}vel em: \url{https://www.paho.org/pt/topicos/cancer}. Acesso em: 18 mar. 2026.}
 
 \bibitem[Severino 2007]{severino}
 \abntrefinfo{Severino}{SEVERINO}{2007}
