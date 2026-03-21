@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  19 MAR 2026 00:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  20 MAR 2026 11:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1339,20 +1339,26 @@ l.65
 
 
 ]
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <12> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 98.
+ [2
+
+
+]
 Cap\'{\i }tulo 1.
-[2
+[3
 
 
-] [3]
+] [4] [5]
 Cap\'{\i }tulo 2.
-[4
+[6
 
 ]
 Cap\'{\i }tulo 3.
-[5
+[7
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 242.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 246.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
@@ -1360,12 +1366,12 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<img/fontes.png, id=111, 584.1825pt x 308.15125pt>
+<img/fontes.png, id=128, 584.1825pt x 308.15125pt>
 File: img/fontes.png Graphic file (type png)
 <use img/fontes.png>
-Package pdftex.def Info: img/fontes.png  used on input line 252.
+Package pdftex.def Info: img/fontes.png  used on input line 256.
 (pdftex.def)             Requested size: 318.66948pt x 168.1013pt.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 260.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 264.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1373,7 +1379,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 264.
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 268.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1384,111 +1390,108 @@ Package microtype Info: Loading generic protrusion settings for font family
 Package microtype Info: Character `texttrademark ' is missing
 (microtype)             in font `TS1/lmtt/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
- [6] [7{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc} <./img/fontes.png>] [8] [9]
-LaTeX Font Info:    Font shape `T1/phv/m/it' in size <12> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 421.
- [10] [11]
+ [8] [9{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc} <./img/fontes.png>] [10] [11] [12] [13]
 Cap\'{\i }tulo 4.
-<img/figura.png, id=296, 442.20206pt x 316.18124pt>
+<img/figura.png, id=312, 442.20206pt x 316.18124pt>
 File: img/figura.png Graphic file (type png)
 <use img/figura.png>
-Package pdftex.def Info: img/figura.png  used on input line 499.
+Package pdftex.def Info: img/figura.png  used on input line 503.
 (pdftex.def)             Requested size: 295.90588pt x 211.5798pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 500.
+(Font)              <7> on input line 504.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 500.
-[12
+(Font)              <5> on input line 504.
+[14
 
  <./img/figura.png>]
-<img/fig1.png, id=331, 428.60126pt x 274.02374pt>
+<img/fig1.png, id=346, 428.60126pt x 274.02374pt>
 File: img/fig1.png Graphic file (type png)
 <use img/fig1.png>
-Package pdftex.def Info: img/fig1.png  used on input line 546.
+Package pdftex.def Info: img/fig1.png  used on input line 550.
 (pdftex.def)             Requested size: 85.71872pt x 54.80377pt.
-<img/fig2.png, id=332, 428.60126pt x 274.02374pt>
+<img/fig2.png, id=347, 428.60126pt x 274.02374pt>
 File: img/fig2.png Graphic file (type png)
 <use img/fig2.png>
-Package pdftex.def Info: img/fig2.png  used on input line 547.
+Package pdftex.def Info: img/fig2.png  used on input line 551.
 (pdftex.def)             Requested size: 85.71872pt x 54.80377pt.
-<img/fig3.png, id=333, 428.60126pt x 274.02374pt>
+<img/fig3.png, id=348, 428.60126pt x 274.02374pt>
 File: img/fig3.png Graphic file (type png)
 <use img/fig3.png>
-Package pdftex.def Info: img/fig3.png  used on input line 548.
+Package pdftex.def Info: img/fig3.png  used on input line 552.
 (pdftex.def)             Requested size: 85.71872pt x 54.80377pt.
-<img/fig4.png, id=334, 428.60126pt x 274.02374pt>
+<img/fig4.png, id=349, 428.60126pt x 274.02374pt>
 File: img/fig4.png Graphic file (type png)
 <use img/fig4.png>
-Package pdftex.def Info: img/fig4.png  used on input line 549.
+Package pdftex.def Info: img/fig4.png  used on input line 553.
 (pdftex.def)             Requested size: 85.71872pt x 54.80377pt.
- [13]
+ [15]
 File: img/fig1.png Graphic file (type png)
 <use img/fig1.png>
-Package pdftex.def Info: img/fig1.png  used on input line 557.
+Package pdftex.def Info: img/fig1.png  used on input line 561.
 (pdftex.def)             Requested size: 150.01268pt x 95.90974pt.
 File: img/fig2.png Graphic file (type png)
 <use img/fig2.png>
-Package pdftex.def Info: img/fig2.png  used on input line 558.
+Package pdftex.def Info: img/fig2.png  used on input line 562.
 (pdftex.def)             Requested size: 150.01268pt x 95.90974pt.
 File: img/fig3.png Graphic file (type png)
 <use img/fig3.png>
-Package pdftex.def Info: img/fig3.png  used on input line 559.
+Package pdftex.def Info: img/fig3.png  used on input line 563.
 (pdftex.def)             Requested size: 150.01268pt x 95.90974pt.
 File: img/fig4.png Graphic file (type png)
 <use img/fig4.png>
-Package pdftex.def Info: img/fig4.png  used on input line 561.
+Package pdftex.def Info: img/fig4.png  used on input line 565.
 (pdftex.def)             Requested size: 150.01268pt x 95.90974pt.
-<img/fig5.png, id=374, 428.60126pt x 274.02374pt>
+<img/fig5.png, id=389, 428.60126pt x 274.02374pt>
 File: img/fig5.png Graphic file (type png)
 <use img/fig5.png>
-Package pdftex.def Info: img/fig5.png  used on input line 562.
+Package pdftex.def Info: img/fig5.png  used on input line 566.
 (pdftex.def)             Requested size: 150.01268pt x 95.90974pt.
-<img/fig6.png, id=375, 428.60126pt x 274.02374pt>
+<img/fig6.png, id=390, 428.60126pt x 274.02374pt>
 File: img/fig6.png Graphic file (type png)
 <use img/fig6.png>
-Package pdftex.def Info: img/fig6.png  used on input line 563.
+Package pdftex.def Info: img/fig6.png  used on input line 567.
 (pdftex.def)             Requested size: 150.01268pt x 95.90974pt.
-<img/grafico.png, id=386, 722.7pt x 482.80376pt>
+<img/grafico.png, id=401, 722.7pt x 482.80376pt>
 File: img/grafico.png Graphic file (type png)
 <use img/grafico.png>
-Package pdftex.def Info: img/grafico.png  used on input line 585.
+Package pdftex.def Info: img/grafico.png  used on input line 589.
 (pdftex.def)             Requested size: 318.66948pt x 212.89107pt.
- [14 <./img/fig1.png> <./img/fig2.png> <./img/fig3.png> <./img/fig4.png> <./img/fig5.png> <./img/fig6.png>] [15 <./img/grafico.png>]
+ [16 <./img/fig1.png> <./img/fig2.png> <./img/fig3.png> <./img/fig4.png> <./img/fig5.png> <./img/fig6.png>] [17 <./img/grafico.png>]
 Cap\'{\i }tulo 5.
-[16
+[18
 
-] [17] [18]
+] [19] [20]
 Cap\'{\i }tulo 6.
 (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-) [19
+) [21
 
 ]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 783.
- [20]
+(Font)              <10.95> on input line 787.
+ [22]
 Cap\'{\i }tulo 7.
-[21
-
-] [22]
-Cap\'{\i }tulo 8.
 [23
+
+] [24]
+Cap\'{\i }tulo 8.
+[25
 
 ]
 Cap\'{\i }tulo 9.
-[24
+[26
 
 ]
 Cap\'{\i }tulo 10.
-(./trabalho.bbl [25
+(./trabalho.bbl [27
 
 ]
 bibitemlist
-[26
+[28
 
-]) [27] [28
+]) [29] [30
 
-] [29
+] [31
 
 ] (./trabalho.aux)
  ***********
@@ -1501,18 +1504,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 35193 strings out of 467525
- 625321 string characters out of 5418983
- 1482257 words of memory out of 5000000
- 62976 multiletter control sequences out of 15000+600000
- 667227 words of font info for 208 fonts, out of 8000000 for 9000
+ 35230 strings out of 467525
+ 625823 string characters out of 5418983
+ 1482450 words of memory out of 5000000
+ 62988 multiletter control sequences out of 15000+600000
+ 668607 words of font info for 220 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  114i,13n,132p,1050b,1633s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on trabalho.pdf (30 pages, 1171808 bytes).
+Output written on trabalho.pdf (32 pages, 1177842 bytes).
 PDF statistics:
- 954 PDF objects out of 1000 (max. 8388607)
- 854 compressed objects within 9 object streams
- 370 named destinations out of 1000 (max. 500000)
- 39826 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 977 PDF objects out of 1000 (max. 8388607)
+ 875 compressed objects within 9 object streams
+ 377 named destinations out of 1000 (max. 500000)
+ 39834 words of extra memory for PDF output out of 42996 (max. 10000000)
 

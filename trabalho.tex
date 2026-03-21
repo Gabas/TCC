@@ -90,19 +90,17 @@ como requisito à obtenção ao grau de Bacharel.}
 % \listadealgoritmos
 
 
-% % Lista de siglas
-% % - As siglas deve ser organizadas em ORDEM ALFABÉTICA
-% % - Inclua apenas as siglas que aparecem no trabalho
-% \begin{siglas}
-%     \item[ABNT]   Associação Brasileira de Normas Técnicas
-%     \item[IA]     Inteligência Artificial
-%     \item[DBMS]   \textit{Database Management System}
-%     \item[GPU]    \textit{Graphics Processing Unit}
-%     \item[HAL]    \textit{Heuristically programmed ALgorithmic computer}
-%     \item[POO]    Programação Orientada a Objetos
-%     \item[UI]     \textit{User Interface} (Interface do Usuário)
-%     \item[UX]     \textit{User Experience} (Experiência do Usuário)
-% \end{siglas}
+% Lista de siglas
+% - As siglas deve ser organizadas em ORDEM ALFABÉTICA
+% - Inclua apenas as siglas que aparecem no trabalho
+\begin{siglas}
+    \item[INCA] Instituto Nacional de Câncer
+    \item[PAHO] \textit{Pan American Health Organization}
+    \item[SHAP] \textit{SHapley Additive exPlanations}
+    \item[UMAP] \textit{Uniform Manifold Approximation and Projection}
+    \item[XAI] \textit{eXplainable AI} (Inteligência Artificial Explicável)
+\end{siglas}
+
 
 
 % % Lista de símbolos
@@ -136,9 +134,15 @@ como requisito à obtenção ao grau de Bacharel.}
 \chapter{Introdução}
 \label{cap:introducao}
 
-As patologias oncológicas impõem uma enorme carga de adoecimento nas Américas, sendo superadas unicamente pelas doenças cardiovasculares. Durante o ano de 2022, a região contabilizou mais de 4,2 milhões de novos casos, com a expectativa de que esse índice sofra um acréscimo de 60\% até 2045, chegando à marca de 6,7 milhões. Como uma das causas primárias de mortalidade no continente, a doença resultou em 1,4 milhão de perdas fatais em 2022, afetando pessoas com 69 anos ou menos em 45\% das ocorrências. Contudo, muitos desses quadros possuem elevadas taxas de cura quando há o rastreio precoce somado ao tratamento clínico assertivo \cite{Paho-cancer}.
+De acordo com a Organização Pan-Americana da Saúde \cite{Paho-cancer}, as patologias oncológicas impõem uma enorme carga de adoecimento nas Américas, sendo superadas unicamente pelas doenças cardiovasculares. A instituição aponta que, durante o ano de 2022, a região contabilizou mais de 4,2 milhões de novos casos, com a expectativa de que esse índice sofra um acréscimo de 60\% até 2045, chegando à marca de 6,7 milhões. Como uma das causas primárias de mortalidade no continente, a doença resultou em 1,4 milhão de perdas fatais em 2022, afetando pessoas com 69 anos ou menos em 45\% das ocorrências. Contudo, o órgão ressalta que muitos desses quadros possuem elevadas taxas de cura quando há o rastreio precoce somado ao tratamento clínico assertivo.
 
 No cenário nacional, as projeções apontam para um panorama de alerta, com a estimativa de 781 mil novos casos de câncer por ano no Brasil ao longo do triênio de 2026 a 2028. Dentro dessa estatística, o câncer de mama consolida-se de forma alarmante como a neoplasia mais incidente entre o público feminino, representando 30\% de todos os novos diagnósticos nas mulheres. Esses números expressivos refletem não apenas o envelhecimento populacional, mas também evidenciam as profundas desigualdades regionais e os desafios persistentes que as pacientes enfrentam no acesso à prevenção, ao rastreamento, ao diagnóstico precoce e ao tratamento oportuno no sistema de saúde \cite{Inca-781}.
+
+O uso de tecnologias computacionais para enfrentar essa carga de adoecimento está em plena expansão, impulsionado pela chamada revolução do \textit{Big Data} na saúde. Instituições de referência, como o próprio Instituto Nacional de Câncer \cite{Inca-informatica}, destacam que a bioinformática e a biologia computacional são cruciais para analisar dados em larga escala e identificar assinaturas do câncer. Ao processar grandes volumes de dados morfológicos e genéticos, abrem-se caminhos para uma medicina cada vez mais direcionada e personalizada. Nesse contexto, o uso de algoritmos de \textit{Machine Learning} para o reconhecimento de padrões e classificação de tumores já se consolida como uma linha de pesquisa fundamental para a oncologia moderna, capaz de extrair marcadores de interesse clínico de forma automatizada.
+
+Apesar do notável desempenho preditivo, a adoção clínica dessas tecnologias esbarra no chamado "problema da caixa preta". Algoritmos avançados fornecem predições altamente acuradas, mas não revelam o raciocínio matemático interno que levou àquela conclusão. Na prática médica, entregar um diagnóstico de malignidade automatizado sem uma fundamentação biológica rastreável é insuficiente e eticamente questionável. O profissional de saúde necessita compreender quais fatores morfológicos e celulares pesaram na decisão para validar a predição, confiar no modelo e transmitir o diagnóstico com segurança ao paciente.
+
+É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir" essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) e anomalias de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
 
 A introdução é uma seção fundamental em qualquer trabalho acadêmico, pois estabelece as bases para a pesquisa a ser realizada. Nela, o autor deve apresentar o tema que será investigado, situando-o no contexto atual e destacando sua relevância para o campo de estudo. Conforme destacado por \citeonline{severino}, a introdução deve fornecer uma visão geral clara e concisa, permitindo ao leitor compreender as motivações e os objetivos da pesquisa.
 

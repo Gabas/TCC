@@ -371,11 +371,14 @@ INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvr8t.vf
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvro8t.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvb8t.vf
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvro8t.vf
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvr8t.vf
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvb8t.vf
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvr8t.vf
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm
@@ -403,9 +406,6 @@ INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvr8t.vf
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvro8t.tfm
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/vf/adobe/helvetic/phvro8t.vf
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
 INPUT ./img/figura.png
 INPUT ./img/figura.png
 INPUT ./img/figura.png
