@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex trabalho"] 1774010645.18747 "trabalho.aux" "trabalho.bbl" "trabalho" 1774016144.89779 0
+["bibtex trabalho"] 1774880378.47658 "trabalho.aux" "trabalho.bbl" "trabalho" 1774880380.83914 0
   "./referencias.bib" 1773927197.49078 16596 b4a4bd6c6d82092aa314798b176ac314 ""
   "/usr/local/texlive/2026/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1357081713 5396 4eb260dac60f150ae608d45252853090 ""
   "/usr/local/texlive/2026/texmf-dist/bibtex/bst/abntex2/abntex2-alf.bst" 1543183680 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "trabalho.aux" 1774016144.48981 34698 1a8ce6c83d9790221dc164eb2973195f "pdflatex"
+  "trabalho.aux" 1774880380.4491 40131 6c9ec70e37d83c67dbd1be0a1e3e5b9f "pdflatex"
   (generated)
   "trabalho.bbl"
   "trabalho.blg"
   (rewritten before read)
-["pdflatex"] 1774016142.56352 "/Users/gabrielastdossantos/Documents/TCC/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1774016144.89799 0
-  "/Users/gabrielastdossantos/Documents/TCC/TCC/trabalho.tex" 1774016142.30109 65620 7d366a1feb011331c4a85df21deb5b30 ""
+["pdflatex"] 1774880378.59284 "/Users/gabrielastdossantos/Documents/TCC/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1774880380.83935 0
+  "/Users/gabrielastdossantos/Documents/TCC/TCC/trabalho.tex" 1774880370.64804 66617 00b64de3a6cadcddaaf73a117fc2631b ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc" 1254269338 3031 6c4d3515bf7115d8518af1c9ab97ca44 ""
@@ -250,9 +250,9 @@
   "img/fontes.png" 1772719789.84514 247284 08224e2890d8fdb8b0b836679e97b50a ""
   "img/grafico.png" 1772719789.84536 27897 48692dc0900c4706137484bebc5f1de4 ""
   "packages/abnt-UTP.sty" 1772719789.84564 26459 8b8138a213056e2e9d3339891c26d939 ""
-  "trabalho.aux" 1774016144.48981 34698 1a8ce6c83d9790221dc164eb2973195f "pdflatex"
-  "trabalho.bbl" 1774010645.28904 5194 1c31b6a159578a44825990004c86acca "bibtex trabalho"
-  "trabalho.tex" 1774016142.30109 65620 7d366a1feb011331c4a85df21deb5b30 ""
+  "trabalho.aux" 1774880380.4491 40131 6c9ec70e37d83c67dbd1be0a1e3e5b9f "pdflatex"
+  "trabalho.bbl" 1774880378.58909 5028 25b9a17110c2cb13fdc3eb0b13cee89a "bibtex trabalho"
+  "trabalho.tex" 1774880370.64804 66617 00b64de3a6cadcddaaf73a117fc2631b ""
   (generated)
   "trabalho.aux"
   "trabalho.log"

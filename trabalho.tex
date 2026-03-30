@@ -144,34 +144,44 @@ Apesar do notável desempenho preditivo, a adoção clínica dessas tecnologias 
 
 É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir" essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) e anomalias de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
 
-A introdução é uma seção fundamental em qualquer trabalho acadêmico, pois estabelece as bases para a pesquisa a ser realizada. Nela, o autor deve apresentar o tema que será investigado, situando-o no contexto atual e destacando sua relevância para o campo de estudo. Conforme destacado por \citeonline{severino}, a introdução deve fornecer uma visão geral clara e concisa, permitindo ao leitor compreender as motivações e os objetivos da pesquisa.
+Diante disso, surge o seguinte problema de pesquisa: integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde.
 
-A primeira etapa na elaboração da introdução é a contextualização do tema. É necessário que o autor apresente uma descrição detalhada do cenário em que o problema de pesquisa está inserido, evidenciando a importância do assunto em questão. De acordo com \citeonline{lakatos}, essa contextualização é essencial para que o leitor perceba a pertinência da investigação, além de indicar as lacunas existentes na literatura que o trabalho busca preencher.
+O objetivo deste trabalho é desenvolver um software integrado a um modelo preditivo para a classificação de tumores mamários (benignos ou malignos), utilizando algoritmos de Machine Learning e a base de dados pública Breast Cancer Wisconsin. O intuito principal é mitigar a opacidade característica dos modelos de "caixa preta", fornecendo aos profissionais de saúde diagnósticos preditivos que unam alta precisão analítica a justificativas clínicas transparentes.
 
-Em seguida, a introdução deve incluir a formulação do problema de pesquisa. Esta etapa é crucial, uma vez que a clareza e especificidade da pergunta norteadora influenciam diretamente o desenvolvimento do trabalho. Como mencionado por \citeonline{creswell}, a formulação adequada do problema estabelece os limites da pesquisa e direciona as investigações subsequentes. Portanto, é imperativo que o problema seja apresentado de maneira explícita e compreensível.
-
-Outro aspecto relevante da introdução é a definição dos objetivos da pesquisa. Os objetivos devem ser claramente enunciados, subdividindo-se em um objetivo geral e objetivos específicos. O objetivo geral reflete a meta maior do estudo, enquanto os objetivos específicos detalham as etapas necessárias para alcançar esse propósito. Essa estrutura ajuda a guiar o leitor ao longo da pesquisa, fornecendo um panorama sobre o que se pretende investigar~\cite{gil}.
-
-Adicionalmente, a introdução deve abordar de forma breve a metodologia que será utilizada ao longo do trabalho. Embora a descrição completa da metodologia seja mais adequada em uma seção específica, oferecer uma visão geral na introdução ajuda o leitor a compreender como o autor planeja abordar o problema de pesquisa. Segundo \citeonline{koche}, a metodologia é a estratégia que o pesquisador utiliza para alcançar os objetivos e responder ao problema formulado.
-
-A introdução de um trabalho acadêmico deve ser redigida com clareza e objetividade, abordando os elementos centrais da pesquisa, como a contextualização do tema, a formulação do problema, a justificativa, os objetivos e a metodologia. Além disso, a introdução pode fazer uso de elementos não textuais, como ilustrações e tabelas, para facilitar a compreensão da metodologia que será desenvolvida. No entanto, a introdução deve ser linear e não subdividida, ou seja, a divisão em subseções sugere detalhamento, o que deve ser reservado para as seções específicas.
-
-Finalmente, a introdução deve concluir com uma breve descrição da estrutura do trabalho, indicando como os capítulos estão organizados. Essa abordagem permite ao leitor ter uma compreensão clara do fluxo do texto e dos tópicos que serão discutidos ao longo da pesquisa. A seguir, apresenta-se a estrutura do trabalho.
-
-Este trabalho está organizado como segue. 
-O Capítulo~\ref{cap:organizacao} descreve a estrutura típica de trabalhos acadêmicos de graduação. 
-O Capítulo~\ref{cap:citacao} aborda as normas para formatação e uso de citações, distinguindo entre citação direta, indireta e de fontes. 
-O Capítulo~\ref{cap:ilustracoes} orienta sobre a inserção de ilustrações e gráficos, enquanto o Capítulo~\ref{cap:tabelas} esclarece a diferença entre tabelas e quadros, com exemplos práticos. 
-O Capítulo~\ref{cap:codigos} trata da apresentação de códigos e algoritmos.
-O Capítulo~\ref{cap:equacoes} explora o uso de equações, e o Capítulo~\ref{cap:alineas} discute as regras para o uso de alíneas. 
-Por fim, o Capítulo~\ref{cap:cronograma} trata da formatação de cronogramas, e o Capítulo~\ref{cap:conclusao} apresenta as considerações finais.
+Para alcançar esse propósito, o projeto engloba o treinamento e a seleção de classificadores, bem como a aplicação do UMAP para a análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (clusters) e anomalias (outliers) biológicas. Em paralelo, o sistema integrará a biblioteca SHAP para garantir a explicabilidade das decisões, quantificando o impacto de cada variável celular no risco de malignidade apontado pelo modelo. Por fim, visando a viabilidade de uso no cotidiano médico, o trabalho contempla a criação de uma interface capaz de receber dados em lote via upload de planilhas, automatizando a geração de relatórios de saída estruturados (como PDF, Excel ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
 
 
 % -------------------------------------------------------------------------------------------------
 % -------------------------------------------------------------------------------------------------
+% 2. FUNDAMENTAÇÃO TEÓRICA
 % -------------------------------------------------------------------------------------------------
+% -------------------------------------------------------------------------------------------------
+\chapter{Fundamentacao}
+\label{cap:fundamentacao}
 
+\section{O Câncer de Mama e a Análise Morfológica}
+Focar no domínio do problema, apresentando a importância do diagnóstico precoce e os desafios enfrentados pelos profissionais de saúde. Discutir a relevância da análise morfológica de células e tecidos para a classificação de tumores, destacando os principais marcadores utilizados na prática clínica. 
+Citar a base de dados Breast Cancer Wisconsin como um recurso fundamental para o desenvolvimento de modelos preditivos na área.
 
+\section{Inteligência Artificial e Machine Learning: Definições e Hierarquia}
+IA é o campo amplo que busca simular capacidades cognitivas humanas. Machine Learning é um subcampo da IA que utiliza métodos estatísticos para permitir que máquinas "aprendam" com dados, sem serem explicitamente programadas para cada tarefa.
+Dá pra citar os livro do Mitchel e colocar um diagrama de Venn aqui.
+
+\section{Machine Learning: Conceitos e Paradigmas}
+Aprendizado Supervisionado. Classificação Binária. O Ciclo de Vida: Coleta, pré-processamento, treinamento e avaliação. Desafios: Overfitting, underfitting, viés e variância. Importância da validação cruzada e do conjunto de teste. Métricas de avaliação: acurácia, precisão, recall, F1-score, AUC-ROC. Algoritmos comuns: Regressão Logística, SVM, Random Forest, XGBoost, Redes Neurais. 
+
+\section{Machine Learning na Oncologia}
+Conectar a tecnologia ao problema médico, citando a evolução dos sistemas de diagnóstico assistido por computador (CAD) e a transição para modelos preditivos baseados em aprendizado de máquina. 
+
+\section{O Problema da "Caixa Preta" e Inteligência Artificial Explicável (XAI)}
+Definir o que é XAI e diferenciar modelos explicáveis (intrínsecos) de técnicas de pós-hoc. Discutir a importância da interpretabilidade na medicina, especialmente em oncologia, onde decisões clínicas críticas dependem da confiança no modelo.
+Explicar o dilema da "caixa preta": modelos complexos (como redes neurais profundas) oferecem alta acurácia, mas não fornecem explicações sobre o processo de decisão, o que é problemático para a adoção clínica.
+
+\section{SHAP (SHapley Additive exPlanations)}
+Explicar a origem do SHAP na teoria dos jogos cooperativos, onde o valor de Shapley é usado para atribuir a contribuição de cada jogador (variável) para o resultado final. No contexto de Machine Learning, o SHAP quantifica a importância de cada característica na predição do modelo, permitindo uma interpretação local (para uma instância específica) e global (para o modelo como um todo). Discutir as vantagens do SHAP em relação a outras técnicas de explicabilidade, como LIME, e sua aplicabilidade em modelos complexos.
+
+\section{Redução de Dimensionalidade e UMAP}
+Explicar o conceito de redução de dimensionalidade como uma técnica para simplificar dados de alta dimensão, preservando suas características essenciais. O UMAP é um algoritmo de redução de dimensionalidade que se destaca por sua capacidade de preservar a estrutura global e local dos dados, facilitando a visualização e a identificação de padrões, como agrupamentos (clusters) e anomalias (outliers). Discutir a importância do UMAP na análise exploratória de dados, especialmente em contextos onde a separabilidade natural dos dados é crucial para a interpretação dos resultados.
 
 % -------------------------------------------------------------------------------------------------
 % -------------------------------------------------------------------------------------------------
