@@ -82,7 +82,7 @@ como requisito à obtenção ao grau de Bacharel.}
 % % Listas de ilustrações, tabelas, siglas, etc.
 % % - Inclua apenas as listas dos elementos que serão utilizados no trabalho.
 % % - A lista de símbolos e siglas devem ser editadas manualmente 
-% \listadefiguras
+\listadefiguras
 % \listadegraficos
 % \listadetabelas
 % \listadequadros
@@ -94,7 +94,9 @@ como requisito à obtenção ao grau de Bacharel.}
 % - As siglas deve ser organizadas em ORDEM ALFABÉTICA
 % - Inclua apenas as siglas que aparecem no trabalho
 \begin{siglas}
+    \item{DNA} Ácido desoxirribonucleico
     \item[INCA] Instituto Nacional de Câncer
+    \item[PAAF] Punção Aspirativa por Agulha Fina
     \item[PAHO] \textit{Pan American Health Organization}
     \item[SHAP] \textit{SHapley Additive exPlanations}
     \item[UMAP] \textit{Uniform Manifold Approximation and Projection}
@@ -163,9 +165,11 @@ Este capítulo destina-se à fundamentação teórica que sustenta a pesquisa, c
 
 \section{O Câncer de Mama e a Análise Morfológica}
 
-O termo câncer abrange mais de cem doenças malignas que têm como denominador comum o crescimento desordenado das células. A base biológica dessa patologia reside na perda dos mecanismos de regulação celular. Em condições normais, as células humanas seguem um ciclo rigoroso de crescimento, atuação e apoptose (morte celular programada). No entanto, quando mutações genéticas desativam esses "freios" naturais, as células passam a se multiplicar de forma caótica e ininterrupta, formando tumores com capacidade de invadir tecidos adjacentes ou sofrer metástase para órgãos distantes \cite{Inca-O-que-e-cancer}.
+O termo câncer abrange um complexo conjunto de mais de cem doenças malignas que têm como denominador comum o crescimento desordenado e incontrolável das células. A base biológica dessa patologia reside na perda estrutural e funcional dos mecanismos de regulação celular. Esse processo de formação tumoral, cientificamente denominado carcinogênese ou oncogênese, é engatilhado quando o ácido desoxirribonucleico (DNA), a "memória química"\ que guarda as instruções das atividades celulares, sofre alterações críticas. Em condições normais, genes reguladores específicos chamados proto-oncogenes permanecem inativos; contudo, sob a ação de fatores cancerígenos cumulativos, eles sofrem mutações e são ativados, convertendo-se em oncogenes. Essa ativação desencadeia um processo lento e progressivo composto por três estágios: a \textit{iniciação}, onde a célula sofre a alteração genética primária de forma silenciosa; a \textit{promoção}, fase em que agentes externos ou internos transformam gradual e lentamente essa célula iniciada em uma estrutura maligna; e, por fim, a \textit{progressão}, caracterizada pela multiplicação descontrolada e irreversível das células alteradas, culminando na consolidação clínica do tumor e em seu potencial de invasão \cite{Inca-como-surge-cancer}.
 
-A velocidade de multiplicação e o grau de agressividade variam conforme o tipo da doença, que pode se originar em tecidos epiteliais, conhecidos como carcinomas (categoria na qual o câncer de mama se enquadra), ou em tecidos conjuntivos, chamados de sarcomas. A diferença fundamental entre a biologia de um tecido saudável e o desenvolvimento anômalo gerado pelas mutações pode ser observada na Figura \ref{fig:divisao_celular}.
+O tipo mais comum desta doença é classificado como carcinoma, uma nomeação atribuída aos tumores malignos que se originam nas células epiteliais, que são os tecidos responsáveis por revestir as superfícies internas e externas do corpo humano. Dependendo do tipo específico de célula epitelial afetada, o carcinoma recebe denominações distintas. No contexto anatômico do câncer de mama, a manifestação predominante é o adenocarcinoma, um subtipo que se desenvolve especificamente nas células epiteliais dos tecidos glandulares, cuja função biológica é produzir fluidos e muco \cite{Nci-what-is-cancer}.
+
+No entanto, o desenvolvimento desse adenocarcinoma não ocorre de maneira instantânea, estruturando-se por meio de uma progressão morfológica gradual e microscopicamente rastreável. Inicialmente, o tecido mamário pode apresentar uma hiperplasia, caracterizada por um acúmulo de células que se multiplicam em um ritmo acelerado, mas que ainda preservam rigorosamente sua aparência e arquitetura originais. Se a anomalia celular progredir para o estágio de displasia, além do acúmulo excessivo, as células perdem sua organização e começam a apresentar deformidades morfológicas evidentes. O ápice dessa fase pré-invasiva é denominado carcinoma \textit{in situ} (frequentemente referido na literatura clínica como estágio 0). Neste limiar, as células já exibem características visualmente malignas em seus núcleos, mas ainda se encontram confinadas, pois não romperam as barreiras do tecido glandular original para invadir as áreas vizinhas \cite{Nci-what-is-cancer}. A diferença fundamental entre a biologia de um tecido saudável e o desenvolvimento anômalo gerado por essa cascata de mutações pode ser observada na Figura \ref{fig:divisao_celular}.
 
 \begin{figure}[htb]
     \centering
@@ -177,10 +181,9 @@ A velocidade de multiplicação e o grau de agressividade variam conforme o tipo
 
 Na ciência da computação aplicada à saúde, o dado mais valioso desta anomalia não é apenas a mutação genética em si, mas sim a profunda alteração morfológica que ela desencadeia. A pressão para sustentar uma replicação em massa e desordenada leva à deformação severa do núcleo de uma célula maligna. Como resultado, quando analisadas ao microscópio, estas células apresentam variações perceptíveis e quantificáveis na área, no raio, na textura e na concavidade, em comparação com uma célula saudável. São justamente essas assimetrias físicas que se tornam o insumo fundamental para alimentar e treinar algoritmos de aprendizagem de máquina. Estes algoritmos apoiam o diagnóstico preditivo.
 
-https://www.gov.br/inca/pt-br/assuntos/cancer/como-surge-o-cancer: como surge o câncer (INCA).
+Um dos marcos pioneiros na convergência entre a oncologia clínica e a ciência da computação, voltado especificamente para a quantificação dessas assimetrias celulares, é a base de dados \textit{Breast Cancer Wisconsin (Diagnostic)}. No início dos anos 90, pesquisadores da Universidade de Wisconsin criaram esta base para reduzir a subjetividade e o cansaço que os humanos sentem quando analisam coisas ao microscópio \cite{Street1993}. O mais importante neste trabalho foi a decisão de não criar um armazém de imagens de doença com muitos pixels, que precisariam de muita capacidade de processamento, mas sim uma base de dados organizada e que não precisasse de muita capacidade de computação.
 
-Focar no domínio do problema, apresentando a importância do diagnóstico precoce e os desafios enfrentados pelos profissionais de saúde. Discutir a relevância da análise morfológica de células e tecidos para a classificação de tumores, destacando os principais marcadores utilizados na prática clínica. 
-Citar a base de dados Breast Cancer Wisconsin como um recurso fundamental para o desenvolvimento de modelos preditivos na área.
+Para alcançar esse resultado, os pesquisadores utilizaram amostras coletadas via Punção Aspirativa por Agulha Fina (PAAF) e aplicaram algoritmos de processamento de imagem, conhecidos como contornos ativos (\textit{snakes}), para delinear digitalmente as fronteiras dos núcleos celulares. A partir deste tratamento computacional, foram extraídas matematicamente dez características morfológicas essenciais de cada célula, incluindo o raio, a textura, o perímetro, a área e a suavidade. Ao calcular a média, o erro padrão e o valor máximo para cada uma dessas dez medidas, o sistema gerou as 30 variáveis numéricas que compõem o conjunto de dados. Esta otimização consolidou a base de Wisconsin como um recurso de referência na literatura, permitindo que os algoritmos preditivos processem informações oncológicas complexas de forma rápida e eficiente.
 
 \section{Inteligência Artificial e Machine Learning: Definições e Hierarquia}
 IA é o campo amplo que busca simular capacidades cognitivas humanas. Machine Learning é um subcampo da IA que utiliza métodos estatísticos para permitir que máquinas "aprendam" com dados, sem serem explicitamente programadas para cada tarefa.

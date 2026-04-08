@@ -34,8 +34,13 @@
 {INCA. \textbf{Bioinformática e biologia computacional}. Instituto Nacional de Câncer, 2022.
 Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/pesquisa/pesquisa-basica-e-experimental/bioinformatica-e-biologia-computacional/bioinformatica-e-biologia-computacional-1}. Acesso em: 19 mar. 2026.}
 
-\bibitem[INCA 2022]{Inca-O-que-e-cancer}
+\bibitem[INCA 2022]{Inca-como-surge-cancer}
 \abntrefinfo{INCA}{INCA}{2022b}
+{INCA. \textbf{Como surge o câncer?} Instituto Nacional de Câncer, 2022.
+Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/cancer/como-surge-o-cancer}. Acesso em: 07 abr. 2026.}
+
+\bibitem[INCA 2022]{Inca-O-que-e-cancer}
+\abntrefinfo{INCA}{INCA}{2022c}
 {INCA. \textbf{O que é câncer?} Instituto Nacional de Câncer, 2022.
 Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/cancer/o-que-e-cancer}. Acesso em: 07 abr. 2026.}
 
@@ -66,6 +71,11 @@ Dispon{\'\i}vel em: \url{https://en.wikipedia.org/wiki/Machine\_learning}. Acess
 \abntrefinfo{Mittelbach \textit{et al.}}{MITTELBACH \textit{et al.}}{2004}
 {MITTELBACH, F.; GOOSSENS, M.; BRAAMS, J. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley Professional, 2004.}
 
+\bibitem[NCI 2021]{Nci-what-is-cancer}
+\abntrefinfo{NCI}{NCI}{2021}
+{NCI. \textbf{What is Cancer?} NATIONAL CANCER INSTITUTE, 2021.
+Dispon{\'\i}vel em: \url{https://www.cancer.gov/about-cancer/understanding/what-is-cancer}. Acesso em: 08 abr. 2026.}
+
 \bibitem[Nintendo 2024]{nintendo}
 \abntrefinfo{Nintendo}{NINTENDO}{2024}
 {NINTENDO. \textbf{Personagens}. 2024.
@@ -79,6 +89,11 @@ Dispon{\'\i}vel em: \url{https://www.paho.org/pt/topicos/cancer}. Acesso em: 18 
 \bibitem[Severino 2007]{severino}
 \abntrefinfo{Severino}{SEVERINO}{2007}
 {SEVERINO, A.~J. \textbf{Metodologia da pesquisa: projeto e execução}. São Paulo: Editora Cortez, 2007.}
+
+\bibitem[Street \textit{et al.} 1993]{Street1993}
+\abntrefinfo{Street \textit{et al.}}{STREET \textit{et al.}}{1993}
+{STREET, W.~N.; WOLBERG, W.~H.; MANGASARIAN, O.~L. Nuclear feature extraction for breast tumor diagnosis.
+SPIE, p. 861--870, 1993.}
 
 \bibitem[Tufte 1990]{tufte1990envisioning}
 \abntrefinfo{Tufte}{TUFTE}{1990}
