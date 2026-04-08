@@ -30,9 +30,14 @@
 {GOOSSENS, M.; MITTELBACH, F.; SAMARIN, A. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley, 1997.}
 
 \bibitem[INCA 2022]{Inca-informatica}
-\abntrefinfo{INCA}{INCA}{2022}
+\abntrefinfo{INCA}{INCA}{2022a}
 {INCA. \textbf{Bioinformática e biologia computacional}. Instituto Nacional de Câncer, 2022.
 Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/pesquisa/pesquisa-basica-e-experimental/bioinformatica-e-biologia-computacional/bioinformatica-e-biologia-computacional-1}. Acesso em: 19 mar. 2026.}
+
+\bibitem[INCA 2022]{Inca-O-que-e-cancer}
+\abntrefinfo{INCA}{INCA}{2022b}
+{INCA. \textbf{O que é câncer?} Instituto Nacional de Câncer, 2022.
+Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/cancer/o-que-e-cancer}. Acesso em: 07 abr. 2026.}
 
 \bibitem[INCA 2026]{Inca-781}
 \abntrefinfo{INCA}{INCA}{2026}

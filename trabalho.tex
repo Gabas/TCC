@@ -159,7 +159,24 @@ Para alcançar esse propósito, o projeto engloba o treinamento e a seleção de
 \chapter{Fundamentação}
 \label{cap:fundamentacao}
 
+Este capítulo destina-se à fundamentação teórica que sustenta a pesquisa, conectando conceitos fundamentais ao problema proposto. O objetivo é estabelecer uma base sólida, com base na literatura científica consolidada, que conduza e valide o estudo. Nas seções a seguir, serão explorados os aspectos clínicos da doença, a evolução tecnológica na análise de dados em saúde e as abordagens computacionais escolhidas para o desenvolvimento do modelo preditivo.
+
 \section{O Câncer de Mama e a Análise Morfológica}
+
+O termo câncer abrange mais de cem doenças malignas que têm como denominador comum o crescimento desordenado das células. A base biológica dessa patologia reside na perda dos mecanismos de regulação celular. Em condições normais, as células humanas seguem um ciclo rigoroso de crescimento, atuação e apoptose (morte celular programada). No entanto, quando mutações genéticas desativam esses "freios" naturais, as células passam a se multiplicar de forma caótica e ininterrupta, formando tumores com capacidade de invadir tecidos adjacentes ou sofrer metástase para órgãos distantes \cite{Inca-O-que-e-cancer}.
+
+A velocidade de multiplicação e o grau de agressividade variam conforme o tipo da doença, que pode se originar em tecidos epiteliais, conhecidos como carcinomas (categoria na qual o câncer de mama se enquadra), ou em tecidos conjuntivos, chamados de sarcomas. A diferença fundamental entre a biologia de um tecido saudável e o desenvolvimento anômalo gerado pelas mutações pode ser observada na Figura \ref{fig:divisao_celular}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{oqueecancercelulas.jpg} 
+    \caption{Contraste morfológico entre células normais e neoplásicas.}
+    \label{fig:divisao_celular}
+    \fonte{\citeauthoronline{Inca-O-que-e-cancer}, \citeyear{Inca-O-que-e-cancer}, Disponível em: \url{https://www.gov.br/inca/pt-br/assuntos/cancer/o-que-e-cancer}}
+\end{figure}
+
+Na ciência da computação aplicada à saúde, o dado mais valioso desta anomalia não é apenas a mutação genética em si, mas sim a profunda alteração morfológica que ela desencadeia. A pressão para sustentar uma replicação em massa e desordenada leva à deformação severa do núcleo de uma célula maligna. Como resultado, quando analisadas ao microscópio, estas células apresentam variações perceptíveis e quantificáveis na área, no raio, na textura e na concavidade, em comparação com uma célula saudável. São justamente essas assimetrias físicas que se tornam o insumo fundamental para alimentar e treinar algoritmos de aprendizagem de máquina. Estes algoritmos apoiam o diagnóstico preditivo.
+
 https://www.gov.br/inca/pt-br/assuntos/cancer/como-surge-o-cancer: como surge o câncer (INCA).
 
 Focar no domínio do problema, apresentando a importância do diagnóstico precoce e os desafios enfrentados pelos profissionais de saúde. Discutir a relevância da análise morfológica de células e tecidos para a classificação de tumores, destacando os principais marcadores utilizados na prática clínica. 

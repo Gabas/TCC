@@ -19,12 +19,14 @@ Warning--entry type for "Inca-781" isn't style-file defined
 --line 352 of file referencias.bib
 Warning--entry type for "Inca-informatica" isn't style-file defined
 --line 361 of file referencias.bib
-Warning--entry type for "xkcd-graph" isn't style-file defined
+Warning--entry type for "Inca-O-que-e-cancer" isn't style-file defined
 --line 370 of file referencias.bib
+Warning--entry type for "xkcd-graph" isn't style-file defined
+--line 379 of file referencias.bib
 Warning--entry type for "xkcd-conclusion" isn't style-file defined
---line 378 of file referencias.bib
+--line 387 of file referencias.bib
 Warning--entry type for "nintendo" isn't style-file defined
---line 394 of file referencias.bib
+--line 403 of file referencias.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
 Reallocated global_strs (elt_size=200001) to 20 items from 10.
@@ -34,45 +36,45 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 | Em caso de dúvidas ou problemas com este estilo procure |
 | http://www.abntex.net.br/                               |
 +---------------------------------------------------------+
-You've used 26 entries,
+You've used 27 entries,
             6714 wiz_defined-function locations,
-            1309 strings with 11845 characters,
-and the built_in function-call counts, 25857 in all, are:
-= -- 2941
-> -- 344
-< -- 526
-+ -- 724
-- -- 109
-* -- 1450
-:= -- 3147
-add.period$ -- 78
-call.type$ -- 29
-change.case$ -- 162
+            1314 strings with 11972 characters,
+and the built_in function-call counts, 27645 in all, are:
+= -- 3171
+> -- 359
+< -- 587
++ -- 791
+- -- 114
+* -- 1551
+:= -- 3361
+add.period$ -- 83
+call.type$ -- 30
+change.case$ -- 168
 chr.to.int$ -- 41
-cite$ -- 20
-duplicate$ -- 2288
-empty$ -- 1606
-format.name$ -- 506
-if$ -- 5649
-int.to.chr$ -- 6
+cite$ -- 21
+duplicate$ -- 2498
+empty$ -- 1672
+format.name$ -- 529
+if$ -- 5989
+int.to.chr$ -- 7
 int.to.str$ -- 3
-missing$ -- 432
-newline$ -- 96
-num.names$ -- 80
-pop$ -- 545
+missing$ -- 449
+newline$ -- 101
+num.names$ -- 85
+pop$ -- 566
 preamble$ -- 1
-purify$ -- 85
+purify$ -- 88
 quote$ -- 0
-skip$ -- 2759
+skip$ -- 2973
 stack$ -- 1
-substring$ -- 978
-swap$ -- 808
-text.length$ -- 7
+substring$ -- 1057
+swap$ -- 882
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 21
 warning$ -- 0
-while$ -- 112
+while$ -- 119
 width$ -- 0
-write$ -- 303
-(There were 6 warnings)
+write$ -- 319
+(There were 7 warnings)
