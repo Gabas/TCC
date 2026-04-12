@@ -14,23 +14,25 @@ Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Database file #1: abntex2-options.bib
 Database file #2: referencias.bib
 Warning--entry type for "Paho-cancer" isn't style-file defined
---line 353 of file referencias.bib
+--line 368 of file referencias.bib
 Warning--entry type for "Inca-781" isn't style-file defined
---line 362 of file referencias.bib
+--line 377 of file referencias.bib
 Warning--entry type for "Inca-informatica" isn't style-file defined
---line 371 of file referencias.bib
+--line 386 of file referencias.bib
 Warning--entry type for "Inca-como-surge-cancer" isn't style-file defined
---line 380 of file referencias.bib
+--line 395 of file referencias.bib
 Warning--entry type for "Inca-O-que-e-cancer" isn't style-file defined
---line 389 of file referencias.bib
+--line 404 of file referencias.bib
+Warning--entry type for "RedHat-IAML" isn't style-file defined
+--line 413 of file referencias.bib
 Warning--entry type for "Nci-what-is-cancer" isn't style-file defined
---line 398 of file referencias.bib
+--line 421 of file referencias.bib
 Warning--entry type for "xkcd-graph" isn't style-file defined
---line 407 of file referencias.bib
+--line 430 of file referencias.bib
 Warning--entry type for "xkcd-conclusion" isn't style-file defined
---line 415 of file referencias.bib
+--line 438 of file referencias.bib
 Warning--entry type for "nintendo" isn't style-file defined
---line 431 of file referencias.bib
+--line 454 of file referencias.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
 Reallocated global_strs (elt_size=200001) to 20 items from 10.
@@ -40,45 +42,45 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 | Em caso de dúvidas ou problemas com este estilo procure |
 | http://www.abntex.net.br/                               |
 +---------------------------------------------------------+
-You've used 30 entries,
+You've used 33 entries,
             6714 wiz_defined-function locations,
-            1335 strings with 12545 characters,
-and the built_in function-call counts, 32347 in all, are:
-= -- 3724
-> -- 431
-< -- 719
-+ -- 949
-- -- 136
-* -- 1834
-:= -- 3929
-add.period$ -- 96
-call.type$ -- 33
-change.case$ -- 194
-chr.to.int$ -- 43
-cite$ -- 24
-duplicate$ -- 2992
-empty$ -- 1867
-format.name$ -- 636
-if$ -- 6919
+            1353 strings with 12907 characters,
+and the built_in function-call counts, 35970 in all, are:
+= -- 4126
+> -- 494
+< -- 801
++ -- 1052
+- -- 156
+* -- 2049
+:= -- 4378
+add.period$ -- 108
+call.type$ -- 36
+change.case$ -- 217
+chr.to.int$ -- 49
+cite$ -- 27
+duplicate$ -- 3344
+empty$ -- 2061
+format.name$ -- 729
+if$ -- 7672
 int.to.chr$ -- 8
 int.to.str$ -- 3
-missing$ -- 502
-newline$ -- 116
-num.names$ -- 100
-pop$ -- 638
+missing$ -- 559
+newline$ -- 129
+num.names$ -- 115
+pop$ -- 714
 preamble$ -- 1
-purify$ -- 99
+purify$ -- 109
 quote$ -- 0
-skip$ -- 3477
+skip$ -- 3830
 stack$ -- 1
-substring$ -- 1273
-swap$ -- 1063
-text.length$ -- 11
+substring$ -- 1407
+swap$ -- 1190
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 21
 warning$ -- 0
-while$ -- 142
+while$ -- 161
 width$ -- 0
-write$ -- 366
-(There were 9 warnings)
+write$ -- 411
+(There were 10 warnings)

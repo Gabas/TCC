@@ -67,6 +67,10 @@ Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/noticias/2026/in
 In:  WIKIP\'EDIA: a enciclop\'edia livre. Wikimedia, 2024.
 Dispon{\'\i}vel em: \url{https://en.wikipedia.org/wiki/Machine\_learning}. Acesso em: 05 out. 2024.}
 
+\bibitem[Mitchell 1997]{Mitchell1997}
+\abntrefinfo{Mitchell}{MITCHELL}{1997}
+{MITCHELL, T.~M. \textbf{Machine Learning}. [S.l.]: McGraw-Hill, 1997.}
+
 \bibitem[Mittelbach \textit{et al.} 2004]{mittelbach2004latex}
 \abntrefinfo{Mittelbach \textit{et al.}}{MITTELBACH \textit{et al.}}{2004}
 {MITTELBACH, F.; GOOSSENS, M.; BRAAMS, J. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley Professional, 2004.}
@@ -85,6 +89,15 @@ Dispon{\'\i}vel em: \url{https://www.nintendo.com/pt-pt/Jogos/Portal-Nintendo/Po
 \abntrefinfo{PAHO}{PAHO}{2026}
 {PAHO. \textbf{Câncer}. Organização Pan-Americana da Saúde, 2026.
 Dispon{\'\i}vel em: \url{https://www.paho.org/pt/topicos/cancer}. Acesso em: 18 mar. 2026.}
+
+\bibitem[Richardson 2022]{RedHat-IAML}
+\abntrefinfo{Richardson}{RICHARDSON}{2022}
+{RICHARDSON, D. \textbf{O que é IA/ML e por que é importante para seus negócios?} Red Hat, 2022.
+Dispon{\'\i}vel em: \url{https://www.redhat.com/pt-br/blog/what-aiml-and-why-does-it-matter-your-business}. Acesso em: 11 abr. 2026.}
+
+\bibitem[Russell e Norvig 2010]{Russell2010}
+\abntrefinfo{Russell e Norvig}{RUSSELL; NORVIG}{2010}
+{RUSSELL, S.; NORVIG, P. \textbf{Artificial Intelligence: A Modern Approach}. 3rd. ed. [S.l.]: Prentice Hall, 2010.}
 
 \bibitem[Severino 2007]{severino}
 \abntrefinfo{Severino}{SEVERINO}{2007}

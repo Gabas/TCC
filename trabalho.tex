@@ -94,8 +94,11 @@ como requisito à obtenção ao grau de Bacharel.}
 % - As siglas deve ser organizadas em ORDEM ALFABÉTICA
 % - Inclua apenas as siglas que aparecem no trabalho
 \begin{siglas}
-    \item{DNA} Ácido desoxirribonucleico
+    \item[DNA] Ácido desoxirribonucleico
+    \item[DL] \textit{Deep Learning}
+    \item[IA] Inteligência Artificial
     \item[INCA] Instituto Nacional de Câncer
+    \item[ML] \textit{Machine Learning}
     \item[PAAF] Punção Aspirativa por Agulha Fina
     \item[PAHO] \textit{Pan American Health Organization}
     \item[SHAP] \textit{SHapley Additive exPlanations}
@@ -186,11 +189,48 @@ Um dos marcos pioneiros na convergência entre a oncologia clínica e a ciência
 Para alcançar esse resultado, os pesquisadores utilizaram amostras coletadas via Punção Aspirativa por Agulha Fina (PAAF) e aplicaram algoritmos de processamento de imagem, conhecidos como contornos ativos (\textit{snakes}), para delinear digitalmente as fronteiras dos núcleos celulares. A partir deste tratamento computacional, foram extraídas matematicamente dez características morfológicas essenciais de cada célula, incluindo o raio, a textura, o perímetro, a área e a suavidade. Ao calcular a média, o erro padrão e o valor máximo para cada uma dessas dez medidas, o sistema gerou as 30 variáveis numéricas que compõem o conjunto de dados. Esta otimização consolidou a base de Wisconsin como um recurso de referência na literatura, permitindo que os algoritmos preditivos processem informações oncológicas complexas de forma rápida e eficiente.
 
 \section{Inteligência Artificial e Machine Learning: Definições e Hierarquia}
-IA é o campo amplo que busca simular capacidades cognitivas humanas. Machine Learning é um subcampo da IA que utiliza métodos estatísticos para permitir que máquinas "aprendam" com dados, sem serem explicitamente programadas para cada tarefa.
-Dá pra citar os livro do Mitchel e colocar um diagrama de Venn aqui.
+
+A Inteligência Artificial (IA) é uma área da ciência da computação que começou no verão de 1956, na conferência de Dartmouth, onde o termo foi criado. Desde então, a área evoluiu e ramificou-se em diversas vertentes de pesquisa. Segundo \citeonline{Russell2010}, as definições históricas e contemporâneas de IA podem ser organizadas em quatro categorias principais, divididas entre abordagens que buscam simular o comportamento ou o pensamento humano, e abordagens focadas puramente no conceito de racionalidade. No contexto computacional moderno, a abordagem mais adotada e cientificamente rigorosa é a dos "agentes racionais", que são sistemas que operam de forma autônoma e agem para alcançar o melhor resultado possível diante de um problema, dado o conhecimento e as percepções que possuem do ambiente.
+
+Para que um sistema alcance essa racionalidade em ambientes complexos, a programação de regras lógicas estáticas (\textit{if-then}) torna-se inviável. É para solucionar esta limitação que surge o \textit{Machine Learning} (ML), o principal subcampo da Inteligência Artificial. Em vez de serem explicitamente programados para executar uma tarefa passo a passo, os algoritmos de ML utilizam métodos estatísticos para extrair padrões diretamente dos dados. A definição formal mais consolidada na literatura é proposta por \citeonline{Mitchell1997}, que estabelece que um programa de computador aprende a partir da experiência $E$, em relação a uma classe de tarefas $T$ e uma medida de desempenho $P$, se o seu desempenho em $T$, quantificado por $P$, melhora com a experiência $E$.
+
+Para compreender essa definição de forma mais prática, pode-se estabelecer um paralelo com o aprendizado humano em jogos. A tarefa $T$ representa o objetivo, como identificar tumores; a experiência $E$ consiste nos dados históricos e exemplos fornecidos ao sistema (como a base de dados Wisconsin), e o desempenho $P$ atua como a métrica de sucesso, indicando quantos diagnósticos a máquina acertou. O algoritmo é considerado capaz de "aprender"\ quando, ao ser exposto a mais dados (maior $E$), ele aumenta sua taxa de acertos (maior $P$) ao realizar o diagnóstico (tarefa $T$).
+
+A hierarquia da inteligência computacional estende-se ainda a camadas mais especializadas, como o \textit{Deep Learning} (DL), ou Aprendizado Profundo. Essa vertente é um subconjunto do ML que utiliza arquiteturas de redes neurais artificiais com múltiplas camadas para processar volumes massivos de dados de altíssima complexidade dimensional. Essa relação hierárquica e de pertencimento entre os campos pode ser visualizada por meio de um diagrama de conjuntos, conforme ilustrado na Figura \ref{fig:hierarquia_ia}. 
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.6\textwidth]{venn_ia_ml_dp.jpg} 
+    \caption{Hierarquia e relação de inclusão entre IA, ML e DL.}
+    \label{fig:hierarquia_ia}
+    \fonte{\citeauthoronline{RedHat-IAML}, \citeyear{RedHat-IAML}, Disponível em: \url{https://www.redhat.com/pt-br/blog/what-aiml-and-why-does-it-matter-your-business}}
+\end{figure}
+
+Essa estrutura demonstra que todo Aprendizado Profundo é uma forma de Aprendizado de Máquina, e todo Aprendizado de Máquina é uma aplicação de Inteligência Artificial. Para o escopo do diagnóstico preditivo oncológico proposto neste estudo, a construção do agente racional será fundamentada especificamente nas técnicas clássicas de \textit{Machine Learning}, cujos paradigmas e mecânicas de avaliação serão detalhados a seguir.
 
 \section{Machine Learning: Conceitos e Paradigmas}
-Aprendizado Supervisionado. Classificação Binária. O Ciclo de Vida: Coleta, pré-processamento, treinamento e avaliação. Desafios: Overfitting, underfitting, viés e variância. Importância da validação cruzada e do conjunto de teste. Métricas de avaliação: acurácia, precisão, recall, F1-score, AUC-ROC. Algoritmos comuns: Regressão Logística, SVM, Random Forest, XGBoost, Redes Neurais. 
+% Aprendizado Supervisionado. Classificação Binária. O Ciclo de Vida: Coleta, pré-processamento, treinamento e avaliação. Desafios: Overfitting, underfitting, viés e variância. Importância da validação cruzada e do conjunto de teste. Métricas de avaliação: acurácia, precisão, recall, F1-score, AUC-ROC. Algoritmos comuns: Regressão Logística, SVM, Random Forest, XGBoost, Redes Neurais. 
+
+O desenvolvimento de um modelo de IA não segue uma receita universal, a abordagem escolhida depende fundamentalmente da natureza dos dados disponíveis e do objetivo do problema. Na literatura clássica de \textit{Machine Learning}, os algoritmos são categorizados em três grandes paradigmas de aprendizado: Não Supervisionado, Aprendizado por Reforço e Aprendizado Supervisionado. Como o escopo deste trabalho visa prever um diagnóstico clínico a partir de dados históricos previamente validados por médicos patologistas, o referencial teórico e metodológico desta pesquisa concentra-se exclusivamente no paradigma do Aprendizado Supervisionado.
+
+\subsection{O Paradigma do Aprendizado Supervisionado e a Classificação Binária}
+
+O Aprendizado Supervisionado é caracterizado pela presença de um "gabarito"\ nos dados de treinamento. Neste paradigma, o algoritmo recebe um conjunto de dados composto por variáveis de entrada (frequentemente chamadas de \textit{features} ou atributos) e suas respectivas variáveis de saída desejadas (os rótulos ou \textit{labels}). O objetivo do modelo é mapear a relação matemática entre as entradas e a saída, aprendendo as regras ocultas que conectam as características observadas ao resultado final.
+
+Em termos didáticos, o processo assemelha-se a um professor ensinando um aluno por meio de exemplos. O algoritmo analisa milhares de casos em que tanto o problema quanto a resposta correta são fornecidos simultaneamente. Após essa fase de treinamento, o modelo deve ser capaz de generalizar o conhecimento adquirido para prever a resposta correta quando apresentado a novos dados inéditos, que não possuem o rótulo. 
+
+Dentro do Aprendizado Supervisionado, os problemas dividem-se em duas naturezas principais: problemas de regressão, onde o objetivo é prever um valor numérico contínuo (como o preço de um imóvel ou a expectativa de vida de um paciente), e problemas de classificação, onde o objetivo é categorizar os dados em classes distintas.
+
+No contexto da oncologia e da base de dados \textit{Breast Cancer Wisconsin}, a tarefa computacional enquadra-se estritamente como um problema de \textbf{Classificação Binária}. Isso significa que a variável de saída que o modelo deve prever possui apenas dois estados mutuamente exclusivos: o tumor é Benigno (classe negativa) ou Maligno (classe positiva). Todo o esforço de treinamento e otimização dos algoritmos neste trabalho visa traçar a melhor fronteira de decisão matemática capaz de separar essas duas classes, minimizando ao máximo os erros de categorização, dada a criticidade de um falso diagnóstico médico.
+
+\subsection{O Dilema da Generalização e o Ciclo de Vida}
+(Aqui entra a dor de cabeça do Overfitting, o Viés/Variância e por que precisamos separar os dados em Treino e Teste).
+
+\subsection{Algoritmos Classificadores}
+(Apresentação rápida das "ferramentas": Regressão, SVM, Random Forest, etc.).
+
+\subsection{Métricas de Avaliação}
+(Acurácia, F1, ROC-AUC — como provamos que a IA não está "chutando").
 
 \section{Machine Learning na Oncologia}
 Conectar a tecnologia ao problema médico, citando a evolução dos sistemas de diagnóstico assistido por computador (CAD) e a transição para modelos preditivos baseados em aprendizado de máquina. 
