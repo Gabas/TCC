@@ -176,9 +176,9 @@ No entanto, o desenvolvimento desse adenocarcinoma não ocorre de maneira instan
 
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=0.8\textwidth]{oqueecancercelulas.jpg} 
     \caption{Contraste morfológico entre células normais e neoplásicas.}
     \label{fig:divisao_celular}
+    \includegraphics[width=0.8\textwidth]{oqueecancercelulas.jpg} 
     \fonte{\citeauthoronline{Inca-O-que-e-cancer}, \citeyear{Inca-O-que-e-cancer}, Disponível em: \url{https://www.gov.br/inca/pt-br/assuntos/cancer/o-que-e-cancer}}
 \end{figure}
 
@@ -200,9 +200,9 @@ A hierarquia da inteligência computacional estende-se ainda a camadas mais espe
 
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=0.6\textwidth]{venn_ia_ml_dp.jpg} 
     \caption{Hierarquia e relação de inclusão entre IA, ML e DL.}
     \label{fig:hierarquia_ia}
+    \includegraphics[width=0.6\textwidth]{venn_ia_ml_dp.jpg} 
     \fonte{\citeauthoronline{RedHat-IAML}, \citeyear{RedHat-IAML}, Disponível em: \url{https://www.redhat.com/pt-br/blog/what-aiml-and-why-does-it-matter-your-business}}
 \end{figure}
 
@@ -215,13 +215,13 @@ O desenvolvimento de um modelo de IA não segue uma receita universal, a abordag
 
 \subsection{O Paradigma do Aprendizado Supervisionado e a Classificação Binária}
 
-O Aprendizado Supervisionado é caracterizado pela presença de um "gabarito"\ nos dados de treinamento. Neste paradigma, o algoritmo recebe um conjunto de dados composto por variáveis de entrada (frequentemente chamadas de \textit{features} ou atributos) e suas respectivas variáveis de saída desejadas (os rótulos ou \textit{labels}). O objetivo do modelo é mapear a relação matemática entre as entradas e a saída, aprendendo as regras ocultas que conectam as características observadas ao resultado final.
+O Aprendizado Supervisionado, que a literatura classifica como uma tarefa preditiva de aprendizagem indutiva, caracteriza-se sobretudo pela presença de um "gabarito"\ nos dados de treinamento. Neste paradigma, o algoritmo é alimentado com um conjunto de dados históricos contendo tanto as variáveis independentes de entrada, conhecidas como \textit{features} ou atributos, quanto as suas respectivas variáveis dependentes de saída, os rótulos ou \textit{labels}. O objetivo deste método é fazer com que o modelo descubra e mapeie a relação matemática entre as entradas e a saída. Dessa forma, ao aprender as regras ocultas que conectam as características observadas ao resultado final, o sistema torna-se capaz de generalizar esse conhecimento para realizar predições automáticas quando exposto a novos dados não rotulados no futuro \cite{Faceli2011}.
 
-Em termos didáticos, o processo assemelha-se a um professor ensinando um aluno por meio de exemplos. O algoritmo analisa milhares de casos em que tanto o problema quanto a resposta correta são fornecidos simultaneamente. Após essa fase de treinamento, o modelo deve ser capaz de generalizar o conhecimento adquirido para prever a resposta correta quando apresentado a novos dados inéditos, que não possuem o rótulo. 
+Em termos didáticos, o processo assemelha-se a um professor ensinando um aluno por meio de exemplos. O algoritmo analisa casos em que tanto o problema quanto a resposta correta são fornecidos simultaneamente. Após essa fase de treinamento, o modelo deve ser capaz de generalizar o conhecimento adquirido para prever a resposta correta quando apresentado a novos dados inéditos, que não possuem o rótulo. 
 
-Dentro do Aprendizado Supervisionado, os problemas dividem-se em duas naturezas principais: problemas de regressão, onde o objetivo é prever um valor numérico contínuo (como o preço de um imóvel ou a expectativa de vida de um paciente), e problemas de classificação, onde o objetivo é categorizar os dados em classes distintas.
+Dentro do Aprendizado Supervisionado, \citeonline{Bishop2006} divide os problemas de acordo com o tipo de resultado que se deseja alcançar. Quando o objetivo do modelo é organizar as informações recebidas em grupos bem definidos, a tarefa é chamada de problema de classificação. Por outro lado, se o sistema tenta prever um valor numérico contínuo, como estimar a expectativa de vida de um paciente ou calcular o rendimento de um processo químico, a tarefa recebe o nome de problema de regressão.
 
-No contexto da oncologia e da base de dados \textit{Breast Cancer Wisconsin}, a tarefa computacional enquadra-se estritamente como um problema de \textbf{Classificação Binária}. Isso significa que a variável de saída que o modelo deve prever possui apenas dois estados mutuamente exclusivos: o tumor é Benigno (classe negativa) ou Maligno (classe positiva). Todo o esforço de treinamento e otimização dos algoritmos neste trabalho visa traçar a melhor fronteira de decisão matemática capaz de separar essas duas classes, minimizando ao máximo os erros de categorização, dada a criticidade de um falso diagnóstico médico.
+No contexto da oncologia e da base de dados \textit{Breast Cancer Wisconsin}, a tarefa computacional se enquadra como um problema de Classificação Binária. Isso significa que a variável de saída que o modelo deve prever possui apenas dois estados: o tumor é Benigno ou Maligno \cite{Street1993}. Todo o esforço de treinamento e otimização dos algoritmos neste trabalho visa buscar a melhor fronteira de decisão matemática capaz de separar essas duas classes, minimizando ao máximo os erros de categorização, dada a criticidade de um falso diagnóstico médico.
 
 \subsection{O Dilema da Generalização e o Ciclo de Vida}
 (Aqui entra a dor de cabeça do Overfitting, o Viés/Variância e por que precisamos separar os dados em Treino e Teste).

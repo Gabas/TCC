@@ -13,6 +13,10 @@
 \abntrefinfo{{Associação Brasileira de Normas Técnicas}}{{Associação Brasileira de Normas Técnicas}}{2018}
 {{Associação Brasileira de Normas Técnicas}. \textbf{NBR 14724: Informação e Documentação: Trabalhos Acadêmicos: Apresentação}. Rio de Janeiro: ABNT, 2018.}
 
+\bibitem[Bishop 2006]{Bishop2006}
+\abntrefinfo{Bishop}{BISHOP}{2006}
+{BISHOP, C.~M. \textbf{Pattern Recognition and Machine Learning}. [S.l.]: Springer, 2006.}
+
 \bibitem[Chagas \textit{et al.} 2016]{chagas2016}
 \abntrefinfo{Chagas \textit{et al.}}{CHAGAS \textit{et al.}}{2016}
 {CHAGAS, C.~A.; OLIVEIRA, F.~M.; ALMEIDA, J. R.~A. \textbf{Manual de Redação Científica: Normas e Orientações}. Recife: Editora Universitária, 2016.}
@@ -20,6 +24,10 @@
 \bibitem[Creswell 2014]{creswell}
 \abntrefinfo{Creswell}{CRESWELL}{2014}
 {CRESWELL, J.~W. \textbf{Research design: qualitative, quantitative, and mixed methods approaches}. Thousand Oaks, CA: SAGE Publications, 2014.}
+
+\bibitem[Faceli \textit{et al.} 2011]{Faceli2011}
+\abntrefinfo{Faceli \textit{et al.}}{FACELI \textit{et al.}}{2011}
+{FACELI, K. \textit{et al.} \textbf{Intelig{\^e}ncia Artificial: Uma Abordagem de Aprendizado de M{\'a}quina}. 2nd. ed. [S.l.]: LTC, 2011.}
 
 \bibitem[Gil 2008]{gil}
 \abntrefinfo{Gil}{GIL}{2008}
