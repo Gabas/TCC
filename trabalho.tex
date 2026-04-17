@@ -94,6 +94,7 @@ como requisito à obtenção ao grau de Bacharel.}
 % - As siglas deve ser organizadas em ORDEM ALFABÉTICA
 % - Inclua apenas as siglas que aparecem no trabalho
 \begin{siglas}
+    \item[AUC] \textit{Area Under the Curve} (Área Sob a Curva)
     \item[DNA] Ácido desoxirribonucleico
     \item[DL] \textit{Deep Learning}
     \item[IA] Inteligência Artificial
@@ -101,6 +102,7 @@ como requisito à obtenção ao grau de Bacharel.}
     \item[ML] \textit{Machine Learning}
     \item[PAAF] Punção Aspirativa por Agulha Fina
     \item[PAHO] \textit{Pan American Health Organization}
+    \item[ROC] \textit{Receiver Operating Characteristic} (Curva de Característica de Operação do Receptor)
     \item[SHAP] \textit{SHapley Additive exPlanations}
     \item[UMAP] \textit{Uniform Manifold Approximation and Projection}
     \item[XAI] \textit{eXplainable AI} (Inteligência Artificial Explicável)
@@ -233,13 +235,18 @@ Na estatística, essa linha tênue entre memorizar e generalizar é explicada pe
 
 Essa metodologia de divisão geralmente particiona os dados em três grupos: Treinamento, Validação e Teste. O conjunto de treinamento é o ambiente computacional primário, onde o algoritmo ajusta seus pesos e constrói suas regras de classificação. O conjunto de validação atua como um ambiente de aferição intermediária, permitindo que o desenvolvedor calibre os detalhes matemáticos do modelo e perceba rapidamente se o \textit{overfitting} está ocorrendo. Por fim, o conjunto de teste representa o cenário do mundo real. Ele permanece totalmente isolado e oculto do computador durante todo o processo de desenvolvimento, sendo acionado apenas uma única vez na etapa final. O desempenho alcançado neste conjunto de teste isolado é o indicador soberano que comprova a verdadeira eficácia do sistema em acertar diagnósticos na prática médica.
 
-% Existem fórmulas matemáticas (Bishop) que mostram esse dilema de viés-variância, talvez seja interessante acrescentá-lo
+\subsection{Métricas de Avaliação de Desempenho}
+
+Após submeter o conjunto de teste ao algoritmo, é fundamental quantificar o seu desempenho clínico. Na classificação binária, a base para qualquer avaliação é a construção de uma Matriz de Confusão. Essa ferramenta organiza os resultados das previsões em quatro categorias possíveis. Os Verdadeiros Positivos representam os tumores malignos corretamente identificados, enquanto os Verdadeiros Negativos são os tumores benignos confirmados. Por outro lado, os erros são divididos em Falsos Positivos, que ocorrem quando um tumor benigno gera um alarme falso de malignidade, e Falsos Negativos, que acontecem quando o sistema ignora um tumor maligno e o classifica como inofensivo. Em um cenário oncológico, o falso negativo representa a falha mais crítica do modelo, pois resulta em um paciente doente que é liberado sem receber o tratamento adequado.
+
+A métrica mais intuitiva extraída dessa matriz é a acurácia, que representa a taxa geral de acertos do modelo. Contudo, confiar exclusivamente na acurácia é um erro metodológico perigoso na área da saúde devido ao problema matemático das classes desbalanceadas. Considere uma situação onde a base de dados possui noventa e nove pacientes saudáveis para cada paciente com câncer. Se um algoritmo quebrado simplesmente classificar todas as pessoas do mundo como saudáveis, ele obterá uma acurácia de noventa e nove por cento. Apesar de parecer um sucesso estatístico absoluto, o modelo seria clinicamente inútil e letal para a pequena parcela de pacientes doentes \cite{Faceli2011}.
+
+Para contornar essa ilusão estatística, o desempenho deve ser avaliado por métricas específicas que observam os erros separadamente. A sensibilidade, também conhecida na literatura internacional como \textit{recall}, mede a capacidade do algoritmo de rastrear e encontrar todos os pacientes que realmente estão doentes. Em paralelo, a precisão avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era. Como frequentemente existe uma balança entre essas duas métricas, onde o aumento de uma pode diminuir a outra, utiliza-se a métrica \textit{F1-score}. Esse indicador calcula a média harmônica entre a precisão e a sensibilidade, fornecendo um único número que atesta o equilíbrio e a segurança geral do classificador.
+
+A avaliação final do modelo é consolidada visualmente pela Curva de Característica de Operação do Receptor, amplamente referenciada pela sigla em inglês ROC. Essa curva ilustra graficamente a relação entre a taxa de acertos em pacientes doentes e a taxa de alarmes falsos em pacientes saudáveis. Para resumir essa visualização em uma nota clara, calcula-se a área sob a curva, denominada métrica AUC. O valor da AUC varia de zero a um, sendo que um resultado igual a um indica um classificador estatisticamente perfeito, capaz de separar totalmente os tumores benignos dos malignos. Por oferecer essa visão ampla do comportamento do modelo independentemente do equilíbrio dos dados, a AUC é considerada a métrica de ouro para comparar diferentes algoritmos oncológicos \cite{Faceli2011}.
 
 \subsection{Algoritmos Classificadores}
 (Apresentação rápida das "ferramentas": Regressão, SVM, Random Forest, etc.).
-
-\subsection{Métricas de Avaliação}
-(Acurácia, F1, ROC-AUC — como provamos que a IA não está "chutando").
 
 \section{Machine Learning na Oncologia}
 Conectar a tecnologia ao problema médico, citando a evolução dos sistemas de diagnóstico assistido por computador (CAD) e a transição para modelos preditivos baseados em aprendizado de máquina. 
