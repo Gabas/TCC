@@ -14,25 +14,27 @@ Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Database file #1: abntex2-options.bib
 Database file #2: referencias.bib
 Warning--entry type for "Paho-cancer" isn't style-file defined
---line 383 of file referencias.bib
+--line 426 of file referencias.bib
 Warning--entry type for "Inca-781" isn't style-file defined
---line 400 of file referencias.bib
+--line 443 of file referencias.bib
 Warning--entry type for "Inca-informatica" isn't style-file defined
---line 409 of file referencias.bib
+--line 452 of file referencias.bib
 Warning--entry type for "Inca-como-surge-cancer" isn't style-file defined
---line 418 of file referencias.bib
-Warning--entry type for "Inca-O-que-e-cancer" isn't style-file defined
---line 427 of file referencias.bib
-Warning--entry type for "RedHat-IAML" isn't style-file defined
---line 436 of file referencias.bib
-Warning--entry type for "Nci-what-is-cancer" isn't style-file defined
---line 444 of file referencias.bib
-Warning--entry type for "xkcd-graph" isn't style-file defined
---line 453 of file referencias.bib
-Warning--entry type for "xkcd-conclusion" isn't style-file defined
 --line 461 of file referencias.bib
+Warning--entry type for "Inca-O-que-e-cancer" isn't style-file defined
+--line 470 of file referencias.bib
+Warning--entry type for "RedHat-IAML" isn't style-file defined
+--line 479 of file referencias.bib
+Warning--entry type for "Nci-what-is-cancer" isn't style-file defined
+--line 487 of file referencias.bib
+Warning--entry type for "xkcd-graph" isn't style-file defined
+--line 496 of file referencias.bib
+Warning--entry type for "xkcd-conclusion" isn't style-file defined
+--line 504 of file referencias.bib
 Warning--entry type for "nintendo" isn't style-file defined
---line 477 of file referencias.bib
+--line 520 of file referencias.bib
+Warning--entry type for "SHAPDocs2026" isn't style-file defined
+--line 539 of file referencias.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
 Reallocated global_strs (elt_size=200001) to 20 items from 10.
@@ -42,45 +44,45 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 | Em caso de dúvidas ou problemas com este estilo procure |
 | http://www.abntex.net.br/                               |
 +---------------------------------------------------------+
-You've used 36 entries,
+You've used 41 entries,
             6714 wiz_defined-function locations,
-            1373 strings with 13399 characters,
-and the built_in function-call counts, 39395 in all, are:
-= -- 4489
-> -- 566
-< -- 870
-+ -- 1146
-- -- 178
-* -- 2259
-:= -- 4814
-add.period$ -- 120
-call.type$ -- 39
-change.case$ -- 243
-chr.to.int$ -- 55
-cite$ -- 30
-duplicate$ -- 3655
-empty$ -- 2247
-format.name$ -- 836
-if$ -- 8396
+            1409 strings with 14479 characters,
+and the built_in function-call counts, 44529 in all, are:
+= -- 4947
+> -- 712
+< -- 921
++ -- 1239
+- -- 222
+* -- 2618
+:= -- 5464
+add.period$ -- 140
+call.type$ -- 44
+change.case$ -- 294
+chr.to.int$ -- 69
+cite$ -- 35
+duplicate$ -- 3998
+empty$ -- 2580
+format.name$ -- 1052
+if$ -- 9568
 int.to.chr$ -- 8
 int.to.str$ -- 3
-missing$ -- 615
-newline$ -- 142
-num.names$ -- 130
-pop$ -- 787
+missing$ -- 703
+newline$ -- 166
+num.names$ -- 156
+pop$ -- 891
 preamble$ -- 1
-purify$ -- 120
+purify$ -- 139
 quote$ -- 0
-skip$ -- 4146
+skip$ -- 4495
 stack$ -- 1
-substring$ -- 1528
-swap$ -- 1302
-text.length$ -- 13
+substring$ -- 1787
+swap$ -- 1469
+text.length$ -- 23
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 21
+type$ -- 22
 warning$ -- 0
-while$ -- 180
+while$ -- 222
 width$ -- 0
-write$ -- 455
-(There were 10 warnings)
+write$ -- 540
+(There were 11 warnings)

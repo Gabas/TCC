@@ -9,6 +9,11 @@
 \abntrefinfo{ABNT}{ABNT}{2012}
 {ABNT. \textbf{Norma Brasileira NBR 6024: Informação e Documentação - Numeração Progressiva das Seções de um Documento Escrito}. Rio de Janeiro: Associação Brasileira de Normas Técnicas, 2012.}
 
+\bibitem[Adadi e Berrada 2018]{Adadi2018}
+\abntrefinfo{Adadi e Berrada}{ADADI; BERRADA}{2018}
+{ADADI, A.; BERRADA, M. Peeking inside the black-box: a survey on explainable artificial intelligence (xai).
+\textbf{IEEE access}, IEEE, v.~6, p. 52138--52160, 2018.}
+
 \bibitem[{AI Online Course} 2023]{AIOnlineCourse2023}
 \abntrefinfo{{AI Online Course}}{{AI Online Course}}{2023}
 {{AI Online Course}. \textbf{Kernel SVM for Dummies (with Python Code) | Machine Learning}. 2023.
@@ -42,6 +47,11 @@ Dispon{\'\i}vel em: \url{https://www.aionlinecourse.com/tutorial/machine-learnin
 \abntrefinfo{Goossens \textit{et al.}}{GOOSSENS \textit{et al.}}{1997}
 {GOOSSENS, M.; MITTELBACH, F.; SAMARIN, A. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley, 1997.}
 
+\bibitem[Holzinger \textit{et al.} 2019]{Holzinger2019}
+\abntrefinfo{Holzinger \textit{et al.}}{HOLZINGER \textit{et al.}}{2019}
+{HOLZINGER, A. \textit{et al.} Causability and explainability of artificial intelligence in medicine.
+\textbf{Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery}, Wiley Online Library, v.~9, n.~4, p. e1312, 2019.}
+
 \bibitem[INCA 2022]{Inca-informatica}
 \abntrefinfo{INCA}{INCA}{2022a}
 {INCA. \textbf{Bioinformática e biologia computacional}. Instituto Nacional de Câncer, 2022.
@@ -73,6 +83,15 @@ Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/noticias/2026/in
 \bibitem[Leite 2003]{leite}
 \abntrefinfo{Leite}{LEITE}{2003}
 {LEITE, J. \textbf{Normas Técnicas: Elaboração e Apresentação de Trabalhos Acadêmico-Científico}. 1. ed. São Paulo: Editora Acadêmica, 2003. 332~p.}
+
+\bibitem[Lundberg 2026]{SHAPDocs2026}
+\abntrefinfo{Lundberg}{LUNDBERG}{2026}
+{LUNDBERG, S.~M. \textbf{SHAP: SHapley Additive exPlanations Documentation}. 2026.
+Dispon{\'\i}vel em: \url{https://shap.readthedocs.io/en/latest/}. Acesso em: 21 abr. 2026.}
+
+\bibitem[Lundberg e Lee 2017]{Lundberg2017}
+\abntrefinfo{Lundberg e Lee}{LUNDBERG; LEE}{2017}
+{LUNDBERG, S.~M.; LEE, S.-I. A unified approach to interpreting model predictions. In:  GUYON, I. \textit{et al.} (Ed.). \textbf{Advances in Neural Information Processing Systems 30}. [S.l.]: Curran Associates, Inc., 2017. p. 4765--4774.}
 
 \bibitem[Machine Learning 2024]{wikipedia2024}
 \abntrefinfo{Machine\ldots}{MACHINE\ldots}{2024}
@@ -107,6 +126,11 @@ Dispon{\'\i}vel em: \url{https://www.paho.org/pt/topicos/cancer}. Acesso em: 18 
 \abntrefinfo{Richardson}{RICHARDSON}{2022}
 {RICHARDSON, D. \textbf{O que é IA/ML e por que é importante para seus negócios?} Red Hat, 2022.
 Dispon{\'\i}vel em: \url{https://www.redhat.com/pt-br/blog/what-aiml-and-why-does-it-matter-your-business}. Acesso em: 11 abr. 2026.}
+
+\bibitem[Rudin 2019]{Rudin2019}
+\abntrefinfo{Rudin}{RUDIN}{2019}
+{RUDIN, C. Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead.
+\textbf{Nature Machine Intelligence}, Nature Publishing Group, v.~1, n.~5, p. 206--215, 2019.}
 
 \bibitem[Russell e Norvig 2010]{Russell2010}
 \abntrefinfo{Russell e Norvig}{RUSSELL; NORVIG}{2010}
