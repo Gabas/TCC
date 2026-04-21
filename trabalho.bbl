@@ -5,10 +5,6 @@
 \providecommand{\abntbstabout}[1]{}
 \abntbstabout{v-1.9.7 }
 
-\bibitem[ABNT 2012]{abnt2012}
-\abntrefinfo{ABNT}{ABNT}{2012}
-{ABNT. \textbf{Norma Brasileira NBR 6024: Informação e Documentação - Numeração Progressiva das Seções de um Documento Escrito}. Rio de Janeiro: Associação Brasileira de Normas Técnicas, 2012.}
-
 \bibitem[Adadi e Berrada 2018]{Adadi2018}
 \abntrefinfo{Adadi e Berrada}{ADADI; BERRADA}{2018}
 {ADADI, A.; BERRADA, M. Peeking inside the black-box: a survey on explainable artificial intelligence (xai).
@@ -19,33 +15,13 @@
 {{AI Online Course}. \textbf{Kernel SVM for Dummies (with Python Code) | Machine Learning}. 2023.
 Dispon{\'\i}vel em: \url{https://www.aionlinecourse.com/tutorial/machine-learning/kernel-svm}. Acesso em: 21 abr. 2026.}
 
-\bibitem[{Associação Brasileira de Normas Técnicas} 2018]{abnt2018}
-\abntrefinfo{{Associação Brasileira de Normas Técnicas}}{{Associação Brasileira de Normas Técnicas}}{2018}
-{{Associação Brasileira de Normas Técnicas}. \textbf{NBR 14724: Informação e Documentação: Trabalhos Acadêmicos: Apresentação}. Rio de Janeiro: ABNT, 2018.}
-
 \bibitem[Bishop 2006]{Bishop2006}
 \abntrefinfo{Bishop}{BISHOP}{2006}
 {BISHOP, C.~M. \textbf{Pattern Recognition and Machine Learning}. [S.l.]: Springer, 2006.}
 
-\bibitem[Chagas \textit{et al.} 2016]{chagas2016}
-\abntrefinfo{Chagas \textit{et al.}}{CHAGAS \textit{et al.}}{2016}
-{CHAGAS, C.~A.; OLIVEIRA, F.~M.; ALMEIDA, J. R.~A. \textbf{Manual de Redação Científica: Normas e Orientações}. Recife: Editora Universitária, 2016.}
-
-\bibitem[Creswell 2014]{creswell}
-\abntrefinfo{Creswell}{CRESWELL}{2014}
-{CRESWELL, J.~W. \textbf{Research design: qualitative, quantitative, and mixed methods approaches}. Thousand Oaks, CA: SAGE Publications, 2014.}
-
 \bibitem[Faceli \textit{et al.} 2011]{Faceli2011}
 \abntrefinfo{Faceli \textit{et al.}}{FACELI \textit{et al.}}{2011}
 {FACELI, K. \textit{et al.} \textbf{Intelig{\^e}ncia Artificial: Uma Abordagem de Aprendizado de M{\'a}quina}. 2nd. ed. [S.l.]: LTC, 2011.}
-
-\bibitem[Gil 2008]{gil}
-\abntrefinfo{Gil}{GIL}{2008}
-{GIL, A.~C. \textbf{Como elaborar projetos de pesquisa}. São Paulo: Atlas, 2008.}
-
-\bibitem[Goossens \textit{et al.} 1997]{goossens1997latex}
-\abntrefinfo{Goossens \textit{et al.}}{GOOSSENS \textit{et al.}}{1997}
-{GOOSSENS, M.; MITTELBACH, F.; SAMARIN, A. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley, 1997.}
 
 \bibitem[Holzinger \textit{et al.} 2019]{Holzinger2019}
 \abntrefinfo{Holzinger \textit{et al.}}{HOLZINGER \textit{et al.}}{2019}
@@ -72,18 +48,6 @@ Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/cancer/o-que-e-c
 {INCA. \textbf{Câncer de Mama}. Instituto Nacional de Câncer, 2026.
 Dispon{\'\i}vel em: \url{https://www.gov.br/inca/pt-br/assuntos/noticias/2026/inca-estima-781-mil-novos-casos-de-cancer-por-ano-no-brasil-entre-2026-e-2028}. Acesso em: 19 mar. 2026.}
 
-\bibitem[Knuth 1984]{knuth1984texbook}
-\abntrefinfo{Knuth}{KNUTH}{1984}
-{KNUTH, D.~E. \textbf{The TeXbook}. [S.l.]: Addison-Wesley, 1984. A.}
-
-\bibitem[Lakatos e Marconi 2003]{lakatos}
-\abntrefinfo{Lakatos e Marconi}{LAKATOS; MARCONI}{2003}
-{LAKATOS, E.~M.; MARCONI, M.~A. \textbf{Fundamentos de metodologia científica}. São Paulo: Editora Atlas, 2003.}
-
-\bibitem[Leite 2003]{leite}
-\abntrefinfo{Leite}{LEITE}{2003}
-{LEITE, J. \textbf{Normas Técnicas: Elaboração e Apresentação de Trabalhos Acadêmico-Científico}. 1. ed. São Paulo: Editora Acadêmica, 2003. 332~p.}
-
 \bibitem[Lundberg 2026]{SHAPDocs2026}
 \abntrefinfo{Lundberg}{LUNDBERG}{2026}
 {LUNDBERG, S.~M. \textbf{SHAP: SHapley Additive exPlanations Documentation}. 2026.
@@ -93,29 +57,14 @@ Dispon{\'\i}vel em: \url{https://shap.readthedocs.io/en/latest/}. Acesso em: 21 
 \abntrefinfo{Lundberg e Lee}{LUNDBERG; LEE}{2017}
 {LUNDBERG, S.~M.; LEE, S.-I. A unified approach to interpreting model predictions. In:  GUYON, I. \textit{et al.} (Ed.). \textbf{Advances in Neural Information Processing Systems 30}. [S.l.]: Curran Associates, Inc., 2017. p. 4765--4774.}
 
-\bibitem[Machine Learning 2024]{wikipedia2024}
-\abntrefinfo{Machine\ldots}{MACHINE\ldots}{2024}
-{MACHINE Learning.
-In:  WIKIP\'EDIA: a enciclop\'edia livre. Wikimedia, 2024.
-Dispon{\'\i}vel em: \url{https://en.wikipedia.org/wiki/Machine\_learning}. Acesso em: 05 out. 2024.}
-
 \bibitem[Mitchell 1997]{Mitchell1997}
 \abntrefinfo{Mitchell}{MITCHELL}{1997}
 {MITCHELL, T.~M. \textbf{Machine Learning}. [S.l.]: McGraw-Hill, 1997.}
-
-\bibitem[Mittelbach \textit{et al.} 2004]{mittelbach2004latex}
-\abntrefinfo{Mittelbach \textit{et al.}}{MITTELBACH \textit{et al.}}{2004}
-{MITTELBACH, F.; GOOSSENS, M.; BRAAMS, J. \textbf{The LaTeX Companion}. [S.l.]: Addison-Wesley Professional, 2004.}
 
 \bibitem[NCI 2021]{Nci-what-is-cancer}
 \abntrefinfo{NCI}{NCI}{2021}
 {NCI. \textbf{What is Cancer?} NATIONAL CANCER INSTITUTE, 2021.
 Dispon{\'\i}vel em: \url{https://www.cancer.gov/about-cancer/understanding/what-is-cancer}. Acesso em: 08 abr. 2026.}
-
-\bibitem[Nintendo 2024]{nintendo}
-\abntrefinfo{Nintendo}{NINTENDO}{2024}
-{NINTENDO. \textbf{Personagens}. 2024.
-Dispon{\'\i}vel em: \url{https://www.nintendo.com/pt-pt/Jogos/Portal-Nintendo/Portal-Super-Mario/Personagens-2493286.html}. Acesso em: 05 out. 2024.}
 
 \bibitem[PAHO 2026]{Paho-cancer}
 \abntrefinfo{PAHO}{PAHO}{2026}
@@ -136,31 +85,9 @@ Dispon{\'\i}vel em: \url{https://www.redhat.com/pt-br/blog/what-aiml-and-why-doe
 \abntrefinfo{Russell e Norvig}{RUSSELL; NORVIG}{2010}
 {RUSSELL, S.; NORVIG, P. \textbf{Artificial Intelligence: A Modern Approach}. 3rd. ed. [S.l.]: Prentice Hall, 2010.}
 
-\bibitem[Severino 2007]{severino}
-\abntrefinfo{Severino}{SEVERINO}{2007}
-{SEVERINO, A.~J. \textbf{Metodologia da pesquisa: projeto e execução}. São Paulo: Editora Cortez, 2007.}
-
 \bibitem[Street \textit{et al.} 1993]{Street1993}
 \abntrefinfo{Street \textit{et al.}}{STREET \textit{et al.}}{1993}
 {STREET, W.~N.; WOLBERG, W.~H.; MANGASARIAN, O.~L. Nuclear feature extraction for breast tumor diagnosis.
 SPIE, p. 861--870, 1993.}
-
-\bibitem[Tufte 1990]{tufte1990envisioning}
-\abntrefinfo{Tufte}{TUFTE}{1990}
-{TUFTE, E.~R. \textbf{Envisioning Information}. [S.l.]: Graphics Press, 1990.}
-
-\bibitem[Universidade Tuiuti do Paraná 2024]{utp_normas2024}
-\abntrefinfo{Universidade Tuiuti do Paraná}{UNIVERSIDADE TUIUTI DO PARANá}{2024}
-{UNIVERSIDADE TUIUTI DO PARANá. \textbf{Normas para Apresentação de Trabalhos Acadêmicos}. 3. ed. Curitiba: Editora da Universidade Tuiuti do Paraná, 2024.}
-
-\bibitem[XKCD 2024]{xkcd-graph}
-\abntrefinfo{XKCD}{XKCD}{2024a}
-{XKCD. \textbf{Scientific Paper Graph Quality}. 2024.
-Dispon{\'\i}vel em: \url{https://xkcd.com/1945/}. Acesso em: 05 out. 2024.}
-
-\bibitem[XKCD 2024]{xkcd-conclusion}
-\abntrefinfo{XKCD}{XKCD}{2024b}
-{XKCD. \textbf{Thesis Defense}. 2024.
-Dispon{\'\i}vel em: \url{https://xkcd.com/605/}. Acesso em: 05 out. 2024.}
 
 \end{thebibliography}

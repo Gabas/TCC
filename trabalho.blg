@@ -27,12 +27,6 @@ Warning--entry type for "RedHat-IAML" isn't style-file defined
 --line 479 of file referencias.bib
 Warning--entry type for "Nci-what-is-cancer" isn't style-file defined
 --line 487 of file referencias.bib
-Warning--entry type for "xkcd-graph" isn't style-file defined
---line 496 of file referencias.bib
-Warning--entry type for "xkcd-conclusion" isn't style-file defined
---line 504 of file referencias.bib
-Warning--entry type for "nintendo" isn't style-file defined
---line 520 of file referencias.bib
 Warning--entry type for "SHAPDocs2026" isn't style-file defined
 --line 539 of file referencias.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
@@ -44,45 +38,45 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 | Em caso de dúvidas ou problemas com este estilo procure |
 | http://www.abntex.net.br/                               |
 +---------------------------------------------------------+
-You've used 41 entries,
+You've used 24 entries,
             6714 wiz_defined-function locations,
-            1409 strings with 14479 characters,
-and the built_in function-call counts, 44529 in all, are:
-= -- 4947
-> -- 712
-< -- 921
-+ -- 1239
-- -- 222
-* -- 2618
-:= -- 5464
-add.period$ -- 140
-call.type$ -- 44
-change.case$ -- 294
-chr.to.int$ -- 69
-cite$ -- 35
-duplicate$ -- 3998
-empty$ -- 2580
-format.name$ -- 1052
-if$ -- 9568
-int.to.chr$ -- 8
+            1327 strings with 12658 characters,
+and the built_in function-call counts, 29132 in all, are:
+= -- 3395
+> -- 416
+< -- 729
++ -- 912
+- -- 131
+* -- 1700
+:= -- 3535
+add.period$ -- 77
+call.type$ -- 27
+change.case$ -- 168
+chr.to.int$ -- 44
+cite$ -- 18
+duplicate$ -- 2811
+empty$ -- 1482
+format.name$ -- 615
+if$ -- 6015
+int.to.chr$ -- 7
 int.to.str$ -- 3
-missing$ -- 703
-newline$ -- 166
-num.names$ -- 156
-pop$ -- 891
+missing$ -- 385
+newline$ -- 93
+num.names$ -- 91
+pop$ -- 456
 preamble$ -- 1
-purify$ -- 139
+purify$ -- 81
 quote$ -- 0
-skip$ -- 4495
+skip$ -- 3191
 stack$ -- 1
-substring$ -- 1787
-swap$ -- 1469
-text.length$ -- 23
+substring$ -- 1268
+swap$ -- 1034
+text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 22
+type$ -- 1
 warning$ -- 0
-while$ -- 222
+while$ -- 133
 width$ -- 0
-write$ -- 540
-(There were 11 warnings)
+write$ -- 293
+(There were 8 warnings)
