@@ -113,16 +113,20 @@ como requisito à obtenção ao grau de Bacharel.}
 
 
 
-% % Lista de símbolos
-% \begin{simbolos}
-%     \item[$ \Sigma $]   Somatório
-%     \item[$ \prod $]    Produtório
-%     \item[$ \in $]      Pertence 
-%     \item[$ \notin $]   Não pertence
-%     \item[$ \mathcal{O}(n) $] Notação Big O 
-%     \item[$ \forall $]  Para todo (quantificador universal)
-%     \item[$ \exists $]  Existe (quantificador existencial)
-% \end{simbolos}
+% Lista de símbolos
+\begin{simbolos}
+    \item[$ \phi_i $]   Valor de Shapley para a característica isolada $i$
+    \item[$ \Sigma $]   Somatório
+    \item[$ N $]        Conjunto total de características celulares disponíveis
+    \item[$ S $]        Subconjunto específico de características
+    \item[$ i $]        Característica celular isolada em análise
+    \item[$ \subseteq $] Subconjunto de
+    \item[$ \setminus $] Diferença de conjuntos (exclusão)
+    \item[$ | \cdot | $] Cardinalidade (quantidade de elementos de um conjunto)
+    \item[$ ! $]        Operador fatorial
+    \item[$ \cup $]     União de conjuntos
+    \item[$ v(\cdot) $] Função de valor (predição de risco do modelo para um determinado subconjunto)
+\end{simbolos}
 
 % % Criação do sumário do trabalho
 % \sumario
@@ -285,6 +289,19 @@ Um dos grandes trunfos arquitetônicos da biblioteca SHAP, conforme detalhado em
 O resultado desse robusto processamento matemático é traduzido em visualizações gráficas projetadas especificamente para a prática clínica e auditoria de dados. No escopo da interpretabilidade local, voltada para o diagnóstico de um único paciente, o SHAP fornece gráficos de cascata (\textit{waterfall plots}). Essas representações ilustram milimetricamente como cada característica, como a textura ou a área do núcleo celular, empurrou a probabilidade do diagnóstico para cima ou para baixo a partir do valor base da população. No escopo global, o algoritmo compila todas as predições em gráficos de enxame (\textit{beeswarm plots} ou \textit{summary plots}). Esse panorama permite que o médico observe não apenas quais variáveis são globalmente mais importantes para o classificador, mas também a direção biomédica desse impacto, revelando se os valores altos de uma determinada característica estão sistematicamente associados a tumores malignos.
 
 Em comparação com outras ferramentas de explicabilidade disponíveis na literatura, como o modelo LIME, o método SHAP destaca-se por sua extrema robustez teórica. Enquanto outras técnicas tentam adivinhar o comportamento do algoritmo criando aproximações em torno dos dados locais, o SHAP garante propriedades matemáticas vitais de consistência e precisão local. Na prática, isso significa que a soma de todos os valores e pesos atribuídos a cada característica celular pelo SHAP resultará exatamente na predição percentual final emitida pelo sistema principal. Essa garantia de exatidão torna o método estatisticamente seguro e incontestável para auditar diagnósticos críticos na área da saúde.
+
+\subsection{Fundamentação Matemática: A Equação de Shapley}
+
+Para compreender como a biblioteca computacional distribui os pesos das características oncológicas, é estritamente necessário analisar a formulação matemática original proposta para o Valor de Shapley. O cálculo baseia-se na análise de todas as permutações e subconjuntos possíveis de jogadores em um cenário cooperativo. Seja $N$ o conjunto total de características celulares disponíveis em um exame e $S$ um subconjunto específico dessas características, o valor de Shapley para uma característica isolada $i$, denotado por $\phi_i$, é definido pela Equação \ref{eq:shapley} \cite{Lundberg2017}:
+
+\begin{equation}
+    \label{eq:shapley}
+    \phi_i = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|! (|N| - |S| - 1)!}{|N|!} [v(S \cup \{i\}) - v(S)]
+\end{equation}
+
+A interpretação desta fórmula revela a essência do método explicativo. O termo $v(S \cup \{i\}) - v(S)$ representa a contribuição marginal da característica $i$. Na prática médica, ele calcula a diferença entre a predição de risco do modelo quando a característica $i$ (como a simetria celular) está presente no exame e a predição quando ela é omitida daquela combinação específica. O algoritmo calcula essa diferença não apenas uma vez, mas para todos os subconjuntos $S$ possíveis formados pelas outras variáveis do modelo.
+
+A fração que antecede a contribuição marginal atua como um sistema de pesos baseado em probabilidade combinatória. Os termos fatoriais, representados pelo símbolo de exclamação, calculam o peso exato daquela coalizão específica se formar, garantindo que o valor final seja distribuído de maneira perfeitamente justa. Por fim, o somatório agrega todas essas contribuições marginais ponderadas. O resultado é um único valor $\phi_i$ que quantifica, com exatidão matemática, o impacto líquido que aquela característica anatômica exerceu para elevar ou reduzir a probabilidade de o tumor ser classificado como maligno.
 
 \section{Redução de Dimensionalidade e UMAP}
 Explicar o conceito de redução de dimensionalidade como uma técnica para simplificar dados de alta dimensão, preservando suas características essenciais. O UMAP é um algoritmo de redução de dimensionalidade que se destaca por sua capacidade de preservar a estrutura global e local dos dados, facilitando a visualização e a identificação de padrões, como agrupamentos (clusters) e anomalias (outliers). Discutir a importância do UMAP na análise exploratória de dados, especialmente em contextos onde a separabilidade natural dos dados é crucial para a interpretação dos resultados.
