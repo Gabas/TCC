@@ -9,6 +9,11 @@
 \abntrefinfo{ABNT}{ABNT}{2012}
 {ABNT. \textbf{Norma Brasileira NBR 6024: Informação e Documentação - Numeração Progressiva das Seções de um Documento Escrito}. Rio de Janeiro: Associação Brasileira de Normas Técnicas, 2012.}
 
+\bibitem[{AI Online Course} 2023]{AIOnlineCourse2023}
+\abntrefinfo{{AI Online Course}}{{AI Online Course}}{2023}
+{{AI Online Course}. \textbf{Kernel SVM for Dummies (with Python Code) | Machine Learning}. 2023.
+Dispon{\'\i}vel em: \url{https://www.aionlinecourse.com/tutorial/machine-learning/kernel-svm}. Acesso em: 21 abr. 2026.}
+
 \bibitem[{Associação Brasileira de Normas Técnicas} 2018]{abnt2018}
 \abntrefinfo{{Associação Brasileira de Normas Técnicas}}{{Associação Brasileira de Normas Técnicas}}{2018}
 {{Associação Brasileira de Normas Técnicas}. \textbf{NBR 14724: Informação e Documentação: Trabalhos Acadêmicos: Apresentação}. Rio de Janeiro: ABNT, 2018.}
