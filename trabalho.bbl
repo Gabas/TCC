@@ -57,6 +57,11 @@ Dispon{\'\i}vel em: \url{https://shap.readthedocs.io/en/latest/}. Acesso em: 21 
 \abntrefinfo{Lundberg e Lee}{LUNDBERG; LEE}{2017}
 {LUNDBERG, S.~M.; LEE, S.-I. A unified approach to interpreting model predictions. In:  GUYON, I. \textit{et al.} (Ed.). \textbf{Advances in Neural Information Processing Systems 30}. [S.l.]: Curran Associates, Inc., 2017. p. 4765--4774.}
 
+\bibitem[McInnes \textit{et al.} 2018]{McInnes2018}
+\abntrefinfo{McInnes \textit{et al.}}{MCINNES \textit{et al.}}{2018}
+{MCINNES, L. \textit{et al.} \textbf{UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction Documentation}. 2018.
+Dispon{\'\i}vel em: \url{https://umap-learn.readthedocs.io/en/latest/}. Acesso em: 21 abr. 2026.}
+
 \bibitem[Mitchell 1997]{Mitchell1997}
 \abntrefinfo{Mitchell}{MITCHELL}{1997}
 {MITCHELL, T.~M. \textbf{Machine Learning}. [S.l.]: McGraw-Hill, 1997.}
