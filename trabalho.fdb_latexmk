@@ -1,16 +1,16 @@
 # Fdb version 4
-["bibtex trabalho"] 1776917973.23145 "trabalho.aux" "trabalho.bbl" "trabalho" 1776918095.25403 0
-  "./referencias.bib" 1776915728.0532 21110 ed233d08da397796d5f13f905898a57e ""
+["bibtex trabalho"] 1776919210.59872 "trabalho.aux" "trabalho.bbl" "trabalho" 1777068680.24577 0
+  "./referencias.bib" 1776919209.92098 23453 2785016bdcf3515fe69c5cdab83c0bce ""
   "/usr/share/texlive/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1357081713 5396 4eb260dac60f150ae608d45252853090 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/abntex2/abntex2-alf.bst" 1543183680 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "trabalho.aux" 1776918093.67266 16846 5b98051c3aa845bfee6ec11a546062e5 "pdflatex"
+  "trabalho.aux" 1777068678.64051 28764 3a62f4f626ad5c6cfbd9e6ba95defa8d "pdflatex"
   (generated)
   "trabalho.bbl"
   "trabalho.blg"
   (rewritten before read)
-["pdflatex"] 1776918087.80829 "/home/gabast/vscode/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1776918095.25476 0
+["pdflatex"] 1777068672.90416 "/home/gabast/vscode/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1777068680.24657 0
   "/etc/texmf/web2c/texmf.cnf" 1772717898.14669 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/gabast/vscode/TCC/trabalho.tex" 1776918086.97593 106080 0b72bdda9dd75b5638017dc4374da451 ""
+  "/home/gabast/vscode/TCC/trabalho.tex" 1777068671.74412 120023 5869bae72415badb3b1c0952dbe1a8a4 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm" 1136768653 4484 b828043cbd581d289d955903c1339981 ""
@@ -227,10 +227,10 @@
   "img/oqueecancercelulas.jpg" 1775618377.41762 65904 c598ab3700156a0c566b149278778496 ""
   "img/venn_ia_ml_dp.jpg" 1776020715.28467 31984 421c9ce84bce4d6d44bb27370e8bfe1b ""
   "packages/abnt-UTP.sty" 1772728226 26459 8b8138a213056e2e9d3339891c26d939 ""
-  "trabalho.aux" 1776918093.67266 16846 5b98051c3aa845bfee6ec11a546062e5 "pdflatex"
-  "trabalho.bbl" 1776917973.63383 5469 3e73291bb0260a7da6742ee2acb9b649 "bibtex trabalho"
-  "trabalho.lof" 1776918093.68566 301 e385619d1d6c586acfe1a44018640825 "pdflatex"
-  "trabalho.tex" 1776918086.97593 106080 0b72bdda9dd75b5638017dc4374da451 ""
+  "trabalho.aux" 1777068678.64051 28764 3a62f4f626ad5c6cfbd9e6ba95defa8d "pdflatex"
+  "trabalho.bbl" 1776919211.20455 7637 62ba4e5c00ee0128ebc88b22b3289b63 "bibtex trabalho"
+  "trabalho.lof" 1777068678.66051 301 e385619d1d6c586acfe1a44018640825 "pdflatex"
+  "trabalho.tex" 1777068671.74412 120023 5869bae72415badb3b1c0952dbe1a8a4 ""
   (generated)
   "trabalho.aux"
   "trabalho.lof"

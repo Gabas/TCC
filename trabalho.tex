@@ -315,6 +315,140 @@ Uma vez que essa rede de vizinhanças é estabelecida, a segunda fase do algorit
 
 O grande diferencial técnico desta arquitetura algorítmica reside na sua capacidade matemática de preservar simultaneamente a estrutura local e a estrutura global do conjunto de dados originais. Ao contrário de técnicas anteriores que frequentemente sacrificam a disposição geral em prol do ajuste de vizinhanças imediatas, o UMAP assegura que as proporções de distância sejam mantidas na projeção visual. Como resultado geométrico direto desse processamento topológico, elementos de dados com propriedades numéricas semelhantes convergem naturalmente para regiões isoladas do gráfico, formando densos agrupamentos visuais conhecidos na estatística descritiva como \textit{clusters}. Essa capacidade inerente de revelar a separabilidade natural de bases complexas consolida o método como um recurso indispensável na análise exploratória avançada.
 
+
+
+
+
+
+
+
+
+
+% % -------------------------------------------------------------------------------------------------
+% % -------------------------------------------------------------------------------------------------
+% % 3. TRABALHOS RELACIONADOS
+% % -------------------------------------------------------------------------------------------------
+% % -------------------------------------------------------------------------------------------------
+
+\chapter{Trabalhos Relacionados}
+
+Este capítulo apresenta uma análise detalhada da literatura científica que fundamenta o estado da arte no uso de aprendizado de máquina para o diagnóstico oncológico. A seleção abrange desde os estudos seminais que deram origem às bases de dados modernas até pesquisas recentes focadas em inteligência artificial explicável, estabelecendo o contexto necessário para a identificação da lacuna de pesquisa preenchida por este projeto.
+
+\section{Extração de Características Nucleares para o Diagnóstico de Tumores Mamários (Street et al., 1993)}
+
+O trabalho conduzido por \citeonline{Street1993} é considerado a pedra angular para o desenvolvimento de sistemas de diagnóstico assistido por computador aplicados ao câncer de mama. O objetivo primordial da pesquisa foi desenvolver um sistema que pudesse processar imagens digitais de aspirados por agulha fina para fornecer um diagnóstico maligno ou benigno de forma automatizada e precisa.
+
+A metodologia baseou-se na criação de um sistema de análise de imagens que permitia ao usuário delimitar grosseiramente as bordas dos núcleos celulares. A partir dessa interação inicial, o software calculava automaticamente dez características geométricas distintas para cada núcleo, incluindo o raio, o perímetro, a textura e a simetria. Esse processo gerou a base de dados conhecida como \textit{Wisconsin Diagnostic Breast Cancer} (WDBC), que é utilizada como padrão ouro na literatura acadêmica até os dias atuais.
+
+Os resultados obtidos na época demonstraram uma acurácia de classificação de noventa e sete por cento utilizando um classificador baseado em programação linear. O trabalho provou que as medidas nucleares, quando extraídas de forma sistemática, continham informações estatísticas suficientes para diferenciar tumores sem a necessidade de intervenções invasivas imediatas.
+
+Para este projeto de graduação, este estudo é fundamental pois define a origem e o significado biológico de cada uma das variáveis que serão processadas pelos modelos de SHAP e UMAP. Compreender a gênese dos dados permite uma interpretação mais rica das explicações fornecidas pela inteligência artificial explicável.
+
+\section{Aplicações de Machine Learning na Predição e Prognóstico do Câncer (Cruz e Wishart, 2006)}
+
+A revisão sistemática elaborada por \citeonline{Cruz2006} ofereceu um panorama crítico sobre como as técnicas de aprendizado de máquina estavam migrando de laboratórios de pesquisa para aplicações práticas no prognóstico oncológico. O foco do estudo foi avaliar a viabilidade de substituir métodos estatísticos convencionais por modelos preditivos mais robustos.
+
+Os autores analisaram diversas arquiteturas, como as Máquinas de Vetores de Suporte (SVM) e Redes Neurais Artificiais, destacando que a complexidade biológica do câncer exigia ferramentas capazes de lidar com relacionamentos não lineares. A pesquisa ressaltou que, embora o câncer de mama fosse o mais estudado, a metodologia poderia ser estendida para outros tipos de neoplasias, como as de próstata e pulmão.
+
+Uma das conclusões mais relevantes deste trabalho foi a identificação de que a acurácia isolada não era o único fator de sucesso. Os pesquisadores apontaram que a qualidade dos dados de entrada e a seleção cuidadosa de variáveis eram determinantes para a utilidade clínica do modelo.
+
+Este estudo serve como justificativa teórica para a escolha de algoritmos mais complexos neste TCC. Ele reforça a necessidade de evoluir além da estatística básica para capturar as nuances morfológicas que definem a malignidade celular, validando a abordagem tecnológica adotada.
+
+\section{Segmentação e Contagem de Células em Imagens (Silva Júnior, 2018)}
+
+Desenvolvido no contexto acadêmico de Curitiba, o trabalho de \citeonline{SilvaJunior2018} focou no desenvolvimento de um \textit{pipeline} detalhado para o processamento digital de imagens microscópicas de câncer de mama. O objetivo era automatizar a tarefa exaustiva de contagem e segmentação de núcleos celulares realizada por patologistas.
+
+A abordagem metodológica utilizou técnicas de processamento de imagens para isolar componentes celulares e reduzir o ruído visual das lâminas. O autor detalhou cada etapa do fluxo de trabalho, desde a captura da imagem até a extração final de dados quantitativos, enfatizando os desafios técnicos de lidar com células sobrepostas ou imagens de baixa qualidade.
+
+Embora o foco principal fosse a segmentação e não a classificação preditiva, o trabalho demonstrou a importância de transformar evidências visuais em dados tabulares estruturados. O autor concluiu que a automação dessas etapas iniciais reduz significativamente a fadiga do profissional de saúde e aumenta a reprodutibilidade dos diagnósticos.
+
+A relevância deste estudo para o presente projeto reside na compreensão da infraestrutura necessária para gerar os dados de entrada. Enquanto este TCC foca na inteligência preditiva e explicável sobre dados já estruturados, o trabalho de Silva Júnior fornece a base sobre como esses dados são extraídos do mundo físico.
+
+\section{Diagnóstico de Câncer de Pulmão e Cólon via Deep Learning (Masud et al., 2021)}
+
+A pesquisa de \citeonline{Masud2021} explorou o uso de Redes Neurais Profundas para o diagnóstico de câncer em tecidos pulmonares e colorretais. O diferencial do trabalho foi o uso de uma estrutura de classificação baseada em imagens de histopatologia para identificar padrões malignos de forma automática.
+
+O modelo desenvolvido utilizou técnicas de aprendizado profundo para extrair características de alto nível que muitas vezes são imperceptíveis ao olho humano. Os autores conseguiram alcançar métricas de desempenho superiores a noventa e seis por cento de acurácia, demonstrando o poder das arquiteturas modernas de inteligência artificial na oncologia.
+
+Contudo, os pesquisadores notaram que modelos de rede neural profunda, apesar de precisos, operam como sistemas de difícil interpretação. O estudo concluiu que a integração de sistemas computacionais na medicina requer um equilíbrio entre a capacidade de processamento e a facilidade de uso pelo corpo clínico.
+
+Este trabalho é citado para contrastar com a abordagem tabular deste TCC. Ele exemplifica o estado da arte em processamento de imagens, servindo de base para discutir por que a explicabilidade se torna ainda mais necessária quando lidamos com modelos de alta complexidade como os de \textit{Deep Learning}.
+
+\section{Predição de Câncer de Pulmão com Seleção de Correlação (Abdullah et al., 2021)}
+
+Focando na eficiência computacional, \citeonline{Abdullah2021} investigaram como a seleção inteligente de variáveis pode melhorar a precisão do diagnóstico de câncer de pulmão. O objetivo era identificar quais características clínicas e genéticas eram mais correlacionadas com a presença da doença.
+
+A metodologia utilizou a ferramenta WEKA para testar diversos classificadores, com destaque para as Máquinas de Vetores de Suporte (SVM). Os autores aplicaram um método de seleção baseado em correlação para remover variáveis irrelevantes ou redundantes, buscando um modelo mais enxuto e rápido.
+
+Os resultados mostraram que modelos com menos variáveis, porém mais significativas, apresentavam desempenho equivalente ou superior a modelos que utilizavam todos os dados disponíveis. Isso demonstrou que o excesso de informação pode, por vezes, prejudicar o aprendizado da máquina.
+
+Este estudo corrobora a utilidade do UMAP no presente projeto. Ao discutir a redução de dimensionalidade, o trabalho de Abdullah et al. fornece o embasamento sobre como a simplificação de dados complexos pode levar a diagnósticos mais precisos e interpretáveis.
+
+\section{Abordagens de Machine Learning na Predição do Câncer de Mama (Rabiei et al., 2022)}
+
+O estudo de \citeonline{Rabiei2022} avaliou diferentes algoritmos de aprendizado de máquina aplicados a dados hospitalares reais de câncer de mama. O foco principal foi lidar com o problema de bases de dados desbalanceadas, onde o número de casos benignos costuma ser muito superior aos malignos.
+
+Os pesquisadores testaram modelos como Regressão Logística, \textit{Random Forest} e Redes Neurais. Para corrigir o desbalanceamento, utilizaram técnicas de sobreamostragem, permitindo que os algoritmos aprendessem com a mesma eficácia sobre ambas as classes de tumores.
+
+As conclusões apontaram que o algoritmo \textit{Random Forest} obteve o melhor equilíbrio entre sensibilidade e especificidade. O trabalho enfatizou que o ajuste de hiperparâmetros e o pré-processamento rigoroso são as chaves para a obtenção de modelos confiáveis em ambientes médicos.
+
+Para este TCC, a pesquisa de Rabiei et al. serve como uma referência metodológica para a fase de treinamento dos modelos. Ela valida a inclusão de comitês de árvores no conjunto de classificadores a serem testados e explicados via SHAP.
+
+\section{Predição Baseada em Aprendizado de Máquina (Chen et al., 2023)}
+
+A pesquisa de \citeonline{Chen2023} revisitou o desafio da classificação do câncer de mama focando na robustez das métricas de avaliação. O objetivo era determinar quais algoritmos eram mais seguros para a adoção clínica, priorizando a redução de falsos negativos.
+
+O estudo utilizou a base de dados de Wisconsin para treinar modelos e compará-los através de curvas ROC e métricas de precisão. Os autores destacaram que a inteligência artificial não deve ser vista como um substituto para o médico, mas como uma ferramenta de segunda opinião capaz de filtrar casos suspeitos com alta velocidade.
+
+Os resultados confirmaram a eficácia dos modelos de \textit{Boosting} para este tipo de dado tabular. A pesquisa concluiu que a integração desses modelos em sistemas de apoio à decisão poderia acelerar significativamente o início do tratamento de pacientes oncológicos.
+
+Este trabalho é relevante por ser uma das publicações mais recentes sobre a mesma base de dados utilizada neste projeto. Ele estabelece o patamar de acurácia que este TCC deve buscar atingir ou superar antes de aplicar as camadas de explicabilidade.
+
+\section{Estudo Comparativo com Seleção LASSO e SHAP (Shaon et al., 2024)}
+
+Considerado o trabalho mais próximo da proposta deste TCC, \citeonline{Shaon2024} realizaram uma comparação de modelos preditivos utilizando técnicas modernas de seleção de atributos e explicabilidade. O objetivo era não apenas prever o câncer, mas entender quais variáveis eram determinantes para o modelo.
+
+A metodologia integrou o uso de LASSO para a regularização dos dados e o SHAP para a interpretabilidade local e global. Os autores alcançaram uma acurácia de noventa e nove por cento, demonstrando que é possível unir alto desempenho com transparência analítica.
+
+O estudo concluiu que o uso de valores de Shapley oferece uma justificativa robusta para cada diagnóstico, permitindo que médicos confiem nos resultados apresentados. No entanto, o trabalho limitou-se à análise técnica dos dados, sem propor uma ferramenta de interface para o usuário final.
+
+Este artigo representa o "estado da arte"\ atual e serve como o principal ponto de comparação. O diferencial deste TCC em relação ao trabalho de Shaon et al. é a inclusão do UMAP para visualização topológica e o desenvolvimento de um software completo com interface gráfica, indo além da análise estatística pura.
+
+\section{Síntese e Lacuna de Pesquisa}
+
+A análise dos trabalhos relacionados permite concluir que, embora existam pesquisas robustas focadas na acurácia preditiva e estudos recentes explorando a técnica SHAP, ainda há uma carência de soluções que integrem esses elementos em uma ferramenta de software coesa e utilizável pelo profissional de saúde.
+
+Muitos dos modelos propostos na literatura permanecem restritos a ambientes de programação ou relatórios estáticos. O Quadro \ref{tab:trabalhos_relacionados} sintetiza a comparação entre as obras citadas e a proposta deste projeto, evidenciando que a união de classificação de alta performance, explicabilidade (SHAP), redução de dimensionalidade visual (UMAP) e interface de processamento em lote constitui o diferencial competitivo e a inovação acadêmica deste trabalho.
+
+\begin{table}[ht]
+    \centering
+    \caption{Comparação entre Trabalhos Relacionados e o Presente Projeto}
+    \label{tab:trabalhos_relacionados}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{lcccccc}
+        \toprule
+        Trabalho & ML & Base Pública & Tabular & Mama & Interface & XAI \\
+        \midrule
+        Street et al. (1993) & Sim & Não & Não & Sim & Sim & Não \\
+        Cruz \& Wishart (2006) & Sim & Sim & Sim & Não & Não & Não \\
+        Silva Júnior (2018) & Não & Sim & Não & Sim & Não & Não \\
+        Masud et al. (2021) & Sim & Sim & Não & Não & Não & Não \\
+        Abdullah (2021) & Sim & Sim & Sim & Não & Não & Não \\
+        Rabiei et al. (2022) & Sim & Não & Sim & Sim & Não & Não \\
+        Chen et al. (2023) & Sim & Sim & Sim & Sim & Não & Não \\
+        Shaon et al. (2024) & Sim & Sim & Sim & Sim & Não & Sim \\
+        \midrule
+        Este Projeto & Sim & Sim & Sim & Sim & Sim & Sim \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+
+
+
+
+
 % % -------------------------------------------------------------------------------------------------
 % % -------------------------------------------------------------------------------------------------
 % % 2. ORGANIZAÇÃO
