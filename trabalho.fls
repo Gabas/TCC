@@ -399,6 +399,12 @@ INPUT ./img/venn_ia_ml_dp.jpg
 INPUT ./img/venn_ia_ml_dp.jpg
 INPUT ./img/venn_ia_ml_dp.jpg
 INPUT ./img/venn_ia_ml_dp.jpg
+INPUT ./img/CM_Exemplo.png
+INPUT ./img/CM_Exemplo.png
+INPUT ./img/CM_Exemplo.png
+INPUT ./img/CM_Exemplo.png
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
 INPUT ./trabalho.bbl
 INPUT ./trabalho.bbl
 INPUT trabalho.bbl

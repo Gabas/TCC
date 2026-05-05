@@ -158,7 +158,7 @@ Apesar do notável desempenho preditivo, a adoção clínica dessas tecnologias 
 
 É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir" essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) e anomalias de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
 
-Diante disso, surge o seguinte problema de pesquisa: integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde.
+Diante disso, surge o seguinte problema de pesquisa: como integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde?
 
 O objetivo deste trabalho é desenvolver um software integrado a um modelo preditivo para a classificação de tumores mamários (benignos ou malignos), utilizando algoritmos de Machine Learning e a base de dados pública Breast Cancer Wisconsin. O intuito principal é mitigar a opacidade característica dos modelos de "caixa preta", fornecendo aos profissionais de saúde diagnósticos preditivos que unam alta precisão analítica a justificativas clínicas transparentes.
 
@@ -244,13 +244,63 @@ Essa metodologia de divisão geralmente particiona os dados em três grupos: Tre
 
 \subsection{Métricas de Avaliação de Desempenho}
 
-Após submeter o conjunto de teste ao algoritmo, é fundamental quantificar o seu desempenho clínico. Na classificação binária, a base para qualquer avaliação é a construção de uma Matriz de Confusão. Essa ferramenta organiza os resultados das previsões em quatro categorias possíveis. Os Verdadeiros Positivos representam os tumores malignos corretamente identificados, enquanto os Verdadeiros Negativos são os tumores benignos confirmados. Por outro lado, os erros são divididos em Falsos Positivos, que ocorrem quando um tumor benigno gera um alarme falso de malignidade, e Falsos Negativos, que acontecem quando o sistema ignora um tumor maligno e o classifica como inofensivo. Em um cenário oncológico, o falso negativo representa a falha mais crítica do modelo, pois resulta em um paciente doente que é liberado sem receber o tratamento adequado.
+% Matriz de Confusão
+Após submeter o conjunto de teste ao algoritmo, é fundamental quantificar o seu desempenho clínico. Na classificação binária, a base para qualquer avaliação é a construção de uma Matriz de Confusão. Essa ferramenta organiza os resultados das previsões em quatro categorias possíveis. Os Verdadeiros Positivos (VP) representam os tumores malignos corretamente identificados, enquanto os Verdadeiros Negativos (VN) são os tumores benignos confirmados. Por outro lado, os erros são divididos em Falsos Positivos (FP), que ocorrem quando um tumor benigno gera um alarme falso de malignidade, e Falsos Negativos (FN), que acontecem quando o sistema ignora um tumor maligno e o classifica como inofensivo. Em um cenário oncológico, o falso negativo representa a falha mais crítica do modelo, pois resulta em um paciente doente que é liberado sem receber o tratamento adequado \cite{James2023}.
 
-A métrica mais intuitiva extraída dessa matriz é a acurácia, que representa a taxa geral de acertos do modelo. Contudo, confiar exclusivamente na acurácia é um erro metodológico perigoso na área da saúde devido ao problema matemático das classes desbalanceadas. Considere uma situação onde a base de dados possui noventa e nove pacientes saudáveis para cada paciente com câncer. Se um algoritmo quebrado simplesmente classificar todas as pessoas do mundo como saudáveis, ele obterá uma acurácia de noventa e nove por cento. Apesar de parecer um sucesso estatístico absoluto, o modelo seria clinicamente inútil e letal para a pequena parcela de pacientes doentes \cite{Faceli2011}.
+A Figura~\ref{fig:matriz_confusao} ilustra um exemplo dessa estrutura, onde os acertos do modelo concentram-se na diagonal principal (430 VN e 61 VP), enquanto os erros aparecem nos quadrantes secundários (6 FP e 3 FN).
+\begin{figure}[htpb]
+    \centering
+    \caption{Exemplo Ilustrativo de uma Matriz de Confusão}
+    \includegraphics[width=0.55\textwidth]{CM_Exemplo.png}
+    \label{fig:matriz_confusao}
+    \fonte{O Autor}
+\end{figure}
 
-Para contornar essa ilusão estatística, o desempenho deve ser avaliado por métricas específicas que observam os erros separadamente. A sensibilidade, também conhecida na literatura internacional como \textit{recall}, mede a capacidade do algoritmo de rastrear e encontrar todos os pacientes que realmente estão doentes. Em paralelo, a precisão avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era. Como frequentemente existe uma balança entre essas duas métricas, onde o aumento de uma pode diminuir a outra, utiliza-se a métrica \textit{F1-score}. Esse indicador calcula a média harmônica entre a precisão e a sensibilidade, fornecendo um único número que atesta o equilíbrio e a segurança geral do classificador.
 
-A avaliação final do modelo é consolidada visualmente pela Curva de Característica de Operação do Receptor, amplamente referenciada pela sigla em inglês ROC. Essa curva ilustra graficamente a relação entre a taxa de acertos em pacientes doentes e a taxa de alarmes falsos em pacientes saudáveis. Para resumir essa visualização em uma nota clara, calcula-se a área sob a curva, denominada métrica AUC. O valor da AUC varia de zero a um, sendo que um resultado igual a um indica um classificador estatisticamente perfeito, capaz de separar totalmente os tumores benignos dos malignos. Por oferecer essa visão ampla do comportamento do modelo independentemente do equilíbrio dos dados, a AUC é considerada a métrica de ouro para comparar diferentes algoritmos oncológicos \cite{Faceli2011}.
+
+% Acurácia
+A métrica mais intuitiva extraída dessa matriz é a acurácia, que representa a taxa geral de acertos do modelo. Contudo, confiar exclusivamente na acurácia é um erro metodológico perigoso na área da saúde devido ao problema matemático das classes desbalanceadas. Considere uma situação onde a base de dados possui noventa e nove pacientes saudáveis para cada paciente com câncer. Se um algoritmo quebrado simplesmente classificar todas as pessoas do mundo como saudáveis, ele obterá uma acurácia de 99\%. Apesar de parecer um sucesso estatístico absoluto, o modelo seria clinicamente inútil e letal para a pequena parcela de pacientes doentes \cite{Faceli2011}. Matematicamente, a acurácia é calculada pela razão entre as predições corretas e o total de predições, conforme a Equação \ref{eq:acuracia}. Seu resultado é expresso em uma escala de 0 a 1, onde valores próximos a 1 indicam maior acerto global.
+\begin{equation}
+    \label{eq:acuracia}
+    Accuracy = \frac{VP + VN}{VP + VN + FP + FN}
+\end{equation}
+
+
+
+% Sensibilidade/Recall
+Para contornar essa ilusão estatística, o desempenho do modelo deve ser avaliado por métricas que observam os acertos e erros de cada classe de forma isolada. A sensibilidade, também conhecida na literatura como revocação (\textit{recall}), mede a capacidade do algoritmo de identificar corretamente os pacientes que realmente possuem a doença, sendo expressa pela Equação \ref{eq:sensibilidade} \cite{Davis2006}.
+
+\begin{equation}
+    \label{eq:sensibilidade}
+    Recall = \frac{VP}{VP + FN}
+\end{equation}
+
+
+
+% Precisão
+Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era, expressada pela Equação \ref{eq:precisao} \cite{Davis2006}.
+
+\begin{equation}
+    \label{eq:precisao}
+    Precision = \frac{VP}{VP + FP}
+\end{equation}
+
+
+
+% F1-Score
+Como frequentemente existe uma balança entre essas duas métricas, onde o aumento de uma pode diminuir a outra, utiliza-se a métrica \textit{F1-score}. Esse indicador calcula a média harmônica entre a precisão e a sensibilidade, fornecendo um único número que atesta o equilíbrio e a segurança geral do classificador \cite{Manning2006}. O \textit{F1-score} consolida esses valores através da Equação \ref{eq:f1score}.
+
+\begin{equation}
+    \label{eq:f1score}
+    F1\text{-}Score = 2 \times \frac{Precis\tilde{a}o \times Sensibilidade}{Precis\tilde{a}o + Sensibilidade}
+\end{equation}
+
+
+
+% ROC e AUC
+A avaliação final do modelo é consolidada visualmente pela Curva de Característica de Operação do Receptor, amplamente referenciada pela sigla em inglês ROC. Essa curva ilustra graficamente a relação entre a taxa de acertos em pacientes doentes e a taxa de alarmes falsos em pacientes saudáveis. Para resumir essa visualização em uma nota clara, calcula-se a área sob a curva, denominada métrica AUC. O valor da AUC varia de zero a um, sendo que um resultado igual a um indica um classificador estatisticamente perfeito, capaz de separar totalmente os tumores benignos dos malignos. Por oferecer essa visão ampla do comportamento do modelo independentemente do equilíbrio dos dados, a AUC é considerada a métrica de ouro para comparar diferentes algoritmos oncológicos \cite{Faceli2011}. 
+
+Adicionalmente, em cenários médicos onde o desbalanceamento das classes é crítico, a literatura moderna recomenda a utilização do gráfico de Curva Precisão-Revocação (\textit{Precision-Recall Curve}). Enquanto a Curva ROC plota a Sensibilidade no eixo y contra a taxa de falsos positivos no eixo x, a Curva PR plota a Precisão contra a Sensibilidade. O cálculo integral sob este gráfico gera a métrica PR-AUC (\textit{Area Under the PR Curve}). Ao contrário da ROC-AUC, a métrica PR-AUC ignora o grande volume de pacientes saudáveis (Verdadeiros Negativos), focando o seu rigor estatístico exclusivamente na capacidade do algoritmo em classificar a doença com exatidão. Uma pontuação PR-AUC elevada indica que o sistema consegue identificar quase todos os tumores malignos sem disparar alarmes falsos, o que a torna indispensável na validação oncológica \cite{Davis2006}.
 
 \subsection{Principais Algoritmos Classificadores}
 
@@ -299,7 +349,7 @@ Para compreender como a biblioteca computacional distribui os pesos das caracter
     \phi_i = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|! (|N| - |S| - 1)!}{|N|!} [v(S \cup \{i\}) - v(S)]
 \end{equation}
 
-A interpretação desta fórmula revela a essência do método explicativo. O termo $v(S \cup \{i\}) - v(S)$ representa a contribuição marginal da característica $i$. Na prática médica, ele calcula a diferença entre a predição de risco do modelo quando a característica $i$ (como a simetria celular) está presente no exame e a predição quando ela é omitida daquela combinação específica. O algoritmo calcula essa diferença não apenas uma vez, mas para todos os subconjuntos $S$ possíveis formados pelas outras variáveis do modelo.
+A interpretação desta equação revela a essência do método explicativo. O termo $v(S \cup \{i\}) - v(S)$ representa a contribuição marginal da característica $i$. Na prática médica, ele calcula a diferença entre a predição de risco do modelo quando a característica $i$ (como a simetria celular) está presente no exame e a predição quando ela é omitida daquela combinação específica. O algoritmo calcula essa diferença não apenas uma vez, mas para todos os subconjuntos $S$ possíveis formados pelas outras variáveis do modelo.
 
 A fração que antecede a contribuição marginal atua como um sistema de pesos baseado em probabilidade combinatória. Os termos fatoriais, representados pelo símbolo de exclamação, calculam o peso exato daquela coalizão específica se formar, garantindo que o valor final seja distribuído de maneira perfeitamente justa. Por fim, o somatório agrega todas essas contribuições marginais ponderadas. O resultado é um único valor $\phi_i$ que quantifica, com exatidão matemática, o impacto líquido que aquela característica anatômica exerceu para elevar ou reduzir a probabilidade de o tumor ser classificado como maligno.
 
@@ -352,7 +402,7 @@ Os autores analisaram diversas arquiteturas, como as Máquinas de Vetores de Sup
 
 Uma das conclusões mais relevantes deste trabalho foi a identificação de que a acurácia isolada não era o único fator de sucesso. Os pesquisadores apontaram que a qualidade dos dados de entrada e a seleção cuidadosa de variáveis eram determinantes para a utilidade clínica do modelo.
 
-Este estudo serve como justificativa teórica para a escolha de algoritmos mais complexos neste TCC. Ele reforça a necessidade de evoluir além da estatística básica para capturar as nuances morfológicas que definem a malignidade celular, validando a abordagem tecnológica adotada.
+Este estudo corrobora a necessidade de superar as limitações da estatística básica na oncologia. No entanto, a busca por capturar as nuances da malignidade celular não deve resultar em modelos de complexidade interpretativa inacessível. A abordagem deste trabalho enfatiza que, no contexto médico, modelos preditivos que priorizam a simplicidade e a explicabilidade trazem vantagens substanciais, permitindo que a equipe de saúde compreenda e confie nos critérios lógicos que fundamentam o diagnóstico.
 
 \section{Segmentação e Contagem de Células em Imagens (Silva Júnior, 2018)}
 
