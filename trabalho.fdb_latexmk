@@ -1,16 +1,16 @@
 # Fdb version 4
-["bibtex trabalho"] 1777949640.46043 "trabalho.aux" "trabalho.bbl" "trabalho" 1777949647.61042 0
+["bibtex trabalho"] 1778003203.93766 "trabalho.aux" "trabalho.bbl" "trabalho" 1778003213.08716 0
   "./referencias.bib" 1777948097.20972 24271 fbdd95263aef92c093a0455d9fb66bef ""
   "/usr/share/texlive/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1357081713 5396 4eb260dac60f150ae608d45252853090 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/abntex2/abntex2-alf.bst" 1543183680 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "trabalho.aux" 1777949645.84935 30397 72aa43022a5f2b226cc5073d23d2eba1 "pdflatex"
+  "trabalho.aux" 1778003211.14835 30779 532a39b82dd3484386f24f2c1b0675a7 "pdflatex"
   (generated)
   "trabalho.bbl"
   "trabalho.blg"
   (rewritten before read)
-["pdflatex"] 1777949640.93439 "/home/gabast/vscode/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1777949647.61137 0
+["pdflatex"] 1778003204.47504 "/home/gabast/vscode/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1778003213.08797 0
   "/etc/texmf/web2c/texmf.cnf" 1772717898.14669 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/gabast/vscode/TCC/trabalho.tex" 1777949629.40873 122714 025bfee6baa90f2bd5161fc059aa1c1e ""
+  "/home/gabast/vscode/TCC/trabalho.tex" 1778003192.83407 123660 4dc5f97f0af470c9ea2e812cde17ef07 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm" 1136768653 4484 b828043cbd581d289d955903c1339981 ""
@@ -226,13 +226,14 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1772718154 8214133 704b39833b98a2e777a167c808639fb0 ""
   "img/CM_Exemplo.png" 1777943431.82364 6635 f8932c4687d7ab76116db474e6169a55 ""
   "img/oqueecancercelulas.jpg" 1775618377.41762 65904 c598ab3700156a0c566b149278778496 ""
+  "img/roc_pr.png" 1778002408.6723 96421 de2bb4206fa6d78b8799a540c56546b2 ""
   "img/venn_ia_ml_dp.jpg" 1776020715.28467 31984 421c9ce84bce4d6d44bb27370e8bfe1b ""
   "packages/abnt-UTP.sty" 1772728226 26459 8b8138a213056e2e9d3339891c26d939 ""
-  "trabalho.aux" 1777949645.84935 30397 72aa43022a5f2b226cc5073d23d2eba1 "pdflatex"
-  "trabalho.bbl" 1777949640.91643 8451 05693d2985d9c405683a2679dc97ecc2 "bibtex trabalho"
-  "trabalho.lof" 1777949645.86925 427 0a8a04411c4bedd2b6577c943e9e6122 "pdflatex"
-  "trabalho.lot" 1777949645.87025 169 f6b61a8ef0a7249b2479b3da3ac714ac "pdflatex"
-  "trabalho.tex" 1777949629.40873 122714 025bfee6baa90f2bd5161fc059aa1c1e ""
+  "trabalho.aux" 1778003211.14835 30779 532a39b82dd3484386f24f2c1b0675a7 "pdflatex"
+  "trabalho.bbl" 1778003204.45821 8451 05693d2985d9c405683a2679dc97ecc2 "bibtex trabalho"
+  "trabalho.lof" 1778003211.17335 584 3297e3cd324a4d1215c84acbba399428 "pdflatex"
+  "trabalho.lot" 1778003211.17335 169 19febff9282b01f5afd3cd991e86c29c "pdflatex"
+  "trabalho.tex" 1778003192.83407 123660 4dc5f97f0af470c9ea2e812cde17ef07 ""
   (generated)
   "trabalho.aux"
   "trabalho.lof"

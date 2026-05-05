@@ -177,7 +177,8 @@ Este capítulo destina-se à fundamentação teórica que sustenta a pesquisa, c
 
 \section{O Câncer de Mama e a Análise Morfológica}
 
-O termo câncer abrange um complexo conjunto de mais de cem doenças malignas que têm como denominador comum o crescimento desordenado e incontrolável das células. A base biológica dessa patologia reside na perda estrutural e funcional dos mecanismos de regulação celular. Esse processo de formação tumoral, cientificamente denominado carcinogênese ou oncogênese, é engatilhado quando o ácido desoxirribonucleico (DNA), a "memória química"\ que guarda as instruções das atividades celulares, sofre alterações críticas. Em condições normais, genes reguladores específicos chamados proto-oncogenes permanecem inativos; contudo, sob a ação de fatores cancerígenos cumulativos, eles sofrem mutações e são ativados, convertendo-se em oncogenes. Essa ativação desencadeia um processo lento e progressivo composto por três estágios: a \textit{iniciação}, onde a célula sofre a alteração genética primária de forma silenciosa; a \textit{promoção}, fase em que agentes externos ou internos transformam gradual e lentamente essa célula iniciada em uma estrutura maligna; e, por fim, a \textit{progressão}, caracterizada pela multiplicação descontrolada e irreversível das células alteradas, culminando na consolidação clínica do tumor e em seu potencial de invasão \cite{Inca-como-surge-cancer}.
+O termo câncer abrange um complexo conjunto de mais de cem doenças malignas que têm como denominador comum o crescimento desordenado e incontrolável das células. A base biológica dessa patologia reside na perda estrutural e funcional dos mecanismos de regulação celular. Esse processo de formação tumoral, cientificamente denominado carcinogênese ou oncogênese, é engatilhado quando o ácido desoxirribonucleico (DNA), a "memória química"\ que guarda as instruções das atividades celulares, sofre alterações críticas. Em condições normais, genes reguladores específicos chamados proto-oncogenes permanecem inativos; contudo, sob a ação de fatores cancerígenos cumulativos, eles sofrem mutações e são ativados, convertendo-se em oncogenes. Essa ativação desencadeia um processo lento e progressivo composto por três estágios: a iniciação, onde a célula sofre a alteração genética primária de forma silenciosa; a promoção, fase em que agentes externos ou internos transformam gradual e lentamente essa célula iniciada em uma estrutura maligna; e, por fim, a progressãoyaior
+, caracterizada pela multiplicação descontrolada e irreversível das células alteradas, culminando na consolidação clínica do tumor e em seu potencial de invasão \cite{Inca-como-surge-cancer}.
 
 O tipo mais comum desta doença é classificado como carcinoma, uma nomeação atribuída aos tumores malignos que se originam nas células epiteliais, que são os tecidos responsáveis por revestir as superfícies internas e externas do corpo humano. Dependendo do tipo específico de célula epitelial afetada, o carcinoma recebe denominações distintas. No contexto anatômico do câncer de mama, a manifestação predominante é o adenocarcinoma, um subtipo que se desenvolve especificamente nas células epiteliais dos tecidos glandulares, cuja função biológica é produzir fluidos e muco \cite{Nci-what-is-cancer}.
 
@@ -259,30 +260,30 @@ A Figura~\ref{fig:matriz_confusao} ilustra um exemplo dessa estrutura, onde os a
 
 
 % Acurácia
-A métrica mais intuitiva extraída dessa matriz é a acurácia, que representa a taxa geral de acertos do modelo. Contudo, confiar exclusivamente na acurácia é um erro metodológico perigoso na área da saúde devido ao problema matemático das classes desbalanceadas. Considere uma situação onde a base de dados possui noventa e nove pacientes saudáveis para cada paciente com câncer. Se um algoritmo quebrado simplesmente classificar todas as pessoas do mundo como saudáveis, ele obterá uma acurácia de 99\%. Apesar de parecer um sucesso estatístico absoluto, o modelo seria clinicamente inútil e letal para a pequena parcela de pacientes doentes \cite{Faceli2011}. Matematicamente, a acurácia é calculada pela razão entre as predições corretas e o total de predições, conforme a Equação \ref{eq:acuracia}. Seu resultado é expresso em uma escala de 0 a 1, onde valores próximos a 1 indicam maior acerto global.
+A métrica mais intuitiva extraída dessa matriz é a acurácia (\textit{accuracy}), que representa a taxa geral de acertos do modelo. Contudo, confiar exclusivamente na acurácia é um erro metodológico perigoso na área da saúde devido ao problema matemático das classes desbalanceadas. Considere uma situação onde a base de dados possui noventa e nove pacientes saudáveis para cada paciente com câncer. Se um algoritmo quebrado simplesmente classificar todas as pessoas do mundo como saudáveis, ele obterá uma acurácia de 99\%. Apesar de parecer um sucesso estatístico absoluto, o modelo seria clinicamente inútil e letal para a pequena parcela de pacientes doentes \cite{Faceli2011}. Matematicamente, a acurácia é calculada pela razão entre as predições corretas e o total de predições, conforme a Equação \ref{eq:acuracia}. Seu resultado é expresso em uma escala de 0 a 1, onde valores próximos a 1 indicam maior acerto global.
 \begin{equation}
     \label{eq:acuracia}
-    Accuracy = \frac{VP + VN}{VP + VN + FP + FN}
+    Acur\acute{a}cia = \frac{VP + VN}{VP + VN + FP + FN}
 \end{equation}
 
 
 
 % Sensibilidade/Recall
-Para contornar essa ilusão estatística, o desempenho do modelo deve ser avaliado por métricas que observam os acertos e erros de cada classe de forma isolada. A sensibilidade, também conhecida na literatura como revocação (\textit{recall}), mede a capacidade do algoritmo de identificar corretamente os pacientes que realmente possuem a doença, sendo expressa pela Equação \ref{eq:sensibilidade} \cite{Davis2006}.
+Para contornar essa ilusão estatística, o desempenho do modelo deve ser avaliado por métricas que observam os acertos e erros de cada classe de forma isolada. A sensibilidade, também conhecida na literatura como revocação (\textit{recall}), mede a capacidade do algoritmo de identificar corretamente os pacientes que realmente possuem a doença, sendo expressa pela Equação \ref{eq:sensibilidade} \cite{Davis2006}. Em outras palavras, essa métrica quantifica a proporção de casos positivos que são efetivamente recuperados pelo modelo, sendo particularmente relevante em contextos clínicos onde a omissão de diagnósticos pode acarretar consequências graves.
 
 \begin{equation}
     \label{eq:sensibilidade}
-    Recall = \frac{VP}{VP + FN}
+    Sensibilidade = \frac{VP}{VP + FN}
 \end{equation}
 
 
 
 % Precisão
-Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era, expressada pela Equação \ref{eq:precisao} \cite{Davis2006}.
+Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era, expressada pela Equação \ref{eq:precisao} \cite{Davis2006}. Essa métrica está diretamente relacionada à taxa de alarmes falsos do sistema, refletindo o quanto as predições positivas podem ser consideradas confiáveis na prática. Assim, modelos com alta precisão tendem a evitar intervenções desnecessárias em pacientes saudáveis.
 
 \begin{equation}
     \label{eq:precisao}
-    Precision = \frac{VP}{VP + FP}
+    Precis\tilde{a}o = \frac{VP}{VP + FP}
 \end{equation}
 
 
@@ -298,9 +299,21 @@ Como frequentemente existe uma balança entre essas duas métricas, onde o aumen
 
 
 % ROC e AUC
-A avaliação final do modelo é consolidada visualmente pela Curva de Característica de Operação do Receptor, amplamente referenciada pela sigla em inglês ROC. Essa curva ilustra graficamente a relação entre a taxa de acertos em pacientes doentes e a taxa de alarmes falsos em pacientes saudáveis. Para resumir essa visualização em uma nota clara, calcula-se a área sob a curva, denominada métrica AUC. O valor da AUC varia de zero a um, sendo que um resultado igual a um indica um classificador estatisticamente perfeito, capaz de separar totalmente os tumores benignos dos malignos. Por oferecer essa visão ampla do comportamento do modelo independentemente do equilíbrio dos dados, a AUC é considerada a métrica de ouro para comparar diferentes algoritmos oncológicos \cite{Faceli2011}. 
+A avaliação final do modelo é frequentemente consolidada visualmente pela Curva de Característica de Operação do Receptor (ROC). Essa curva ilustra a relação entre a taxa de verdadeiros positivos (sensibilidade) e a taxa de falsos positivos. Para resumir essa análise em um único valor, utiliza-se a área sob a curva (AUC), cujo valor varia de 0 a 1, sendo que valores próximos de 1 indicam maior capacidade discriminativa do modelo \cite{Faceli2011}.
 
-Adicionalmente, em cenários médicos onde o desbalanceamento das classes é crítico, a literatura moderna recomenda a utilização do gráfico de Curva Precisão-Revocação (\textit{Precision-Recall Curve}). Enquanto a Curva ROC plota a Sensibilidade no eixo y contra a taxa de falsos positivos no eixo x, a Curva PR plota a Precisão contra a Sensibilidade. O cálculo integral sob este gráfico gera a métrica PR-AUC (\textit{Area Under the PR Curve}). Ao contrário da ROC-AUC, a métrica PR-AUC ignora o grande volume de pacientes saudáveis (Verdadeiros Negativos), focando o seu rigor estatístico exclusivamente na capacidade do algoritmo em classificar a doença com exatidão. Uma pontuação PR-AUC elevada indica que o sistema consegue identificar quase todos os tumores malignos sem disparar alarmes falsos, o que a torna indispensável na validação oncológica \cite{Davis2006}.
+Entretanto, conforme discutido por \cite{Davis2006}, a Curva ROC pode apresentar uma visão excessivamente otimista do desempenho em cenários com forte desbalanceamento de classes, como é comum em aplicações médicas. A Figura~\ref{fig:roc_pr_comparison} ilustra esse fenômeno: embora dois algoritmos apresentem desempenhos semelhantes no espaço ROC, diferenças significativas tornam-se evidentes quando analisados no espaço de Precisão-Revocação.
+
+\begin{figure}[htpb]
+\centering
+\caption{Comparação entre Curvas ROC e Precisão-Revocação em dados desbalanceados}
+\includegraphics[width=0.9\textwidth]{roc_pr.png}
+\label{fig:roc_pr_comparison}
+\fonte{Adaptado de \cite{Davis2006}}
+\end{figure}
+
+Essa discrepância ocorre porque a taxa de falsos positivos utilizada na Curva ROC é normalizada pelo número total de exemplos negativos, que tende a ser muito elevado em bases desbalanceadas, reduzindo o impacto visual dos erros. Em contraste, a Curva de Precisão-Revocação (PR) considera diretamente a proporção entre verdadeiros e falsos positivos, tornando-se mais sensível a variações no desempenho do modelo na classe minoritária.
+
+Dessa forma, em cenários oncológicos, onde o interesse principal está na correta identificação de casos positivos (tumores malignos), a Curva PR e sua respectiva área sob a curva (PR-AUC) fornecem uma avaliação mais fiel do desempenho do classificador. Uma alta PR-AUC indica que o modelo consegue manter elevada precisão mesmo com altos níveis de sensibilidade, sendo, portanto, uma métrica mais adequada para validação em problemas com classes desbalanceadas.
 
 \subsection{Principais Algoritmos Classificadores}
 

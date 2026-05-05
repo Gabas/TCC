@@ -405,6 +405,10 @@ INPUT ./img/CM_Exemplo.png
 INPUT ./img/CM_Exemplo.png
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
+INPUT ./img/roc_pr.png
+INPUT ./img/roc_pr.png
+INPUT ./img/roc_pr.png
+INPUT ./img/roc_pr.png
 INPUT ./trabalho.bbl
 INPUT ./trabalho.bbl
 INPUT trabalho.bbl
