@@ -1,16 +1,16 @@
 # Fdb version 4
-["bibtex trabalho"] 1778003203.93766 "trabalho.aux" "trabalho.bbl" "trabalho" 1778003213.08716 0
+["bibtex trabalho"] 1778005283.48875 "trabalho.aux" "trabalho.bbl" "trabalho" 1778005297.18418 0
   "./referencias.bib" 1777948097.20972 24271 fbdd95263aef92c093a0455d9fb66bef ""
   "/usr/share/texlive/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1357081713 5396 4eb260dac60f150ae608d45252853090 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/abntex2/abntex2-alf.bst" 1543183680 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "trabalho.aux" 1778003211.14835 30779 532a39b82dd3484386f24f2c1b0675a7 "pdflatex"
+  "trabalho.aux" 1778005294.72819 31039 b5a04e76591b9340d2d73b1a17d0e9b6 "pdflatex"
   (generated)
   "trabalho.bbl"
   "trabalho.blg"
   (rewritten before read)
-["pdflatex"] 1778003204.47504 "/home/gabast/vscode/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1778003213.08797 0
+["pdflatex"] 1778005284.20289 "/home/gabast/vscode/TCC/trabalho.tex" "trabalho.pdf" "trabalho" 1778005297.18535 0
   "/etc/texmf/web2c/texmf.cnf" 1772717898.14669 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/gabast/vscode/TCC/trabalho.tex" 1778003192.83407 123660 4dc5f97f0af470c9ea2e812cde17ef07 ""
+  "/home/gabast/vscode/TCC/trabalho.tex" 1778005268.71989 122796 274c560eb0417bbeb7ca12bc49d81703 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm" 1136768653 4484 b828043cbd581d289d955903c1339981 ""
@@ -229,15 +229,17 @@
   "img/roc_pr.png" 1778002408.6723 96421 de2bb4206fa6d78b8799a540c56546b2 ""
   "img/venn_ia_ml_dp.jpg" 1776020715.28467 31984 421c9ce84bce4d6d44bb27370e8bfe1b ""
   "packages/abnt-UTP.sty" 1772728226 26459 8b8138a213056e2e9d3339891c26d939 ""
-  "trabalho.aux" 1778003211.14835 30779 532a39b82dd3484386f24f2c1b0675a7 "pdflatex"
-  "trabalho.bbl" 1778003204.45821 8451 05693d2985d9c405683a2679dc97ecc2 "bibtex trabalho"
-  "trabalho.lof" 1778003211.17335 584 3297e3cd324a4d1215c84acbba399428 "pdflatex"
-  "trabalho.lot" 1778003211.17335 169 19febff9282b01f5afd3cd991e86c29c "pdflatex"
-  "trabalho.tex" 1778003192.83407 123660 4dc5f97f0af470c9ea2e812cde17ef07 ""
+  "trabalho.aux" 1778005294.72819 31039 b5a04e76591b9340d2d73b1a17d0e9b6 "pdflatex"
+  "trabalho.bbl" 1778005284.17794 8451 05693d2985d9c405683a2679dc97ecc2 "bibtex trabalho"
+  "trabalho.lof" 1778005294.77099 586 4cd35eeee32bad5265b0771eccee7b0f "pdflatex"
+  "trabalho.lot" 1778005294.77199 169 98ba7c380f8aa92d5f1bb2206140273b "pdflatex"
+  "trabalho.tex" 1778005268.71989 122796 274c560eb0417bbeb7ca12bc49d81703 ""
+  "trabalho.toc" 1778005294.77199 3768 eb574f5d8da5fd0cbbccd4b5426d1ca9 "pdflatex"
   (generated)
   "trabalho.aux"
   "trabalho.lof"
   "trabalho.log"
   "trabalho.lot"
   "trabalho.pdf"
+  "trabalho.toc"
   (rewritten before read)

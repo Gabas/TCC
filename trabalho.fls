@@ -385,6 +385,9 @@ INPUT trabalho.lot
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvro8t.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvro8t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
+INPUT ./trabalho.toc
+INPUT ./trabalho.toc
+INPUT trabalho.toc
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvr8t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm
@@ -414,6 +417,7 @@ INPUT ./trabalho.bbl
 INPUT trabalho.bbl
 OUTPUT trabalho.lof
 OUTPUT trabalho.lot
+OUTPUT trabalho.toc
 INPUT trabalho.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
