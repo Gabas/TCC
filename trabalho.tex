@@ -53,19 +53,11 @@ como requisito à obtenção ao grau de Bacharel.}
 \imprimirfolhaderosto
 
 % % Resumo do trabalho
-% \begin{resumo}
-%     O resumo deve ser informativo e conciso, apresentando os principais elementos do trabalho: o
-%     tema principal, os objetivos, os métodos, os resultados e as conclusões. Para trabalhos
-%     acadêmicos, ele deve ser escrito em um único parágrafo e possuir entre~150 a~500 palavras.
-%     A linguagem o do resumo deve utilizar frases curtas e impessoais, sem figuras de linguagem
-%     ou citações, preferencialmente na terceira pessoa do singular. Devem ser evitados adjetivos
-%     e advérbios que não agreguem informações importantes ao texto.
-%     Após o resumo, devem ser apresentadas de~3 a~5 palavras-chave, separadas por ponto e
-%     vírgula finalizada por ponto final.
-
-%     % O comando \palavraschave inclui automáticamente o ponto final
-%     \palavraschave{Aprendizado de máquina; Base de dados Wisconsin; Câncer de mama; Classificação binária; Inteligência Artificial Explicável; SHAP; UMAP.}
-% \end{resumo}
+\begin{resumo}
+    O câncer de mama é a neoplasia mais incidente entre mulheres no Brasil, representando 30\% dos novos diagnósticos femininos, o que torna o diagnóstico precoce um fator determinante para a eficácia do tratamento. Este trabalho propõe o desenvolvimento de um software integrado a um modelo preditivo para a classificação de tumores mamários como benignos ou malignos, utilizando a base de dados pública Breast Cancer Wisconsin. O objetivo central é mitigar a opacidade característica dos modelos de caixa preta, fornecendo diagnósticos que unam alta precisão analítica a justificativas clínicas transparentes e interpretáveis por profissionais de saúde. A metodologia contempla o treinamento e a comparação de algoritmos clássicos de aprendizado de máquina supervisionado, incluindo Regressão Logística, Máquina de Vetores de Suporte, K-Nearest Neighbors, Random Forest e XGBoost, avaliados por métricas de sensibilidade, precisão, F1-score e área sob a curva de precisão-revocação. A explicabilidade das decisões é garantida pela integração da biblioteca SHapley Additive exPlanations (SHAP), que quantifica a contribuição individual de cada variável celular morfológica no risco de malignidade apontado pelo modelo, por meio de visualizações locais e globais. Em paralelo, o algoritmo Uniform Manifold Approximation and Projection (UMAP) é aplicado para reduzir a dimensionalidade dos dados e revelar graficamente a separabilidade natural entre tumores benignos e malignos, facilitando a identificação de agrupamentos e anomalias biológicas. Por fim, o sistema disponibiliza uma interface capaz de receber dados em lote via upload de planilhas e gerar relatórios estruturados com os diagnósticos e suas respectivas fundamentações visuais. Os resultados esperados indicam que a combinação de modelos preditivos de alta performance com técnicas de inteligência artificial explicável constitui uma solução viável e eticamente fundamentada para o apoio ao diagnóstico oncológico assistido por computador.
+    
+    \palavraschave{Aprendizado de máquina; Base de dados Wisconsin; Câncer de mama; Classificação binária; Inteligência Artificial Explicável; SHAP; UMAP.}
+\end{resumo}
 
 
 % % Listas de ilustrações, tabelas, siglas, etc.
@@ -166,8 +158,7 @@ Este capítulo destina-se à fundamentação teórica que sustenta a pesquisa, c
 
 \section{O Câncer de Mama e a Análise Morfológica}
 
-O termo câncer abrange um complexo conjunto de mais de cem doenças malignas que têm como denominador comum o crescimento desordenado e incontrolável das células. A base biológica dessa patologia reside na perda estrutural e funcional dos mecanismos de regulação celular. Esse processo de formação tumoral, cientificamente denominado carcinogênese ou oncogênese, é engatilhado quando o ácido desoxirribonucleico (DNA), a "memória química"\ que guarda as instruções das atividades celulares, sofre alterações críticas. Em condições normais, genes reguladores específicos chamados proto-oncogenes permanecem inativos; contudo, sob a ação de fatores cancerígenos cumulativos, eles sofrem mutações e são ativados, convertendo-se em oncogenes. Essa ativação desencadeia um processo lento e progressivo composto por três estágios: a iniciação, onde a célula sofre a alteração genética primária de forma silenciosa; a promoção, fase em que agentes externos ou internos transformam gradual e lentamente essa célula iniciada em uma estrutura maligna; e, por fim, a progressãoyaior
-, caracterizada pela multiplicação descontrolada e irreversível das células alteradas, culminando na consolidação clínica do tumor e em seu potencial de invasão \cite{Inca-como-surge-cancer}.
+O termo câncer abrange um complexo conjunto de mais de cem doenças malignas que têm como denominador comum o crescimento desordenado e incontrolável das células. A base biológica dessa patologia reside na perda estrutural e funcional dos mecanismos de regulação celular. Esse processo de formação tumoral, cientificamente denominado carcinogênese ou oncogênese, é engatilhado quando o ácido desoxirribonucleico (DNA), a "memória química"\ que guarda as instruções das atividades celulares, sofre alterações críticas. Em condições normais, genes reguladores específicos chamados proto-oncogenes permanecem inativos; contudo, sob a ação de fatores cancerígenos cumulativos, eles sofrem mutações e são ativados, convertendo-se em oncogenes. Essa ativação desencadeia um processo lento e progressivo composto por três estágios: a iniciação, onde a célula sofre a alteração genética primária de forma silenciosa, a promoção, fase em que agentes externos ou internos transformam gradual e lentamente essa célula iniciada em uma estrutura maligna, e por fim, a progressão, caracterizada pela multiplicação descontrolada e irreversível das células alteradas, culminando na consolidação clínica do tumor e em seu potencial de invasão \cite{Inca-como-surge-cancer}.
 
 O tipo mais comum desta doença é classificado como carcinoma, uma nomeação atribuída aos tumores malignos que se originam nas células epiteliais, que são os tecidos responsáveis por revestir as superfícies internas e externas do corpo humano. Dependendo do tipo específico de célula epitelial afetada, o carcinoma recebe denominações distintas. No contexto anatômico do câncer de mama, a manifestação predominante é o adenocarcinoma, um subtipo que se desenvolve especificamente nas células epiteliais dos tecidos glandulares, cuja função biológica é produzir fluidos e muco \cite{Nci-what-is-cancer}.
 
