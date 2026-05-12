@@ -25,6 +25,7 @@
 *.alg
 *.xdy
 *.ist
+*.synctex.gz
 
 # Listas personalizadas (geradas automaticamente)
 *.loalg

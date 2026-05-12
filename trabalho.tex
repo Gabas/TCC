@@ -301,15 +301,106 @@ Com a base de dados metodologicamente preparada e as métricas de avaliação es
 
 O modelo de base mais clássico na modelagem estatística em saúde é a Regressão Logística. Apesar do nome referenciar problemas contínuos, trata-se de um classificador probabilístico. Ele atua calculando uma combinação linear das características da célula, como o seu raio e a sua textura, e aplica esse resultado numérico em uma função matemática chamada sigmoide. Essa função comprime qualquer valor para um intervalo estrito entre zero e um, fornecendo diretamente a probabilidade de o tumor ser maligno. Se essa probabilidade exceder um limiar de corte, o sistema consolida o diagnóstico positivo. A sua adoção contínua na prática clínica decorre da transparência da equação, permitindo que o médico entenda o peso exato de cada variável na decisão final \cite{Bishop2006}.
 
+Estruturalmente, a regressão logística integra a família dos modelos lineares generalizados (GLMs). Em vez de modelar probabilidades diretamente com uma função linear, o algoritmo trabalha com a chance logarítmica (\textit{log-odds}), também conhecida como função logit, para mapear a relação entre variáveis \cite{ibm_logistic_regression_2026}.
+
+Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo $[0, 1]$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade \cite{ibm_logistic_regression_2026}. Como o denominador é sempre estritamente superior ao numerador, a fração resultante converge para uma escala de probabilidade válida, conforme demonstrado na Equação \ref{eq:sigmoide}.
+
+\begin{equation}
+\label{eq:sigmoide}
+p(x) = \frac{e^{\beta_0 + \beta_1 x_1}}{1 + e^{\beta_0 + \beta_1 x_1}}
+\end{equation}
+
+Para estimar os coeficientes ($\beta_0$ e $\beta_1$), utiliza-se a Estimativa de Máxima Verossimilhança (MLE), um processo otimizado iterativamente por gradiente descendente que busca os parâmetros capazes de tornar os dados observados mais prováveis \cite{ibm_logistic_regression_2026}. A função de verossimilhança a ser maximizada neste processo é representada pela Equação \ref{eq:verossimilhanca}.
+
+\begin{equation}
+\label{eq:verossimilhanca}
+L(\beta_0, \beta_1) = \prod_{i=1}^n p(x_i)^{y_i} \cdot (1 - p(x_i))^{1 - y_i}
+\end{equation}
+
 Quando a dispersão entre as características de células benignas e malignas apresenta uma distribuição complexa que não pode ser separada por uma linha reta simples, a computação recorre às Máquinas de Vetores de Suporte, frequentemente referenciadas pela sigla SVM. O objetivo primário deste algoritmo é encontrar uma fronteira de decisão geométrica, denominada hiperplano, que consiga separar as duas classes de tumores garantindo a maior margem de segurança possível entre elas. Os vetores de suporte, que dão nome ao modelo, são justamente os dados dos pacientes que estão posicionados de forma mais arriscada, ou seja, mais próximos a essa fronteira crítica. Eles atuam como os pilares estruturais que sustentam e definem o formato da decisão final do algoritmo \cite{Bishop2006}.
 
 Entretanto, nos problemas oncológicos reais, é muito comum que os dados das células estejam sobrepostos, configurando um cenário não linear. Para solucionar essa limitação e viabilizar a classificação, o SVM utiliza uma operação matemática sofisticada conhecida como truque de \textit{kernel}. Conforme detalhado por \citeonline{AIOnlineCourse2023}, o \textit{kernel} atua como uma função de mapeamento que eleva os dados originais de um espaço de baixa dimensão para um espaço de dimensão superior. Nessa nova perspectiva matemática ampliada, as células malignas e benignas que antes pareciam misturadas passam a se afastar, tornando-se linearmente separáveis por um hiperplano. Existem diversas funções capazes de realizar essa transformação geométrica, sendo o \textit{kernel} Polinomial e o \textit{kernel} Gaussiano RBF os mais utilizados na prática para garantir que o algoritmo se adapte perfeitamente à complexidade biológica do câncer.
 
-Outra abordagem geométrica muito intuitiva para a classificação é o algoritmo KNN(\textit{K-Nearest Neighbors}). Diferente dos modelos que processam os dados para construir uma equação fixa durante o treinamento, o KNN adota um método de aprendizado baseado em instâncias. Na prática, ele memoriza todo o conjunto de dados históricos de tumores. Quando os dados de um novo paciente são inseridos no sistema, o algoritmo calcula a distância matemática espacial, como a distância Euclidiana, entre as características dessa nova célula e todas as células antigas já armazenadas. O sistema então identifica os "K"\ vizinhos mais próximos, ou seja, os exames históricos que possuem as medidas anatômicas mais idênticas ao caso atual. O diagnóstico preditivo é determinado por uma votação simples nessa vizinhança. Se a maioria dos tumores vizinhos for maligna, o novo caso será classificado como maligno. A sua aplicação em sistemas médicos destaca-se pela facilidade de interpretação espacial por parte do profissional de saúde, embora o esforço computacional para calcular essas distâncias aumente consideravelmente em bases de dados muito volumosas \cite{Faceli2011}.
+Desenvolvidas na década de 1990 por Vladimir N. Vapnik, as SVMs tornaram-se aliadas robustas na pesquisa médica devido à sua capacidade de detectar tendências sutis em bases de dados complexas \cite{ibm_svm_2026}. O fundamento geométrico do algoritmo baseia-se na criação de uma fronteira de separação cuja natureza dimensional depende diretamente da quantidade de atributos dos dados de entrada: em um espaço 2D, essa fronteira é uma linha simples, enquanto em espaços de dimensões superiores ela se projeta como um hiperplano n-dimensional \cite{ibm_svm_2026}.
 
-Explorando uma abordagem fundamentada em regras lógicas sucessivas, surgem os algoritmos baseados em Árvores de Decisão. Uma árvore individual funciona como um fluxograma hierárquico, testando condições passo a passo para classificar a célula oncológica. A matemática que define qual pergunta deve ser feita primeiro baseia-se frequentemente no critério de entropia, um conceito oriundo da teoria da informação que mede o grau de desordem ou impureza de um grupo de dados. Em cada etapa do fluxograma, o algoritmo calcula qual característica celular, como o raio ou a simetria, é capaz de dividir os pacientes de modo a reduzir ao máximo essa entropia. O objetivo é criar ramificações onde os tumores fiquem cada vez mais organizados e separados em suas classes puras. Contudo, quando crescem sem limites estritos, árvores de decisão isoladas tornam-se extremamente suscetíveis ao \textit{overfitting} \cite{Faceli2011}.
+A Figura \ref{fig:hiperplano_svm} ilustra visualmente o funcionamento 
+do truque de \textit{kernel} aplicado pelo SVM. No espaço bidimensional 
+à esquerda, os dados das duas classes encontram-se sobrepostos e 
+misturados, tornando impossível a separação por qualquer fronteira 
+linear. Por meio da função de mapeamento $\varphi(x_1, x_2) = 
+(x_1, x_2, z)$, os pontos são projetados para um espaço tridimensional 
+enriquecido com uma nova dimensão $z$, onde as classes passam a ocupar 
+regiões distintas e geometricamente afastadas. Nesse espaço ampliado, 
+o SVM é capaz de posicionar um hiperplano que separa com clareza os 
+dois grupos, demonstrando como a elevação dimensional transforma um 
+problema inicialmente insolúvel em uma tarefa de classificação linear 
+viável.
+
+\begin{figure}[htbp]
+    \centering
+    \caption{Representação geométrica do hiperplano e margens de separação do SVM}
+    \includegraphics[width=0.7\textwidth]{hyperplane.png}
+    \label{fig:hiperplano_svm}
+    \fonte{\citeauthoronline{AIOnlineCourse2023}, \citeyear{AIOnlineCourse2023}, Disponível em: \url{https://www.coursera.org/learn/machine-learning/lecture/2s9nP/support-vector-machines}}
+\end{figure}
+
+O propósito central do algoritmo é encontrar a orientação ideal dessa fronteira para que ela maximize a distância ou a margem entre os pontos mais próximos de classes distintas, conhecidos como vetores de suporte \cite{ibm_svm_2026}. Essa lógica é frequentemente comparada ao ajuste da "rua mais larga possível"\ entre os dados, garantindo que o modelo não apenas separe os grupos, mas o faça com uma folga que favoreça a generalização para novos diagnósticos clínicos \cite{ibm_svm_2026}. Matematicamente, o hiperplano separador é descrito formalmente pela Equação \ref{eq:hiperplano}, onde $w$ é o vetor de peso que dita a inclinação da fronteira, $x$ é o vetor de entrada e $b$ representa o termo de viés que define a posição do plano no espaço \cite{ibm_svm_2026}.
+
+\begin{equation}
+\label{eq:hiperplano}
+wx + b = 0
+\end{equation}
+
+O modelo pode adotar uma configuração de margem rígida, exigindo que todos os dados sejam perfeitamente isolados fora da zona definida pelos vetores de suporte. Sob este regime, a maximização da margem projetada entre as classes é calculada pela Equação \ref{eq:margem_svm} \cite{ibm_svm_2026}.
+
+\begin{equation}
+\label{eq:margem_svm}
+\max \gamma = \frac{a}{||w||}
+\end{equation}
+
+Para lidar com a complexidade e os ruídos inerentes aos dados oncológicos reais, utiliza-se alternativamente a classificação de margem flexível. Essa técnica permite estrategicamente a ocorrência de pequenos erros de classificação através do uso de variáveis de folga ($\xi$) e do hiperparâmetro de regularização $C$. Um valor de $C$ elevado estreita a margem para minimizar classificações incorretas, enquanto um valor menor amplia a margem, permitindo uma maior tolerância a ruídos para evitar o sobreajuste e melhorar a performance preditiva \cite{ibm_svm_2026}.
+
+Outra abordagem geométrica muito intuitiva para a classificação é o algoritmo KNN (\textit{K-Nearest Neighbors}). Diferente dos modelos que processam os dados para construir uma equação fixa durante o treinamento, o KNN adota um método de aprendizado baseado em instâncias. Na prática, ele memoriza todo o conjunto de dados históricos de tumores. Quando os dados de um novo paciente são inseridos no sistema, o algoritmo calcula a distância matemática espacial, como a distância Euclidiana, entre as características dessa nova célula e todas as células antigas já armazenadas. O sistema então identifica os "K" vizinhos mais próximos, ou seja, os exames históricos que possuem as medidas anatômicas mais idênticas ao caso atual. O diagnóstico preditivo é determinado por uma votação simples nessa vizinhança. Se a maioria dos tumores vizinhos for maligna, o novo caso será classificado como maligno. A sua aplicação em sistemas médicos destaca-se pela facilidade de interpretação espacial por parte do profissional de saúde, embora o esforço computacional para calcular essas distâncias aumente consideravelmente em bases de dados muito volumosas \cite{Faceli2011}.
+
+Os conceitos iniciais que fundamentam o KNN foram propostos em 1951, sendo o modelo categorizado como de "aprendizado preguiçoso"\ ou baseado em memória. Isso significa que não há fase formal de treinamento prévio, pois o algoritmo apenas armazena os dados, exigindo que toda a computação ocorra no exato momento da previsão. Para determinar os vizinhos, o modelo fundamenta-se em métricas de distância, como a euclidiana ou a distância de Manhattan. Recomenda-se que o número de vizinhos ($k$) seja definido de forma ímpar para evitar empates decisórios. Apesar da simplicidade, o KNN sofre com a "maldição da dimensionalidade"\ e torna-se ineficiente em termos de memória à medida que a base cresce \cite{ibm_knn_2026}.
+
+Entre as métricas disponíveis para mensurar essa proximidade, a Distância Euclidiana é a mais utilizada na prática. Ela representa o comprimento da linha reta que liga dois pontos no espaço de características, de forma análoga à distância física entre dois exames plotados em um gráfico. Sendo $x$ e $y$ dois vetores de características de pacientes distintos e $n$ o número total de atributos considerados, essa distância é calculada conforme a Equação~\ref{eq:distancia_euclidiana} \cite{ibm_knn_2026}:
+
+\begin{equation}
+\label{eq:distancia_euclidiana}
+d_E(x, y) = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2}
+\end{equation}
+
+Outra métrica relevante é a Distância de Manhattan, que em vez de traçar um caminho diagonal entre os pontos, percorre as diferenças atributo a atributo de forma ortogonal, somando apenas os deslocamentos absolutos em cada dimensão. Essa abordagem torna o cálculo menos sensível a valores extremos isolados, o que pode ser vantajoso em conjuntos de dados clínicos com medidas discrepantes. Sua formulação é apresentada na Equação~\ref{eq:distancia_manhattan} \cite{ibm_knn_2026}:
+
+\begin{equation}
+\label{eq:distancia_manhattan}
+d_M(x, y) = \sum_{i=1}^{n} |x_i - y_i|
+\end{equation}
+
+Ambas as métricas são casos particulares da Distância de Minkowski, que as unifica por meio de um parâmetro $p$: atribuindo $p = 2$ recupera-se a fórmula euclidiana, enquanto $p = 1$ corresponde à distância de Manhattan \cite{ibm_knn_2026}. A escolha entre elas influencia diretamente a sensibilidade do algoritmo a variações nos dados clínicos, tornando essa decisão um passo relevante na configuração do modelo para cada contexto oncológico.
+
+Explorando uma abordagem fundamentada em regras lógicas sucessivas, surgem os algoritmos baseados em Árvores de Decisão. Uma árvore individual funciona como um fluxograma hierárquico que parte de um nó raiz, se ramifica por nós internos de decisão e chega às folhas, onde a classificação final é atribuída. A cada etapa desse percurso, o algoritmo testa uma condição sobre uma característica celular, como o raio ou a textura do tumor, e encaminha cada amostra para o ramo correspondente até que ela alcance um nó terminal com um rótulo de classe definido \cite{ibm_decision_tree_2026}.
+
+A lógica que determina qual característica deve ser testada primeiro é guiada pelo conceito de entropia, oriundo da teoria da informação, que quantifica o grau de desordem ou impureza presente em um conjunto de dados. Em um nó que contenha apenas tumores malignos, por exemplo, não há nenhuma incerteza sobre a classe e a entropia é nula. Já em um nó com metade dos casos benignos e metade malignos, a incerteza é máxima e a entropia atinge seu valor mais alto. Sendo $S$ o conjunto de dados de um nó, $c$ cada uma das classes possíveis e $p(c)$ a proporção de amostras pertencentes à classe $c$, a entropia é calculada conforme a Equação~\ref{eq:entropia} \cite{ibm_decision_tree_2026}:
+
+\begin{equation}
+\label{eq:entropia}
+H(S) = -\sum_{c=1}^{C} p(c) \log_2\, p(c)
+\end{equation}
+
+A partir da entropia, o algoritmo calcula o ganho de informação de cada atributo disponível, que representa a redução de incerteza obtida ao dividir os dados segundo aquela característica. O atributo que produzir a maior redução de entropia é escolhido como critério de divisão naquele nó, e o processo se repete recursivamente em cada subárvore resultante. O ganho de informação de um atributo $a$ sobre o conjunto $S$ é definido pela Equação~\ref{eq:ganho_informacao}, onde $S_v$ representa o subconjunto de amostras em que o atributo $a$ assume o valor $v$ \cite{ibm_decision_tree_2026}:
+
+\begin{equation}
+\label{eq:ganho_informacao}
+IG(S,\, a) = H(S) - \sum_{v} \frac{|S_v|}{|S|}\, H(S_v)
+\end{equation}
+
+Esse critério é a base do algoritmo ID3, desenvolvido por Ross Quinlan em 1986, e de sua evolução, o C4.5, que introduziu melhorias na forma de lidar com atributos contínuos e dados faltantes. Estruturalmente, o aprendizado das árvores adota uma estratégia de dividir para conquistar, realizando buscas recursivas e descendentes até que os nós folha contenham amostras suficientemente homogêneas \cite{ibm_decision_tree_2026}. Contudo, quando crescem sem restrições, as árvores individuais tornam-se extremamente suscetíveis ao \textit{overfitting}, memorizando os dados de treinamento em vez de aprender padrões generalizáveis \cite{Faceli2011}. Para conter esse problema, aplica-se a técnica de poda, que remove ramificações formadas sobre atributos de baixa relevância preditiva, em consonância com o princípio da parcimônia preconizado pela Navalha de Occam \cite{ibm_decision_tree_2026}.
 
 Para sanar essa vulnerabilidade da árvore única, a estatística computacional recorre à técnica \textit{Random Forest}, ou Floresta Aleatória. Este modelo opera sob o paradigma de comitês de máquinas, criando grandes quantidades de árvores de decisão simultâneas de forma paralela. Para garantir que as árvores não tomem decisões idênticas, o algoritmo força uma diversidade matemática ao treinar cada uma delas com um subconjunto aleatório de pacientes e características. Ao submeter os dados de um novo exame ao modelo, o diagnóstico final não é imposto por uma única regra, mas determinado por uma votação majoritária entre todas as árvores que compõem a floresta. Essa dinâmica de sabedoria coletiva dilui os erros de árvores individuais e gera um sistema preditivo altamente estável e protegido contra anomalias \cite{Faceli2011}.
+
+A essência da floresta aleatória consiste em atuar como uma expansão avançada do método \textit{bagging} (agregação \textit{bootstrap}), incorporando também a aleatoriedade de características (método do subespaço aleatório) para forçar uma correlação extremamente baixa entre as árvores \cite{ibm_random_forest_2026}. Durante as amostragens no conjunto original, um terço dos dados é estrategicamente blindado sob a nomenclatura de amostra \textit{out-of-bag} (oob), servindo primariamente para validações cruzadas \cite{ibm_random_forest_2026}. Um grande benefício clínico do \textit{Random Forest} é a sua clareza na atribuição de importância preditiva das variáveis, mensurada com ferramentas como a diminuição média da impureza (MDI) e a importância por permutação (MDA) \cite{ibm_random_forest_2026}.
 
 Ainda dentro do paradigma de comitês de máquinas, destaca-se o \textit{Extreme Gradient Boosting}, amplamente conhecido no mercado como \textit{XGBoost}. Ao contrário da floresta aleatória que constrói todas as suas árvores de forma simultânea e independente, este algoritmo adota uma arquitetura sequencial focada no aprendizado com os próprios erros. A primeira árvore tenta classificar os tumores e inevitavelmente comete equívocos. A segunda árvore é construída com o propósito exclusivo de corrigir os erros da primeira, a terceira foca nos erros da segunda, e assim sucessivamente. Essa otimização contínua baseada na descida do gradiente cria um modelo preditivo de altíssima performance \cite{Faceli2011}.
 
