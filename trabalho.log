@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  11 MAY 2026 22:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  11 MAY 2026 23:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1310,68 +1310,68 @@ LaTeX Font Info:    Font shape `T1/phv/m/it' in size <12> not available
  [5
 
 
-] [6
+] [6] [7
 
 
-] (./trabalho.toc) [7
+] [8] (./trabalho.toc) [9
 
 ]
 Cap\'{\i }tulo 1.
-[8
-
-
-] [9]
-Cap\'{\i }tulo 2.
 [10
 
+
+] [11]
+Cap\'{\i }tulo 2.
+[12
+
 ]
-<img/oqueecancercelulas.jpg, id=168, 1282.7925pt x 536.0025pt>
+<img/oqueecancercelulas.jpg, id=178, 1282.7925pt x 536.0025pt>
 File: img/oqueecancercelulas.jpg Graphic file (type jpg)
 <use img/oqueecancercelulas.jpg>
-Package pdftex.def Info: img/oqueecancercelulas.jpg  used on input line 171.
+Package pdftex.def Info: img/oqueecancercelulas.jpg  used on input line 218.
 (pdftex.def)             Requested size: 364.19667pt x 152.17343pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 172.
+(Font)              <7> on input line 219.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 172.
- [11 <./img/oqueecancercelulas.jpg>] [12]
-<img/venn_ia_ml_dp.jpg, id=195, 621.32124pt x 440.64626pt>
+(Font)              <5> on input line 219.
+ [13 <./img/oqueecancercelulas.jpg>] [14]
+<img/venn_ia_ml_dp.jpg, id=204, 621.32124pt x 440.64626pt>
 File: img/venn_ia_ml_dp.jpg Graphic file (type jpg)
 <use img/venn_ia_ml_dp.jpg>
-Package pdftex.def Info: img/venn_ia_ml_dp.jpg  used on input line 195.
+Package pdftex.def Info: img/venn_ia_ml_dp.jpg  used on input line 242.
 (pdftex.def)             Requested size: 273.14923pt x 193.71686pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--196
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
 [][]|[][]\T1/phv/m/n/10 (+20) Ri-chard-son[][], [][]2022[][], Dis-po-ní-vel em: [][]$https : / / www . redhat . com / pt-[]br / blog /
  []
 
-[13 <./img/venn_ia_ml_dp.jpg>] [14] [15]
-<img/CM_Exemplo.png, id=231, 475.7775pt x 328.22626pt>
+[15 <./img/venn_ia_ml_dp.jpg>] [16] [17]
+<img/CM_Exemplo.png, id=240, 475.7775pt x 328.22626pt>
 File: img/CM_Exemplo.png Graphic file (type png)
 <use img/CM_Exemplo.png>
-Package pdftex.def Info: img/CM_Exemplo.png  used on input line 235.
+Package pdftex.def Info: img/CM_Exemplo.png  used on input line 282.
 (pdftex.def)             Requested size: 250.38564pt x 172.73705pt.
- [16 <./img/CM_Exemplo.png>]
-<img/roc_pr.png, id=257, 1215.54124pt x 488.82625pt>
+ [18 <./img/CM_Exemplo.png>]
+<img/roc_pr.png, id=267, 1215.54124pt x 488.82625pt>
 File: img/roc_pr.png Graphic file (type png)
 <use img/roc_pr.png>
-Package pdftex.def Info: img/roc_pr.png  used on input line 289.
+Package pdftex.def Info: img/roc_pr.png  used on input line 336.
 (pdftex.def)             Requested size: 409.71692pt x 164.76662pt.
- [17] [18 <./img/roc_pr.png>] [19]
-<img/hyperplane.png, id=308, 561.59813pt x 252.19218pt>
+ [19] [20 <./img/roc_pr.png>] [21]
+<img/hyperplane.png, id=316, 561.59813pt x 252.19218pt>
 File: img/hyperplane.png Graphic file (type png)
 <use img/hyperplane.png>
-Package pdftex.def Info: img/hyperplane.png  used on input line 342.
+Package pdftex.def Info: img/hyperplane.png  used on input line 389.
 (pdftex.def)             Requested size: 318.66948pt x 143.1007pt.
- [20 <./img/hyperplane.png>] [21] [22] [23] [24] [25] [26] [27] [28] [29]
+ [22 <./img/hyperplane.png>] [23] [24] [25] [26] [27] [28] [29] [30] [31]
 Cap\'{\i }tulo 3.
-[30
+[32
 
-] [31] [32] [33] (./trabalho.bbl [34] [35]
+] [33] [34] [35] (./trabalho.bbl [36] [37]
 bibitemlist
-[36
+[38
 
-] [37]) [38]
+] [39]) [40]
 \tf@lof=\write5
 \openout5 = `trabalho.lof'.
 
@@ -1388,18 +1388,18 @@ L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 34308 strings out of 467525
- 615339 string characters out of 5418983
+ 34307 strings out of 467525
+ 615326 string characters out of 5418983
  1102822 words of memory out of 5000000
  62283 multiletter control sequences out of 15000+600000
- 666432 words of font info for 235 fonts, out of 8000000 for 9000
+ 666181 words of font info for 233 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  114i,13n,132p,2169b,811s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on trabalho.pdf (39 pages, 560673 bytes).
+Output written on trabalho.pdf (41 pages, 563359 bytes).
 PDF statistics:
- 713 PDF objects out of 1000 (max. 8388607)
- 623 compressed objects within 7 object streams
- 137 named destinations out of 1000 (max. 500000)
+ 722 PDF objects out of 1000 (max. 8388607)
+ 630 compressed objects within 7 object streams
+ 139 named destinations out of 1000 (max. 500000)
  32030 words of extra memory for PDF output out of 35830 (max. 10000000)
 

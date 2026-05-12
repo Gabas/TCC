@@ -75,38 +75,85 @@ como requisito à obtenção ao grau de Bacharel.}
 % - As siglas deve ser organizadas em ORDEM ALFABÉTICA
 % - Inclua apenas as siglas que aparecem no trabalho
 \begin{siglas}
-    \item[AUC] \textit{Area Under the Curve} (Área Sob a Curva)
-    \item[DNA] Ácido desoxirribonucleico
-    \item[DL] \textit{Deep Learning}
-    \item[IA] Inteligência Artificial
-    \item[INCA] Instituto Nacional de Câncer
-    \item[KNN] \textit{K-Nearest Neighbors} (K-Vizinhos Mais Próximos)
-    \item[ML] \textit{Machine Learning}
-    \item[PAAF] Punção Aspirativa por Agulha Fina
-    \item[PAHO] \textit{Pan American Health Organization}
-    \item[RBF] \textit{Radial Basis Function} (Função de Base Radial) 
-    \item[ROC] \textit{Receiver Operating Characteristic} (Curva de Característica de Operação do Receptor)
-    \item[SHAP] \textit{SHapley Additive exPlanations}
-    \item[SVM] \textit{Support Vector Machine} (Máquina de Vetores de Suporte)
-    \item[UMAP] \textit{Uniform Manifold Approximation and Projection}
-    \item[XAI] \textit{eXplainable AI} (Inteligência Artificial Explicável)
+  \item[AUC] \textit{Area Under the Curve} (Área Sob a Curva)
+  \item[CART] \textit{Classification and Regression Trees} (Árvores de Classificação e Regressão)
+  \item[DNA] Ácido Desoxirribonucleico
+  \item[DL] \textit{Deep Learning} (Aprendizado Profundo)
+  \item[FN] Falso Negativo
+  \item[FP] Falso Positivo
+  \item[GLM] \textit{Generalized Linear Model} (Modelo Linear Generalizado)
+  \item[IA] Inteligência Artificial
+  \item[ID3] \textit{Iterative Dichotomiser} 3 (Dicotomizador Iterativo 3)
+  \item[INCA] Instituto Nacional de Câncer
+  \item[KNN] \textit{K-Nearest Neighbors} (K-Vizinhos Mais Próximos)
+  \item[LIME] \textit{Local Interpretable Model-agnostic Explanations}
+  \item[MDA] \textit{Mean Decrease in Accuracy} (Importância por Permutação)
+  \item[MDI] \textit{Mean Decrease in Impurity} (Diminuição Média da Impureza)
+  \item[ML] \textit{Machine Learning} (Aprendizado de Máquina)
+  \item[MLE] \textit{Maximum Likelihood Estimation} (Estimativa de Máxima Verossimilhança)
+  \item[oob] \textit{Out-of-Bag}
+  \item[PAAF] Punção Aspirativa por Agulha Fina
+  \item[PAHO] \textit{Pan American Health Organization} (Organização Pan-Americana da Saúde)
+  \item[PR] \textit{Precision-Recall} (Precisão-Revocação)
+  \item[RBF] \textit{Radial Basis Function} (Função de Base Radial)
+  \item[ROC] \textit{Receiver Operating Characteristic} (Característica de Operação do Receptor)
+  \item[SHAP] \textit{SHapley Additive exPlanations}
+  \item[SVM] \textit{Support Vector Machine} (Máquina de Vetores de Suporte)
+  \item[UMAP] \textit{Uniform Manifold Approximation and Projection}
+  \item[VN] Verdadeiro Negativo
+  \item[VP] Verdadeiro Positivo
+  \item[WDBC] \textit{Wisconsin Diagnostic Breast Cancer}
+  \item[XAI] \textit{eXplainable Artificial Intelligence} (Inteligência Artificial Explicável)
+  \item[XGBoost] \textit{Extreme Gradient Boosting}
 \end{siglas}
 
 
 
 % Lista de símbolos
 \begin{simbolos}
-    \item[$ \phi_i $]   Valor de Shapley para a característica isolada $i$
-    \item[$ \Sigma $]   Somatório
-    \item[$ N $]        Conjunto total de características celulares disponíveis
-    \item[$ S $]        Subconjunto específico de características
-    \item[$ i $]        Característica celular isolada em análise
-    \item[$ \subseteq $] Subconjunto de
-    \item[$ \setminus $] Diferença de conjuntos (exclusão)
-    \item[$ | \cdot | $] Cardinalidade (quantidade de elementos de um conjunto)
-    \item[$ ! $]        Operador fatorial
-    \item[$ \cup $]     União de conjuntos
-    \item[$ v(\cdot) $] Função de valor (predição de risco do modelo para um determinado subconjunto)
+  % --- Regressão Logística (Equações 2.5 e 2.6) ---
+  \item[$p(x)$] Probabilidade de malignidade estimada pela função sigmoide
+  \item[$\beta_0$] Intercepto (termo independente) do modelo logístico
+  \item[$\beta_1$] Coeficiente da variável preditora no modelo logístico
+  \item[$x_1$] Vetor de características de entrada do modelo
+  \item[$L(\beta_0, \beta_1)$] Função de verossimilhança a ser maximizada
+  \item[$y_i$] Rótulo real da amostra $i$ (0 para benigno, 1 para maligno)
+
+  % --- SVM (Equações 2.7 e 2.8) ---
+  \item[$w$] Vetor de pesos que define a inclinação do hiperplano separador
+  \item[$b$] Termo de viés que determina a posição do hiperplano no espaço
+  \item[$x$] Vetor de características de entrada
+  \item[$\gamma$] Margem de separação entre as classes no SVM
+  \item[$\xi$] Variável de folga utilizada na margem flexível do SVM
+  \item[$C$] Hiperparâmetro de regularização do SVM (controle da margem flexível)
+
+  % --- KNN (Equações 2.9 e 2.10) ---
+  \item[$d_E(x, y)$] Distância Euclidiana entre os vetores de características $x$ e $y$
+  \item[$d_M(x, y)$] Distância de Manhattan entre os vetores de características $x$ e $y$
+  \item[$n$] Número total de atributos (dimensões) do vetor de características
+  \item[$k$] Número de vizinhos mais próximos considerados pelo KNN
+
+  % --- Árvore de Decisão (Equações 2.11 e 2.12) ---
+  \item[$H(S)$] Entropia do conjunto de dados $S$
+  \item[$p(c)$] Proporção de amostras pertencentes à classe $c$ no conjunto $S$
+  \item[$c$] Classe de saída do problema de classificação
+  \item[$IG(S, a)$] Ganho de informação do atributo $a$ sobre o conjunto $S$
+  \item[$a$] Atributo celular avaliado como critério de divisão na árvore de decisão
+  \item[$S_v$] Subconjunto de amostras de $S$ nas quais o atributo $a$ assume o valor $v$
+  \item[$v$] Valor específico assumido pelo atributo $a$ em uma divisão
+
+  % --- SHAP (Equação 2.13) ---
+  \item[$\phi_i$] Valor de Shapley para a característica isolada $i$
+  \item[$\Sigma$] Somatório
+  \item[$N$] Conjunto total de características celulares disponíveis
+  \item[$S$] Subconjunto específico de características
+  \item[$i$] Característica celular isolada em análise
+  \item[$\subseteq$] Subconjunto de
+  \item[$\setminus$] Diferença de conjuntos (exclusão)
+  \item[$|\cdot|$] Cardinalidade (quantidade de elementos de um conjunto)
+  \item[$!$] Operador fatorial
+  \item[$\cup$] União de conjuntos
+  \item[$v(\cdot)$] Função de valor (predição de risco do modelo para um determinado subconjunto)
 \end{simbolos}
 
 % % Criação do sumário do trabalho
@@ -143,7 +190,7 @@ Diante disso, surge o seguinte problema de pesquisa: como integrar técnicas de 
 
 O objetivo deste trabalho é desenvolver um software integrado a um modelo preditivo para a classificação de tumores mamários (benignos ou malignos), utilizando algoritmos de Machine Learning e a base de dados pública Breast Cancer Wisconsin. O intuito principal é mitigar a opacidade característica dos modelos de "caixa preta", fornecendo aos profissionais de saúde diagnósticos preditivos que unam alta precisão analítica a justificativas clínicas transparentes.
 
-Para alcançar esse propósito, o projeto engloba o treinamento e a seleção de classificadores, bem como a aplicação do UMAP para a análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (clusters) e anomalias (outliers) biológicas. Em paralelo, o sistema integrará a biblioteca SHAP para garantir a explicabilidade das decisões, quantificando o impacto de cada variável celular no risco de malignidade apontado pelo modelo. Por fim, visando a viabilidade de uso no cotidiano médico, o trabalho contempla a criação de uma interface capaz de receber dados em lote via upload de planilhas, automatizando a geração de relatórios de saída estruturados (como PDF, Excel ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
+Para alcançar esse propósito, o projeto engloba o treinamento e a seleção de classificadores, bem como a aplicação do UMAP para a análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (\textit{clusters}) e anomalias (\textit{outliers}) biológicas. Em paralelo, o sistema integrará a biblioteca SHAP para garantir a explicabilidade das decisões, quantificando o impacto de cada variável celular no risco de malignidade apontado pelo modelo. Por fim, visando a viabilidade de uso no cotidiano médico, o trabalho contempla a criação de uma interface capaz de receber dados em lote via upload de planilhas, automatizando a geração de relatórios de saída estruturados (como PDF, Excel ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
 
 
 % -------------------------------------------------------------------------------------------------
@@ -301,7 +348,7 @@ Com a base de dados metodologicamente preparada e as métricas de avaliação es
 
 O modelo de base mais clássico na modelagem estatística em saúde é a Regressão Logística. Apesar do nome referenciar problemas contínuos, trata-se de um classificador probabilístico. Ele atua calculando uma combinação linear das características da célula, como o seu raio e a sua textura, e aplica esse resultado numérico em uma função matemática chamada sigmoide. Essa função comprime qualquer valor para um intervalo estrito entre zero e um, fornecendo diretamente a probabilidade de o tumor ser maligno. Se essa probabilidade exceder um limiar de corte, o sistema consolida o diagnóstico positivo. A sua adoção contínua na prática clínica decorre da transparência da equação, permitindo que o médico entenda o peso exato de cada variável na decisão final \cite{Bishop2006}.
 
-Estruturalmente, a regressão logística integra a família dos modelos lineares generalizados (GLMs). Em vez de modelar probabilidades diretamente com uma função linear, o algoritmo trabalha com a chance logarítmica (\textit{log-odds}), também conhecida como função logit, para mapear a relação entre variáveis \cite{ibm_logistic_regression_2026}.
+Estruturalmente, a regressão logística integra a família dos modelos lineares generalizados (GLMs). Em vez de modelar probabilidades diretamente com uma função linear, o algoritmo trabalha com a chance logarítmica (\textit{log-odds}), também conhecida como função \textit{logit}, para mapear a relação entre variáveis \cite{ibm_logistic_regression_2026}.
 
 Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo $[0, 1]$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade \cite{ibm_logistic_regression_2026}. Como o denominador é sempre estritamente superior ao numerador, a fração resultante converge para uma escala de probabilidade válida, conforme demonstrado na Equação \ref{eq:sigmoide}.
 
@@ -355,7 +402,7 @@ O modelo pode adotar uma configuração de margem rígida, exigindo que todos os
 
 \begin{equation}
 \label{eq:margem_svm}
-\max \gamma = \frac{a}{||w||}
+\max \; \gamma = \frac{2}{\|w\|}
 \end{equation}
 
 Para lidar com a complexidade e os ruídos inerentes aos dados oncológicos reais, utiliza-se alternativamente a classificação de margem flexível. Essa técnica permite estrategicamente a ocorrência de pequenos erros de classificação através do uso de variáveis de folga ($\xi$) e do hiperparâmetro de regularização $C$. Um valor de $C$ elevado estreita a margem para minimizar classificações incorretas, enquanto um valor menor amplia a margem, permitindo uma maior tolerância a ruídos para evitar o sobreajuste e melhorar a performance preditiva \cite{ibm_svm_2026}.
@@ -418,7 +465,7 @@ Do ponto de vista arquitetônico, \citeonline{Rudin2019} destaca que a explicabi
 
 A técnica \textit{SHapley Additive exPlanations} (SHAP) representa o atual estado da arte em explicabilidade algorítmica. A sua base teórica não nasceu na ciência da computação, mas sim na teoria dos jogos cooperativos, formulada pelo matemático Lloyd Shapley. Na teoria original, o valor de Shapley calcula a contribuição exata e justa de cada jogador para o prêmio final obtido por uma equipe. Quando esse conceito é transportado para o aprendizado de máquina, o modelo preditivo assume o papel do jogo, as características celulares atuam como os jogadores e o prêmio a ser dividido é a predição final do algoritmo. De acordo com a documentação oficial da ferramenta, o SHAP atua como uma abordagem unificada, consolidando diversas metodologias anteriores sob a classe de métodos de atribuição de características aditivas para revelar os bastidores matemáticos da caixa preta \cite{Lundberg2017}.
 
-Um dos grandes trunfos arquitetônicos da biblioteca SHAP, conforme detalhado em seu manual técnico, é a disponibilidade de otimizadores algorítmicos específicos denominados \textit{Explainers}. Como o cálculo de todas as combinações possíveis de variáveis possui um custo computacional altíssimo, a ferramenta oferece soluções otimizadas para diferentes modelos. Para algoritmos baseados em árvores, como o \textit{Random Forest} e o \textit{XGBoost}, a biblioteca disponibiliza o \textit{TreeExplainer}, um algoritmo capaz de calcular os valores exatos de Shapley de forma extremamente rápida aproveitando a estrutura de roteamento interna das árvores. Para arquiteturas matemáticas distintas ou caixas pretas absolutas, o sistema recorre a algoritmos agnósticos, como o \textit{KernelExplainer}, garantindo que qualquer modelo oncológico possa ser dissecado independentemente de sua complexidade teórica \cite{SHAPDocs2026}.
+Um dos grandes trunfos arquitetônicos da biblioteca SHAP, conforme detalhado em seu manual técnico, é a disponibilidade de otimizadores algorítmicos específicos denominados \textit{explainers}. Como o cálculo de todas as combinações possíveis de variáveis possui um custo computacional altíssimo, a ferramenta oferece soluções otimizadas para diferentes modelos. Para algoritmos baseados em árvores, como o \textit{Random Forest} e o \textit{XGBoost}, a biblioteca disponibiliza o \textit{TreeExplainer}, um algoritmo capaz de calcular os valores exatos de Shapley de forma extremamente rápida aproveitando a estrutura de roteamento interna das árvores. Para arquiteturas matemáticas distintas ou caixas pretas absolutas, o sistema recorre a algoritmos agnósticos, como o \textit{KernelExplainer}, garantindo que qualquer modelo oncológico possa ser dissecado independentemente de sua complexidade teórica \cite{SHAPDocs2026}.
 
 O resultado desse robusto processamento matemático é traduzido em visualizações gráficas projetadas especificamente para a prática clínica e auditoria de dados. No escopo da interpretabilidade local, voltada para o diagnóstico de um único paciente, o SHAP fornece gráficos de cascata (\textit{waterfall plots}). Essas representações ilustram milimetricamente como cada característica, como a textura ou a área do núcleo celular, empurrou a probabilidade do diagnóstico para cima ou para baixo a partir do valor base da população. No escopo global, o algoritmo compila todas as predições em gráficos de enxame (\textit{beeswarm plots} ou \textit{summary plots}). Esse panorama permite que o médico observe não apenas quais variáveis são globalmente mais importantes para o classificador, mas também a direção biomédica desse impacto, revelando se os valores altos de uma determinada característica estão sistematicamente associados a tumores malignos.
 
