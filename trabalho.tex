@@ -8,6 +8,7 @@
 
 % Carrega o pacote da abnt com as adapatções para normas da Tuiuti
 \usepackage{packages/abnt-UTP}
+\usepackage{xurl} % Permite quebra de URL em qualquer caractere
 
 % =================================================================================================
 % -------------------------------------------------------------------------------------------------
@@ -54,8 +55,8 @@ como requisito à obtenção do grau de Bacharel.}
 
 % % Resumo do trabalho
 \begin{resumo}
-    Este trabalho propõe o desenvolvimento de um software integrado a um modelo preditivo para a classificação de tumores mamários como benignos ou malignos, utilizando a base de dados pública Breast Cancer Wisconsin. O objetivo central é mitigar a opacidade característica dos modelos de caixa preta, fornecendo diagnósticos que unam alta precisão analítica a justificativas clínicas transparentes e interpretáveis por profissionais de saúde. A metodologia contempla o treinamento e a comparação de algoritmos clássicos de aprendizado de máquina supervisionado, incluindo Regressão Logística, Máquina de Vetores de Suporte, K-Nearest Neighbors, Random Forest e XGBoost, avaliados por métricas de sensibilidade, precisão, F1-score e área sob a curva de precisão-revocação. A explicabilidade das decisões é garantida pela integração da biblioteca SHapley Additive exPlanations (SHAP), que quantifica a contribuição individual de cada variável celular morfológica no risco de malignidade apontado pelo modelo, por meio de visualizações locais e globais. Em paralelo, o algoritmo Uniform Manifold Approximation and Projection (UMAP) é aplicado para reduzir a dimensionalidade dos dados e revelar graficamente a separabilidade natural entre tumores benignos e malignos, facilitando a identificação de agrupamentos e anomalias biológicas. Por fim, o sistema disponibiliza uma interface capaz de receber dados em lote via upload de planilhas e gerar relatórios estruturados com os diagnósticos e suas respectivas fundamentações visuais. Os resultados esperados indicam que a combinação de modelos preditivos de alta performance com técnicas de inteligência artificial explicável constitui uma solução viável e eticamente fundamentada para o apoio ao diagnóstico oncológico assistido por computador.
-    
+    Este trabalho propõe o desenvolvimento de um software integrado a um modelo preditivo para a classificação de tumores mamários como benignos ou malignos, utilizando a base de dados pública Breast Cancer Wisconsin. O objetivo central é mitigar a opacidade característica dos modelos de caixa preta, fornecendo diagnósticos que unam alta precisão analítica a justificativas clínicas interpretáveis por profissionais de saúde. A metodologia contempla o treinamento e a comparação de algoritmos clássicos de aprendizado de máquina supervisionado, avaliados por métricas estatísticas. A explicabilidade das decisões é garantida pela integração da biblioteca SHAP, enquanto o algoritmo UMAP é aplicado para a análise visual da separabilidade entre tumores benignos e malignos. O sistema disponibiliza uma interface capaz de receber dados em lote via upload de planilhas e gerar relatórios estruturados com os diagnósticos e suas respectivas fundamentações visuais. Os resultados esperados indicam que a combinação de modelos preditivos de alta performance com técnicas de inteligência artificial explicável constitui uma solução viável e eticamente fundamentada para o apoio ao diagnóstico oncológico assistido por computador.
+
     \palavraschave{Aprendizado de máquina; Base de dados Wisconsin; Inteligência Artificial Explicável; SHAP; UMAP}
 \end{resumo}
 
@@ -91,7 +92,7 @@ como requisito à obtenção do grau de Bacharel.}
   \item[MDI] \textit{Mean Decrease in Impurity} (Diminuição Média da Impureza)
   \item[ML] \textit{Machine Learning} (Aprendizado de Máquina)
   \item[MLE] \textit{Maximum Likelihood Estimation} (Estimativa de Máxima Verossimilhança)
-  \item[oob] \textit{Out-of-Bag}
+  \item[OOB] \textit{Out-of-Bag}
   \item[PAAF] Punção Aspirativa por Agulha Fina
   \item[PAHO] \textit{Pan American Health Organization} (Organização Pan-Americana da Saúde)
   \item[PR] \textit{Precision-Recall} (Precisão-Revocação)
@@ -176,7 +177,7 @@ como requisito à obtenção do grau de Bacharel.}
 \chapter{Introdução}
 \label{cap:introducao}
 
-De acordo com a Organização Pan-Americana da Saúde \cite{Paho-cancer}, as patologias oncológicas impõem uma enorme carga de adoecimento nas Américas, sendo superadas unicamente pelas doenças cardiovasculares. A instituição aponta que, durante o ano de 2022, a região contabilizou mais de 4,2 milhões de novos casos, com a expectativa de que esse índice sofra um acréscimo de 60\% até 2045, chegando à marca de 6,7 milhões. Como uma das causas primárias de mortalidade no continente, a doença resultou em 1,4 milhão de perdas fatais em 2022, afetando pessoas com 69 anos ou menos em 45\% das ocorrências. Contudo, o órgão ressalta que muitos desses quadros possuem elevadas taxas de cura quando há o rastreio precoce somado ao tratamento clínico assertivo.
+De acordo com a Organização Pan-Americana da Saúde \cite{Paho-cancer}, as patologias oncológicas impõem uma enorme carga de adoecimento nas Américas, sendo superadas unicamente pelas doenças cardiovasculares. A instituição aponta que, em 2022, a região contabilizou mais de 4,2 milhões de novos casos, com a expectativa de que esse índice sofra um acréscimo de 60\% até 2045, chegando à marca de 6,7 milhões. Como uma das causas primárias de mortalidade no continente, a doença resultou em 1,4 milhão de óbitos em 2022, afetando pessoas com 69 anos ou menos em 45\% das ocorrências. Contudo, o órgão ressalta que muitos desses quadros possuem elevadas taxas de cura quando há o rastreio precoce somado ao tratamento clínico assertivo.
 
 No cenário nacional, as projeções apontam para um panorama de alerta, com a estimativa de 781 mil novos casos de câncer por ano no Brasil ao longo do triênio de 2026 a 2028. Dentro dessa estatística, o câncer de mama consolida-se de forma alarmante como a neoplasia mais incidente entre o público feminino, representando 30\% de todos os novos diagnósticos nas mulheres. Esses números expressivos refletem não apenas o envelhecimento populacional, mas também evidenciam as profundas desigualdades regionais e os desafios persistentes que as pacientes enfrentam no acesso à prevenção, ao rastreamento, ao diagnóstico precoce e ao tratamento oportuno no sistema de saúde \cite{Inca-781}.
 
@@ -186,7 +187,7 @@ Apesar do notável desempenho preditivo, a adoção clínica dessas tecnologias 
 
 É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir" essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) e anomalias de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
 
-Diante disso, surge o seguinte problema de pesquisa: como integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde?
+Diante da necessidade de conciliar desempenho preditivo e interpretabilidade clínica, formula-se o seguinte problema de pesquisa: como integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde?
 
 O objetivo deste trabalho é desenvolver um software integrado a um modelo preditivo para a classificação de tumores mamários (benignos ou malignos), utilizando algoritmos de Machine Learning e a base de dados pública Breast Cancer Wisconsin. O intuito principal é mitigar a opacidade característica dos modelos de "caixa preta", fornecendo aos profissionais de saúde diagnósticos preditivos que unam alta precisão analítica a justificativas clínicas transparentes.
 
@@ -198,7 +199,7 @@ Para alcançar esse propósito, o projeto engloba o treinamento e a seleção de
 % 2. FUNDAMENTAÇÃO TEÓRICA
 % -------------------------------------------------------------------------------------------------
 % -------------------------------------------------------------------------------------------------
-\chapter{Fundamentação}
+\chapter{FUNDAMENTAÇÃO TEÓRICA}
 \label{cap:fundamentacao}
 
 Este capítulo destina-se à fundamentação teórica que sustenta a pesquisa, conectando conceitos fundamentais ao problema proposto. O objetivo é estabelecer uma base sólida, com base na literatura científica consolidada, que conduza e valide o estudo. Nas seções a seguir, serão explorados os aspectos clínicos da doença, a evolução tecnológica na análise de dados em saúde e as abordagens computacionais escolhidas para o desenvolvimento do modelo preditivo.
@@ -213,7 +214,7 @@ No entanto, o desenvolvimento desse adenocarcinoma não ocorre de maneira instan
 
 \begin{figure}[htb]
     \centering
-    \caption{Contraste morfológico entre células normais e neoplásicas.}
+    \caption{CONTRASTE MORFOLÓGICO ENTRE CÉLULAS NORMAIS E NEOPLÁSICAS.}
     \label{fig:divisao_celular}
     \includegraphics[width=0.8\textwidth]{oqueecancercelulas.jpg} 
     \fonte{\citeauthoronline{Inca-O-que-e-cancer}, \citeyear{Inca-O-que-e-cancer}, Disponível em: \url{https://www.gov.br/inca/pt-br/assuntos/cancer/o-que-e-cancer}}
@@ -221,23 +222,23 @@ No entanto, o desenvolvimento desse adenocarcinoma não ocorre de maneira instan
 
 Na ciência da computação aplicada à saúde, o dado mais valioso desta anomalia não é apenas a mutação genética em si, mas sim a profunda alteração morfológica que ela desencadeia. A pressão para sustentar uma replicação em massa e desordenada leva à deformação severa do núcleo de uma célula maligna. Como resultado, quando analisadas ao microscópio, estas células apresentam variações perceptíveis e quantificáveis na área, no raio, na textura e na concavidade, em comparação com uma célula saudável. São justamente essas assimetrias físicas que se tornam o insumo fundamental para alimentar e treinar algoritmos de aprendizagem de máquina. Estes algoritmos apoiam o diagnóstico preditivo.
 
-Um dos marcos pioneiros na convergência entre a oncologia clínica e a ciência da computação, voltado especificamente para a quantificação dessas assimetrias celulares, é a base de dados \textit{Breast Cancer Wisconsin (Diagnostic)}. No início dos anos 90, pesquisadores da Universidade de Wisconsin criaram esta base para reduzir a subjetividade e o cansaço que os humanos sentem quando analisam coisas ao microscópio \cite{Street1993}. O mais importante neste trabalho foi a decisão de não criar um armazém de imagens de doença com muitos pixels, que precisariam de muita capacidade de processamento, mas sim uma base de dados organizada e que não precisasse de muita capacidade de computação.
+Um dos marcos pioneiros na convergência entre a oncologia clínica e a ciência da computação, voltado especificamente para a quantificação dessas assimetrias celulares, é a base de dados \textit{Breast Cancer Wisconsin (Diagnostic)}. No início dos anos 90, pesquisadores da Universidade de Wisconsin desenvolveram esta base com o objetivo de mitigar a subjetividade e a fadiga associadas à análise microscópica realizada por especialistas \cite{Street1993}. O principal diferencial metodológico deste trabalho residiu na opção por não construir um repositório de imagens biomédicas de alta dimensionalidade, pois demandaria elevada capacidade computacional de armazenamento e processamento, mas sim uma base estruturada de atributos numéricos extraídos das imagens, de processamento eficiente.
 
 Para alcançar esse resultado, os pesquisadores utilizaram amostras coletadas via Punção Aspirativa por Agulha Fina (PAAF) e aplicaram algoritmos de processamento de imagem, conhecidos como contornos ativos (\textit{snakes}), para delinear digitalmente as fronteiras dos núcleos celulares. A partir deste tratamento computacional, foram extraídas matematicamente dez características morfológicas essenciais de cada célula, incluindo o raio, a textura, o perímetro, a área e a suavidade. Ao calcular a média, o erro padrão e o valor máximo para cada uma dessas dez medidas, o sistema gerou as 30 variáveis numéricas que compõem o conjunto de dados. Esta otimização consolidou a base de Wisconsin como um recurso de referência na literatura, permitindo que os algoritmos preditivos processem informações oncológicas complexas de forma rápida e eficiente.
 
 \section{Inteligência Artificial e Machine Learning: Definições e Hierarquia}
 
-A Inteligência Artificial (IA) é uma área da ciência da computação que começou no verão de 1956, na conferência de Dartmouth, onde o termo foi criado. Desde então, a área evoluiu e ramificou-se em diversas vertentes de pesquisa. Segundo \citeonline{Russell2010}, as definições históricas e contemporâneas de IA podem ser organizadas em quatro categorias principais, divididas entre abordagens que buscam simular o comportamento ou o pensamento humano, e abordagens focadas puramente no conceito de racionalidade. No contexto computacional moderno, a abordagem mais adotada e cientificamente rigorosa é a dos "agentes racionais", que são sistemas que operam de forma autônoma e agem para alcançar o melhor resultado possível diante de um problema, dado o conhecimento e as percepções que possuem do ambiente.
+A Inteligência Artificial (IA) é uma área da ciência da computação que teve um marco histórico em 1956, durante a Conferência de Dartmouth, quando o termo foi formalmente cunhado (Russel; Norvig, 2010). Desde então, a área evoluiu e ramificou-se em diversas vertentes de pesquisa. Segundo \citeonline{Russell2010}, as definições históricas e contemporâneas de IA podem ser organizadas em quatro categorias principais, divididas entre abordagens que buscam simular o comportamento ou o pensamento humano, e abordagens focadas puramente no conceito de racionalidade. No contexto computacional moderno, a abordagem mais adotada e cientificamente rigorosa é a dos "agentes racionais", que são sistemas que operam de forma autônoma e agem para alcançar o melhor resultado possível diante de um problema, dado o conhecimento e as percepções que possuem do ambiente.
 
 Para que um sistema alcance essa racionalidade em ambientes complexos, a programação de regras lógicas estáticas (\textit{if-then}) torna-se inviável. É para solucionar esta limitação que surge o \textit{Machine Learning} (ML), o principal subcampo da Inteligência Artificial. Em vez de serem explicitamente programados para executar uma tarefa passo a passo, os algoritmos de ML utilizam métodos estatísticos para extrair padrões diretamente dos dados. A definição formal mais consolidada na literatura é proposta por \citeonline{Mitchell1997}, que estabelece que um programa de computador aprende a partir da experiência $E$, em relação a uma classe de tarefas $T$ e uma medida de desempenho $P$, se o seu desempenho em $T$, quantificado por $P$, melhora com a experiência $E$.
 
 Para compreender essa definição de forma mais prática, pode-se estabelecer um paralelo com o aprendizado humano em jogos. A tarefa $T$ representa o objetivo, como identificar tumores; a experiência $E$ consiste nos dados históricos e exemplos fornecidos ao sistema (como a base de dados Wisconsin), e o desempenho $P$ atua como a métrica de sucesso, indicando quantos diagnósticos a máquina acertou. O algoritmo é considerado capaz de "aprender"\ quando, ao ser exposto a mais dados (maior $E$), ele aumenta sua taxa de acertos (maior $P$) ao realizar o diagnóstico (tarefa $T$).
 
-A hierarquia da inteligência computacional estende-se ainda a camadas mais especializadas, como o \textit{Deep Learning} (DL), ou Aprendizado Profundo. Essa vertente é um subconjunto do ML que utiliza arquiteturas de redes neurais artificiais com múltiplas camadas para processar volumes massivos de dados de altíssima complexidade dimensional. Essa relação hierárquica e de pertencimento entre os campos pode ser visualizada por meio de um diagrama de conjuntos, conforme ilustrado na Figura \ref{fig:hierarquia_ia}. 
+A hierarquia da inteligência computacional estende-se ainda a camadas mais especializadas, como o \textit{Deep Learning} (DL), ou Aprendizado Profundo. Esta vertente do machine learning usa redes neurais artificiais para processar grandes volumes de dados (Richardson, 2022). Essa relação hierárquica e de pertencimento entre os campos pode ser visualizada por meio de um diagrama de conjuntos, conforme ilustrado na Figura \ref{fig:hierarquia_ia}. 
 
 \begin{figure}[htb]
     \centering
-    \caption{Hierarquia e relação de inclusão entre IA, ML e DL.}
+    \caption{HIERARQUIA E RELAÇÃO DE INCLUSÃO ENTRE IA, ML E DL.}
     \label{fig:hierarquia_ia}
     \includegraphics[width=0.6\textwidth]{venn_ia_ml_dp.jpg} 
     \fonte{\citeauthoronline{RedHat-IAML}, \citeyear{RedHat-IAML}, Disponível em: \url{https://www.redhat.com/pt-br/blog/what-aiml-and-why-does-it-matter-your-business}}
@@ -252,33 +253,33 @@ O desenvolvimento de um modelo de IA não segue uma receita universal, a abordag
 
 \subsection{O Paradigma do Aprendizado Supervisionado e a Classificação Binária}
 
-O Aprendizado Supervisionado, que a literatura classifica como uma tarefa preditiva de aprendizagem indutiva, caracteriza-se sobretudo pela presença de um "gabarito"\ nos dados de treinamento. Neste paradigma, o algoritmo é alimentado com um conjunto de dados históricos contendo tanto as variáveis independentes de entrada, conhecidas como \textit{features} ou atributos, quanto as suas respectivas variáveis dependentes de saída, os rótulos ou \textit{labels}. O objetivo deste método é fazer com que o modelo descubra e mapeie a relação matemática entre as entradas e a saída. Dessa forma, ao aprender as regras ocultas que conectam as características observadas ao resultado final, o sistema torna-se capaz de generalizar esse conhecimento para realizar predições automáticas quando exposto a novos dados não rotulados no futuro \cite{Faceli2011}.
+O Aprendizado Supervisionado, que a literatura classifica como uma tarefa preditiva de aprendizagem indutiva, caracteriza-se sobretudo pela presença de um "gabarito"\ nos dados de treinamento. Neste paradigma, o algoritmo é alimentado com um conjunto de dados históricos contendo tanto as variáveis independentes de entrada, conhecidas como \textit{features} ou atributos, quanto as suas respectivas variáveis dependentes de saída, os rótulos ou \textit{labels}. O objetivo deste método é fazer com que o modelo descubra e mapeie a relação matemática entre as entradas e a saída. Dessa forma, ao aprender as regras ocultas que conectam as características observadas ao resultado final, o sistema torna-se capaz de generalizar esse conhecimento para realizar predições automáticas quando exposto a novos dados não rotulados no futuro (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-Em termos didáticos, o processo assemelha-se a um professor ensinando um aluno por meio de exemplos. O algoritmo analisa casos em que tanto o problema quanto a resposta correta são fornecidos simultaneamente. Após essa fase de treinamento, o modelo deve ser capaz de generalizar o conhecimento adquirido para prever a resposta correta quando apresentado a novos dados inéditos, que não possuem o rótulo. 
+Nesse paradigma, o modelo aprende a partir de exemplos previamente rotulados, ajustando seus parâmetros internos de forma iterativa para generalizar padrões a novos dados. O algoritmo analisa casos em que tanto o problema quanto a resposta correta são fornecidos simultaneamente. Após essa fase de treinamento, o modelo deve ser capaz de generalizar o conhecimento adquirido para prever a resposta correta quando apresentado a novos dados inéditos, que não possuem o rótulo. 
 
 Dentro do Aprendizado Supervisionado, \citeonline{Bishop2006} divide os problemas de acordo com o tipo de resultado que se deseja alcançar. Quando o objetivo do modelo é organizar as informações recebidas em grupos bem definidos, a tarefa é chamada de problema de classificação. Por outro lado, se o sistema tenta prever um valor numérico contínuo, como estimar a expectativa de vida de um paciente ou calcular o rendimento de um processo químico, a tarefa recebe o nome de problema de regressão.
 
-No contexto da oncologia e da base de dados \textit{Breast Cancer Wisconsin}, a tarefa computacional se enquadra como um problema de Classificação Binária. Isso significa que a variável de saída que o modelo deve prever possui apenas dois estados: o tumor é Benigno ou Maligno \cite{Street1993}. Todo o esforço de treinamento e otimização dos algoritmos neste trabalho visa buscar a melhor fronteira de decisão matemática capaz de separar essas duas classes, minimizando ao máximo os erros de categorização, dada a criticidade de um falso diagnóstico médico.
+No contexto da oncologia e da base de dados \textit{Breast Cancer Wisconsin}, a tarefa computacional se enquadra como um problema de Classificação Binária. Isso significa que a variável de saída que o modelo deve prever possui apenas dois estados: o tumor é Benigno ou Maligno (\citeauthoronline{Street1993}, \citeyear{Street1993}). Todo o esforço de treinamento e otimização dos algoritmos neste trabalho visa buscar a melhor fronteira de decisão matemática capaz de separar essas duas classes, minimizando ao máximo os erros de categorização, dada a criticidade de um falso diagnóstico médico.
 
 \subsection{O Dilema da Generalização e o Ciclo de Vida do Modelo}
 
 A construção de um classificador médico eficiente vai muito além do simples processamento numérico de dados históricos. O objetivo central de um modelo de aprendizado de máquina não é apenas memorizar os exemplos exatos que foram apresentados durante o treinamento, mas sim desenvolver a capacidade de generalização. Ou seja, o sistema precisa aprender a regra geral para conseguir prever com precisão o diagnóstico de novos pacientes que nunca processou antes. Nesse processo de aprendizado, o algoritmo pode cometer dois erros estatísticos extremos: o \textit{underfitting} e o \textit{overfitting}.
 
-O \textit{underfitting} ocorre quando o modelo matemático é estruturalmente simples demais e não consegue capturar nem mesmo os padrões morfológicos básicos dos tumores. Nesse cenário, o algoritmo falha em extrair o conhecimento necessário e erra classificações fundamentais. No extremo oposto temos o \textit{overfitting}, que é um risco estatístico muito mais comum e perigoso na área da saúde. Nesse caso, o modelo se torna tão complexo que passa a "decorar"\ não apenas as características reais do câncer, mas também as falhas, as exceções e os pequenos ruídos específicos daquela base de dados de treinamento. Consequentemente, o modelo atinge uma precisão artificialmente alta durante seu desenvolvimento, mas fracassa ao avaliar novos pacientes, pois apenas memorizou os dados antigos em vez de assimilar a lógica subjacente à doença \cite{Faceli2011}.
+O \textit{underfitting} ocorre quando o modelo matemático é estruturalmente simples demais e não consegue capturar nem mesmo os padrões morfológicos básicos dos tumores. Nesse cenário, o algoritmo falha em extrair o conhecimento necessário e erra classificações fundamentais. No extremo oposto, encontra-se o \textit{overfitting}, que é um risco estatístico muito mais comum e perigoso na área da saúde. Nesse caso, o modelo se torna tão complexo que passa a "decorar"\ não apenas as características reais do câncer, mas também as falhas, as exceções e os pequenos ruídos específicos daquela base de dados de treinamento. Consequentemente, o modelo atinge uma precisão artificialmente alta durante seu desenvolvimento, mas fracassa ao avaliar novos pacientes, pois apenas memorizou os dados antigos em vez de assimilar a lógica subjacente à doença (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-Na estatística, essa linha tênue entre memorizar e generalizar é explicada pelo dilema viés e variância (\textit{bias-variance tradeoff}). O viés representa a limitação estrutural do modelo em enxergar a complexidade dos dados reais, o que causa o \textit{underfitting}. Já a variância mede o quanto o modelo altera sua fronteira de decisão de forma exagerada diante de pequenas mudanças nos dados, o que resulta no \textit{overfitting}. Para garantir que o classificador encontre o equilíbrio estatístico perfeito e seja seguro para uso clínico, é obrigatório adotar um ciclo de vida rigoroso no qual a base de dados original nunca é entregue inteira de uma só vez ao algoritmo. Ela precisa ser metodologicamente dividida em subconjuntos separados \cite{Bishop2006}.
+Na estatística, essa linha tênue entre memorizar e generalizar é explicada pelo dilema viés e variância (\textit{bias-variance tradeoff}). O viés representa a limitação estrutural do modelo em enxergar a complexidade dos dados reais, o que causa o \textit{underfitting}. Já a variância mede o quanto o modelo altera sua fronteira de decisão de forma exagerada diante de pequenas mudanças nos dados, o que resulta no \textit{overfitting}. Para garantir que o classificador encontre o equilíbrio estatístico perfeito e seja seguro para uso clínico, é obrigatório adotar um ciclo de vida rigoroso no qual a base de dados original nunca é entregue inteira de uma só vez ao algoritmo. Ela precisa ser metodologicamente dividida em subconjuntos separados (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
 
 Essa metodologia de divisão geralmente particiona os dados em três grupos: Treinamento, Validação e Teste. O conjunto de treinamento é o ambiente computacional primário, onde o algoritmo ajusta seus pesos e constrói suas regras de classificação. O conjunto de validação atua como um ambiente de aferição intermediária, permitindo que o desenvolvedor calibre os detalhes matemáticos do modelo e perceba rapidamente se o \textit{overfitting} está ocorrendo. Por fim, o conjunto de teste representa o cenário do mundo real. Ele permanece totalmente isolado e oculto do computador durante todo o processo de desenvolvimento, sendo acionado apenas uma única vez na etapa final. O desempenho alcançado neste conjunto de teste isolado é o indicador soberano que comprova a verdadeira eficácia do sistema em acertar diagnósticos na prática médica.
 
 \subsection{Métricas de Avaliação de Desempenho}
 
 % Matriz de Confusão
-Após submeter o conjunto de teste ao algoritmo, é fundamental quantificar o seu desempenho clínico. Na classificação binária, a base para qualquer avaliação é a construção de uma Matriz de Confusão. Essa ferramenta organiza os resultados das previsões em quatro categorias possíveis. Os Verdadeiros Positivos (VP) representam os tumores malignos corretamente identificados, enquanto os Verdadeiros Negativos (VN) são os tumores benignos confirmados. Por outro lado, os erros são divididos em Falsos Positivos (FP), que ocorrem quando um tumor benigno gera um alarme falso de malignidade, e Falsos Negativos (FN), que acontecem quando o sistema ignora um tumor maligno e o classifica como inofensivo. Em um cenário oncológico, o falso negativo representa a falha mais crítica do modelo, pois resulta em um paciente doente que é liberado sem receber o tratamento adequado \cite{James2023}.
+Após submeter o conjunto de teste ao algoritmo, é fundamental quantificar o seu desempenho clínico. Na classificação binária, a base para qualquer avaliação é a construção de uma Matriz de Confusão. Essa ferramenta organiza os resultados das previsões em quatro categorias possíveis. Os Verdadeiros Positivos (VP) representam os tumores malignos corretamente identificados, enquanto os Verdadeiros Negativos (VN) são os tumores benignos confirmados. Por outro lado, os erros são divididos em Falsos Positivos (FP), que ocorrem quando um tumor benigno gera um alarme falso de malignidade, e Falsos Negativos (FN), que acontecem quando o sistema ignora um tumor maligno e o classifica como inofensivo. Em um cenário oncológico, o falso negativo representa a falha mais crítica do modelo, pois resulta em um paciente doente que é liberado sem receber o tratamento adequado (\citeauthoronline{James2023}, \citeyear{James2023}).
 
 A Figura~\ref{fig:matriz_confusao} ilustra um exemplo dessa estrutura, onde os acertos do modelo concentram-se na diagonal principal (430 VN e 61 VP), enquanto os erros aparecem nos quadrantes secundários (6 FP e 3 FN).
 \begin{figure}[htpb]
     \centering
-    \caption{Exemplo Ilustrativo de uma Matriz de Confusão}
+    \caption{EXEMPLO ILUSTRATIVO DE UMA MATRIZ DE CONFUSÃO}
     \includegraphics[width=0.55\textwidth]{CM_Exemplo.png}
     \label{fig:matriz_confusao}
     \fonte{O Autor}
@@ -287,7 +288,7 @@ A Figura~\ref{fig:matriz_confusao} ilustra um exemplo dessa estrutura, onde os a
 
 
 % Acurácia
-A métrica mais intuitiva extraída dessa matriz é a acurácia (\textit{accuracy}), que representa a taxa geral de acertos do modelo. Contudo, confiar exclusivamente na acurácia é um erro metodológico perigoso na área da saúde devido ao problema matemático das classes desbalanceadas. Considere uma situação onde a base de dados possui noventa e nove pacientes saudáveis para cada paciente com câncer. Se um algoritmo quebrado simplesmente classificar todas as pessoas do mundo como saudáveis, ele obterá uma acurácia de 99\%. Apesar de parecer um sucesso estatístico absoluto, o modelo seria clinicamente inútil e letal para a pequena parcela de pacientes doentes \cite{Faceli2011}. Matematicamente, a acurácia é calculada pela razão entre as predições corretas e o total de predições, conforme a Equação \ref{eq:acuracia}. Seu resultado é expresso em uma escala de 0 a 1, onde valores próximos a 1 indicam maior acerto global.
+A métrica mais intuitiva extraída dessa matriz é a acurácia (\textit{accuracy}), que representa a taxa geral de acertos do modelo. Contudo, confiar exclusivamente na acurácia é um erro metodológico perigoso na área da saúde devido ao problema matemático das classes desbalanceadas. Considere uma situação onde a base de dados possui noventa e nove pacientes saudáveis para cada paciente com câncer. Se um algoritmo quebrado simplesmente classificar todas as pessoas do mundo como saudáveis, ele obterá uma acurácia de 99\%. Apesar de parecer um sucesso estatístico absoluto, o modelo seria clinicamente inútil e letal para a pequena parcela de pacientes doentes (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}). Matematicamente, a acurácia é calculada pela razão entre as predições corretas e o total de predições, conforme a Equação \ref{eq:acuracia}. Seu resultado é expresso em uma escala de 0 a 1, onde valores próximos a 1 indicam maior acerto global.
 \begin{equation}
     \label{eq:acuracia}
     Acur\acute{a}cia = \frac{VP + VN}{VP + VN + FP + FN}
@@ -296,7 +297,7 @@ A métrica mais intuitiva extraída dessa matriz é a acurácia (\textit{accurac
 
 
 % Sensibilidade/Recall
-Para contornar essa ilusão estatística, o desempenho do modelo deve ser avaliado por métricas que observam os acertos e erros de cada classe de forma isolada. A sensibilidade, também conhecida na literatura como revocação (\textit{recall}), mede a capacidade do algoritmo de identificar corretamente os pacientes que realmente possuem a doença, sendo expressa pela Equação \ref{eq:sensibilidade} \cite{Davis2006}. Em outras palavras, essa métrica quantifica a proporção de casos positivos que são efetivamente recuperados pelo modelo, sendo particularmente relevante em contextos clínicos onde a omissão de diagnósticos pode acarretar consequências graves.
+Para contornar essa ilusão estatística, o desempenho do modelo deve ser avaliado por métricas que observam os acertos e erros de cada classe de forma isolada. A sensibilidade, também conhecida na literatura como revocação (\textit{recall}), mede a capacidade do algoritmo de identificar corretamente os pacientes que realmente possuem a doença, sendo expressa pela Equação \ref{eq:sensibilidade} (\citeauthoronline{Davis2006}, \citeyear{Davis2006}). Em outras palavras, essa métrica quantifica a proporção de casos positivos que são efetivamente recuperados pelo modelo, sendo particularmente relevante em contextos clínicos onde a omissão de diagnósticos pode acarretar consequências graves.
 
 \begin{equation}
     \label{eq:sensibilidade}
@@ -306,7 +307,7 @@ Para contornar essa ilusão estatística, o desempenho do modelo deve ser avalia
 
 
 % Precisão
-Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era, expressada pela Equação \ref{eq:precisao} \cite{Davis2006}. Essa métrica está diretamente relacionada à taxa de alarmes falsos do sistema, refletindo o quanto as predições positivas podem ser consideradas confiáveis na prática. Assim, modelos com alta precisão tendem a evitar intervenções desnecessárias em pacientes saudáveis.
+Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era, expressada pela Equação \ref{eq:precisao} (\citeauthoronline{Davis2006}, \citeyear{Davis2006}). Essa métrica está diretamente relacionada à taxa de alarmes falsos do sistema, refletindo o quanto as predições positivas podem ser consideradas confiáveis na prática. Assim, modelos com alta precisão tendem a evitar intervenções desnecessárias em pacientes saudáveis.
 
 \begin{equation}
     \label{eq:precisao}
@@ -316,7 +317,7 @@ Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica d
 
 
 % F1-Score
-Como frequentemente existe uma balança entre essas duas métricas, onde o aumento de uma pode diminuir a outra, utiliza-se a métrica \textit{F1-score}. Esse indicador calcula a média harmônica entre a precisão e a sensibilidade, fornecendo um único número que atesta o equilíbrio e a segurança geral do classificador \cite{Manning2006}. O \textit{F1-score} consolida esses valores através da Equação \ref{eq:f1score}.
+Como frequentemente existe uma balança entre essas duas métricas, onde o aumento de uma pode diminuir a outra, utiliza-se a métrica \textit{F1-score}. Esse indicador calcula a média harmônica entre a precisão e a sensibilidade, fornecendo um único número que atesta o equilíbrio e a segurança geral do classificador (\citeauthoronline{Manning2006}, \citeyear{Manning2006}). O \textit{F1-score} consolida esses valores através da Equação \ref{eq:f1score}.
 
 \begin{equation}
     \label{eq:f1score}
@@ -326,13 +327,13 @@ Como frequentemente existe uma balança entre essas duas métricas, onde o aumen
 
 
 % ROC e AUC
-A avaliação final do modelo é frequentemente consolidada visualmente pela Curva de Característica de Operação do Receptor (ROC). Essa curva ilustra a relação entre a taxa de verdadeiros positivos (sensibilidade) e a taxa de falsos positivos. Para resumir essa análise em um único valor, utiliza-se a área sob a curva (AUC), cujo valor varia de 0 a 1, sendo que valores próximos de 1 indicam maior capacidade discriminativa do modelo \cite{Faceli2011}.
+A avaliação final do modelo é frequentemente consolidada visualmente pela Curva de Característica de Operação do Receptor (ROC). Essa curva ilustra a relação entre a taxa de verdadeiros positivos (sensibilidade) e a taxa de falsos positivos. Para resumir essa análise em um único valor, utiliza-se a área sob a curva (AUC), cujo valor varia de 0 a 1, sendo que valores próximos de 1 indicam maior capacidade discriminativa do modelo (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-Entretanto, conforme discutido por \cite{Davis2006}, a Curva ROC pode apresentar uma visão excessivamente otimista do desempenho em cenários com forte desbalanceamento de classes, como é comum em aplicações médicas. A Figura~\ref{fig:roc_pr_comparison} ilustra esse fenômeno: embora dois algoritmos apresentem desempenhos semelhantes no espaço ROC, diferenças significativas tornam-se evidentes quando analisados no espaço de Precisão-Revocação.
+Entretanto, conforme discutido por \citeonline{Davis2006}, a Curva ROC pode apresentar uma visão excessivamente otimista do desempenho em cenários com forte desbalanceamento de classes, como é comum em aplicações médicas. A Figura~\ref{fig:roc_pr_comparison} ilustra esse fenômeno: embora dois algoritmos apresentem desempenhos semelhantes no espaço ROC, diferenças significativas tornam-se evidentes quando analisados no espaço de Precisão-Revocação.
 
 \begin{figure}[htpb]
 \centering
-\caption{Comparação entre Curvas ROC e Precisão-Revocação em dados desbalanceados}
+\caption{COMPARAÇÃO ENTRE CURVAS ROC E PRECISÃO-REVOCAÇÃO EM DADOS DESBALANCEADOS}
 \includegraphics[width=0.9\textwidth]{roc_pr.png}
 \label{fig:roc_pr_comparison}
 \fonte{Adaptado de \cite{Davis2006}}
@@ -346,29 +347,29 @@ Dessa forma, em cenários oncológicos, onde o interesse principal está na corr
 
 Com a base de dados metodologicamente preparada e as métricas de avaliação estabelecidas, o desenvolvimento do sistema avança para o seu núcleo computacional: a escolha do algoritmo de classificação. O campo do aprendizado supervisionado dispõe de um vasto leque de modelos matemáticos, variando desde equações probabilísticas mais tradicionais até arquiteturas estruturalmente complexas. Embora todos esses algoritmos compartilhem o mesmo propósito central de traçar uma fronteira capaz de separar as células benignas das malignas, cada um deles interpreta os dados e resolve esse problema geométrico utilizando lógicas completamente distintas.
 
-O modelo de base mais clássico na modelagem estatística em saúde é a Regressão Logística. Apesar do nome referenciar problemas contínuos, trata-se de um classificador probabilístico. Ele atua calculando uma combinação linear das características da célula, como o seu raio e a sua textura, e aplica esse resultado numérico em uma função matemática chamada sigmoide. Essa função comprime qualquer valor para um intervalo estrito entre zero e um, fornecendo diretamente a probabilidade de o tumor ser maligno. Se essa probabilidade exceder um limiar de corte, o sistema consolida o diagnóstico positivo. A sua adoção contínua na prática clínica decorre da transparência da equação, permitindo que o médico entenda o peso exato de cada variável na decisão final \cite{Bishop2006}.
+O modelo de base mais clássico na modelagem estatística em saúde é a Regressão Logística. Apesar do nome referenciar problemas contínuos, trata-se de um classificador probabilístico. Ele atua calculando uma combinação linear das características da célula, como o seu raio e a sua textura, e aplica esse resultado numérico em uma função matemática chamada sigmoide. Essa função comprime qualquer valor para um intervalo estrito entre zero e um, fornecendo diretamente a probabilidade de o tumor ser maligno. Se essa probabilidade exceder um limiar de corte, o sistema consolida o diagnóstico positivo. A sua adoção contínua na prática clínica decorre da transparência da equação, permitindo que o médico entenda o peso exato de cada variável na decisão final (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
 
-Estruturalmente, a regressão logística integra a família dos modelos lineares generalizados (GLMs). Em vez de modelar probabilidades diretamente com uma função linear, o algoritmo trabalha com a chance logarítmica (\textit{log-odds}), também conhecida como função \textit{logit}, para mapear a relação entre variáveis \cite{ibm_logistic_regression_2026}.
+Estruturalmente, a regressão logística integra a família dos modelos lineares generalizados (GLMs). Em vez de modelar probabilidades diretamente com uma função linear, o algoritmo trabalha com a chance logarítmica (\textit{log-odds}), também conhecida como função \textit{logit}, para mapear a relação entre variáveis (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}).
 
-Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo $[0, 1]$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade \cite{ibm_logistic_regression_2026}. Como o denominador é sempre estritamente superior ao numerador, a fração resultante converge para uma escala de probabilidade válida, conforme demonstrado na Equação \ref{eq:sigmoide}.
+Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo $[0, 1]$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}). Como o denominador é sempre estritamente superior ao numerador, a fração resultante converge para uma escala de probabilidade válida, conforme demonstrado na Equação \ref{eq:sigmoide}.
 
 \begin{equation}
 \label{eq:sigmoide}
 p(x) = \frac{e^{\beta_0 + \beta_1 x_1}}{1 + e^{\beta_0 + \beta_1 x_1}}
 \end{equation}
 
-Para estimar os coeficientes ($\beta_0$ e $\beta_1$), utiliza-se a Estimativa de Máxima Verossimilhança (MLE), um processo otimizado iterativamente por gradiente descendente que busca os parâmetros capazes de tornar os dados observados mais prováveis \cite{ibm_logistic_regression_2026}. A função de verossimilhança a ser maximizada neste processo é representada pela Equação \ref{eq:verossimilhanca}.
+Para estimar os coeficientes ($\beta_0$ e $\beta_1$), utiliza-se a Estimativa de Máxima Verossimilhança (MLE), um processo otimizado iterativamente por gradiente descendente que busca os parâmetros capazes de tornar os dados observados mais prováveis (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}). A função de verossimilhança a ser maximizada neste processo é representada pela Equação \ref{eq:verossimilhanca}.
 
 \begin{equation}
 \label{eq:verossimilhanca}
 L(\beta_0, \beta_1) = \prod_{i=1}^n p(x_i)^{y_i} \cdot (1 - p(x_i))^{1 - y_i}
 \end{equation}
 
-Quando a dispersão entre as características de células benignas e malignas apresenta uma distribuição complexa que não pode ser separada por uma linha reta simples, a computação recorre às Máquinas de Vetores de Suporte, frequentemente referenciadas pela sigla SVM. O objetivo primário deste algoritmo é encontrar uma fronteira de decisão geométrica, denominada hiperplano, que consiga separar as duas classes de tumores garantindo a maior margem de segurança possível entre elas. Os vetores de suporte, que dão nome ao modelo, são justamente os dados dos pacientes que estão posicionados de forma mais arriscada, ou seja, mais próximos a essa fronteira crítica. Eles atuam como os pilares estruturais que sustentam e definem o formato da decisão final do algoritmo \cite{Bishop2006}.
+Quando a dispersão entre as características de células benignas e malignas apresenta uma distribuição complexa que não pode ser separada por uma linha reta simples, a computação recorre às Máquinas de Vetores de Suporte, frequentemente referenciadas pela sigla SVM. O objetivo primário deste algoritmo é encontrar uma fronteira de decisão geométrica, denominada hiperplano, que consiga separar as duas classes de tumores garantindo a maior margem de segurança possível entre elas. Os vetores de suporte, que dão nome ao modelo, são justamente os dados dos pacientes que estão posicionados de forma mais arriscada, ou seja, mais próximos a essa fronteira crítica. Eles atuam como os pilares estruturais que sustentam e definem o formato da decisão final do algoritmo (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
 
 Entretanto, nos problemas oncológicos reais, é muito comum que os dados das células estejam sobrepostos, configurando um cenário não linear. Para solucionar essa limitação e viabilizar a classificação, o SVM utiliza uma operação matemática sofisticada conhecida como truque de \textit{kernel}. Conforme detalhado por \citeonline{AIOnlineCourse2023}, o \textit{kernel} atua como uma função de mapeamento que eleva os dados originais de um espaço de baixa dimensão para um espaço de dimensão superior. Nessa nova perspectiva matemática ampliada, as células malignas e benignas que antes pareciam misturadas passam a se afastar, tornando-se linearmente separáveis por um hiperplano. Existem diversas funções capazes de realizar essa transformação geométrica, sendo o \textit{kernel} Polinomial e o \textit{kernel} Gaussiano RBF os mais utilizados na prática para garantir que o algoritmo se adapte perfeitamente à complexidade biológica do câncer.
 
-Desenvolvidas na década de 1990 por Vladimir N. Vapnik, as SVMs tornaram-se aliadas robustas na pesquisa médica devido à sua capacidade de detectar tendências sutis em bases de dados complexas \cite{ibm_svm_2026}. O fundamento geométrico do algoritmo baseia-se na criação de uma fronteira de separação cuja natureza dimensional depende diretamente da quantidade de atributos dos dados de entrada: em um espaço 2D, essa fronteira é uma linha simples, enquanto em espaços de dimensões superiores ela se projeta como um hiperplano n-dimensional \cite{ibm_svm_2026}.
+Desenvolvidas na década de 1990 por Vladimir N. Vapnik, as SVMs tornaram-se aliadas robustas na pesquisa médica devido à sua capacidade de detectar tendências sutis em bases de dados complexas (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). O fundamento geométrico do algoritmo baseia-se na criação de uma fronteira de separação cuja natureza dimensional depende diretamente da quantidade de atributos dos dados de entrada: em um espaço 2D, essa fronteira é uma linha simples, enquanto em espaços de dimensões superiores ela se projeta como um hiperplano n-dimensional (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
 A Figura \ref{fig:hiperplano_svm} ilustra visualmente o funcionamento 
 do truque de \textit{kernel} aplicado pelo SVM. No espaço bidimensional 
@@ -385,87 +386,87 @@ viável.
 
 \begin{figure}[htbp]
     \centering
-    \caption{Representação geométrica do hiperplano e margens de separação do SVM}
+    \caption{REPRESENTAÇÃO GEOMÉTRICA DO HIPERPLANO E MARGENS DE SEPARAÇÃO DO SVM}
     \includegraphics[width=0.7\textwidth]{hyperplane.png}
     \label{fig:hiperplano_svm}
     \fonte{\citeauthoronline{AIOnlineCourse2023}, \citeyear{AIOnlineCourse2023}, Disponível em: \url{https://www.coursera.org/learn/machine-learning/lecture/2s9nP/support-vector-machines}}
 \end{figure}
 
-O propósito central do algoritmo é encontrar a orientação ideal dessa fronteira para que ela maximize a distância ou a margem entre os pontos mais próximos de classes distintas, conhecidos como vetores de suporte \cite{ibm_svm_2026}. Essa lógica é frequentemente comparada ao ajuste da "rua mais larga possível"\ entre os dados, garantindo que o modelo não apenas separe os grupos, mas o faça com uma folga que favoreça a generalização para novos diagnósticos clínicos \cite{ibm_svm_2026}. Matematicamente, o hiperplano separador é descrito formalmente pela Equação \ref{eq:hiperplano}, onde $w$ é o vetor de peso que dita a inclinação da fronteira, $x$ é o vetor de entrada e $b$ representa o termo de viés que define a posição do plano no espaço \cite{ibm_svm_2026}.
+O propósito central do algoritmo é encontrar a orientação ideal dessa fronteira para que ela maximize a distância ou a margem entre os pontos mais próximos de classes distintas, conhecidos como vetores de suporte (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Essa lógica é frequentemente comparada ao ajuste da "rua mais larga possível"\ entre os dados, garantindo que o modelo não apenas separe os grupos, mas o faça com uma folga que favoreça a generalização para novos diagnósticos clínicos (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Matematicamente, o hiperplano separador é descrito formalmente pela Equação \ref{eq:hiperplano}, onde $w$ é o vetor de peso que dita a inclinação da fronteira, $x$ é o vetor de entrada e $b$ representa o termo de viés que define a posição do plano no espaço (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
 \begin{equation}
 \label{eq:hiperplano}
 wx + b = 0
 \end{equation}
 
-O modelo pode adotar uma configuração de margem rígida, exigindo que todos os dados sejam perfeitamente isolados fora da zona definida pelos vetores de suporte. Sob este regime, a maximização da margem projetada entre as classes é calculada pela Equação \ref{eq:margem_svm} \cite{ibm_svm_2026}.
+O modelo pode adotar uma configuração de margem rígida, exigindo que todos os dados sejam perfeitamente isolados fora da zona definida pelos vetores de suporte. Sob este regime, a maximização da margem projetada entre as classes é calculada pela Equação \ref{eq:margem_svm} (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
 \begin{equation}
 \label{eq:margem_svm}
 \max \; \gamma = \frac{2}{\|w\|}
 \end{equation}
 
-Para lidar com a complexidade e os ruídos inerentes aos dados oncológicos reais, utiliza-se alternativamente a classificação de margem flexível. Essa técnica permite estrategicamente a ocorrência de pequenos erros de classificação através do uso de variáveis de folga ($\xi$) e do hiperparâmetro de regularização $C$. Um valor de $C$ elevado estreita a margem para minimizar classificações incorretas, enquanto um valor menor amplia a margem, permitindo uma maior tolerância a ruídos para evitar o sobreajuste e melhorar a performance preditiva \cite{ibm_svm_2026}.
+Para lidar com a complexidade e os ruídos inerentes aos dados oncológicos reais, utiliza-se alternativamente a classificação de margem flexível. Essa técnica permite estrategicamente a ocorrência de pequenos erros de classificação através do uso de variáveis de folga ($\xi$) e do hiperparâmetro de regularização $C$. Um valor de $C$ elevado estreita a margem para minimizar classificações incorretas, enquanto um valor menor amplia a margem, permitindo uma maior tolerância a ruídos para evitar o sobreajuste e melhorar a performance preditiva (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
-Outra abordagem geométrica muito intuitiva para a classificação é o algoritmo KNN (\textit{K-Nearest Neighbors}). Diferente dos modelos que processam os dados para construir uma equação fixa durante o treinamento, o KNN adota um método de aprendizado baseado em instâncias. Na prática, ele memoriza todo o conjunto de dados históricos de tumores. Quando os dados de um novo paciente são inseridos no sistema, o algoritmo calcula a distância matemática espacial, como a distância Euclidiana, entre as características dessa nova célula e todas as células antigas já armazenadas. O sistema então identifica os "K" vizinhos mais próximos, ou seja, os exames históricos que possuem as medidas anatômicas mais idênticas ao caso atual. O diagnóstico preditivo é determinado por uma votação simples nessa vizinhança. Se a maioria dos tumores vizinhos for maligna, o novo caso será classificado como maligno. A sua aplicação em sistemas médicos destaca-se pela facilidade de interpretação espacial por parte do profissional de saúde, embora o esforço computacional para calcular essas distâncias aumente consideravelmente em bases de dados muito volumosas \cite{Faceli2011}.
+Outra abordagem geométrica muito intuitiva para a classificação é o algoritmo KNN (\textit{K-Nearest Neighbors}). Diferente dos modelos que processam os dados para construir uma equação fixa durante o treinamento, o KNN adota um método de aprendizado baseado em instâncias. Na prática, ele memoriza todo o conjunto de dados históricos de tumores. Quando os dados de um novo paciente são inseridos no sistema, o algoritmo calcula a distância matemática espacial, como a distância Euclidiana, entre as características dessa nova célula e todas as células antigas já armazenadas. O sistema então identifica os "K" vizinhos mais próximos, ou seja, os exames históricos que possuem as medidas anatômicas mais idênticas ao caso atual. O diagnóstico preditivo é determinado por uma votação simples nessa vizinhança. Se a maioria dos tumores vizinhos for maligna, o novo caso será classificado como maligno. A sua aplicação em sistemas médicos destaca-se pela facilidade de interpretação espacial por parte do profissional de saúde, embora o esforço computacional para calcular essas distâncias aumente consideravelmente em bases de dados muito volumosas (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-Os conceitos iniciais que fundamentam o KNN foram propostos em 1951, sendo o modelo categorizado como de "aprendizado preguiçoso"\ ou baseado em memória. Isso significa que não há fase formal de treinamento prévio, pois o algoritmo apenas armazena os dados, exigindo que toda a computação ocorra no exato momento da previsão. Para determinar os vizinhos, o modelo fundamenta-se em métricas de distância, como a euclidiana ou a distância de Manhattan. Recomenda-se que o número de vizinhos ($k$) seja definido de forma ímpar para evitar empates decisórios. Apesar da simplicidade, o KNN sofre com a "maldição da dimensionalidade"\ e torna-se ineficiente em termos de memória à medida que a base cresce \cite{ibm_knn_2026}.
+Os conceitos iniciais que fundamentam o KNN foram propostos em 1951, sendo o modelo categorizado como de "aprendizado preguiçoso"\ ou baseado em memória. Isso significa que não há fase formal de treinamento prévio, pois o algoritmo apenas armazena os dados, exigindo que toda a computação ocorra no exato momento da previsão. Para determinar os vizinhos, o modelo fundamenta-se em métricas de distância, como a euclidiana ou a distância de Manhattan. Recomenda-se que o número de vizinhos ($k$) seja definido de forma ímpar para evitar empates decisórios. Apesar da simplicidade, o KNN sofre com a "maldição da dimensionalidade"\ e torna-se ineficiente em termos de memória à medida que a base cresce (\citeauthoronline{ibm_knn_2026}, \citeyear{ibm_knn_2026}).
 
-Entre as métricas disponíveis para mensurar essa proximidade, a Distância Euclidiana é a mais utilizada na prática. Ela representa o comprimento da linha reta que liga dois pontos no espaço de características, de forma análoga à distância física entre dois exames plotados em um gráfico. Sendo $x$ e $y$ dois vetores de características de pacientes distintos e $n$ o número total de atributos considerados, essa distância é calculada conforme a Equação~\ref{eq:distancia_euclidiana} \cite{ibm_knn_2026}:
+Entre as métricas disponíveis para mensurar essa proximidade, a Distância Euclidiana é a mais utilizada na prática. Ela representa o comprimento da linha reta que liga dois pontos no espaço de características, de forma análoga à distância física entre dois exames plotados em um gráfico. Sendo $x$ e $y$ dois vetores de características de pacientes distintos e $n$ o número total de atributos considerados, essa distância é calculada conforme a Equação~\ref{eq:distancia_euclidiana} (\citeauthoronline{ibm_knn_2026}, \citeyear{ibm_knn_2026}):
 
 \begin{equation}
 \label{eq:distancia_euclidiana}
 d_E(x, y) = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2}
 \end{equation}
 
-Outra métrica relevante é a Distância de Manhattan, que em vez de traçar um caminho diagonal entre os pontos, percorre as diferenças atributo a atributo de forma ortogonal, somando apenas os deslocamentos absolutos em cada dimensão. Essa abordagem torna o cálculo menos sensível a valores extremos isolados, o que pode ser vantajoso em conjuntos de dados clínicos com medidas discrepantes. Sua formulação é apresentada na Equação~\ref{eq:distancia_manhattan} \cite{ibm_knn_2026}:
+Outra métrica relevante é a Distância de Manhattan, que em vez de traçar um caminho diagonal entre os pontos, percorre as diferenças atributo a atributo de forma ortogonal, somando apenas os deslocamentos absolutos em cada dimensão. Essa abordagem torna o cálculo menos sensível a valores extremos isolados, o que pode ser vantajoso em conjuntos de dados clínicos com medidas discrepantes. Sua formulação é apresentada na Equação~\ref{eq:distancia_manhattan} (\citeauthoronline{ibm_knn_2026}, \citeyear{ibm_knn_2026}):
 
 \begin{equation}
 \label{eq:distancia_manhattan}
 d_M(x, y) = \sum_{i=1}^{n} |x_i - y_i|
 \end{equation}
 
-Ambas as métricas são casos particulares da Distância de Minkowski, que as unifica por meio de um parâmetro $p$: atribuindo $p = 2$ recupera-se a fórmula euclidiana, enquanto $p = 1$ corresponde à distância de Manhattan \cite{ibm_knn_2026}. A escolha entre elas influencia diretamente a sensibilidade do algoritmo a variações nos dados clínicos, tornando essa decisão um passo relevante na configuração do modelo para cada contexto oncológico.
+Ambas as métricas são casos particulares da Distância de Minkowski, que as unifica por meio de um parâmetro $p$: atribuindo $p = 2$ recupera-se a fórmula euclidiana, enquanto $p = 1$ corresponde à distância de Manhattan (\citeauthoronline{ibm_knn_2026}, \citeyear{ibm_knn_2026}). A escolha entre elas influencia diretamente a sensibilidade do algoritmo a variações nos dados clínicos, tornando essa decisão um passo relevante na configuração do modelo para cada contexto oncológico.
 
-Explorando uma abordagem fundamentada em regras lógicas sucessivas, surgem os algoritmos baseados em Árvores de Decisão. Uma árvore individual funciona como um fluxograma hierárquico que parte de um nó raiz, se ramifica por nós internos de decisão e chega às folhas, onde a classificação final é atribuída. A cada etapa desse percurso, o algoritmo testa uma condição sobre uma característica celular, como o raio ou a textura do tumor, e encaminha cada amostra para o ramo correspondente até que ela alcance um nó terminal com um rótulo de classe definido \cite{ibm_decision_tree_2026}.
+Explorando uma abordagem fundamentada em regras lógicas sucessivas, surgem os algoritmos baseados em Árvores de Decisão. Uma árvore individual funciona como um fluxograma hierárquico que parte de um nó raiz, se ramifica por nós internos de decisão e chega às folhas, onde a classificação final é atribuída. A cada etapa desse percurso, o algoritmo testa uma condição sobre uma característica celular, como o raio ou a textura do tumor, e encaminha cada amostra para o ramo correspondente até que ela alcance um nó terminal com um rótulo de classe definido (\citeauthoronline{ibm_decision_tree_2026}, \citeyear{ibm_decision_tree_2026}).
 
-A lógica que determina qual característica deve ser testada primeiro é guiada pelo conceito de entropia, oriundo da teoria da informação, que quantifica o grau de desordem ou impureza presente em um conjunto de dados. Em um nó que contenha apenas tumores malignos, por exemplo, não há nenhuma incerteza sobre a classe e a entropia é nula. Já em um nó com metade dos casos benignos e metade malignos, a incerteza é máxima e a entropia atinge seu valor mais alto. Sendo $S$ o conjunto de dados de um nó, $c$ cada uma das classes possíveis e $p(c)$ a proporção de amostras pertencentes à classe $c$, a entropia é calculada conforme a Equação~\ref{eq:entropia} \cite{ibm_decision_tree_2026}:
+A lógica que determina qual característica deve ser testada primeiro é guiada pelo conceito de entropia, oriundo da teoria da informação, que quantifica o grau de desordem ou impureza presente em um conjunto de dados. Em um nó que contenha apenas tumores malignos, por exemplo, não há nenhuma incerteza sobre a classe e a entropia é nula. Já em um nó com metade dos casos benignos e metade malignos, a incerteza é máxima e a entropia atinge seu valor mais alto. Sendo $S$ o conjunto de dados de um nó, $c$ cada uma das classes possíveis e $p(c)$ a proporção de amostras pertencentes à classe $c$, a entropia é calculada conforme a Equação~\ref{eq:entropia} (\citeauthoronline{ibm_decision_tree_2026}, \citeyear{ibm_decision_tree_2026}):
 
 \begin{equation}
 \label{eq:entropia}
 H(S) = -\sum_{c=1}^{C} p(c) \log_2\, p(c)
 \end{equation}
 
-A partir da entropia, o algoritmo calcula o ganho de informação de cada atributo disponível, que representa a redução de incerteza obtida ao dividir os dados segundo aquela característica. O atributo que produzir a maior redução de entropia é escolhido como critério de divisão naquele nó, e o processo se repete recursivamente em cada subárvore resultante. O ganho de informação de um atributo $a$ sobre o conjunto $S$ é definido pela Equação~\ref{eq:ganho_informacao}, onde $S_v$ representa o subconjunto de amostras em que o atributo $a$ assume o valor $v$ \cite{ibm_decision_tree_2026}:
+A partir da entropia, o algoritmo calcula o ganho de informação de cada atributo disponível, que representa a redução de incerteza obtida ao dividir os dados segundo aquela característica. O atributo que produzir a maior redução de entropia é escolhido como critério de divisão naquele nó, e o processo se repete recursivamente em cada subárvore resultante. O ganho de informação de um atributo $a$ sobre o conjunto $S$ é definido pela Equação~\ref{eq:ganho_informacao}, onde $S_v$ representa o subconjunto de amostras em que o atributo $a$ assume o valor $v$ (\citeauthoronline{ibm_decision_tree_2026}, \citeyear{ibm_decision_tree_2026}):
 
 \begin{equation}
 \label{eq:ganho_informacao}
 IG(S,\, a) = H(S) - \sum_{v} \frac{|S_v|}{|S|}\, H(S_v)
 \end{equation}
 
-Esse critério é a base do algoritmo ID3, desenvolvido por Ross Quinlan em 1986, e de sua evolução, o C4.5, que introduziu melhorias na forma de lidar com atributos contínuos e dados faltantes. Estruturalmente, o aprendizado das árvores adota uma estratégia de dividir para conquistar, realizando buscas recursivas e descendentes até que os nós folha contenham amostras suficientemente homogêneas \cite{ibm_decision_tree_2026}. Contudo, quando crescem sem restrições, as árvores individuais tornam-se extremamente suscetíveis ao \textit{overfitting}, memorizando os dados de treinamento em vez de aprender padrões generalizáveis \cite{Faceli2011}. Para conter esse problema, aplica-se a técnica de poda, que remove ramificações formadas sobre atributos de baixa relevância preditiva, em consonância com o princípio da parcimônia preconizado pela Navalha de Occam \cite{ibm_decision_tree_2026}.
+Esse critério é a base do algoritmo ID3, desenvolvido por Ross Quinlan em 1986, e de sua evolução, o C4.5, que introduziu melhorias na forma de lidar com atributos contínuos e dados faltantes. Estruturalmente, o aprendizado das árvores adota uma estratégia de dividir para conquistar, realizando buscas recursivas e descendentes até que os nós folha contenham amostras suficientemente homogêneas (\citeauthoronline{ibm_decision_tree_2026}, \citeyear{ibm_decision_tree_2026}). Contudo, quando crescem sem restrições, as árvores individuais tornam-se extremamente suscetíveis ao \textit{overfitting}, memorizando os dados de treinamento em vez de aprender padrões generalizáveis (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}). Para conter esse problema, aplica-se a técnica de poda, que remove ramificações formadas sobre atributos de baixa relevância preditiva, em consonância com o princípio da parcimônia preconizado pela Navalha de Occam (\citeauthoronline{ibm_decision_tree_2026}, \citeyear{ibm_decision_tree_2026}).
 
-Para sanar essa vulnerabilidade da árvore única, a estatística computacional recorre à técnica \textit{Random Forest}, ou Floresta Aleatória. Este modelo opera sob o paradigma de comitês de máquinas, criando grandes quantidades de árvores de decisão simultâneas de forma paralela. Para garantir que as árvores não tomem decisões idênticas, o algoritmo força uma diversidade matemática ao treinar cada uma delas com um subconjunto aleatório de pacientes e características. Ao submeter os dados de um novo exame ao modelo, o diagnóstico final não é imposto por uma única regra, mas determinado por uma votação majoritária entre todas as árvores que compõem a floresta. Essa dinâmica de sabedoria coletiva dilui os erros de árvores individuais e gera um sistema preditivo altamente estável e protegido contra anomalias \cite{Faceli2011}.
+Para sanar essa vulnerabilidade da árvore única, a estatística computacional recorre à técnica \textit{Random Forest}, ou Floresta Aleatória. Este modelo opera sob o paradigma de comitês de máquinas, criando grandes quantidades de árvores de decisão simultâneas de forma paralela. Para garantir que as árvores não tomem decisões idênticas, o algoritmo força uma diversidade matemática ao treinar cada uma delas com um subconjunto aleatório de pacientes e características. Ao submeter os dados de um novo exame ao modelo, o diagnóstico final não é imposto por uma única regra, mas determinado por uma votação majoritária entre todas as árvores que compõem a floresta. Essa dinâmica de sabedoria coletiva dilui os erros de árvores individuais e gera um sistema preditivo altamente estável e protegido contra anomalias (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
 A essência da floresta aleatória consiste em atuar como uma expansão avançada do método \textit{bagging} (agregação \textit{bootstrap}), incorporando também a aleatoriedade de características (método do subespaço aleatório) para forçar uma correlação extremamente baixa entre as árvores \cite{ibm_random_forest_2026}. Durante as amostragens no conjunto original, um terço dos dados é estrategicamente blindado sob a nomenclatura de amostra \textit{out-of-bag} (oob), servindo primariamente para validações cruzadas \cite{ibm_random_forest_2026}. Um grande benefício clínico do \textit{Random Forest} é a sua clareza na atribuição de importância preditiva das variáveis, mensurada com ferramentas como a diminuição média da impureza (MDI) e a importância por permutação (MDA) \cite{ibm_random_forest_2026}.
 
-Ainda dentro do paradigma de comitês de máquinas, destaca-se o \textit{Extreme Gradient Boosting}, amplamente conhecido no mercado como \textit{XGBoost}. Ao contrário da floresta aleatória que constrói todas as suas árvores de forma simultânea e independente, este algoritmo adota uma arquitetura sequencial focada no aprendizado com os próprios erros. A primeira árvore tenta classificar os tumores e inevitavelmente comete equívocos. A segunda árvore é construída com o propósito exclusivo de corrigir os erros da primeira, a terceira foca nos erros da segunda, e assim sucessivamente. Essa otimização contínua baseada na descida do gradiente cria um modelo preditivo de altíssima performance \cite{Faceli2011}.
+Ainda dentro do paradigma de comitês de máquinas, destaca-se o \textit{Extreme Gradient Boosting}, amplamente conhecido no mercado como \textit{XGBoost}. Ao contrário da floresta aleatória que constrói todas as suas árvores de forma simultânea e independente, este algoritmo adota uma arquitetura sequencial focada no aprendizado com os próprios erros. A primeira árvore tenta classificar os tumores e inevitavelmente comete equívocos. A segunda árvore é construída com o propósito exclusivo de corrigir os erros da primeira, a terceira foca nos erros da segunda, e assim sucessivamente. Essa otimização contínua baseada na descida do gradiente cria um modelo preditivo de altíssima performance (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-No ápice da complexidade arquitetônica encontram-se as Redes Neurais Artificiais, algoritmos inspirados no funcionamento biológico do cérebro humano. Elas são compostas por múltiplas camadas de neurônios matemáticos interconectados, capazes de extrair relacionamentos profundos ocultos nos dados oncológicos \cite{Bishop2006}. Entretanto, essa evolução tecnológica impõe um grave dilema clínico. À medida que a ciência avança da transparente Regressão Logística para as poderosas redes neurais e algoritmos sequenciais como o \textit{XGBoost}, o modelo ganha acurácia estatística, mas perde drasticamente a sua interpretabilidade, transformando-se em uma caixa preta inescrutável. Na prática médica, entregar uma predição isolada não é eticamente aceitável, pois o oncologista necessita compreender as justificativas celulares do sistema. É exatamente para romper essa barreira analítica e resgatar a transparência das decisões que a Inteligência Artificial Explicável se torna indispensável.
+No ápice da complexidade arquitetônica encontram-se as Redes Neurais Artificiais, algoritmos inspirados no funcionamento biológico do cérebro humano. Elas são compostas por múltiplas camadas de neurônios matemáticos interconectados, capazes de extrair relacionamentos profundos ocultos nos dados oncológicos (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}). Entretanto, essa evolução tecnológica impõe um grave dilema clínico. À medida que a ciência avança da transparente Regressão Logística para as poderosas redes neurais e algoritmos sequenciais como o \textit{XGBoost}, o modelo ganha acurácia estatística, mas perde drasticamente a sua interpretabilidade, transformando-se em uma caixa preta inescrutável. Na prática médica, entregar uma predição isolada não é eticamente aceitável, pois o oncologista necessita compreender as justificativas celulares do sistema. É exatamente para romper essa barreira analítica e resgatar a transparência das decisões que a Inteligência Artificial Explicável se torna indispensável.
 
 \section{O Dilema da Caixa Preta e a Inteligência Artificial Explicável}
 
-A evolução dos sistemas computacionais na oncologia transitou de ferramentas visuais puramente assistenciais para algoritmos preditivos autônomos de alta complexidade. Modelos baseados em comitês de árvores e redes neurais profundas alcançam taxas de acerto notáveis na classificação de tumores. Contudo, essa elevada acurácia estatística impôs um custo severo à prática clínica, consolidando o que a literatura científica denomina como o dilema da caixa preta. Em um cenário de alto risco como o diagnóstico de câncer de mama, a previsão matemática isolada é insuficiente. O médico patologista não pode basear uma decisão terapêutica drástica, como uma intervenção cirúrgica, em um sistema que emite um alerta de malignidade sem fornecer o raciocínio biológico e morfológico que motivou tal conclusão \cite{Holzinger2019}.
+A evolução dos sistemas computacionais na oncologia transitou de ferramentas visuais puramente assistenciais para algoritmos preditivos autônomos de alta complexidade. Modelos baseados em comitês de árvores e redes neurais profundas alcançam taxas de acerto notáveis na classificação de tumores. Contudo, essa elevada acurácia estatística impôs um custo severo à prática clínica, consolidando o que a literatura científica denomina como o dilema da caixa preta. Em um cenário de alto risco como o diagnóstico de câncer de mama, a previsão matemática isolada é insuficiente. O médico patologista não pode basear uma decisão terapêutica drástica, como uma intervenção cirúrgica, em um sistema que emite um alerta de malignidade sem fornecer o raciocínio biológico e morfológico que motivou tal conclusão (\citeauthoronline{Holzinger2019}, \citeyear{Holzinger2019}).
 
-Para preencher essa lacuna entre a precisão matemática e a confiança médica, consolidou-se o campo da Inteligência Artificial Explicável, amplamente referenciado pela sigla em inglês XAI. O propósito primordial da XAI não é focar na criação de novos classificadores, mas sim no desenvolvimento de métodos e ferramentas que tornem o processo de decisão das máquinas transparente e compreensível para os seres humanos. Em aplicações médicas, a explicabilidade atua como uma camada de auditoria e segurança. Ela permite que o especialista de saúde verifique se o algoritmo está baseando sua decisão em características celulares clinicamente válidas, como a concavidade e a textura do núcleo, em vez de aprender padrões espúrios ou artefatos irrelevantes presentes na base de dados \cite{Adadi2018}.
+Para preencher essa lacuna entre a precisão matemática e a confiança médica, consolidou-se o campo da Inteligência Artificial Explicável, amplamente referenciado pela sigla em inglês XAI. O propósito primordial da XAI não é focar na criação de novos classificadores, mas sim no desenvolvimento de métodos e ferramentas que tornem o processo de decisão das máquinas transparente e compreensível para os seres humanos. Em aplicações médicas, a explicabilidade atua como uma camada de auditoria e segurança. Ela permite que o especialista de saúde verifique se o algoritmo está baseando sua decisão em características celulares clinicamente válidas, como a concavidade e a textura do núcleo, em vez de aprender padrões espúrios ou artefatos irrelevantes presentes na base de dados (\citeauthoronline{Adadi2018}, \citeyear{Adadi2018}).
 
 Do ponto de vista arquitetônico, \citeonline{Rudin2019} destaca que a explicabilidade se divide em duas abordagens fundamentais. A primeira consiste na utilização de modelos intrinsecamente interpretáveis, como a Regressão Logística ou uma única Árvore de Decisão, cujas equações matemáticas são naturalmente transparentes, embora frequentemente apresentem limitações de desempenho em dados biológicos complexos. A segunda abordagem engloba as técnicas de explicabilidade \textit{post-hoc}. Estas técnicas são acopladas externamente a modelos de caixa preta após a fase de treinamento, extraindo interpretações sem alterar a estrutura interna do algoritmo original. No escopo deste estudo, opta-se pela segunda via. Ao aplicar métodos \textit{post-hoc} sobre classificadores robustos, busca-se entregar ao oncologista uma ferramenta que alie o máximo desempenho preditivo da computação moderna à transparência analítica exigida pela ética médica.
 
 \section{SHapley Additive exPlanations (SHAP)}
 
-A técnica \textit{SHapley Additive exPlanations} (SHAP) representa o atual estado da arte em explicabilidade algorítmica. A sua base teórica não nasceu na ciência da computação, mas sim na teoria dos jogos cooperativos, formulada pelo matemático Lloyd Shapley. Na teoria original, o valor de Shapley calcula a contribuição exata e justa de cada jogador para o prêmio final obtido por uma equipe. Quando esse conceito é transportado para o aprendizado de máquina, o modelo preditivo assume o papel do jogo, as características celulares atuam como os jogadores e o prêmio a ser dividido é a predição final do algoritmo. De acordo com a documentação oficial da ferramenta, o SHAP atua como uma abordagem unificada, consolidando diversas metodologias anteriores sob a classe de métodos de atribuição de características aditivas para revelar os bastidores matemáticos da caixa preta \cite{Lundberg2017}.
+A técnica \textit{SHapley Additive exPlanations} (SHAP) representa o atual estado da arte em explicabilidade algorítmica. A sua base teórica não nasceu na ciência da computação, mas sim na teoria dos jogos cooperativos, formulada pelo matemático Lloyd Shapley. Na teoria original, o valor de Shapley calcula a contribuição exata e justa de cada jogador para o prêmio final obtido por uma equipe. Quando esse conceito é transportado para o aprendizado de máquina, o modelo preditivo assume o papel do jogo, as características celulares atuam como os jogadores e o prêmio a ser dividido é a predição final do algoritmo. De acordo com a documentação oficial da ferramenta, o SHAP atua como uma abordagem unificada, consolidando diversas metodologias anteriores sob a classe de métodos de atribuição de características aditivas para revelar os bastidores matemáticos da caixa preta (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
-Um dos grandes trunfos arquitetônicos da biblioteca SHAP, conforme detalhado em seu manual técnico, é a disponibilidade de otimizadores algorítmicos específicos denominados \textit{explainers}. Como o cálculo de todas as combinações possíveis de variáveis possui um custo computacional altíssimo, a ferramenta oferece soluções otimizadas para diferentes modelos. Para algoritmos baseados em árvores, como o \textit{Random Forest} e o \textit{XGBoost}, a biblioteca disponibiliza o \textit{TreeExplainer}, um algoritmo capaz de calcular os valores exatos de Shapley de forma extremamente rápida aproveitando a estrutura de roteamento interna das árvores. Para arquiteturas matemáticas distintas ou caixas pretas absolutas, o sistema recorre a algoritmos agnósticos, como o \textit{KernelExplainer}, garantindo que qualquer modelo oncológico possa ser dissecado independentemente de sua complexidade teórica \cite{SHAPDocs2026}.
+Um dos grandes trunfos arquitetônicos da biblioteca SHAP, conforme detalhado em seu manual técnico, é a disponibilidade de otimizadores algorítmicos específicos denominados \textit{explainers}. Como o cálculo de todas as combinações possíveis de variáveis possui um custo computacional altíssimo, a ferramenta oferece soluções otimizadas para diferentes modelos. Para algoritmos baseados em árvores, como o \textit{Random Forest} e o \textit{XGBoost}, a biblioteca disponibiliza o \textit{TreeExplainer}, um algoritmo capaz de calcular os valores exatos de Shapley de forma extremamente rápida aproveitando a estrutura de roteamento interna das árvores. Para arquiteturas matemáticas distintas ou caixas pretas absolutas, o sistema recorre a algoritmos agnósticos, como o \textit{KernelExplainer}, garantindo que qualquer modelo oncológico possa ser dissecado independentemente de sua complexidade teórica (\citeauthoronline{SHAPDocs2026}, \citeyear{SHAPDocs2026}).
 
 O resultado desse robusto processamento matemático é traduzido em visualizações gráficas projetadas especificamente para a prática clínica e auditoria de dados. No escopo da interpretabilidade local, voltada para o diagnóstico de um único paciente, o SHAP fornece gráficos de cascata (\textit{waterfall plots}). Essas representações ilustram milimetricamente como cada característica, como a textura ou a área do núcleo celular, empurrou a probabilidade do diagnóstico para cima ou para baixo a partir do valor base da população. No escopo global, o algoritmo compila todas as predições em gráficos de enxame (\textit{beeswarm plots} ou \textit{summary plots}). Esse panorama permite que o médico observe não apenas quais variáveis são globalmente mais importantes para o classificador, mas também a direção biomédica desse impacto, revelando se os valores altos de uma determinada característica estão sistematicamente associados a tumores malignos.
 
@@ -473,7 +474,7 @@ Em comparação com outras ferramentas de explicabilidade disponíveis na litera
 
 \subsection{Fundamentação Matemática: A Equação de Shapley}
 
-Para compreender como a biblioteca computacional distribui os pesos das características oncológicas, é estritamente necessário analisar a equação matemática original proposta para o Valor de Shapley. O cálculo baseia-se na análise de todas as permutações e subconjuntos possíveis de jogadores em um cenário cooperativo. Seja $N$ o conjunto total de características celulares disponíveis em um exame e $S$ um subconjunto específico dessas características, o valor de Shapley para uma característica isolada $i$, denotado por $\phi_i$, é definido pela Equação \ref{eq:shapley} \cite{Lundberg2017}:
+Para compreender como a biblioteca computacional distribui os pesos das características oncológicas, é estritamente necessário analisar a equação matemática original proposta para o Valor de Shapley. O cálculo baseia-se na análise de todas as permutações e subconjuntos possíveis de jogadores em um cenário cooperativo. Seja $N$ o conjunto total de características celulares disponíveis em um exame e $S$ um subconjunto específico dessas características, o valor de Shapley para uma característica isolada $i$, denotado por $\phi_i$, é definido pela Equação \ref{eq:shapley} (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}):
 
 \begin{equation}
     \label{eq:shapley}
@@ -486,11 +487,11 @@ A fração que antecede a contribuição marginal atua como um sistema de pesos 
 
 \section{Redução de Dimensionalidade e UMAP}
 
-A análise preditiva de tumores lida com um volume massivo de informações simultâneas. No caso do câncer de mama, o algoritmo avalia dezenas de características anatômicas em um único exame, como o raio, a textura e a simetria de cada núcleo celular \cite{Street1993}. Embora os modelos matemáticos consigam processar e cruzar esses dados em um espaço de trinta dimensões com extrema facilidade, essa estrutura de alta dimensionalidade não possui uma representação física direta que possa ser desenhada ou interpretada visualmente. Essa assimetria estrutural cria um obstáculo analítico significativo na prática médica, pois inviabiliza a observação direta do comportamento de toda a base de pacientes utilizando os eixos convencionais de um gráfico bi ou tridimensional.
+A análise preditiva de tumores lida com um volume massivo de informações simultâneas. No caso do câncer de mama, o algoritmo avalia dezenas de características anatômicas em um único exame, como o raio, a textura e a simetria de cada núcleo celular (\citeauthoronline{Street1993}, \citeyear{Street1993}). Embora os modelos matemáticos consigam processar e cruzar esses dados em um espaço de trinta dimensões com extrema facilidade, essa estrutura de alta dimensionalidade não possui uma representação física direta que possa ser desenhada ou interpretada visualmente. Essa assimetria estrutural cria um obstáculo analítico significativo na prática médica, pois inviabiliza a observação direta do comportamento de toda a base de pacientes utilizando os eixos convencionais de um gráfico bi ou tridimensional.
 
 Para solucionar essa limitação biomédica, a ciência de dados recorre a técnicas de redução de dimensionalidade. O propósito primário dessas ferramentas não é simplesmente descartar variáveis anatômicas aleatoriamente, mas sim aplicar transformações matemáticas capazes de comprimir um grande volume de dimensões em apenas dois eixos principais. O desafio central desse processo de compressão é preservar ao máximo a essência da informação original. Uma técnica metodologicamente eficiente deve garantir que a estrutura dos dados apresentada no gráfico bidimensional seja um reflexo direto e fiel das relações biológicas que existiam no espaço multidimensional complexo.
 
-Entre as metodologias disponíveis na literatura estatística contemporânea, o algoritmo UMAP, que consiste na Aproximação e Projeção de Variedade Uniforme, consolidou-se como uma ferramenta de altíssimo desempenho para a redução de dimensionalidade. O seu funcionamento interno diverge de abordagens matemáticas puramente lineares ao fundamentar-se em princípios de topologia algébrica. Na primeira etapa de seu processamento computacional, o algoritmo constrói uma representação teórica do conjunto de dados em seu espaço original de alta dimensão. Para isso, o modelo calcula as distâncias entre todos os pontos do sistema e mapeia rigorosamente os vizinhos mais próximos de cada elemento, formando um complexo grafo matemático que modela a estrutura exata de conectividade da informação original \cite{McInnes2018}.
+Entre as metodologias disponíveis na literatura estatística contemporânea, o algoritmo UMAP, que consiste na Aproximação e Projeção de Variedade Uniforme, consolidou-se como uma ferramenta de altíssimo desempenho para a redução de dimensionalidade. O seu funcionamento interno diverge de abordagens matemáticas puramente lineares ao fundamentar-se em princípios de topologia algébrica. Na primeira etapa de seu processamento computacional, o algoritmo constrói uma representação teórica do conjunto de dados em seu espaço original de alta dimensão. Para isso, o modelo calcula as distâncias entre todos os pontos do sistema e mapeia rigorosamente os vizinhos mais próximos de cada elemento, formando um complexo grafo matemático que modela a estrutura exata de conectividade da informação original (\citeauthoronline{McInnes2018}, \citeyear{McInnes2018}).
 
 Uma vez que essa rede de vizinhanças é estabelecida, a segunda fase do algoritmo consiste em projetar essa estrutura em um espaço de dimensão reduzida, como um plano bidimensional. Para realizar essa transição geométrica sem descaracterizar os dados, o UMAP inicializa um posicionamento espacial e aplica um rigoroso processo de otimização. O sistema utiliza vetores de atração matemática para aproximar as coordenadas dos pontos que foram mapeados como vizinhos fortes no espaço original, ao mesmo tempo em que aplica métricas de repulsão para afastar os pontos que não possuíam conexões de similaridade. O algoritmo ajusta iterativamente essas posições até que o gráfico plano atinja a aproximação topológica mais fiel possível da complexa rede inicial.
 
@@ -507,11 +508,11 @@ O grande diferencial técnico desta arquitetura algorítmica reside na sua capac
 % % -------------------------------------------------------------------------------------------------
 % % -------------------------------------------------------------------------------------------------
 
-\chapter{Revisão da Literatura}
+\chapter{TRABALHOS RELACIONADOS}
 
 Este capítulo apresenta uma análise detalhada da literatura científica que fundamenta o estado da arte no uso de aprendizado de máquina para o diagnóstico oncológico. A seleção abrange desde os estudos seminais que deram origem às bases de dados modernas até pesquisas recentes focadas em inteligência artificial explicável, estabelecendo o contexto necessário para a identificação da lacuna de pesquisa preenchida por este projeto.
 
-\section{Extração de Características Nucleares para o Diagnóstico de Tumores Mamários (Street et al., 1993)}
+\section{Extração de Características Nucleares para o Diagnóstico de Tumores Mamários (Street \textit{et al.}, 1993)}
 
 O trabalho conduzido por \citeonline{Street1993} é considerado a pedra angular para o desenvolvimento de sistemas de diagnóstico assistido por computador aplicados ao câncer de mama. O objetivo primordial da pesquisa foi desenvolver um sistema que pudesse processar imagens digitais de aspirados por agulha fina para fornecer um diagnóstico maligno ou benigno de forma automatizada e precisa.
 
@@ -541,7 +542,7 @@ Embora o foco principal fosse a segmentação e não a classificação preditiva
 
 A relevância deste estudo para o presente projeto reside na compreensão da infraestrutura necessária para gerar os dados de entrada. Enquanto este TCC foca na inteligência preditiva e explicável sobre dados já estruturados, o trabalho de Silva Júnior fornece a base sobre como esses dados são extraídos do mundo físico.
 
-\section{Diagnóstico de Câncer de Pulmão e Cólon via Deep Learning (Masud et al., 2021)}
+\section{Diagnóstico de Câncer de Pulmão e Cólon via Deep Learning (Masud \textit{et al.}, 2021)}
 
 A pesquisa de \citeonline{Masud2021} explorou o uso de Redes Neurais Profundas para o diagnóstico de câncer em tecidos pulmonares e colorretais. O diferencial do trabalho foi o uso de uma estrutura de classificação baseada em imagens de histopatologia para identificar padrões malignos de forma automática.
 
@@ -551,7 +552,7 @@ Contudo, os pesquisadores notaram que modelos de rede neural profunda, apesar de
 
 Este trabalho é citado para contrastar com a abordagem tabular deste TCC. Ele exemplifica o estado da arte em processamento de imagens, servindo de base para discutir por que a explicabilidade se torna ainda mais necessária quando lidamos com modelos de alta complexidade como os de \textit{Deep Learning}.
 
-\section{Predição de Câncer de Pulmão com Seleção de Correlação (Abdullah et al., 2021)}
+\section{Predição de Câncer de Pulmão com Seleção de Correlação (Abdullah \textit{et al.}, 2021)}
 
 Focando na eficiência computacional, \citeonline{Abdullah2021} investigaram como a seleção inteligente de variáveis pode melhorar a precisão do diagnóstico de câncer de pulmão. O objetivo era identificar quais características clínicas e genéticas eram mais correlacionadas com a presença da doença.
 
@@ -561,7 +562,7 @@ Os resultados mostraram que modelos com menos variáveis, porém mais significat
 
 Este estudo corrobora a utilidade do UMAP no presente projeto. Ao discutir a redução de dimensionalidade, o trabalho de Abdullah et al. fornece o embasamento sobre como a simplificação de dados complexos pode levar a diagnósticos mais precisos e interpretáveis.
 
-\section{Abordagens de Machine Learning na Predição do Câncer de Mama (Rabiei et al., 2022)}
+\section{Abordagens de Machine Learning na Predição do Câncer de Mama (Rabiei \textit{et al.}, 2022)}
 
 O estudo de \citeonline{Rabiei2022} avaliou diferentes algoritmos de aprendizado de máquina aplicados a dados hospitalares reais de câncer de mama. O foco principal foi lidar com o problema de bases de dados desbalanceadas, onde o número de casos benignos costuma ser muito superior aos malignos.
 
@@ -571,7 +572,7 @@ As conclusões apontaram que o algoritmo \textit{Random Forest} obteve o melhor 
 
 Para este TCC, a pesquisa de Rabiei et al. serve como uma referência metodológica para a fase de treinamento dos modelos. Ela valida a inclusão de comitês de árvores no conjunto de classificadores a serem testados e explicados via SHAP.
 
-\section{Predição Baseada em Aprendizado de Máquina (Chen et al., 2023)}
+\section{Predição Baseada em Aprendizado de Máquina (Chen \textit{et al.}, 2023)}
 
 A pesquisa de \citeonline{Chen2023} revisitou o desafio da classificação do câncer de mama focando na robustez das métricas de avaliação. O objetivo era determinar quais algoritmos eram mais seguros para a adoção clínica, priorizando a redução de falsos negativos.
 
@@ -581,7 +582,7 @@ Os resultados confirmaram a eficácia dos modelos de \textit{Boosting} para este
 
 Este trabalho é relevante por ser uma das publicações mais recentes sobre a mesma base de dados utilizada neste projeto. Ele estabelece o patamar de acurácia que este TCC deve buscar atingir ou superar antes de aplicar as camadas de explicabilidade.
 
-\section{Estudo Comparativo com Seleção LASSO e SHAP (Shaon et al., 2024)}
+\section{Estudo Comparativo com Seleção LASSO e SHAP (Shaon \textit{et al.}, 2024)}
 
 Considerado o trabalho mais próximo da proposta deste TCC, \citeonline{Shaon2024} realizaram uma comparação de modelos preditivos utilizando técnicas modernas de seleção de atributos e explicabilidade. O objetivo era não apenas prever o câncer, mas entender quais variáveis eram determinantes para o modelo.
 
@@ -593,33 +594,45 @@ Este artigo representa o "estado da arte"\ atual e serve como o principal ponto 
 
 \section{Síntese e Lacuna de Pesquisa}
 
-A análise dos trabalhos relacionados permite concluir que, embora existam pesquisas robustas focadas na acurácia preditiva e estudos recentes explorando a técnica SHAP, ainda há uma carência de soluções que integrem esses elementos em uma ferramenta de software coesa e utilizável pelo profissional de saúde.
+A análise dos trabalhos relacionados permite concluir que, embora existam
+pesquisas robustas focadas na acurácia preditiva e estudos recentes explorando
+a técnica SHAP, ainda há uma carência de soluções que integrem esses elementos
+em uma ferramenta de software coesa e utilizável pelo profissional de saúde.
 
-Muitos dos modelos propostos na literatura permanecem restritos a ambientes de programação ou relatórios estáticos. O Quadro \ref{tab:trabalhos_relacionados} sintetiza a comparação entre as obras citadas e a proposta deste projeto, evidenciando que a união de classificação de alta performance, explicabilidade (SHAP), redução de dimensionalidade visual (UMAP) e interface de processamento em lote constitui o diferencial competitivo e a inovação acadêmica deste trabalho.
+Muitos dos modelos propostos na literatura permanecem restritos a ambientes
+de programação ou relatórios estáticos. O Quadro \ref{quad:trabalhos_relacionados}
+sintetiza a comparação entre as obras citadas e a proposta deste projeto.
+A contribuição acadêmica deste trabalho reside na integração de quatro elementos
+que, isoladamente, já foram explorados na literatura, mas que não foram reunidos
+em uma única solução: o treinamento e a comparação sistemática de algoritmos
+clássicos de aprendizado de máquina supervisionado sobre a base Wisconsin, a
+aplicação do SHAP para explicabilidade local e global das decisões, a utilização
+do UMAP para visualização topológica da separabilidade dos dados, e o
+desenvolvimento de uma interface funcional capaz de processar dados em lote e
+gerar relatórios estruturados com as fundamentações visuais dos diagnósticos.
 
-\begin{table}[ht]
+\begin{quadro}[ht]
     \centering
-    \caption{Comparação entre Trabalhos Relacionados e o Presente Projeto}
-    \label{tab:trabalhos_relacionados}
+    \legenda[quad:trabalhos_relacionados]{Comparação entre Trabalhos Relacionados e o Presente Projeto}
     \resizebox{\textwidth}{!}{
-    \begin{tabular}{lcccccc}
-        \toprule
-        Trabalho & ML & Base Pública & Tabular & Mama & Interface & XAI \\
-        \midrule
-        Street et al. (1993) & Sim & Não & Não & Sim & Sim & Não \\
-        Cruz \& Wishart (2006) & Sim & Sim & Sim & Não & Não & Não \\
-        Silva Júnior (2018) & Não & Sim & Não & Sim & Não & Não \\
-        Masud et al. (2021) & Sim & Sim & Não & Não & Não & Não \\
-        Abdullah (2021) & Sim & Sim & Sim & Não & Não & Não \\
-        Rabiei et al. (2022) & Sim & Não & Sim & Sim & Não & Não \\
-        Chen et al. (2023) & Sim & Sim & Sim & Sim & Não & Não \\
-        Shaon et al. (2024) & Sim & Sim & Sim & Sim & Não & Sim \\
-        \midrule
-        Este Projeto & Sim & Sim & Sim & Sim & Sim & Sim \\
-        \bottomrule
+    \begin{tabular}{|l|c|c|c|c|c|c|}
+        \hline
+        \textbf{Trabalho} & \textbf{ML} & \textbf{Base Pública} & \textbf{Tabular} & \textbf{Câncer de mama} & \textbf{Interface} & \textbf{XAI} \\
+        \hline\hline
+        Street \textit{et al.} (1993)   & Sim & --- & Não & Sim & Sim & Não \\ \hline
+        Cruz \& Wishart (2006) & Sim & Sim & Sim & Não & Não & Não \\ \hline
+        Silva Júnior (2018)    & Não & Sim & Não & Sim & Não & Não \\ \hline
+        Masud \textit{et al.} (2021)    & Sim & Sim & Não & Não & Não & Não \\ \hline
+        Abdullah \textit{et al.} (2021)        & Sim & Sim & Sim & Não & Não & Não \\ \hline
+        Rabiei \textit{et al.} (2022)   & Sim & Não & Sim & Sim & Não & Não \\ \hline
+        Chen \textit{et al.} (2023)     & Sim & Sim & Sim & Sim & Não & Não \\ \hline
+        Shaon \textit{et al.} (2024)    & Sim & Sim & Sim & Sim & Não & Sim \\ \hline\hline
+        \textbf{Este Projeto}  & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} \\ \hline
     \end{tabular}
     }
-\end{table}
+    \vspace{0.2cm}
+    \fonteautor
+\end{quadro}
 
 
 
