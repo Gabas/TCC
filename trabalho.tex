@@ -9,6 +9,7 @@
 % Carrega o pacote da abnt com as adapatções para normas da Tuiuti
 \usepackage{packages/abnt-UTP}
 \usepackage{xurl} % Permite quebra de URL em qualquer caractere
+\counterwithout{equation}{chapter} % Remove a numeração das equações por capítulo
 
 % =================================================================================================
 % -------------------------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ como requisito à obtenção do grau de Bacharel.}
 
 % % Resumo do trabalho
 \begin{resumo}
-    Este trabalho propõe o desenvolvimento de um software integrado a um modelo preditivo para a classificação de tumores mamários como benignos ou malignos, utilizando a base de dados pública Breast Cancer Wisconsin. O objetivo central é mitigar a opacidade característica dos modelos de caixa preta, fornecendo diagnósticos que unam alta precisão analítica a justificativas clínicas interpretáveis por profissionais de saúde. A metodologia contempla o treinamento e a comparação de algoritmos clássicos de aprendizado de máquina supervisionado, avaliados por métricas estatísticas. A explicabilidade das decisões é garantida pela integração da biblioteca SHAP, enquanto o algoritmo UMAP é aplicado para a análise visual da separabilidade entre tumores benignos e malignos. O sistema disponibiliza uma interface capaz de receber dados em lote via upload de planilhas e gerar relatórios estruturados com os diagnósticos e suas respectivas fundamentações visuais. Os resultados esperados indicam que a combinação de modelos preditivos de alta performance com técnicas de inteligência artificial explicável constitui uma solução viável e eticamente fundamentada para o apoio ao diagnóstico oncológico assistido por computador.
+    Este trabalho propõe o desenvolvimento de um software integrado a um modelo preditivo para a classificação de tumores mamários como benignos ou malignos, utilizando a base de dados pública Breast Cancer Wisconsin. O objetivo central é mitigar a opacidade característica dos modelos de caixa preta, fornecendo diagnósticos que unam alta precisão analítica a justificativas clínicas interpretáveis por profissionais de saúde. A metodologia contempla o treinamento e a comparação de algoritmos clássicos de aprendizado de máquina supervisionado, avaliados por métricas estatísticas. A explicabilidade das decisões é garantida pela integração da biblioteca SHAP, enquanto o algoritmo UMAP é aplicado para a análise visual da separabilidade entre tumores benignos e malignos. O sistema disponibiliza uma interface capaz de receber dados em lote via upload de planilhas e gerar relatórios estruturados com os diagnósticos e suas respectivas fundamentações visuais. Os resultados esperados indicam que a combinação de modelos preditivos de alto desempenho com técnicas de inteligência artificial explicável constitui uma solução viável e eticamente fundamentada para o apoio ao diagnóstico oncológico assistido por computador.
 
     \palavraschave{Aprendizado de máquina; Base de dados Wisconsin; Inteligência Artificial Explicável; SHAP; UMAP}
 \end{resumo}
@@ -406,7 +407,7 @@ O modelo pode adotar uma configuração de margem rígida, exigindo que todos os
 \max \; \gamma = \frac{2}{\|w\|}
 \end{equation}
 
-Para lidar com a complexidade e os ruídos inerentes aos dados oncológicos reais, utiliza-se alternativamente a classificação de margem flexível. Essa técnica permite estrategicamente a ocorrência de pequenos erros de classificação através do uso de variáveis de folga ($\xi$) e do hiperparâmetro de regularização $C$. Um valor de $C$ elevado estreita a margem para minimizar classificações incorretas, enquanto um valor menor amplia a margem, permitindo uma maior tolerância a ruídos para evitar o sobreajuste e melhorar a performance preditiva (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
+Para lidar com a complexidade e os ruídos inerentes aos dados oncológicos reais, utiliza-se alternativamente a classificação de margem flexível. Essa técnica permite estrategicamente a ocorrência de pequenos erros de classificação através do uso de variáveis de folga ($\xi$) e do hiperparâmetro de regularização $C$. Um valor de $C$ elevado estreita a margem para minimizar classificações incorretas, enquanto um valor menor amplia a margem, permitindo uma maior tolerância a ruídos para evitar o sobreajuste e melhorar o desempenho preditivo (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
 Outra abordagem geométrica muito intuitiva para a classificação é o algoritmo KNN (\textit{K-Nearest Neighbors}). Diferente dos modelos que processam os dados para construir uma equação fixa durante o treinamento, o KNN adota um método de aprendizado baseado em instâncias. Na prática, ele memoriza todo o conjunto de dados históricos de tumores. Quando os dados de um novo paciente são inseridos no sistema, o algoritmo calcula a distância matemática espacial, como a distância Euclidiana, entre as características dessa nova célula e todas as células antigas já armazenadas. O sistema então identifica os "K" vizinhos mais próximos, ou seja, os exames históricos que possuem as medidas anatômicas mais idênticas ao caso atual. O diagnóstico preditivo é determinado por uma votação simples nessa vizinhança. Se a maioria dos tumores vizinhos for maligna, o novo caso será classificado como maligno. A sua aplicação em sistemas médicos destaca-se pela facilidade de interpretação espacial por parte do profissional de saúde, embora o esforço computacional para calcular essas distâncias aumente consideravelmente em bases de dados muito volumosas (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
@@ -450,7 +451,7 @@ Para sanar essa vulnerabilidade da árvore única, a estatística computacional 
 
 A essência da floresta aleatória consiste em atuar como uma expansão avançada do método \textit{bagging} (agregação \textit{bootstrap}), incorporando também a aleatoriedade de características (método do subespaço aleatório) para forçar uma correlação extremamente baixa entre as árvores \cite{ibm_random_forest_2026}. Durante as amostragens no conjunto original, um terço dos dados é estrategicamente blindado sob a nomenclatura de amostra \textit{out-of-bag} (oob), servindo primariamente para validações cruzadas \cite{ibm_random_forest_2026}. Um grande benefício clínico do \textit{Random Forest} é a sua clareza na atribuição de importância preditiva das variáveis, mensurada com ferramentas como a diminuição média da impureza (MDI) e a importância por permutação (MDA) \cite{ibm_random_forest_2026}.
 
-Ainda dentro do paradigma de comitês de máquinas, destaca-se o \textit{Extreme Gradient Boosting}, amplamente conhecido no mercado como \textit{XGBoost}. Ao contrário da floresta aleatória que constrói todas as suas árvores de forma simultânea e independente, este algoritmo adota uma arquitetura sequencial focada no aprendizado com os próprios erros. A primeira árvore tenta classificar os tumores e inevitavelmente comete equívocos. A segunda árvore é construída com o propósito exclusivo de corrigir os erros da primeira, a terceira foca nos erros da segunda, e assim sucessivamente. Essa otimização contínua baseada na descida do gradiente cria um modelo preditivo de altíssima performance (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+Ainda dentro do paradigma de comitês de máquinas, destaca-se o \textit{Extreme Gradient Boosting}, amplamente conhecido no mercado como \textit{XGBoost}. Ao contrário da floresta aleatória que constrói todas as suas árvores de forma simultânea e independente, este algoritmo adota uma arquitetura sequencial focada no aprendizado com os próprios erros. A primeira árvore tenta classificar os tumores e inevitavelmente comete equívocos. A segunda árvore é construída com o propósito exclusivo de corrigir os erros da primeira, a terceira foca nos erros da segunda, e assim sucessivamente. Essa otimização contínua baseada na descida do gradiente cria um modelo preditivo de alto desempenho (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
 No ápice da complexidade arquitetônica encontram-se as Redes Neurais Artificiais, algoritmos inspirados no funcionamento biológico do cérebro humano. Elas são compostas por múltiplas camadas de neurônios matemáticos interconectados, capazes de extrair relacionamentos profundos ocultos nos dados oncológicos (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}). Entretanto, essa evolução tecnológica impõe um grave dilema clínico. À medida que a ciência avança da transparente Regressão Logística para as poderosas redes neurais e algoritmos sequenciais como o \textit{XGBoost}, o modelo ganha acurácia estatística, mas perde drasticamente a sua interpretabilidade, transformando-se em uma caixa preta inescrutável. Na prática médica, entregar uma predição isolada não é eticamente aceitável, pois o oncologista necessita compreender as justificativas celulares do sistema. É exatamente para romper essa barreira analítica e resgatar a transparência das decisões que a Inteligência Artificial Explicável se torna indispensável.
 
@@ -534,7 +535,7 @@ Este estudo corrobora a necessidade de superar as limitações da estatística b
 
 \section{Segmentação e Contagem de Células em Imagens (Silva Júnior, 2018)}
 
-Desenvolvido no contexto acadêmico de Curitiba, o trabalho de \citeonline{SilvaJunior2018} focou no desenvolvimento de um \textit{pipeline} detalhado para o processamento digital de imagens microscópicas de câncer de mama. O objetivo era automatizar a tarefa exaustiva de contagem e segmentação de núcleos celulares realizada por patologistas.
+Desenvolvido no contexto acadêmico de Curitiba, o trabalho de Silva \citeonline{SilvaJunior2018} focou no desenvolvimento de um \textit{pipeline} detalhado para o processamento digital de imagens microscópicas de câncer de mama. O objetivo era automatizar a tarefa exaustiva de contagem e segmentação de núcleos celulares realizada por patologistas.
 
 A abordagem metodológica utilizou técnicas de processamento de imagens para isolar componentes celulares e reduzir o ruído visual das lâminas. O autor detalhou cada etapa do fluxo de trabalho, desde a captura da imagem até a extração final de dados quantitativos, enfatizando os desafios técnicos de lidar com células sobrepostas ou imagens de baixa qualidade.
 
@@ -618,7 +619,7 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         \textbf{Trabalho} & \textbf{ML} & \textbf{Base Pública} & \textbf{Tabular} & \textbf{Câncer de mama} & \textbf{Interface} & \textbf{XAI} \\
-        \hline\hline
+        \hline
         Street \textit{et al.} (1993)   & Sim & --- & Não & Sim & Sim & Não \\ \hline
         Cruz \& Wishart (2006) & Sim & Sim & Sim & Não & Não & Não \\ \hline
         Silva Júnior (2018)    & Não & Sim & Não & Sim & Não & Não \\ \hline
@@ -626,7 +627,7 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
         Abdullah \textit{et al.} (2021)        & Sim & Sim & Sim & Não & Não & Não \\ \hline
         Rabiei \textit{et al.} (2022)   & Sim & Não & Sim & Sim & Não & Não \\ \hline
         Chen \textit{et al.} (2023)     & Sim & Sim & Sim & Sim & Não & Não \\ \hline
-        Shaon \textit{et al.} (2024)    & Sim & Sim & Sim & Sim & Não & Sim \\ \hline\hline
+        Shaon \textit{et al.} (2024)    & Sim & Sim & Sim & Sim & Não & Sim \\ \hline
         \textbf{Este Projeto}  & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} \\ \hline
     \end{tabular}
     }
