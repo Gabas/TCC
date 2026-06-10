@@ -707,6 +707,494 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
 
 
 
+
+
+
+
+
+% ==============================================================================
+% CAPÍTULO 4 — METODOLOGIA DE CONSTRUÇÃO DA SOLUÇÃO
+% ==============================================================================
+\chapter{Metodologia}
+\label{cap:metodologia}
+ 
+Este capítulo descreve o processo técnico de desenvolvimento da solução proposta,
+abrangendo desde a preparação dos dados até a serialização dos artefatos que
+alimentam o software. A construção é dividida em dois componentes principais,
+detalhados nas seções seguintes: o módulo científico, responsável pelo treinamento
+e avaliação dos modelos, e o módulo de software, responsável pela interface de
+uso pelo profissional de saúde.
+ 
+% ------------------------------------------------------------------------------
+\section{Visão Geral da Arquitetura da Solução}
+\label{sec:visao-geral}
+ 
+% TODO: Descrever a estrutura em dois componentes — módulo científico
+% (Wisconsin.ipynb) e módulo de software (pasta app / main.py). Explicar que
+% os dois se comunicam por meio do arquivo serializado wisconsin.pkl.
+% Incluir um diagrama de blocos com o fluxo: dados CSV → notebook →
+% arquivo .pkl → aplicação → relatório gerado ao profissional de saúde.
+
+A arquitetura da solução proposta foi concebida sob uma perspectiva modular, visando segregar de forma clara a etapa de experimentação e modelagem estatística do ambiente de produção e interação com o usuário. Essa estratégia de projeto garante o desacoplamento do sistema, otimiza a manutenibilidade do código e simplifica a distribuição da ferramenta, dividindo o ecossistema em dois componentes fundamentais: o módulo científico e o módulo de software.
+
+O módulo científico é centralizado no \textit{notebook} \texttt{Wisconsin.ipynb}.
+Este componente engloba todo o \textit{pipeline} experimental do projeto,
+compreendendo as rotinas de análise exploratória dos dados (EDA), preparação
+dos atributos preditivos, tratamento de inconsistências, codificação de variáveis
+e padronização \textit{Z-score} das características morfológicas. Além disso, é neste
+ambiente que ocorre o treinamento e a avaliação dos algoritmos de aprendizado
+de máquina supervisionado nos conjuntos de treino e teste, bem como a configuração
+dos modelos de Inteligência Artificial Explicável acoplados via bibliotecas
+\texttt{shap} e \texttt{umap-learn}.
+
+Por outro lado, o módulo de software compreende a aplicação de interface gráfica desktop 
+estruturada dentro do diretório \texttt{app}, tendo o script \texttt{main.py} como ponto de entrada 
+principal do sistema. Construído sobre a biblioteca CustomTkinter, este componente gerencia a experiência 
+do usuário final, operando as telas de consulta, dashboards de métricas e a lógica de processamento em lote. 
+Para mitigar erros humanos e otimizar a rotina de trabalho em ambientes clínicos, a aplicação foi projetada 
+para receber diretamente arquivos de planilhas formatadas, eliminando a necessidade de inserção manual 
+dos trinta atributos preditivos por parte do operador.
+
+A comunicação e a transferência de inteligência entre esses dois ambientes independentes ocorrem por 
+meio do arquivo serializado \texttt{wisconsin.pkl}, gerado através da biblioteca \texttt{pickle}. Este artefato 
+estático encapsula os modelos preditivos previamente treinados, os parâmetros ajustados do 
+padronizador \textit{Z-score} (\texttt{StandardScaler}) e a lista ordenada dos nomes dos atributos morfológicos. 
+Dessa forma, o módulo de software realiza inferências em tempo real de modo puramente local, sem a 
+necessidade de retreinar os algoritmos ou expor os dados a servidores externos, garantindo desempenho 
+computacional e privacidade à infraestrutura de saúde.
+ 
+O fluxo completo de processamento e a respectiva transição dos dados entre as camadas lógica e operacional da arquitetura integrada encontram-se detalhados na Figura~\ref{fig:fluxograma_solucao}.
+
+\begin{figure}[htpb]
+    \centering
+    \caption{DIAGRAMA DE BLOCOS DO FLUXO DE DADOS E COMUNICAÇÃO DA ARQUITETURA}
+    \includegraphics[width=1\textwidth]{fluxograma1.png}
+    \label{fig:fluxograma_solucao}
+    \fonte{O Autor}
+\end{figure}
+
+Lembrete: Tirar marca d'água do fluxograma
+
+% % ------------------------------------------------------------------------------
+% \section{Base de Dados e Ambiente de Desenvolvimento}
+% \label{sec:base-ambiente}
+ 
+% % TODO: Descrever o arquivo data.csv (base WDBC, 569 amostras, 32 colunas
+% % originais). Detalhar as decisões de limpeza: remoção da coluna 'id'
+% % (sem valor preditivo) e da coluna 'Unnamed: 32' (artefato de exportação CSV).
+% % Registrar a decisão de fixar o ambiente em Python 3.11.15, justificando a
+% % restrição de compatibilidade com a aplicação main.py.
+% % Apresentar uma tabela ou lista das bibliotecas principais e suas funções:
+% % pandas/numpy (manipulação), scikit-learn (modelos, pré-processamento e
+% % métricas), umap-learn (redução dimensional), shap (explicabilidade),
+% % matplotlib/seaborn (visualizações) e pickle (serialização).
+ 
+% % ------------------------------------------------------------------------------
+% \section{Pré-processamento dos Dados}
+% \label{sec:preprocessamento}
+ 
+% % TODO: Apresentar parágrafo introdutório descrevendo o pipeline de
+% % pré-processamento como um todo, antes de detalhar cada etapa.
+ 
+% \subsection{Codificação da Variável Alvo}
+% \label{subsec:codificacao-alvo}
+ 
+% % TODO: Descrever o mapeamento 'B' → 0 (Benigno) e 'M' → 1 (Maligno),
+% % transformando a variável categórica em binária numérica para os classificadores.
+ 
+% \subsection{Divisão Treino e Teste}
+% \label{subsec:divisao-treino-teste}
+ 
+% % TODO: Detalhar a partição estratificada com stratify=y, proporção 75/25
+% % (426 amostras de treino, 143 de teste) e semente RANDOM_STATE = 42.
+% % Justificar o uso de stratify: manter a proporção original de classes
+% % (357 benignos / 212 malignos) em ambos os conjuntos, evitando viés
+% % de amostragem.
+ 
+% \subsection{Padronização Z-score}
+% \label{subsec:padronizacao}
+ 
+% % TODO: Descrever o StandardScaler ajustado exclusivamente no conjunto de
+% % treino para evitar data leakage. Explicar que o mesmo scaler é aplicado
+% % a três versões da base: X_train_scaled, X_test_scaled e X_scaled_all
+% % (base completa, usada nas visualizações e no SHAP). Mencionar quais
+% % modelos exigem padronização: Regressão Logística, SVM, PCA e UMAP.
+ 
+% \subsection{Divisão Legada para a Árvore de Decisão}
+% \label{subsec:divisao-legada}
+ 
+% % TODO: Explicar a existência de um segundo split (80/20, sem padronização),
+% % exclusivo para a Árvore de Decisão utilizada como baseline. Justificar
+% % a manutenção desse split para preservar os resultados originais obtidos
+% % antes da refatoração do notebook.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Análise Exploratória dos Dados}
+% \label{sec:eda}
+ 
+% % TODO: Escrever parágrafo introdutório situando a EDA como etapa anterior
+% % ao treinamento, com objetivo de compreender a distribuição e a qualidade
+% % dos dados antes de aplicar os modelos.
+ 
+% \subsection{Estatísticas Descritivas}
+% \label{subsec:estatisticas-descritivas}
+ 
+% % TODO: Descrever a aplicação de info() e describe() para inspecionar tipos,
+% % contagem de não-nulos e distribuição estatística das 30 features (mínimo,
+% % máximo, média, desvio padrão, quartis). Comentar os resultados mais
+% % relevantes encontrados.
+ 
+% \subsection{Distribuição das Classes}
+% \label{subsec:distribuicao-classes}
+ 
+% % TODO: Descrever o gráfico de barras (countplot) confirmando o leve
+% % desbalanceamento: 357 benignos (62,7%) versus 212 malignos (37,3%).
+% % Discutir a implicação desse desbalanceamento para a escolha de métricas
+% % como PR-AUC em vez de depender exclusivamente da acurácia.
+ 
+% \subsection{Histogramas dos Atributos}
+% \label{subsec:histogramas}
+ 
+% % TODO: Descrever a grade 6×5 com histograma de cada uma das 30 variáveis
+% % numéricas (20 bins), permitindo identificar assimetrias, concentrações e
+% % possíveis distribuições bimodais ligadas à separação de classes.
+ 
+% \subsection{Boxplots dos Atributos}
+% \label{subsec:boxplots}
+ 
+% % TODO: Descrever a grade 6×5 de boxplots para visualização de dispersão
+% % e outliers em cada variável. Comentar os atributos que apresentaram
+% % maior concentração de valores extremos e o que isso indica clinicamente.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Treinamento e Avaliação dos Modelos}
+% \label{sec:treinamento}
+ 
+% % TODO: Descrever as funções auxiliares padronizadas implementadas para
+% % avaliação de todos os modelos:
+% % — compute_stats: calcula Acurácia, Sensibilidade, Especificidade, F1,
+% %   ROC-AUC e PR-AUC a partir da matriz de confusão.
+% % — plot_confusion: gera heatmap anotado da matriz de confusão via Seaborn.
+% % — plot_roc_pr: plota curvas ROC e Precisão-Revocação lado a lado.
+% % Justificar a adoção do conjunto padronizado de métricas para garantir
+% % comparabilidade entre os algoritmos avaliados.
+ 
+% \subsection{Árvore de Decisão}
+% \label{subsec:arvore-decisao}
+ 
+% % TODO: Descrever a configuração: criterion='entropy', random_state=42.
+% % Justificar o uso do ganho de informação (entropia) como critério de divisão.
+% % Explicar seu papel como modelo baseline — referência de desempenho mínimo
+% % esperado pelos modelos subsequentes. Apresentar os resultados obtidos
+% % (relatório de classificação, importância das features, matriz de confusão
+% % e curvas ROC/PR).
+ 
+% \subsection{K-Nearest Neighbors}
+% \label{subsec:knn}
+ 
+% % TODO: Descrever a configuração: n_neighbors=20, weights='uniform'.
+% % Justificar o uso de dados padronizados como requisito para o KNN, que é
+% % sensível à escala dos atributos. Comentar os resultados obtidos.
+ 
+% \subsection{Regressão Logística}
+% \label{subsec:regressao-logistica}
+ 
+% % TODO: Descrever a configuração: solver='lbfgs', max_iter=2000,
+% % class_weight='balanced'. Justificar 'balanced' como correção automática
+% % do desbalanceamento de classes e max_iter=2000 para garantir convergência.
+% % Comentar os resultados obtidos.
+ 
+% \subsection{Random Forest}
+% \label{subsec:random-forest}
+ 
+% % TODO: Descrever a configuração: n_estimators=500, class_weight='balanced',
+% % n_jobs=-1. Justificar 500 árvores para estimativas estáveis e o paralelismo
+% % total com n_jobs=-1. Indicar que este é o modelo selecionado para integração
+% % com SHAP e com a aplicação, justificando com base nas métricas — em especial
+% % a Sensibilidade, por ser a métrica mais crítica no contexto clínico para
+% % minimização de falsos negativos. Apresentar os resultados obtidos.
+ 
+% \subsection{Support Vector Machine}
+% \label{subsec:svm}
+ 
+% % TODO: Descrever a configuração: kernel='rbf', probability=True,
+% % class_weight='balanced'. Justificar o kernel RBF para captura de fronteiras
+% % não lineares e probability=True como requisito para geração das curvas
+% % ROC/PR. Comentar os resultados obtidos.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Análise de Estrutura com UMAP e PCA}
+% \label{sec:umap-pca}
+ 
+% % TODO: Introduzir o objetivo da seção: verificar visualmente a separabilidade
+% % natural das classes na base completa padronizada (X_scaled_all, 569 pacientes)
+% % antes de qualquer intervenção dos modelos preditivos.
+ 
+% \subsection{Projeção UMAP}
+% \label{subsec:projecao-umap}
+ 
+% % TODO: Descrever a configuração aplicada: n_neighbors=15, min_dist=0.1,
+% % random_state=42. Apresentar o gráfico de dispersão 2D colorido por classe
+% % (azul=Benigno, vermelho=Maligno) e analisar os clusters formados,
+% % evidenciando a separabilidade topológica natural dos dados da base Wisconsin.
+ 
+% \subsection{Projeção PCA}
+% \label{subsec:projecao-pca}
+ 
+% % TODO: Descrever a aplicação do PCA com n_components=2 para comparação
+% % com o UMAP. Discutir a diferença fundamental entre as abordagens: PCA é
+% % uma redução linear que preserva variância global; UMAP é não-linear e
+% % preserva estrutura local e global simultaneamente. Usar a comparação
+% % para justificar a escolha do UMAP no produto final.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Explicabilidade com SHAP}
+% \label{sec:shap}
+ 
+% % TODO: Introduzir o papel do SHAP neste projeto: converter o Random Forest
+% % de caixa preta em uma ferramenta auditável, fornecendo ao profissional de
+% % saúde a justificativa morfológica de cada diagnóstico emitido.
+ 
+% \subsection{Configuração do Explainer}
+% \label{subsec:explainer}
+ 
+% % TODO: Descrever o uso de shap.Explainer aplicado sobre o Random Forest
+% % treinado e sobre X_scaled_all. Explicar que a biblioteca detecta
+% % automaticamente o TreeExplainer como otimizador mais eficiente para
+% % modelos baseados em árvores, calculando valores exatos de Shapley
+% % sem aproximações.
+ 
+% \subsection{Importância Global dos Atributos}
+% \label{subsec:shap-global}
+ 
+% % TODO: Descrever o shap.summary_plot (beeswarm plot): quais atributos
+% % mais influenciam as predições do modelo em toda a base, em qual direção
+% % e com qual magnitude. Identificar e comentar os atributos com maior
+% % importância global.
+ 
+% \subsection{Explicação Local por Paciente}
+% \label{subsec:shap-local}
+ 
+% % TODO: Descrever o shap.plots.waterfall para um paciente individual:
+% % como cada atributo empurrou a probabilidade de malignidade para cima
+% % ou para baixo a partir do valor base da população. Associar diretamente
+% % essa visualização ao relatório gerado pela interface para o profissional.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Serialização e Integração com a Aplicação}
+% \label{sec:serializacao}
+ 
+% % TODO: Descrever o dicionário serializado via pickle.dump no arquivo
+% % wisconsin.pkl. Listar e justificar cada objeto armazenado:
+% % — scaler: necessário para normalizar novos dados recebidos pela interface;
+% % — feature_names: garante a ordem consistente das 30 colunas entre
+% %   notebook e aplicação;
+% % — X_train_scaled, y_train, X_test_scaled, y_test: conjuntos de avaliação;
+% % — model_dt, model_rf, model_svm, model_knn, model_lr: todos os modelos.
+% % Explicar que a aplicação carrega esse único arquivo e instancia qualquer
+% % um dos cinco modelos sem necessidade de retreinamento.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Desenvolvimento do Software}
+% \label{sec:software}
+ 
+% % NOTA: Esta seção será completada após o envio do código da pasta app.
+% % Os subtópicos abaixo estão preparados para receber o conteúdo.
+ 
+% \subsection{Arquitetura da Aplicação}
+% \label{subsec:arq-app}
+ 
+% % TODO: Descrever a estrutura de arquivos da pasta app, o papel do main.py
+% % como ponto de entrada e os módulos auxiliares presentes.
+ 
+% \subsection{Carregamento dos Artefatos}
+% \label{subsec:carregamento-artefatos}
+ 
+% % TODO: Descrever como o main.py carrega o arquivo wisconsin.pkl e
+% % instancia o modelo selecionado para uso nas predições.
+ 
+% \subsection{Recebimento de Dados em Lote}
+% \label{subsec:dados-lote}
+ 
+% % TODO: Descrever o mecanismo de upload de planilha (CSV/Excel),
+% % validação das colunas esperadas, tratamento de dados ausentes e
+% % aplicação do scaler carregado sobre os novos dados recebidos.
+ 
+% \subsection{Geração dos Diagnósticos}
+% \label{subsec:geracao-diagnosticos}
+ 
+% % TODO: Descrever a chamada ao predict_proba, a definição do limiar de
+% % corte e a classificação final Benigno/Maligno para cada amostra da
+% % planilha enviada.
+ 
+% \subsection{Geração dos Relatórios Visuais}
+% \label{subsec:relatorios}
+ 
+% % TODO: Descrever como os gráficos SHAP (waterfall por paciente) e o
+% % gráfico UMAP são gerados e incorporados ao relatório de saída
+% % (PDF, Excel ou CSV) entregue ao profissional de saúde.
+ 
+% \subsection{Interface Gráfica}
+% \label{subsec:interface}
+ 
+% % TODO: Descrever os componentes visuais da interface, o fluxo de uso
+% % pelo profissional de saúde (upload → processamento → visualização →
+% % exportação do relatório) e as decisões de design adotadas.
+ 
+ 
+% % ==============================================================================
+% % CAPÍTULO 5 — FERRAMENTAS PARA IMPLEMENTAÇÃO
+% % ==============================================================================
+% \chapter{Ferramentas para Implementação}
+% \label{cap:ferramentas}
+ 
+% % TODO: Escrever parágrafo introdutório apresentando o conjunto de
+% % tecnologias adotadas, contextualizando as escolhas dentro do cenário
+% % atual de desenvolvimento científico em Python para aprendizado de máquina.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Linguagem de Programação}
+% \label{sec:linguagem}
+ 
+% % TODO: Justificar a escolha do Python 3.11.15 pela maturidade do ecossistema
+% % científico, compatibilidade com todas as bibliotecas utilizadas e a
+% % restrição de versão imposta pela integração entre notebook e aplicação.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Ambiente de Desenvolvimento}
+% \label{sec:ambiente-dev}
+ 
+% % TODO: Descrever o Jupyter Notebook como ambiente interativo para o
+% % desenvolvimento iterativo do módulo científico, destacando a capacidade
+% % de visualizar gráficos inline e registrar o raciocínio entre as células.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Manipulação e Análise de Dados}
+% \label{sec:manipulacao-dados}
+ 
+% % TODO: Descrever o pandas para carregamento do CSV, limpeza, codificação
+% % do rótulo e exportação dos subconjuntos. Descrever o NumPy para operações
+% % numéricas e fixação da semente de aleatoriedade.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Aprendizado de Máquina}
+% \label{sec:ml-ferramenta}
+ 
+% % TODO: Descrever o scikit-learn como biblioteca central. Detalhar os
+% % cinco algoritmos classificadores fornecidos (DecisionTreeClassifier,
+% % LogisticRegression, KNeighborsClassifier, RandomForestClassifier, SVC),
+% % o pré-processamento (StandardScaler, train_test_split), a decomposição
+% % linear (PCA) e o conjunto de métricas de avaliação utilizadas
+% % (confusion_matrix, roc_auc_score, average_precision_score,
+% % precision_recall_curve, classification_report).
+ 
+% % ------------------------------------------------------------------------------
+% \section{Redução de Dimensionalidade}
+% \label{sec:umap-ferramenta}
+ 
+% % TODO: Descrever a biblioteca umap-learn como implementação de referência
+% % do algoritmo UMAP. Justificar a escolha em relação ao t-SNE: UMAP preserva
+% % estrutura local e global simultaneamente, é determinístico com random_state
+% % fixo e significativamente mais rápido em bases de tamanho médio.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Explicabilidade}
+% \label{sec:shap-ferramenta}
+ 
+% % TODO: Descrever a biblioteca SHAP como implementação oficial da técnica
+% % SHapley Additive exPlanations. Destacar o TreeExplainer como otimizador
+% % específico para Random Forest, o summary_plot para análise de importância
+% % global e o waterfall plot para diagnóstico individual por paciente.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Visualização}
+% \label{sec:visualizacao-ferramenta}
+ 
+% % TODO: Descrever Matplotlib e Seaborn como responsáveis pela geração de
+% % todos os gráficos do módulo científico: histogramas, boxplots, countplot
+% % de classes, matrizes de confusão (heatmap) e projeções UMAP/PCA.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Serialização}
+% \label{sec:serializacao-ferramenta}
+ 
+% % TODO: Descrever o módulo pickle para serialização do dicionário contendo
+% % scaler e modelos treinados no arquivo wisconsin.pkl. Justificar a escolha
+% % pela integração nativa com o ecossistema Python e pela capacidade de
+% % preservar o estado completo dos objetos scikit-learn.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Ferramentas da Aplicação}
+% \label{sec:ferramentas-app}
+ 
+% % NOTA: Esta seção será completada após o envio do código da pasta app.
+ 
+% % TODO: Descrever o framework de interface gráfica utilizado (ex.:
+% % CustomTkinter, PyQt, Streamlit), bibliotecas para geração de PDF/Excel
+% % no relatório de saída e quaisquer outras dependências específicas do
+% % main.py não cobertas nas seções anteriores.
+ 
+ 
+% % ==============================================================================
+% % CAPÍTULO 6 — CONSIDERAÇÕES FINAIS
+% % ==============================================================================
+% \chapter{Considerações Finais}
+% \label{cap:consideracoes-finais}
+ 
+% % ------------------------------------------------------------------------------
+% \section{Síntese do Trabalho Desenvolvido}
+% \label{sec:sintese}
+ 
+% % TODO: Retomar o problema central — a opacidade dos modelos de caixa preta
+% % no diagnóstico oncológico — e resumir como cada componente do projeto o
+% % endereça: os classificadores proveem a acurácia preditiva; o SHAP abre a
+% % caixa preta ao nível da decisão individual; o UMAP revela a estrutura
+% % topológica da base; e a interface viabiliza o uso prático pelo profissional
+% % de saúde, unindo os três elementos em uma única ferramenta coesa.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Resultados Obtidos}
+% \label{sec:resultados}
+ 
+% % TODO: Apresentar tabela comparativa dos cinco modelos com as métricas:
+% % Acurácia, Sensibilidade, Especificidade, F1-score, ROC-AUC e PR-AUC.
+% % Destacar o Random Forest como modelo selecionado e justificar essa
+% % escolha com base nos valores de Sensibilidade — métrica mais crítica
+% % clinicamente, por minimizar falsos negativos (pacientes doentes
+% % classificados como saudáveis). Comentar os resultados do UMAP e
+% % do SHAP globalmente.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Limitações do Trabalho}
+% \label{sec:limitacoes}
+ 
+% % TODO: Mencionar as limitações identificadas:
+% % — restrição ao dataset Wisconsin (dados tabulares de PAAF, não imagens
+% %   histológicas de outros tipos de exame);
+% % — escopo limitado à classificação binária benigno/maligno, sem distinção
+% %   de subtipos tumorais;
+% % — dependência da versão Python 3.11.15 para compatibilidade entre os
+% %   módulos;
+% % — caráter de ferramenta de apoio à decisão — o sistema não substitui
+% %   o diagnóstico clínico realizado pelo médico patologista.
+ 
+% % ------------------------------------------------------------------------------
+% \section{Trabalhos Futuros}
+% \label{sec:trabalhos-futuros}
+ 
+% % TODO: Sugerir extensões naturais ao trabalho:
+% % — validação com datasets externos para avaliar generalização;
+% % — incorporação de dados clínicos além dos morfológicos (dados genômicos,
+% %   imagens histológicas);
+% % — exploração de técnicas de XAI complementares (LIME, explicações
+% %   contrafactuais);
+% % — integração com sistemas hospitalares de gestão de pacientes;
+% % — avaliação clínica formal com profissionais de saúde para validação
+% %   da usabilidade da interface.
+
+
+
+
 % % -------------------------------------------------------------------------------------------------
 % % -------------------------------------------------------------------------------------------------
 % % 2. ORGANIZAÇÃO
