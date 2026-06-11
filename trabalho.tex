@@ -843,44 +843,151 @@ no módulo científico, com suas respectivas funções no projeto.
     \fonteautor
 \end{quadro}
  
-% % ------------------------------------------------------------------------------
-% \section{Pré-processamento dos Dados}
-% \label{sec:preprocessamento}
- 
-% % TODO: Apresentar parágrafo introdutório descrevendo o pipeline de
-% % pré-processamento como um todo, antes de detalhar cada etapa.
- 
-% \subsection{Codificação da Variável Alvo}
-% \label{subsec:codificacao-alvo}
- 
-% % TODO: Descrever o mapeamento 'B' → 0 (Benigno) e 'M' → 1 (Maligno),
-% % transformando a variável categórica em binária numérica para os classificadores.
- 
-% \subsection{Divisão Treino e Teste}
-% \label{subsec:divisao-treino-teste}
- 
-% % TODO: Detalhar a partição estratificada com stratify=y, proporção 75/25
-% % (426 amostras de treino, 143 de teste) e semente RANDOM_STATE = 42.
-% % Justificar o uso de stratify: manter a proporção original de classes
-% % (357 benignos / 212 malignos) em ambos os conjuntos, evitando viés
-% % de amostragem.
- 
-% \subsection{Padronização Z-score}
-% \label{subsec:padronizacao}
- 
-% % TODO: Descrever o StandardScaler ajustado exclusivamente no conjunto de
-% % treino para evitar data leakage. Explicar que o mesmo scaler é aplicado
-% % a três versões da base: X_train_scaled, X_test_scaled e X_scaled_all
-% % (base completa, usada nas visualizações e no SHAP). Mencionar quais
-% % modelos exigem padronização: Regressão Logística, SVM, PCA e UMAP.
- 
-% \subsection{Divisão Legada para a Árvore de Decisão}
-% \label{subsec:divisao-legada}
- 
-% % TODO: Explicar a existência de um segundo split (80/20, sem padronização),
-% % exclusivo para a Árvore de Decisão utilizada como baseline. Justificar
-% % a manutenção desse split para preservar os resultados originais obtidos
-% % antes da refatoração do notebook.
+
+% ------------------------------------------------------------------------------
+\section{Pré-processamento dos Dados}
+\label{sec:preprocessamento}
+
+O pré-processamento dos dados constitui uma etapa fundamental para garantir a
+qualidade e a confiabilidade dos modelos preditivos desenvolvidos. Antes de
+qualquer algoritmo de aprendizado ser instanciado, os dados brutos da base
+Wisconsin passam por uma sequência de transformações que os tornam adequados
+para o treinamento supervisionado. As subseções a seguir detalham cada etapa
+desse \textit{pipeline}, executado na ordem em que aparece no módulo científico.
+
+% ------------------------------------------------------------------------------
+\subsection{Codificação da Variável Alvo}
+\label{subsec:codificacao-alvo}
+
+A variável alvo da base Wisconsin, denominada diagnosis, armazena os rótulos
+das amostras em formato categórico: o caractere B para tumores benignos e M
+para tumores malignos. Como os algoritmos de aprendizado de máquina supervisionado
+operam exclusivamente sobre valores numéricos, essa coluna é convertida para uma
+representação binária antes do treinamento. O mapeamento adotado atribui o valor
+0 à classe benigna e o valor 1 à classe maligna, convenção amplamente consolidada
+na literatura para problemas de classificação binária em oncologia
+\cite{Street1993}. Aproveitando a mesma etapa, duas colunas são removidas da base por não
+agregarem valor preditivo ao sistema, conforme descrito na
+Seção~\ref{sec:base-ambiente}. O Código~\ref{cod:codificacao} apresenta as
+operações de limpeza e codificação realizadas sobre o DataFrame bruto.
+
+\begin{codigo}[htb]
+\legenda[cod:codificacao]{LIMPEZA E CODIFICAÇÃO DA VARIÁVEL ALVO}
+\begin{lstlisting}[language=Python]
+# Remocao de colunas sem valor preditivo
+wisconsin_base = wisconsin_base.drop(
+    columns=['id', 'Unnamed: 32'], errors='ignore'
+)
+
+# Codificacao do rotulo: 'B' (Benigno) -> 0 | 'M' (Maligno) -> 1
+wisconsin_base['diagnosis'] = wisconsin_base['diagnosis'].map(
+    {'B': 0, 'M': 1}
+)
+
+# Separacao entre atributos (X) e variavel alvo (y)
+X = wisconsin_base.drop(columns=['diagnosis'])
+y = wisconsin_base['diagnosis']
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+% ------------------------------------------------------------------------------
+\subsection{Divisão Treino e Teste}
+\label{subsec:divisao-treino-teste}
+
+Após a codificação da variável alvo, a base é particionada em dois subconjuntos
+mutuamente exclusivos: treino e teste. O conjunto de treino, composto por 75\%
+das amostras (426 registros), é utilizado para o ajuste dos parâmetros internos
+de cada classificador. O conjunto de teste, com os 25\% restantes (143 registros),
+permanece completamente isolado durante todo o desenvolvimento e é acionado
+apenas na etapa final de avaliação, simulando o comportamento do modelo diante
+de dados clínicos inéditos.
+
+Um aspecto metodológico crítico desta divisão é o uso do parâmetro stratify=y,
+conforme demonstrado no Código~\ref{cod:split}. Esse parâmetro instrui a função
+a realizar uma amostragem estratificada, garantindo que a proporção original
+entre as classes — 357 tumores benignos (62,7\%) e 212 malignos (37,3\%) — seja
+preservada em ambos os subconjuntos. Sem essa estratificação, uma partição
+aleatória desfavorável poderia concentrar a maioria dos casos malignos em um
+único subconjunto, introduzindo viés no treinamento e comprometendo a validade
+estatística da avaliação final. A semente RANDOM\_STATE = 42 é fixada para
+garantir a reprodutibilidade dos resultados.
+
+\begin{codigo}[htb]
+\legenda[cod:split]{DIVISÃO ESTRATIFICADA DA BASE EM CONJUNTOS DE TREINO E TESTE}
+\begin{lstlisting}[language=Python]
+# Split estratificado (75% treino | 25% teste)
+# stratify=y: mantem a proporcao original de classes em ambos os conjuntos
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=RANDOM_STATE, stratify=y
+)
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+% ------------------------------------------------------------------------------
+\subsection{Padronização Z-score}
+\label{subsec:padronizacao}
+
+Com os subconjuntos definidos, aplica-se a padronização \textit{Z-score} sobre
+os atributos numéricos por meio do StandardScaler da biblioteca scikit-learn.
+Essa transformação recalcula cada valor subtraindo a média da coluna e dividindo
+pelo desvio padrão, de forma que todos os atributos passem a operar em uma escala
+comum com média zero e variância unitária. Essa etapa é indispensável para
+algoritmos sensíveis à magnitude das variáveis, como a Regressão Logística,
+o SVM e o KNN, nos quais diferenças de escala entre atributos, como o raio
+celular medido em micrômetros e a textura medida em níveis de cinza, distorceriam
+o cálculo das distâncias e dos gradientes.
+
+A decisão mais importante desta etapa, ilustrada no Código~\ref{cod:scaler},
+é que o StandardScaler é ajustado exclusivamente sobre o conjunto de treino.
+O mesmo objeto já calibrado é então aplicado tanto ao conjunto de teste quanto
+à base completa. Esse procedimento evita o \textit{data leakage}: se o
+escalonador fosse ajustado sobre todos os dados antes da divisão, informações
+estatísticas do conjunto de teste contaminariam o processo de treinamento,
+produzindo uma estimativa artificialmente otimista do desempenho real do
+modelo \cite{Faceli2011}.
+
+\begin{codigo}[htb]
+\legenda[cod:scaler]{AJUSTE E APLICAÇÃO DO PADRONIZADOR Z-SCORE}
+\begin{lstlisting}[language=Python]
+# Ajuste exclusivamente sobre o treino para evitar data leakage
+scaler         = StandardScaler().fit(X_train)
+X_train_scaled = scaler.transform(X_train)
+X_test_scaled  = scaler.transform(X_test)
+X_scaled_all   = scaler.transform(X)   # base completa - visualizacoes e SHAP
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+% ------------------------------------------------------------------------------
+\subsection{Divisão Legada para a Árvore de Decisão}
+\label{subsec:divisao-legada}
+
+O módulo científico mantém uma segunda partição dos dados, independente da
+descrita na Subseção~\ref{subsec:divisao-treino-teste}, utilizada exclusivamente
+pela Árvore de Decisão em sua função de modelo \textit{baseline}. Essa divisão
+adota a proporção 80/20 e não aplica padronização \textit{Z-score}, pois árvores
+de decisão são algoritmos invariantes à escala dos atributos, pois suas regras de
+divisão baseiam-se em limiares de valor absoluto, não em distâncias ou gradientes
+\cite{Faceli2011}. A manutenção dessa partição separada preserva os resultados
+obtidos nas etapas iniciais de desenvolvimento do projeto, anteriores à
+refatoração do \textit{pipeline} principal, garantindo a rastreabilidade e a
+reprodutibilidade do histórico experimental.
+
+\begin{codigo}[htb]
+\legenda[cod:split-legado]{DIVISÃO LEGADA UTILIZADA PELA ÁRVORE DE DECISÃO}
+\begin{lstlisting}[language=Python]
+# Divisao legada: 80% treino | 20% teste (sem padronizacao)
+# Mantida para preservar os resultados originais da Arvore de Decisao
+x_wisconsin_train, x_wisconsin_test, y_wisconsin_train, y_wisconsin_test = \
+    train_test_split(
+        X.values, y.values, test_size=0.2, random_state=RANDOM_STATE
+    )
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
  
 % % ------------------------------------------------------------------------------
 % \section{Análise Exploratória dos Dados}
