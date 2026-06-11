@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  10 JUN 2026 02:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  11 JUN 2026 00:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1334,7 +1334,7 @@ Cap\'{\i }tulo 2.
 [13
 
 ]
-<img/oqueecancercelulas.jpg, id=204, 1282.7925pt x 536.0025pt>
+<img/oqueecancercelulas.jpg, id=208, 1282.7925pt x 536.0025pt>
 File: img/oqueecancercelulas.jpg Graphic file (type jpg)
 <use img/oqueecancercelulas.jpg>
 Package pdftex.def Info: img/oqueecancercelulas.jpg  used on input line 220.
@@ -1344,25 +1344,25 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 221.
  [14 <./img/oqueecancercelulas.jpg>] [15]
-<img/venn_ia_ml_dp.jpg, id=236, 621.32124pt x 440.64626pt>
+<img/venn_ia_ml_dp.jpg, id=240, 621.32124pt x 440.64626pt>
 File: img/venn_ia_ml_dp.jpg Graphic file (type jpg)
 <use img/venn_ia_ml_dp.jpg>
 Package pdftex.def Info: img/venn_ia_ml_dp.jpg  used on input line 244.
 (pdftex.def)             Requested size: 273.14923pt x 193.71686pt.
  [16 <./img/venn_ia_ml_dp.jpg>] [17] [18]
-<img/CM_Exemplo.png, id=282, 475.7775pt x 328.22626pt>
+<img/CM_Exemplo.png, id=286, 475.7775pt x 328.22626pt>
 File: img/CM_Exemplo.png Graphic file (type png)
 <use img/CM_Exemplo.png>
 Package pdftex.def Info: img/CM_Exemplo.png  used on input line 284.
 (pdftex.def)             Requested size: 250.38564pt x 172.73705pt.
  [19 <./img/CM_Exemplo.png>] [20]
-<img/roc_pr.png, id=318, 1215.54124pt x 488.82625pt>
+<img/roc_pr.png, id=322, 1215.54124pt x 488.82625pt>
 File: img/roc_pr.png Graphic file (type png)
 <use img/roc_pr.png>
 Package pdftex.def Info: img/roc_pr.png  used on input line 338.
 (pdftex.def)             Requested size: 409.71692pt x 164.76662pt.
  [21 <./img/roc_pr.png>]
-<img/class_regress.png, id=337, 1027.84pt x 354.32375pt>
+<img/class_regress.png, id=341, 1027.84pt x 354.32375pt>
 File: img/class_regress.png Graphic file (type png)
 <use img/class_regress.png>
 Package pdftex.def Info: img/class_regress.png  used on input line 356.
@@ -1370,7 +1370,7 @@ Package pdftex.def Info: img/class_regress.png  used on input line 356.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 358.
  [22 <./img/class_regress.png>] [23]
-<img/hyperplane.png, id=382, 561.59813pt x 252.19218pt>
+<img/hyperplane.png, id=386, 561.59813pt x 252.19218pt>
 File: img/hyperplane.png Graphic file (type png)
 <use img/hyperplane.png>
 Package pdftex.def Info: img/hyperplane.png  used on input line 401.
@@ -1386,7 +1386,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<img/umap1.png, id=548, 1107.13625pt x 394.47375pt>
+<img/umap1.png, id=552, 1107.13625pt x 394.47375pt>
 File: img/umap1.png Graphic file (type png)
 <use img/umap1.png>
 Package pdftex.def Info: img/umap1.png  used on input line 567.
@@ -1397,32 +1397,34 @@ Cap\'{\i }tulo 3.
 
 ] [36] [37] [38] [39] [40]
 Cap\'{\i }tulo 4.
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 740.
-(/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `pcr' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
- [41
+[41
 
 ]
-<img/fluxograma1.png, id=632, 1445.4pt x 156.585pt>
+<img/fluxograma1.png, id=635, 1445.4pt x 156.585pt>
 File: img/fluxograma1.png Graphic file (type png)
 <use img/fluxograma1.png>
-Package pdftex.def Info: img/fluxograma1.png  used on input line 771.
+Package pdftex.def Info: img/fluxograma1.png  used on input line 776.
 (pdftex.def)             Requested size: 455.24411pt x 49.31735pt.
- (./trabalho.bbl [42 <./img/fluxograma1.png>]
-bibitemlist
-[43
 
-] [44])
+Underfull \hbox (badness 10000) in paragraph at lines 841--841
+[]|\T1/phv/m/n/12 (+20) Treinamento dos cinco clas-si-fi-ca-do-res, pré-
+ []
+
+
+Underfull \hbox (badness 6842) in paragraph at lines 841--841
+\T1/phv/m/n/12 (+20) processamento (Stan-dardS-ca-ler, train_test_split),
+ []
+
+(./trabalho.bbl [42 <./img/fluxograma1.png>] [43]
+bibitemlist
+[44
+
+] [45])
 
 Package caption Warning: Unused \captionsetup[table] on input line 410.
 See the caption package documentation for explanation.
 
-[45]
+[46]
 \tf@lof=\write5
 \openout5 = `trabalho.lof'.
 
@@ -1442,18 +1444,18 @@ L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 35048 strings out of 467525
- 623948 string characters out of 5418983
- 1316051 words of memory out of 5000000
- 62945 multiletter control sequences out of 15000+600000
- 675008 words of font info for 255 fonts, out of 8000000 for 9000
+ 35025 strings out of 467525
+ 623557 string characters out of 5418983
+ 1316199 words of memory out of 5000000
+ 62915 multiletter control sequences out of 15000+600000
+ 675140 words of font info for 259 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  114i,13n,132p,1495b,1649s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on trabalho.pdf (46 pages, 2074272 bytes).
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on trabalho.pdf (47 pages, 2067257 bytes).
 PDF statistics:
- 890 PDF objects out of 1000 (max. 8388607)
- 772 compressed objects within 8 object streams
- 169 named destinations out of 1000 (max. 500000)
- 42309 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 899 PDF objects out of 1000 (max. 8388607)
+ 782 compressed objects within 8 object streams
+ 172 named destinations out of 1000 (max. 500000)
+ 41805 words of extra memory for PDF output out of 42996 (max. 10000000)
 

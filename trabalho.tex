@@ -728,44 +728,49 @@ uso pelo profissional de saúde.
 % ------------------------------------------------------------------------------
 \section{Visão Geral da Arquitetura da Solução}
 \label{sec:visao-geral}
- 
-% TODO: Descrever a estrutura em dois componentes — módulo científico
-% (Wisconsin.ipynb) e módulo de software (pasta app / main.py). Explicar que
-% os dois se comunicam por meio do arquivo serializado wisconsin.pkl.
-% Incluir um diagrama de blocos com o fluxo: dados CSV → notebook →
-% arquivo .pkl → aplicação → relatório gerado ao profissional de saúde.
 
-A arquitetura da solução proposta foi concebida sob uma perspectiva modular, visando segregar de forma clara a etapa de experimentação e modelagem estatística do ambiente de produção e interação com o usuário. Essa estratégia de projeto garante o desacoplamento do sistema, otimiza a manutenibilidade do código e simplifica a distribuição da ferramenta, dividindo o ecossistema em dois componentes fundamentais: o módulo científico e o módulo de software.
+A arquitetura da solução proposta foi concebida sob uma perspectiva modular,
+visando segregar de forma clara a etapa de experimentação e modelagem estatística
+do ambiente de produção e interação com o usuário. Essa estratégia de projeto
+garante o desacoplamento do sistema, otimiza a manutenibilidade do código e
+simplifica a distribuição da ferramenta, dividindo o ecossistema em dois
+componentes fundamentais: o módulo científico e o módulo de software.
 
-O módulo científico é centralizado no \textit{notebook} \texttt{Wisconsin.ipynb}.
-Este componente engloba todo o \textit{pipeline} experimental do projeto,
+O módulo científico é centralizado no \textit{notebook} Wisconsin.ipynb. Este
+componente engloba todo o \textit{pipeline} experimental do projeto,
 compreendendo as rotinas de análise exploratória dos dados (EDA), preparação
 dos atributos preditivos, tratamento de inconsistências, codificação de variáveis
-e padronização \textit{Z-score} das características morfológicas. Além disso, é neste
-ambiente que ocorre o treinamento e a avaliação dos algoritmos de aprendizado
-de máquina supervisionado nos conjuntos de treino e teste, bem como a configuração
-dos modelos de Inteligência Artificial Explicável acoplados via bibliotecas
-\texttt{shap} e \texttt{umap-learn}.
+e padronização \textit{Z-score} das características morfológicas. Além disso, é
+neste ambiente que ocorre o treinamento e a avaliação dos algoritmos de
+aprendizado de máquina supervisionado nos conjuntos de treino e teste, bem como
+a configuração dos modelos de Inteligência Artificial Explicável acoplados via
+bibliotecas shap e umap-learn.
 
-Por outro lado, o módulo de software compreende a aplicação de interface gráfica desktop 
-estruturada dentro do diretório \texttt{app}, tendo o script \texttt{main.py} como ponto de entrada 
-principal do sistema. Construído sobre a biblioteca CustomTkinter, este componente gerencia a experiência 
-do usuário final, operando as telas de consulta, dashboards de métricas e a lógica de processamento em lote. 
-Para mitigar erros humanos e otimizar a rotina de trabalho em ambientes clínicos, a aplicação foi projetada 
-para receber diretamente arquivos de planilhas formatadas, eliminando a necessidade de inserção manual 
-dos trinta atributos preditivos por parte do operador.
+Por outro lado, o módulo de software compreende a aplicação de interface gráfica
+desktop estruturada dentro do diretório app, tendo o script main.py como ponto
+de entrada principal do sistema. Construído sobre a biblioteca CustomTkinter,
+este componente gerencia a experiência do usuário final, operando as telas de
+consulta, dashboards de métricas e a lógica de processamento em lote. Para
+mitigar erros humanos e otimizar a rotina de trabalho em ambientes clínicos, a
+aplicação foi projetada para receber diretamente arquivos de planilhas
+formatadas, eliminando a necessidade de inserção manual dos trinta atributos
+preditivos por parte do operador.
 
-A comunicação e a transferência de inteligência entre esses dois ambientes independentes ocorrem por 
-meio do arquivo serializado \texttt{wisconsin.pkl}, gerado através da biblioteca \texttt{pickle}. Este artefato 
-estático encapsula os modelos preditivos previamente treinados, os parâmetros ajustados do 
-padronizador \textit{Z-score} (\texttt{StandardScaler}) e a lista ordenada dos nomes dos atributos morfológicos. 
-Dessa forma, o módulo de software realiza inferências em tempo real de modo puramente local, sem a 
-necessidade de retreinar os algoritmos ou expor os dados a servidores externos, garantindo desempenho 
-computacional e privacidade à infraestrutura de saúde.
- 
-O fluxo completo de processamento e a respectiva transição dos dados entre as camadas lógica e operacional da arquitetura integrada encontram-se detalhados na Figura~\ref{fig:fluxograma_solucao}.
+A comunicação e a transferência de inteligência entre esses dois ambientes
+independentes ocorrem por meio do arquivo serializado wisconsin.pkl, gerado
+através da biblioteca pickle. Este artefato estático encapsula os modelos
+preditivos previamente treinados, os parâmetros ajustados do padronizador
+\textit{Z-score} e a lista ordenada dos nomes dos atributos morfológicos. Dessa
+forma, o módulo de software realiza inferências em tempo real de modo puramente
+local, sem a necessidade de retreinar os algoritmos ou expor os dados a
+servidores externos, garantindo desempenho computacional e privacidade à
+infraestrutura de saúde.
 
-\begin{figure}[htpb]
+O fluxo completo de processamento e a respectiva transição dos dados entre as
+camadas lógica e operacional da arquitetura integrada encontram-se detalhados
+na Figura~\ref{fig:fluxograma_solucao}.
+
+\begin{figure}[htbp]
     \centering
     \caption{DIAGRAMA DE BLOCOS DO FLUXO DE DADOS E COMUNICAÇÃO DA ARQUITETURA}
     \includegraphics[width=1\textwidth]{fluxograma1.png}
@@ -773,21 +778,70 @@ O fluxo completo de processamento e a respectiva transição dos dados entre as 
     \fonte{O Autor}
 \end{figure}
 
-Lembrete: Tirar marca d'água do fluxograma
+% ------------------------------------------------------------------------------
+\section{Base de Dados e Ambiente de Desenvolvimento}
+\label{sec:base-ambiente}
 
-% % ------------------------------------------------------------------------------
-% \section{Base de Dados e Ambiente de Desenvolvimento}
-% \label{sec:base-ambiente}
- 
-% % TODO: Descrever o arquivo data.csv (base WDBC, 569 amostras, 32 colunas
-% % originais). Detalhar as decisões de limpeza: remoção da coluna 'id'
-% % (sem valor preditivo) e da coluna 'Unnamed: 32' (artefato de exportação CSV).
-% % Registrar a decisão de fixar o ambiente em Python 3.11.15, justificando a
-% % restrição de compatibilidade com a aplicação main.py.
-% % Apresentar uma tabela ou lista das bibliotecas principais e suas funções:
-% % pandas/numpy (manipulação), scikit-learn (modelos, pré-processamento e
-% % métricas), umap-learn (redução dimensional), shap (explicabilidade),
-% % matplotlib/seaborn (visualizações) e pickle (serialização).
+A base de dados utilizada neste projeto é a \textit{Breast Cancer Wisconsin
+(Diagnostic)}, disponibilizada publicamente no repositório UCI Machine Learning
+Repository e referenciada ao longo deste trabalho como base Wisconsin. O arquivo
+data.csv é composto por 569 amostras e 32 colunas em sua forma bruta: um
+identificador numérico único (id), a variável alvo (diagnosis) e trinta atributos
+morfológicos numéricos extraídos computacionalmente dos núcleos celulares obtidos
+via Punção Aspirativa por Agulha Fina, conforme descrito por
+\citeonline{Street1993}.
+
+Antes do início do \textit{pipeline} de modelagem, duas colunas foram removidas
+da base por não agregarem valor preditivo ao sistema. A coluna id consiste em um
+identificador administrativo sem qualquer significado morfológico ou biológico e,
+caso mantida, introduziria ruído espúrio no processo de aprendizado. A coluna
+Unnamed: 32, por sua vez, é um artefato gerado automaticamente durante a
+exportação do arquivo no formato CSV, não correspondendo a nenhum atributo real
+da base original. Após essas remoções, o conjunto de dados utilizado para
+modelagem passa a conter 569 amostras e 31 colunas: a variável alvo e os trinta
+atributos preditivos.
+
+O ambiente de desenvolvimento foi fixado na versão Python 3.11.15, decisão
+motivada pela necessidade de compatibilidade entre o módulo científico
+(Wisconsin.ipynb) e o módulo de software (app/main.py). A fixação da versão
+garante que os artefatos serializados via pickle sejam carregados corretamente
+pela aplicação, evitando incompatibilidades entre versões do interpretador que
+poderiam corromper os objetos scikit-learn persistidos no arquivo wisconsin.pkl.
+
+O Quadro~\ref{quad:bibliotecas} apresenta as principais bibliotecas empregadas
+no módulo científico, com suas respectivas funções no projeto.
+
+\begin{quadro}[ht]
+    \centering
+    \legenda[quad:bibliotecas]{BIBLIOTECAS UTILIZADAS NO MÓDULO CIENTÍFICO}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Biblioteca} & \textbf{Função no Projeto} \\
+        \hline
+        pandas & Carregamento do arquivo CSV, remoção das colunas id e Unnamed: 32,
+                 codificação da variável alvo e manipulação dos subconjuntos de dados. \\ \hline
+        scikit-learn & Treinamento dos cinco classificadores, pré-processamento
+                       (StandardScaler, train\_test\_split), decomposição linear via PCA
+                       e cálculo das métricas de avaliação. \\ \hline
+        umap-learn & Redução de dimensionalidade não linear para visualização topológica
+                     da separabilidade natural entre tumores benignos e malignos. \\ \hline
+        shap & Cálculo dos valores de Shapley para explicabilidade global
+               (\textit{summary plot}) e local (\textit{waterfall plot}) das predições
+               do modelo selecionado. \\ \hline
+        matplotlib & Geração das visualizações estáticas: histogramas, \textit{boxplots}
+                     e projeções UMAP e PCA. \\ \hline
+        seaborn & Geração de gráficos estatísticos: \textit{countplot} de distribuição
+                  de classes e \textit{heatmap} das matrizes de confusão. \\ \hline
+        yellowbrick & Visualização complementar de métricas e diagnósticos do processo
+                      de aprendizado de máquina. \\ \hline
+        pickle & Serialização dos modelos treinados, do escalonador ajustado e da lista
+                 de atributos no arquivo wisconsin.pkl. \\ \hline
+    \end{tabular}
+    }
+    \vspace{0.2cm}
+    \fonteautor
+\end{quadro}
  
 % % ------------------------------------------------------------------------------
 % \section{Pré-processamento dos Dados}
