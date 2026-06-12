@@ -989,43 +989,110 @@ x_wisconsin_train, x_wisconsin_test, y_wisconsin_train, y_wisconsin_test = \
 \end{codigo}
 
  
-% % ------------------------------------------------------------------------------
-% \section{Análise Exploratória dos Dados}
-% \label{sec:eda}
- 
-% % TODO: Escrever parágrafo introdutório situando a EDA como etapa anterior
-% % ao treinamento, com objetivo de compreender a distribuição e a qualidade
-% % dos dados antes de aplicar os modelos.
- 
-% \subsection{Estatísticas Descritivas}
-% \label{subsec:estatisticas-descritivas}
- 
-% % TODO: Descrever a aplicação de info() e describe() para inspecionar tipos,
-% % contagem de não-nulos e distribuição estatística das 30 features (mínimo,
-% % máximo, média, desvio padrão, quartis). Comentar os resultados mais
-% % relevantes encontrados.
- 
-% \subsection{Distribuição das Classes}
-% \label{subsec:distribuicao-classes}
- 
-% % TODO: Descrever o gráfico de barras (countplot) confirmando o leve
-% % desbalanceamento: 357 benignos (62,7%) versus 212 malignos (37,3%).
-% % Discutir a implicação desse desbalanceamento para a escolha de métricas
-% % como PR-AUC em vez de depender exclusivamente da acurácia.
- 
-% \subsection{Histogramas dos Atributos}
-% \label{subsec:histogramas}
- 
-% % TODO: Descrever a grade 6×5 com histograma de cada uma das 30 variáveis
-% % numéricas (20 bins), permitindo identificar assimetrias, concentrações e
-% % possíveis distribuições bimodais ligadas à separação de classes.
- 
-% \subsection{Boxplots dos Atributos}
-% \label{subsec:boxplots}
- 
-% % TODO: Descrever a grade 6×5 de boxplots para visualização de dispersão
-% % e outliers em cada variável. Comentar os atributos que apresentaram
-% % maior concentração de valores extremos e o que isso indica clinicamente.
+% ------------------------------------------------------------------------------
+\section{Análise Exploratória dos Dados}
+\label{sec:eda}
+
+A análise exploratória dos dados (EDA) constitui uma etapa preliminar
+indispensável ao desenvolvimento de qualquer modelo preditivo. Antes de
+submeter os dados ao treinamento dos classificadores, é necessário compreender
+a estrutura, a distribuição e a qualidade das informações disponíveis. Essa
+inspeção permite identificar eventuais inconsistências, avaliar o balanceamento
+entre as classes e observar o comportamento estatístico dos atributos
+morfológicos, subsidiando decisões metodológicas nas etapas subsequentes do
+\textit{pipeline}.
+
+% ------------------------------------------------------------------------------
+\subsection{Estatísticas Descritivas}
+\label{subsec:estatisticas-descritivas}
+
+A primeira etapa da EDA consistiu na inspeção estrutural do \textit{DataFrame} por meio
+dos métodos \textit{info()} e \textit{describe()} da biblioteca pandas. O método info() confirmou
+que a base, após a remoção das colunas não preditivas, contém 569 amostras e 31
+colunas, a variável alvo e os trinta atributos morfológicos numéricos, sem
+a presença de valores ausentes em nenhuma das colunas, dispensando etapas de
+inserção de dados.
+
+O método \textit{describe()} forneceu as estatísticas descritivas de cada atributo,
+incluindo média, desvio padrão, valores mínimo e máximo e os quartis Q1, Q2 e
+Q3. A análise dessas estatísticas revelou amplitudes consideravelmente distintas
+entre os atributos: variáveis como \textit{area\_worst} operam em escalas na casa dos
+milhares, enquanto atributos como \textit{symmetry\_mean} assumem valores entre 0 e 1.
+Essa disparidade de magnitude reforça a necessidade da padronização
+\textit{Z-score} aplicada na Seção~\ref{sec:preprocessamento}, especialmente
+para os algoritmos sensíveis à escala, como a Regressão Logística, o SVM e
+o KNN.
+
+% ------------------------------------------------------------------------------
+\subsection{Distribuição das Classes}
+\label{subsec:distribuicao-classes}
+
+A distribuição da variável alvo foi verificada por meio de um gráfico de barras
+(\textit{countplot}), conforme apresentado na Figura~\ref{fig:distribuicao_classes}.
+% \begin{figure}[htbp]
+%     \centering
+%     \caption{DISTRIBUIÇÃO DAS CLASSES NA BASE WISCONSIN}
+%     \includegraphics[width=0.6\textwidth]{distribuicao_classes.png}
+%     \label{fig:distribuicao_classes}
+%     \fonte{O Autor}
+% \end{figure}
+A contagem confirmou um leve desbalanceamento entre as classes: 357 amostras
+pertencem à classe benigna (62,7\%) e 212 à classe maligna (37,3\%). Embora
+essa proporção não caracterize um desbalanceamento severo, ela é suficiente para
+que a acurácia isolada se torne uma métrica enganosa, na qual um classificador trivial
+que sempre predisse benigno atingiria 62,7\% de acurácia sem aprender nenhum
+padrão real. Por essa razão, a avaliação dos modelos prioriza métricas como
+Sensibilidade, F1-score e PR-AUC, que mensuram o desempenho sobre a classe
+minoritária de forma mais fiel \cite{Davis2006}.
+
+% ------------------------------------------------------------------------------
+\subsection{Histogramas dos Atributos}
+\label{subsec:histogramas}
+
+Os trinta atributos morfológicos foram inspecionados por meio de uma grade de
+histogramas com 6 linhas e 5 colunas, utilizando 20 intervalos (\textit{bins})
+por variável, conforme exibido na Figura~\ref{fig:histogramas}.
+% \begin{figure}[htbp]
+%     \centering
+%     \caption{HISTOGRAMAS DOS TRINTA ATRIBUTOS MORFOLÓGICOS DA BASE WISCONSIN}
+%     \includegraphics[width=1\textwidth]{histogramas.png}
+%     \label{fig:histogramas}
+%     \fonte{O Autor}
+% \end{figure}
+A visualização evidenciou que a maioria dos atributos apresenta distribuição
+assimétrica à direita, com concentração de valores em magnitudes menores e
+caudas alongadas em direção aos valores máximos. Esse comportamento é esperado
+em medidas morfológicas celulares, nas quais a maioria das amostras benignas
+concentra valores mais baixos, enquanto os tumores malignos tendem a ocupar
+as regiões de maior magnitude. Em alguns atributos, como \textit{radius\_mean} e
+area\_mean, é possível observar indícios de distribuição bimodal, sugerindo
+que os dois grupos de classes contribuem com picos distintos para o histograma
+global, um indicativo qualitativo da separabilidade entre as classes que será
+explorada formalmente nas projeções UMAP e PCA da Seção~\ref{sec:umap-pca}.
+
+% ------------------------------------------------------------------------------
+\subsection{Boxplots dos Atributos}
+\label{subsec:boxplots}
+
+Complementando a análise dos histogramas, uma grade equivalente de
+\textit{boxplots} foi gerada para cada um dos trinta atributos, conforme
+apresentado na Figura~\ref{fig:boxplots}.
+% \begin{figure}[htbp]
+%     \centering
+%     \caption{BOXPLOTS DOS TRINTA ATRIBUTOS MORFOLÓGICOS DA BASE WISCONSIN}
+%     \includegraphics[width=1\textwidth]{boxplots.png}
+%     \label{fig:boxplots}
+%     \fonte{O Autor}
+% \end{figure}
+Os \textit{boxplots} permitiram identificar a presença de valores extremos
+(\textit{outliers}) em praticamente todos os atributos, com maior concentração
+nos grupos de variáveis relacionadas à área, ao perímetro e às concavidades
+dos núcleos celulares. Do ponto de vista clínico, esses valores extremos não
+necessariamente representam erros de medição, podendo corresponder a amostras
+com morfologia celular atipicamente agressiva. Por essa razão, optou-se por
+não realizar remoção sistemática de \textit{outliers}, preservando a integridade
+biológica dos dados e delegando aos algoritmos de aprendizado a tarefa de
+aprender a lidar com essa variabilidade natural \cite{Faceli2011}.
  
 % % ------------------------------------------------------------------------------
 % \section{Treinamento e Avaliação dos Modelos}
