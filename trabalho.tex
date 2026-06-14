@@ -717,14 +717,52 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
 % ==============================================================================
 \chapter{Metodologia}
 \label{cap:metodologia}
- 
+
 Este capítulo descreve o processo técnico de desenvolvimento da solução proposta,
 abrangendo desde a preparação dos dados até a serialização dos artefatos que
 alimentam o software. A construção é dividida em dois componentes principais,
 detalhados nas seções seguintes: o módulo científico, responsável pelo treinamento
 e avaliação dos modelos, e o módulo de software, responsável pela interface de
 uso pelo profissional de saúde.
- 
+
+% ------------------------------------------------------------------------------
+\section{Classificação da Pesquisa}
+\label{sec:classificacao-pesquisa}
+
+A correta caracterização do tipo de pesquisa é um requisito metodológico
+fundamental, pois delimita o escopo do trabalho e orienta as decisões
+relacionadas à coleta de dados, à escolha dos instrumentos de análise e à
+forma de apresentação dos resultados. Neste contexto, o presente trabalho pode ser classificado
+segundo quatro dimensões complementares.
+
+Quanto à sua natureza, a pesquisa é classificada como aplicada, pois seu
+objetivo central não é a geração de conhecimento teórico abstrato, mas sim o
+desenvolvimento de uma solução computacional concreta voltada a um problema real
+da área da saúde: a opacidade dos modelos preditivos utilizados no diagnóstico
+oncológico (\citeauthoronline{Gil2002}, \citeyear{Gil2002}).
+
+Quanto à abordagem, a pesquisa é quantitativa, uma vez que todo o processo de
+modelagem, avaliação e comparação entre os algoritmos fundamenta-se no
+tratamento numérico de dados morfológicos celulares e na mensuração objetiva do
+desempenho dos modelos por meio de métricas estatísticas formalmente definidas
+(\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+
+Quanto ao objetivo, o trabalho possui caráter simultaneamente preditivo e
+exploratório. O componente preditivo manifesta-se no treinamento de
+classificadores supervisionados capazes de estimar a probabilidade de
+malignidade de um tumor a partir de seus atributos morfológicos. O componente
+exploratório está presente na investigação visual da estrutura dos dados por
+meio de técnicas de redução de dimensionalidade, permitindo identificar padrões,
+agrupamentos e relações de similaridade que não são diretamente observáveis no
+espaço original de trinta dimensões (\citeauthoronline{Cruz2006},
+\citeyear{Cruz2006}).
+
+Quanto ao procedimento, a pesquisa é classificada como experimental e
+computacional. O desenvolvimento ocorre integralmente em ambiente de programação
+controlado, com experimentos reprodutíveis garantidos pela fixação de sementes de
+aleatoriedade, divisão padronizada dos dados e registro sistemático das métricas
+de cada modelo avaliado (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+
 % ------------------------------------------------------------------------------
 \section{Visão Geral da Arquitetura da Solução}
 \label{sec:visao-geral}
@@ -766,9 +804,16 @@ local, sem a necessidade de retreinar os algoritmos ou expor os dados a
 servidores externos, garantindo desempenho computacional e privacidade à
 infraestrutura de saúde.
 
-O fluxo completo de processamento e a respectiva transição dos dados entre as
+A escolha por uma arquitetura desacoplada em dois módulos distintos também
+reflete uma decisão de manutenibilidade a longo prazo. Caso seja necessário
+retreinar os modelos com uma base de dados atualizada ou substituir o algoritmo
+principal, basta reexecutar o módulo científico e gerar um novo arquivo
+wisconsin.pkl, sem qualquer alteração no código do módulo de software. Da mesma
+forma, melhorias na interface gráfica ou na lógica de geração de relatórios podem
+ser realizadas de forma independente, sem risco de comprometer a integridade dos
+modelos preditivos já validados. O fluxo completo de processamento e a respectiva transição dos dados entre as
 camadas lógica e operacional da arquitetura integrada encontram-se detalhados
-na Figura~\ref{fig:fluxograma_solucao}.
+na Figura~\ref{fig:fluxograma_solucao}. 
 
 \begin{figure}[htbp]
     \centering
@@ -808,6 +853,14 @@ garante que os artefatos serializados via pickle sejam carregados corretamente
 pela aplicação, evitando incompatibilidades entre versões do interpretador que
 poderiam corromper os objetos scikit-learn persistidos no arquivo wisconsin.pkl.
 
+Todo o desenvolvimento foi realizado em um ambiente virtual isolado, garantindo
+que as versões das bibliotecas listadas no arquivo requirements.txt permanecessem
+estáveis e reprodutíveis independentemente do sistema operacional utilizado.
+Essa prática é amplamente recomendada em projetos de ciência de dados, pois
+elimina conflitos entre dependências e assegura que qualquer colaborador ou
+avaliador consiga reproduzir os experimentos nas mesmas condições em que foram
+conduzidos
+
 O Quadro~\ref{quad:bibliotecas} apresenta as principais bibliotecas empregadas
 no módulo científico, com suas respectivas funções no projeto.
 
@@ -842,7 +895,6 @@ no módulo científico, com suas respectivas funções no projeto.
     \vspace{0.2cm}
     \fonteautor
 \end{quadro}
- 
 
 % ------------------------------------------------------------------------------
 \section{Pré-processamento dos Dados}
@@ -866,10 +918,11 @@ operam exclusivamente sobre valores numéricos, essa coluna é convertida para u
 representação binária antes do treinamento. O mapeamento adotado atribui o valor
 0 à classe benigna e o valor 1 à classe maligna, convenção amplamente consolidada
 na literatura para problemas de classificação binária em oncologia
-\cite{Street1993}. Aproveitando a mesma etapa, duas colunas são removidas da base por não
-agregarem valor preditivo ao sistema, conforme descrito na
-Seção~\ref{sec:base-ambiente}. O Código~\ref{cod:codificacao} apresenta as
-operações de limpeza e codificação realizadas sobre o DataFrame bruto.
+(\citeauthoronline{Street1993}, \citeyear{Street1993}). Aproveitando a mesma
+etapa, duas colunas são removidas da base por não agregarem valor preditivo ao
+sistema, conforme descrito na Seção~\ref{sec:base-ambiente}. O
+Código~\ref{cod:codificacao} apresenta as operações de limpeza e codificação
+realizadas sobre o DataFrame bruto.
 
 \begin{codigo}[htb]
 \legenda[cod:codificacao]{LIMPEZA E CODIFICAÇÃO DA VARIÁVEL ALVO}
@@ -906,8 +959,8 @@ de dados clínicos inéditos.
 Um aspecto metodológico crítico desta divisão é o uso do parâmetro stratify=y,
 conforme demonstrado no Código~\ref{cod:split}. Esse parâmetro instrui a função
 a realizar uma amostragem estratificada, garantindo que a proporção original
-entre as classes — 357 tumores benignos (62,7\%) e 212 malignos (37,3\%) — seja
-preservada em ambos os subconjuntos. Sem essa estratificação, uma partição
+entre as classes, sendo 357 tumores benignos (62,7\%) e 212 malignos (37,3\%),
+seja preservada em ambos os subconjuntos. Sem essa estratificação, uma partição
 aleatória desfavorável poderia concentrar a maioria dos casos malignos em um
 único subconjunto, introduzindo viés no treinamento e comprometendo a validade
 estatística da avaliação final. A semente RANDOM\_STATE = 42 é fixada para
@@ -945,8 +998,8 @@ O mesmo objeto já calibrado é então aplicado tanto ao conjunto de teste quant
 à base completa. Esse procedimento evita o \textit{data leakage}: se o
 escalonador fosse ajustado sobre todos os dados antes da divisão, informações
 estatísticas do conjunto de teste contaminariam o processo de treinamento,
-produzindo uma estimativa artificialmente otimista do desempenho real do
-modelo \cite{Faceli2011}.
+produzindo uma estimativa artificialmente otimista do desempenho real do modelo
+(\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
 \begin{codigo}[htb]
 \legenda[cod:scaler]{AJUSTE E APLICAÇÃO DO PADRONIZADOR Z-SCORE}
@@ -968,12 +1021,13 @@ O módulo científico mantém uma segunda partição dos dados, independente da
 descrita na Subseção~\ref{subsec:divisao-treino-teste}, utilizada exclusivamente
 pela Árvore de Decisão em sua função de modelo \textit{baseline}. Essa divisão
 adota a proporção 80/20 e não aplica padronização \textit{Z-score}, pois árvores
-de decisão são algoritmos invariantes à escala dos atributos, pois suas regras de
-divisão baseiam-se em limiares de valor absoluto, não em distâncias ou gradientes
-\cite{Faceli2011}. A manutenção dessa partição separada preserva os resultados
-obtidos nas etapas iniciais de desenvolvimento do projeto, anteriores à
-refatoração do \textit{pipeline} principal, garantindo a rastreabilidade e a
-reprodutibilidade do histórico experimental.
+de decisão são algoritmos invariantes à escala dos atributos, uma vez que suas
+regras de divisão baseiam-se em limiares de valor absoluto, não em distâncias ou
+gradientes (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}). A manutenção
+dessa partição separada preserva os resultados obtidos nas etapas iniciais de
+desenvolvimento do projeto, anteriores à refatoração do \textit{pipeline}
+principal, garantindo a rastreabilidade e a reprodutibilidade do histórico
+experimental.
 
 \begin{codigo}[htb]
 \legenda[cod:split-legado]{DIVISÃO LEGADA UTILIZADA PELA ÁRVORE DE DECISÃO}
@@ -988,7 +1042,6 @@ x_wisconsin_train, x_wisconsin_test, y_wisconsin_train, y_wisconsin_test = \
 \fonteautor
 \end{codigo}
 
- 
 % ------------------------------------------------------------------------------
 \section{Análise Exploratória dos Dados}
 \label{sec:eda}
@@ -1006,18 +1059,18 @@ morfológicos, subsidiando decisões metodológicas nas etapas subsequentes do
 \subsection{Estatísticas Descritivas}
 \label{subsec:estatisticas-descritivas}
 
-A primeira etapa da EDA consistiu na inspeção estrutural do \textit{DataFrame} por meio
-dos métodos \textit{info()} e \textit{describe()} da biblioteca pandas. O método info() confirmou
-que a base, após a remoção das colunas não preditivas, contém 569 amostras e 31
-colunas, a variável alvo e os trinta atributos morfológicos numéricos, sem
-a presença de valores ausentes em nenhuma das colunas, dispensando etapas de
-inserção de dados.
+A primeira etapa da EDA consistiu na inspeção estrutural do \textit{DataFrame}
+por meio dos métodos info() e describe() da biblioteca pandas. O método info()
+confirmou que a base, após a remoção das colunas não preditivas, contém 569
+amostras e 31 colunas, a variável alvo e os trinta atributos morfológicos
+numéricos, sem a presença de valores ausentes em nenhuma das colunas,
+dispensando etapas de inserção de dados.
 
-O método \textit{describe()} forneceu as estatísticas descritivas de cada atributo,
+O método describe() forneceu as estatísticas descritivas de cada atributo,
 incluindo média, desvio padrão, valores mínimo e máximo e os quartis Q1, Q2 e
 Q3. A análise dessas estatísticas revelou amplitudes consideravelmente distintas
-entre os atributos: variáveis como \textit{area\_worst} operam em escalas na casa dos
-milhares, enquanto atributos como \textit{symmetry\_mean} assumem valores entre 0 e 1.
+entre os atributos: variáveis como area\_worst operam em escalas na casa dos
+milhares, enquanto atributos como symmetry\_mean assumem valores entre 0 e 1.
 Essa disparidade de magnitude reforça a necessidade da padronização
 \textit{Z-score} aplicada na Seção~\ref{sec:preprocessamento}, especialmente
 para os algoritmos sensíveis à escala, como a Regressão Logística, o SVM e
@@ -1039,11 +1092,12 @@ A distribuição da variável alvo foi verificada por meio de um gráfico de bar
 A contagem confirmou um leve desbalanceamento entre as classes: 357 amostras
 pertencem à classe benigna (62,7\%) e 212 à classe maligna (37,3\%). Embora
 essa proporção não caracterize um desbalanceamento severo, ela é suficiente para
-que a acurácia isolada se torne uma métrica enganosa, na qual um classificador trivial
-que sempre predisse benigno atingiria 62,7\% de acurácia sem aprender nenhum
-padrão real. Por essa razão, a avaliação dos modelos prioriza métricas como
-Sensibilidade, F1-score e PR-AUC, que mensuram o desempenho sobre a classe
-minoritária de forma mais fiel \cite{Davis2006}.
+que a acurácia isolada se torne uma métrica enganosa, na qual um classificador
+trivial que sempre predisse benigno atingiria 62,7\% de acurácia sem aprender
+nenhum padrão real. Por essa razão, a avaliação dos modelos prioriza métricas
+como Sensibilidade, F1-score e PR-AUC, que mensuram o desempenho sobre a classe
+minoritária de forma mais fiel (\citeauthoronline{Davis2006},
+\citeyear{Davis2006}).
 
 % ------------------------------------------------------------------------------
 \subsection{Histogramas dos Atributos}
@@ -1064,7 +1118,7 @@ assimétrica à direita, com concentração de valores em magnitudes menores e
 caudas alongadas em direção aos valores máximos. Esse comportamento é esperado
 em medidas morfológicas celulares, nas quais a maioria das amostras benignas
 concentra valores mais baixos, enquanto os tumores malignos tendem a ocupar
-as regiões de maior magnitude. Em alguns atributos, como \textit{radius\_mean} e
+as regiões de maior magnitude. Em alguns atributos, como radius\_mean e
 area\_mean, é possível observar indícios de distribuição bimodal, sugerindo
 que os dois grupos de classes contribuem com picos distintos para o histograma
 global, um indicativo qualitativo da separabilidade entre as classes que será
@@ -1092,7 +1146,8 @@ necessariamente representam erros de medição, podendo corresponder a amostras
 com morfologia celular atipicamente agressiva. Por essa razão, optou-se por
 não realizar remoção sistemática de \textit{outliers}, preservando a integridade
 biológica dos dados e delegando aos algoritmos de aprendizado a tarefa de
-aprender a lidar com essa variabilidade natural \cite{Faceli2011}.
+aprender a lidar com essa variabilidade natural (\citeauthoronline{Faceli2011},
+\citeyear{Faceli2011}).
  
 % % ------------------------------------------------------------------------------
 % \section{Treinamento e Avaliação dos Modelos}
