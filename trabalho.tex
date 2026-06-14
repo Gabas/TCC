@@ -1082,13 +1082,6 @@ o KNN.
 
 A distribuição da variável alvo foi verificada por meio de um gráfico de barras
 (\textit{countplot}), conforme apresentado na Figura~\ref{fig:distribuicao_classes}.
-% \begin{figure}[htbp]
-%     \centering
-%     \caption{DISTRIBUIÇÃO DAS CLASSES NA BASE WISCONSIN}
-%     \includegraphics[width=0.6\textwidth]{distribuicao_classes.png}
-%     \label{fig:distribuicao_classes}
-%     \fonte{O Autor}
-% \end{figure}
 A contagem confirmou um leve desbalanceamento entre as classes: 357 amostras
 pertencem à classe benigna (62,7\%) e 212 à classe maligna (37,3\%). Embora
 essa proporção não caracterize um desbalanceamento severo, ela é suficiente para
@@ -1096,8 +1089,17 @@ que a acurácia isolada se torne uma métrica enganosa, na qual um classificador
 trivial que sempre predisse benigno atingiria 62,7\% de acurácia sem aprender
 nenhum padrão real. Por essa razão, a avaliação dos modelos prioriza métricas
 como Sensibilidade, F1-score e PR-AUC, que mensuram o desempenho sobre a classe
-minoritária de forma mais fiel (\citeauthoronline{Davis2006},
-\citeyear{Davis2006}).
+minoritária de forma mais fiel.
+
+\begin{figure}[htbp]
+    \centering
+    \caption{DISTRIBUIÇÃO DAS CLASSES NA BASE WISCONSIN}
+    \includegraphics[width=0.75\textwidth]{distribuicao_classes.png}
+    \label{fig:distribuicao_classes}
+    \fonte{O Autor}
+\end{figure}
+
+
 
 % ------------------------------------------------------------------------------
 \subsection{Histogramas dos Atributos}
@@ -1106,38 +1108,49 @@ minoritária de forma mais fiel (\citeauthoronline{Davis2006},
 Os trinta atributos morfológicos foram inspecionados por meio de uma grade de
 histogramas com 6 linhas e 5 colunas, utilizando 20 intervalos (\textit{bins})
 por variável, conforme exibido na Figura~\ref{fig:histogramas}.
-% \begin{figure}[htbp]
-%     \centering
-%     \caption{HISTOGRAMAS DOS TRINTA ATRIBUTOS MORFOLÓGICOS DA BASE WISCONSIN}
-%     \includegraphics[width=1\textwidth]{histogramas.png}
-%     \label{fig:histogramas}
-%     \fonte{O Autor}
-% \end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \caption{HISTOGRAMAS DOS TRINTA ATRIBUTOS MORFOLÓGICOS DA BASE WISCONSIN}
+    \includegraphics[width=1\textwidth]{histogramas.png}
+    \label{fig:histogramas}
+    \fonte{O Autor}
+\end{figure}
+
 A visualização evidenciou que a maioria dos atributos apresenta distribuição
 assimétrica à direita, com concentração de valores em magnitudes menores e
-caudas alongadas em direção aos valores máximos. Esse comportamento é esperado
-em medidas morfológicas celulares, nas quais a maioria das amostras benignas
-concentra valores mais baixos, enquanto os tumores malignos tendem a ocupar
-as regiões de maior magnitude. Em alguns atributos, como radius\_mean e
-area\_mean, é possível observar indícios de distribuição bimodal, sugerindo
-que os dois grupos de classes contribuem com picos distintos para o histograma
-global, um indicativo qualitativo da separabilidade entre as classes que será
-explorada formalmente nas projeções UMAP e PCA da Seção~\ref{sec:umap-pca}.
+caudas alongadas em direção aos valores máximos, padrão especialmente
+pronunciado nos atributos do grupo \_se, que medem o erro padrão das
+características morfológicas. Esse comportamento é esperado em medidas
+morfológicas celulares, nas quais a maioria das amostras benignas concentra
+valores mais baixos, enquanto os tumores malignos tendem a ocupar as regiões
+de maior magnitude. Em alguns atributos, como radius\_mean e area\_mean,
+é possível observar indícios de distribuição bimodal, sugerindo que os dois
+grupos de classes contribuem com picos distintos para o histograma global,
+um indicativo qualitativo da separabilidade entre as classes que será
+explorada formalmente nas projeções UMAP e PCA.
 
 % ------------------------------------------------------------------------------
 \subsection{Boxplots dos Atributos}
 \label{subsec:boxplots}
 
-Complementando a análise dos histogramas, uma grade equivalente de
-\textit{boxplots} foi gerada para cada um dos trinta atributos, conforme
-apresentado na Figura~\ref{fig:boxplots}.
-% \begin{figure}[htbp]
-%     \centering
-%     \caption{BOXPLOTS DOS TRINTA ATRIBUTOS MORFOLÓGICOS DA BASE WISCONSIN}
-%     \includegraphics[width=1\textwidth]{boxplots.png}
-%     \label{fig:boxplots}
-%     \fonte{O Autor}
-% \end{figure}
+Complementando a análise dos histogramas, \textit{boxplots} foram gerados
+para os atributos do grupo mean, que reúne as médias das dez características
+morfológicas extraídas dos núcleos celulares, conforme apresentado na
+Figura~\ref{fig:boxplots}. Os demais grupos de atributos, erro padrão
+(\_se) e valor máximo (\_worst), apresentaram padrões análogos e foram
+omitidos da figura por questões de espaço.
+
+\begin{figure}[htbp]
+    \centering
+    \caption{BOXPLOTS DOS TRINTA ATRIBUTOS MORFOLÓGICOS DA BASE WISCONSIN}
+    \includegraphics[width=1\textwidth]{boxplots.png}
+    \label{fig:boxplots}
+    \fonte{O Autor}
+\end{figure}
+
+LEMBRETE: CORTAR A FIGURA PARA CABER NA PÁGINA, MANTENDO APENAS OS BOXPLOTS DO GRUPO MEAN, QUE SÃO OS MAIS RELEVANTES PARA A ANÁLISE EXPLORATÓRIA. OS BOXPLOTS DOS GRUPOS SE E WORST PODEM SER APRESENTADOS EM UM APÊNDICE, COM REFERÊNCIA NA LEGENDA DA FIGURA PRINCIPAL.
+
 Os \textit{boxplots} permitiram identificar a presença de valores extremos
 (\textit{outliers}) em praticamente todos os atributos, com maior concentração
 nos grupos de variáveis relacionadas à área, ao perímetro e às concavidades
