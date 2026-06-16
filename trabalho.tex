@@ -67,7 +67,7 @@ como requisito à obtenção do grau de Bacharel.}
 % % - A lista de símbolos e siglas devem ser editadas manualmente 
 \listadefiguras
 % \listadegraficos
-%\listadetabelas
+\listadetabelas
 \listadequadros
 \listadecodigos
 % \listadealgoritmos
@@ -1081,7 +1081,7 @@ o KNN.
 \label{subsec:distribuicao-classes}
 
 A distribuição da variável alvo foi verificada por meio de um gráfico de barras
-(\textit{countplot}), conforme apresentado na Figura~\ref{fig:distribuicao_classes}.
+(\textit{countplot}), conforme apresentado no Gráfico~\ref{fig:distribuicao_classes}.
 A contagem confirmou um leve desbalanceamento entre as classes: 357 amostras
 pertencem à classe benigna (62,7\%) e 212 à classe maligna (37,3\%). Embora
 essa proporção não caracterize um desbalanceamento severo, ela é suficiente para
@@ -1091,13 +1091,13 @@ nenhum padrão real. Por essa razão, a avaliação dos modelos prioriza métric
 como Sensibilidade, F1-score e PR-AUC, que mensuram o desempenho sobre a classe
 minoritária de forma mais fiel.
 
-\begin{figure}[htbp]
+\begin{grafico}[htbp]
     \centering
     \caption{DISTRIBUIÇÃO DAS CLASSES NA BASE WISCONSIN}
     \includegraphics[width=0.75\textwidth]{distribuicao_classes.png}
     \label{fig:distribuicao_classes}
     \fonte{O Autor}
-\end{figure}
+\end{grafico}
 
 
 
@@ -1232,8 +1232,8 @@ Essa característica torna o modelo naturalmente auditável por profissionais
 de saúde sem formação em computação, ainda que sua acurácia seja estruturalmente
 limitada pela ausência de mecanismos de ensemble para redução da variância.
 
-As curvas ROC e Precisão-Revocação da Árvore de Decisão, apresentadas na
-Figura~\ref{fig:avaliacao_dt}, evidenciam o comportamento esperado de um modelo
+As curvas ROC e Precisão-Revocação da Árvore de Decisão, apresentadas no
+Gráfico~\ref{fig:avaliacao_dt}, evidenciam o comportamento esperado de um modelo
 \textit{baseline}. A curva ROC, com AUC de 0,935, apresenta uma subida inicial 
 seguida de uma progressão mais gradual, refletindo a natureza discreta
 das decisões de uma árvore sem mecanismos de suavização probabilística. A curva
@@ -1244,13 +1244,13 @@ malignidade, errando por omissão nos casos limítrofes, o que é clinicamente
 desfavorável dado que falsos negativos representam o erro mais crítico no
 contexto oncológico (\citeauthoronline{Davis2006}, \citeyear{Davis2006}).
 
-\begin{figure}[htbp]
+\begin{grafico}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DA ÁRVORE DE DECISÃO}
     \includegraphics[width=0.95\textwidth]{avaliacao_dt.png}
     \label{fig:avaliacao_dt}
     \fonte{O Autor}
-\end{figure}
+\end{grafico}
 
 % ------------------------------------------------------------------------------
 \subsection{K-Nearest Neighbors}
@@ -1293,7 +1293,7 @@ linearmente com o volume de dados, o que tornaria o modelo inadequado para
 sistemas de triagem em larga escala sem otimizações adicionais de indexação
 espacial (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-As curvas da Figura~\ref{fig:avaliacao_knn} revelam um desempenho notavelmente
+As curvas do Gráfico~\ref{fig:avaliacao_knn} revelam um desempenho notavelmente
 superior ao \textit{baseline}. A curva ROC, com AUC de 0,997, apresenta uma
 subida praticamente vertical próxima ao eixo da sensibilidade, indicando que o
 modelo consegue separar as duas classes com altíssima discriminação já nos
@@ -1305,13 +1305,13 @@ tumores benignos e malignos formam regiões densas e bem separadas no espaço de
 atributos, favorece intrinsecamente os algoritmos baseados em distância
 (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-\begin{figure}[htbp]
+\begin{grafico}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO KNN}
     \includegraphics[width=0.95\textwidth]{avaliacao_knn.png}
     \label{fig:avaliacao_knn}
     \fonte{O Autor}
-\end{figure}
+\end{grafico}
 
 % ------------------------------------------------------------------------------
 \subsection{Regressão Logística}
@@ -1360,7 +1360,7 @@ adicional de que os atributos morfológicos identificados como relevantes pelo
 Random Forest possuem sustentação estatística independente do algoritmo
 utilizado.
 
-As curvas da Figura~\ref{fig:avaliacao_lr} demonstram que, apesar de sua
+As curvas do Gráfico~\ref{fig:avaliacao_lr} demonstram que, apesar de sua
 estrutura linear, a Regressão Logística atinge desempenho comparável aos modelos
 mais complexos nesta base de dados. A curva ROC com AUC de 0,995 e a curva
 Precisão-Revocação com PR-AUC de 0,993 confirmam que os atributos morfológicos
@@ -1372,13 +1372,13 @@ ligeiramente maior de alarmes falsos, comportamento esperado em classificadores
 lineares diante de dados com alguma sobreposição de classes
 (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
 
-\begin{figure}[htbp]
+\begin{grafico}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DA REGRESSÃO LOGÍSTICA}
     \includegraphics[width=0.95\textwidth]{avaliacao_lr.png}
     \label{fig:avaliacao_lr}
     \fonte{O Autor}
-\end{figure}
+\end{grafico}
 
 % ------------------------------------------------------------------------------
 \subsection{Random Forest}
@@ -1440,7 +1440,7 @@ benigno implica a ausência de tratamento para um paciente que dele necessita,
 configurando o erro de maior impacto humano possível no sistema
 (\citeauthoronline{James2023}, \citeyear{James2023}).
 
-As curvas da Figura~\ref{fig:avaliacao_rf} confirmam o alto desempenho
+As curvas do Gráfico~\ref{fig:avaliacao_rf} confirmam o alto desempenho
 discriminativo do Random Forest, com ROC-AUC de 0,997 e PR-AUC de 0,995.
 A curva ROC apresenta subida quase vertical junto ao eixo esquerdo, indicando
 que o modelo atinge sensibilidade próxima a 1,0 com taxa de falsos positivos
@@ -1451,13 +1451,13 @@ atribuível ao mecanismo de votação entre 500 árvores diversas, que dilui os
 erros individuais e produz estimativas de probabilidade mais calibradas e
 confiáveis do que qualquer classificador único conseguiria oferecer.
 
-\begin{figure}[htbp]
+\begin{grafico}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO RANDOM FOREST}
     \includegraphics[width=0.95\textwidth]{avaliacao_rf.png}
     \label{fig:avaliacao_rf}
     \fonte{O Autor}
-\end{figure}
+\end{grafico}
 
 % ------------------------------------------------------------------------------
 \subsection{Support Vector Machine}
@@ -1504,7 +1504,7 @@ pred_svm  = (proba_svm >= 0.5).astype(int)
 \fonteautor
 \end{codigo}
 
-As curvas da Figura~\ref{fig:avaliacao_svm} revelam o SVM como o modelo com
+As curvas do Gráfico~\ref{fig:avaliacao_svm} revelam o SVM como o modelo com
 melhor PR-AUC individual entre os cinco avaliados, atingindo 0,996, com
 ROC-AUC de 0,997. A curva ROC apresenta a subida mais vertical de todo o
 conjunto, com a taxa de verdadeiros positivos atingindo valores próximos a 1,0
@@ -1517,13 +1517,13 @@ o modelo cria uma fronteira de decisão particularmente robusta para os casos
 mais próximos da região de separação (\citeauthoronline{Bishop2006},
 \citeyear{Bishop2006}).
 
-\begin{figure}[htbp]
+\begin{grafico}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO SVM}
     \includegraphics[width=1\textwidth]{avaliacao_svm.png}
     \label{fig:avaliacao_svm}
     \fonte{O Autor}
-\end{figure}
+\end{grafico}
 
 % ------------------------------------------------------------------------------
 \subsection{Comparação entre os Modelos}
