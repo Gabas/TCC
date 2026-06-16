@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  13 JUN 2026 22:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  15 JUN 2026 23:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1334,7 +1334,7 @@ Cap\'{\i }tulo 2.
 [14
 
 ]
-<img/oqueecancercelulas.jpg, id=251, 1282.7925pt x 536.0025pt>
+<img/oqueecancercelulas.jpg, id=287, 1282.7925pt x 536.0025pt>
 File: img/oqueecancercelulas.jpg Graphic file (type jpg)
 <use img/oqueecancercelulas.jpg>
 Package pdftex.def Info: img/oqueecancercelulas.jpg  used on input line 220.
@@ -1344,25 +1344,25 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 221.
  [15 <./img/oqueecancercelulas.jpg>] [16]
-<img/venn_ia_ml_dp.jpg, id=283, 621.32124pt x 440.64626pt>
+<img/venn_ia_ml_dp.jpg, id=319, 621.32124pt x 440.64626pt>
 File: img/venn_ia_ml_dp.jpg Graphic file (type jpg)
 <use img/venn_ia_ml_dp.jpg>
 Package pdftex.def Info: img/venn_ia_ml_dp.jpg  used on input line 244.
 (pdftex.def)             Requested size: 273.14923pt x 193.71686pt.
  [17 <./img/venn_ia_ml_dp.jpg>] [18] [19]
-<img/CM_Exemplo.png, id=330, 475.7775pt x 328.22626pt>
+<img/CM_Exemplo.png, id=366, 475.7775pt x 328.22626pt>
 File: img/CM_Exemplo.png Graphic file (type png)
 <use img/CM_Exemplo.png>
 Package pdftex.def Info: img/CM_Exemplo.png  used on input line 284.
 (pdftex.def)             Requested size: 250.38564pt x 172.73705pt.
  [20 <./img/CM_Exemplo.png>] [21]
-<img/roc_pr.png, id=365, 1215.54124pt x 488.82625pt>
+<img/roc_pr.png, id=401, 1215.54124pt x 488.82625pt>
 File: img/roc_pr.png Graphic file (type png)
 <use img/roc_pr.png>
 Package pdftex.def Info: img/roc_pr.png  used on input line 338.
 (pdftex.def)             Requested size: 409.71692pt x 164.76662pt.
  [22 <./img/roc_pr.png>]
-<img/class_regress.png, id=384, 1027.84pt x 354.32375pt>
+<img/class_regress.png, id=420, 1027.84pt x 354.32375pt>
 File: img/class_regress.png Graphic file (type png)
 <use img/class_regress.png>
 Package pdftex.def Info: img/class_regress.png  used on input line 356.
@@ -1370,7 +1370,7 @@ Package pdftex.def Info: img/class_regress.png  used on input line 356.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 358.
  [23 <./img/class_regress.png>] [24]
-<img/hyperplane.png, id=430, 561.59813pt x 252.19218pt>
+<img/hyperplane.png, id=467, 561.59813pt x 252.19218pt>
 File: img/hyperplane.png Graphic file (type png)
 <use img/hyperplane.png>
 Package pdftex.def Info: img/hyperplane.png  used on input line 401.
@@ -1386,7 +1386,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<img/umap1.png, id=595, 1107.13625pt x 394.47375pt>
+<img/umap1.png, id=631, 1107.13625pt x 394.47375pt>
 File: img/umap1.png Graphic file (type png)
 <use img/umap1.png>
 Package pdftex.def Info: img/umap1.png  used on input line 567.
@@ -1400,7 +1400,7 @@ Cap\'{\i }tulo 4.
 [42
 
 ] [43]
-<img/fluxograma1.png, id=694, 1445.4pt x 156.585pt>
+<img/fluxograma1.png, id=730, 1445.4pt x 156.585pt>
 File: img/fluxograma1.png Graphic file (type png)
 <use img/fluxograma1.png>
 Package pdftex.def Info: img/fluxograma1.png  used on input line 821.
@@ -1428,33 +1428,70 @@ Package microtype Info: Character `texttrademark ' is missing
 (microtype)             in font `TS1/lmtt/m/it/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
  [46{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [47] [48]
-<img/distribuicao_classes.png, id=768, 450.2421pt x 334.6101pt>
+<img/distribuicao_classes.png, id=804, 450.2421pt x 334.6101pt>
 File: img/distribuicao_classes.png Graphic file (type png)
 <use img/distribuicao_classes.png>
 Package pdftex.def Info: img/distribuicao_classes.png  used on input line 1097.
 (pdftex.def)             Requested size: 341.43307pt x 253.7549pt.
  [49 <./img/distribuicao_classes.png>]
-<img/histogramas.png, id=775, 1437.4503pt x 1461.2994pt>
+<img/histogramas.png, id=811, 1437.4503pt x 1461.2994pt>
 File: img/histogramas.png Graphic file (type png)
 <use img/histogramas.png>
 Package pdftex.def Info: img/histogramas.png  used on input line 1115.
 (pdftex.def)             Requested size: 455.24411pt x 462.78679pt.
  [50 <./img/histogramas.png>]
-<img/boxplots.png, id=782, 1426.6098pt x 1461.2994pt>
+<img/boxplots.png, id=818, 1426.6098pt x 523.2348pt>
 File: img/boxplots.png Graphic file (type png)
 <use img/boxplots.png>
 Package pdftex.def Info: img/boxplots.png  used on input line 1147.
-(pdftex.def)             Requested size: 455.24411pt x 466.3098pt.
- (./trabalho.bbl [51] [52 <./img/boxplots.png>]
+(pdftex.def)             Requested size: 455.24411pt x 166.9675pt.
+ [51 <./img/boxplots.png>]
+
+LaTeX Warning: Reference `cap:trabalhos_relacionados' on page 52 undefined on input line 1195.
+
+[52]
+<img/avaliacao_dt.png, id=841, 854.9541pt x 349.7868pt>
+File: img/avaliacao_dt.png Graphic file (type png)
+<use img/avaliacao_dt.png>
+Package pdftex.def Info: img/avaliacao_dt.png  used on input line 1255.
+(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
+ [53] [54 <./img/avaliacao_dt.png>]
+<img/avaliacao_knn.png, id=872, 854.9541pt x 349.7868pt>
+File: img/avaliacao_knn.png Graphic file (type png)
+<use img/avaliacao_knn.png>
+Package pdftex.def Info: img/avaliacao_knn.png  used on input line 1316.
+(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
+
+
+LaTeX Warning: Reference `sec:shap' on page 55 undefined on input line 1359.
+
+[55 <./img/avaliacao_knn.png>]
+<img/avaliacao_lr.png, id=882, 854.9541pt x 349.7868pt>
+File: img/avaliacao_lr.png Graphic file (type png)
+<use img/avaliacao_lr.png>
+Package pdftex.def Info: img/avaliacao_lr.png  used on input line 1383.
+(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
+ [56]
+Package microtype Info: Character `texttrademark ' is missing
+(microtype)             in font `TS1/lmtt/m/n/10.95'.
+(microtype)             Ignoring protrusion settings for this character.
+ [57 <./img/avaliacao_lr.png>]
+<img/avaliacao_rf.png, id=922, 854.9541pt x 349.7868pt>
+File: img/avaliacao_rf.png Graphic file (type png)
+<use img/avaliacao_rf.png>
+Package pdftex.def Info: img/avaliacao_rf.png  used on input line 1463.
+(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
+ [58 <./img/avaliacao_rf.png>]
+<img/avaliacao_svm.png, id=936, 854.9541pt x 349.7868pt>
+File: img/avaliacao_svm.png Graphic file (type png)
+<use img/avaliacao_svm.png>
+Package pdftex.def Info: img/avaliacao_svm.png  used on input line 1529.
+(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
+ [59] (./trabalho.bbl [60 <./img/avaliacao_svm.png>]
 bibitemlist
-[53
+[61
 
-] [54])
-
-Package caption Warning: Unused \captionsetup[table] on input line 410.
-See the caption package documentation for explanation.
-
-[55]
+] [62]) [63]
 \tf@lof=\write5
 \openout5 = `trabalho.lof'.
 
@@ -1472,20 +1509,24 @@ See the caption package documentation for explanation.
 LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 35221 strings out of 467525
- 626779 string characters out of 5418983
- 1352804 words of memory out of 5000000
- 63039 multiletter control sequences out of 15000+600000
- 675949 words of font info for 264 fonts, out of 8000000 for 9000
+ 35402 strings out of 467525
+ 629925 string characters out of 5418983
+ 1354234 words of memory out of 5000000
+ 63149 multiletter control sequences out of 15000+600000
+ 676303 words of font info for 266 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  114i,13n,132p,1495b,1745s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on trabalho.pdf (56 pages, 2522448 bytes).
+Output written on trabalho.pdf (64 pages, 2644633 bytes).
 PDF statistics:
- 1095 PDF objects out of 1200 (max. 8388607)
- 960 compressed objects within 10 object streams
- 233 named destinations out of 1000 (max. 500000)
- 42420 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 1297 PDF objects out of 1440 (max. 8388607)
+ 1141 compressed objects within 12 object streams
+ 301 named destinations out of 1000 (max. 500000)
+ 43013 words of extra memory for PDF output out of 51595 (max. 10000000)
 

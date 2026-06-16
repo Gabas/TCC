@@ -1149,8 +1149,6 @@ omitidos da figura por questões de espaço.
     \fonte{O Autor}
 \end{figure}
 
-LEMBRETE: CORTAR A FIGURA PARA CABER NA PÁGINA, MANTENDO APENAS OS BOXPLOTS DO GRUPO MEAN, QUE SÃO OS MAIS RELEVANTES PARA A ANÁLISE EXPLORATÓRIA. OS BOXPLOTS DOS GRUPOS SE E WORST PODEM SER APRESENTADOS EM UM APÊNDICE, COM REFERÊNCIA NA LEGENDA DA FIGURA PRINCIPAL.
-
 Os \textit{boxplots} permitiram identificar a presença de valores extremos
 (\textit{outliers}) em praticamente todos os atributos, com maior concentração
 nos grupos de variáveis relacionadas à área, ao perímetro e às concavidades
@@ -1162,61 +1160,412 @@ biológica dos dados e delegando aos algoritmos de aprendizado a tarefa de
 aprender a lidar com essa variabilidade natural (\citeauthoronline{Faceli2011},
 \citeyear{Faceli2011}).
  
-% % ------------------------------------------------------------------------------
-% \section{Treinamento e Avaliação dos Modelos}
-% \label{sec:treinamento}
- 
-% % TODO: Descrever as funções auxiliares padronizadas implementadas para
-% % avaliação de todos os modelos:
-% % — compute_stats: calcula Acurácia, Sensibilidade, Especificidade, F1,
-% %   ROC-AUC e PR-AUC a partir da matriz de confusão.
-% % — plot_confusion: gera heatmap anotado da matriz de confusão via Seaborn.
-% % — plot_roc_pr: plota curvas ROC e Precisão-Revocação lado a lado.
-% % Justificar a adoção do conjunto padronizado de métricas para garantir
-% % comparabilidade entre os algoritmos avaliados.
- 
-% \subsection{Árvore de Decisão}
-% \label{subsec:arvore-decisao}
- 
-% % TODO: Descrever a configuração: criterion='entropy', random_state=42.
-% % Justificar o uso do ganho de informação (entropia) como critério de divisão.
-% % Explicar seu papel como modelo baseline — referência de desempenho mínimo
-% % esperado pelos modelos subsequentes. Apresentar os resultados obtidos
-% % (relatório de classificação, importância das features, matriz de confusão
-% % e curvas ROC/PR).
- 
-% \subsection{K-Nearest Neighbors}
-% \label{subsec:knn}
- 
-% % TODO: Descrever a configuração: n_neighbors=20, weights='uniform'.
-% % Justificar o uso de dados padronizados como requisito para o KNN, que é
-% % sensível à escala dos atributos. Comentar os resultados obtidos.
- 
-% \subsection{Regressão Logística}
-% \label{subsec:regressao-logistica}
- 
-% % TODO: Descrever a configuração: solver='lbfgs', max_iter=2000,
-% % class_weight='balanced'. Justificar 'balanced' como correção automática
-% % do desbalanceamento de classes e max_iter=2000 para garantir convergência.
-% % Comentar os resultados obtidos.
- 
-% \subsection{Random Forest}
-% \label{subsec:random-forest}
- 
-% % TODO: Descrever a configuração: n_estimators=500, class_weight='balanced',
-% % n_jobs=-1. Justificar 500 árvores para estimativas estáveis e o paralelismo
-% % total com n_jobs=-1. Indicar que este é o modelo selecionado para integração
-% % com SHAP e com a aplicação, justificando com base nas métricas — em especial
-% % a Sensibilidade, por ser a métrica mais crítica no contexto clínico para
-% % minimização de falsos negativos. Apresentar os resultados obtidos.
- 
-% \subsection{Support Vector Machine}
-% \label{subsec:svm}
- 
-% % TODO: Descrever a configuração: kernel='rbf', probability=True,
-% % class_weight='balanced'. Justificar o kernel RBF para captura de fronteiras
-% % não lineares e probability=True como requisito para geração das curvas
-% % ROC/PR. Comentar os resultados obtidos.
+% ------------------------------------------------------------------------------
+\section{Treinamento e Avaliação dos Modelos}
+\label{sec:treinamento}
+
+Para garantir a comparabilidade entre os algoritmos avaliados, três funções
+auxiliares foram implementadas no módulo científico e aplicadas de forma
+padronizada a todos os classificadores. A função compute\_stats recebe os
+rótulos reais, as predições e as probabilidades estimadas, e retorna um
+dicionário com seis métricas: Acurácia, Sensibilidade, Especificidade,
+F1-score, ROC-AUC e PR-AUC, calculadas a partir dos elementos da matriz de
+confusão. A função plot\_confusion gera o \textit{heatmap} anotado da matriz
+de confusão via Seaborn, com os rótulos das classes Benigno e Maligno. A função
+plot\_roc\_pr plota as curvas ROC e Precisão-Revocação lado a lado em uma única
+figura. A adoção dessas funções padronizadas elimina inconsistências na avaliação
+e garante que todos os classificadores sejam submetidos exatamente ao mesmo
+protocolo de mensuração de desempenho. Vale destacar que a escolha por calcular
+simultaneamente tanto a curva ROC quanto a curva Precisão-Revocação decorre da
+recomendação de \citeauthoronline{Davis2006} (\citeyear{Davis2006}), segundo a
+qual a curva ROC isolada pode superestimar o desempenho em bases com
+desbalanceamento de classes, tornando a análise conjunta das duas curvas
+indispensável para uma avaliação clínica fidedigna.
+
+A seleção dos cinco algoritmos avaliados foi orientada por dois critérios
+complementares. O primeiro critério é a representatividade das principais
+famílias de classificadores do aprendizado supervisionado: a Árvore de Decisão
+representa os modelos baseados em regras hierárquicas; o KNN representa os
+modelos baseados em distância e memória; a Regressão Logística representa os
+modelos probabilísticos lineares; o Random Forest representa os métodos de
+comitê baseados em árvores; e o SVM representa os modelos baseados em margem
+geométrica. O segundo critério é a adequação ao contexto oncológico: todos os
+algoritmos selecionados possuem documentação consolidada em aplicações de
+diagnóstico assistido por computador na literatura médica, conforme evidenciado
+pelos trabalhos revisados no Capítulo~\ref{cap:trabalhos_relacionados}
+(\citeauthoronline{Cruz2006}, \citeyear{Cruz2006}).
+
+% ------------------------------------------------------------------------------
+\subsection{Árvore de Decisão}
+\label{subsec:arvore-decisao}
+
+A Árvore de Decisão foi incluída no estudo com a função específica de modelo
+\textit{baseline}, estabelecendo uma referência de desempenho mínimo que os
+demais classificadores devem superar para justificar sua maior complexidade
+computacional. Sua escolha para essa função se justifica pela total
+interpretabilidade intrínseca: as regras de divisão geradas pelo algoritmo
+podem ser visualizadas e auditadas diretamente, sem necessidade de técnicas
+de explicabilidade externas (\citeauthoronline{Faceli2011},
+\citeyear{Faceli2011}).
+
+A configuração adotada utilizou o critério de entropia como função de impureza,
+conforme o Código~\ref{cod:dt}. Essa escolha corresponde diretamente ao ganho
+de informação descrito na fundamentação teórica, privilegiando divisões que
+reduzam ao máximo a incerteza sobre a classe em cada nó da árvore. O modelo
+foi treinado sobre a divisão legada descrita na
+Subseção~\ref{subsec:divisao-legada}, sem padronização \textit{Z-score}, pois
+árvores de decisão são invariantes à escala dos atributos.
+
+\begin{codigo}[htb]
+\legenda[cod:dt]{CONFIGURAÇÃO E TREINAMENTO DA ÁRVORE DE DECISÃO}
+\begin{lstlisting}[language=Python]
+wisconsin_decision_tree = DecisionTreeClassifier(
+    criterion='entropy',
+    random_state=RANDOM_STATE
+)
+wisconsin_decision_tree.fit(x_wisconsin_train, y_wisconsin_train)
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+Do ponto de vista clínico, a Árvore de Decisão oferece uma vantagem singular
+em relação aos demais classificadores: suas regras de decisão podem ser
+traduzidas diretamente em linguagem condicional legível, do tipo "se o
+perímetro médio do núcleo celular for superior a determinado limiar e a
+concavidade máxima exceder certo valor, então classificar como maligno".
+Essa característica torna o modelo naturalmente auditável por profissionais
+de saúde sem formação em computação, ainda que sua acurácia seja estruturalmente
+limitada pela ausência de mecanismos de ensemble para redução da variância.
+
+As curvas ROC e Precisão-Revocação da Árvore de Decisão, apresentadas na
+Figura~\ref{fig:avaliacao_dt}, evidenciam o comportamento esperado de um modelo
+\textit{baseline}. A curva ROC, com AUC de 0,935, apresenta uma subida inicial
+abrupta seguida de uma progressão mais gradual, refletindo a natureza discreta
+das decisões de uma árvore sem mecanismos de suavização probabilística. A curva
+Precisão-Revocação, com PR-AUC de 0,905, mantém precisão próxima a 1,0 até uma
+revocação de aproximadamente 0,85, ponto a partir do qual ocorre uma queda
+abrupta. Esse padrão indica que o modelo é conservador nas predições de
+malignidade, errando por omissão nos casos limítrofes, o que é clinicamente
+desfavorável dado que falsos negativos representam o erro mais crítico no
+contexto oncológico (\citeauthoronline{Davis2006}, \citeyear{Davis2006}).
+
+\begin{figure}[htbp]
+    \centering
+    \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DA ÁRVORE DE DECISÃO}
+    \includegraphics[width=1\textwidth]{avaliacao_dt.png}
+    \label{fig:avaliacao_dt}
+    \fonte{O Autor}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\subsection{K-Nearest Neighbors}
+\label{subsec:knn}
+
+O KNN foi selecionado por representar uma abordagem radicalmente diferente dos
+demais algoritmos: em vez de construir um modelo matemático durante o
+treinamento, ele memoriza toda a base histórica e realiza a classificação de
+novos pacientes com base na similaridade geométrica com os casos já conhecidos.
+Essa lógica de vizinhança é intuitivamente alinhada ao raciocínio clínico de
+comparar um novo caso com pacientes anteriores de perfil morfológico semelhante.
+
+O algoritmo foi instanciado com 20 vizinhos e peso uniforme entre eles, conforme
+o Código~\ref{cod:knn}. Por ser fundamentado no cálculo de distâncias entre
+atributos, o KNN é altamente sensível à escala das variáveis: atributos com
+maior magnitude dominariam o cálculo da distância euclidiana em detrimento de
+características igualmente relevantes, mas medidas em escalas menores. Por essa
+razão, seu treinamento e inferência utilizam obrigatoriamente os conjuntos
+padronizados X\_train\_scaled e X\_test\_scaled
+(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+
+\begin{codigo}[htb]
+\legenda[cod:knn]{CONFIGURAÇÃO, TREINAMENTO E INFERÊNCIA DO KNN}
+\begin{lstlisting}[language=Python]
+wisconsin_knn = KNeighborsClassifier(n_neighbors=20, weights='uniform')
+wisconsin_knn.fit(X_train_scaled, y_train)
+
+y_pred_knn = wisconsin_knn.predict(X_test_scaled)
+y_prob_knn = wisconsin_knn.predict_proba(X_test_scaled)[:, 1]
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+Uma limitação inerente ao KNN relevante para este contexto é o custo
+computacional da fase de inferência: como não existe uma fase de treinamento
+formal, toda a computação ocorre no momento da predição, exigindo o cálculo
+da distância entre o novo paciente e todos os 426 registros do conjunto de
+treino. Embora esse custo seja desprezível para a base Wisconsin, ele cresce
+linearmente com o volume de dados, o que tornaria o modelo inadequado para
+sistemas de triagem em larga escala sem otimizações adicionais de indexação
+espacial (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+
+As curvas da Figura~\ref{fig:avaliacao_knn} revelam um desempenho notavelmente
+superior ao \textit{baseline}. A curva ROC, com AUC de 0,997, apresenta uma
+subida praticamente vertical próxima ao eixo da sensibilidade, indicando que o
+modelo consegue separar as duas classes com altíssima discriminação já nos
+primeiros limiares de decisão. A curva Precisão-Revocação, com PR-AUC de 0,995,
+mantém precisão próxima a 1,0 ao longo de quase toda a faixa de revocação,
+com uma leve queda apenas nos valores extremos. Esse comportamento confirma que
+a estrutura geométrica da base Wisconsin, na qual os perfis morfológicos de
+tumores benignos e malignos formam regiões densas e bem separadas no espaço de
+atributos, favorece intrinsecamente os algoritmos baseados em distância
+(\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+
+\begin{figure}[htbp]
+    \centering
+    \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO KNN}
+    \includegraphics[width=1\textwidth]{avaliacao_knn.png}
+    \label{fig:avaliacao_knn}
+    \fonte{O Autor}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\subsection{Regressão Logística}
+\label{subsec:regressao-logistica}
+
+A Regressão Logística foi incluída por ser o modelo probabilístico linear de
+maior tradição no diagnóstico médico assistido por computador. Sua equação
+sigmoide produz diretamente a probabilidade de malignidade em um intervalo entre
+0 e 1, e os coeficientes associados a cada atributo permitem uma leitura direta
+do peso de cada característica morfológica na decisão final. Essa transparência
+intrínseca a torna um ponto de referência importante para avaliar se a
+explicabilidade \textit{post-hoc} fornecida pelo SHAP sobre modelos mais complexos é
+consistente com o que um modelo interpretável nativo já indicaria.
+
+O modelo foi configurado com o \textit{solver lbfgs}, adequado para bases de tamanho
+médio como a Wisconsin, com limite de 2000 iterações para garantir convergência
+completa e correção automática do desbalanceamento de classes, conforme o
+Código~\ref{cod:lr}. O parâmetro class\_weight = balanced instrui o modelo a
+penalizar proporcionalmente os erros sobre a classe maligna, compensando a
+diferença de frequência entre as classes sem necessidade de técnicas de
+reamostragem.
+
+\begin{codigo}[htb]
+\legenda[cod:lr]{CONFIGURAÇÃO E TREINAMENTO DA REGRESSÃO LOGÍSTICA}
+\begin{lstlisting}[language=Python]
+logreg = LogisticRegression(
+    max_iter=2000,
+    class_weight='balanced',
+    solver='lbfgs',
+    random_state=RANDOM_STATE
+)
+logreg.fit(X_train_scaled, y_train)
+proba_lr = logreg.predict_proba(X_test_scaled)[:, 1]
+pred_lr  = (proba_lr >= 0.5).astype(int)
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+A interpretação dos coeficientes da Regressão Logística também complementa
+a análise de explicabilidade conduzida pelo SHAP na Seção~\ref{sec:shap}.
+Enquanto o SHAP quantifica a contribuição de cada atributo para uma predição
+específica, os coeficientes logísticos fornecem uma perspectiva global e
+estática dos pesos aprendidos pelo modelo linear sobre toda a base de
+treinamento. A convergência entre as duas perspectivas serve como evidência
+adicional de que os atributos morfológicos identificados como relevantes pelo
+Random Forest possuem sustentação estatística independente do algoritmo
+utilizado.
+
+As curvas da Figura~\ref{fig:avaliacao_lr} demonstram que, apesar de sua
+estrutura linear, a Regressão Logística atinge desempenho comparável aos modelos
+mais complexos nesta base de dados. A curva ROC com AUC de 0,995 e a curva
+Precisão-Revocação com PR-AUC de 0,993 confirmam que os atributos morfológicos
+da base Wisconsin possuem uma relação suficientemente linear com a variável alvo
+para que um modelo probabilístico simples os explore com eficiência. A leve
+queda na curva PR nos valores mais altos de revocação indica que, ao tentar
+recuperar todos os casos malignos, o modelo passa a incorrer em um número
+ligeiramente maior de alarmes falsos, comportamento esperado em classificadores
+lineares diante de dados com alguma sobreposição de classes
+(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+
+\begin{figure}[htbp]
+    \centering
+    \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DA REGRESSÃO LOGÍSTICA}
+    \includegraphics[width=1\textwidth]{avaliacao_lr.png}
+    \label{fig:avaliacao_lr}
+    \fonte{O Autor}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\subsection{Random Forest}
+\label{subsec:random-forest}
+
+O Random Forest foi selecionado como o modelo principal da solução por reunir
+três características fundamentais para o contexto oncológico. Primeiro, sua
+arquitetura de comitê de árvores produz estimativas de probabilidade robustas e
+estáveis, menos suscetíveis ao sobreajuste que uma árvore individual. Segundo,
+o mecanismo de votação majoritária entre centenas de árvores diversas torna o
+modelo naturalmente resistente a ruídos e valores extremos presentes nos dados
+morfológicos. Terceiro, e mais relevante para este projeto, o Random Forest é
+plenamente compatível com o TreeExplainer da biblioteca SHAP, que calcula os
+valores exatos de Shapley aproveitando a estrutura interna das árvores, sem
+aproximações.
+
+O modelo foi configurado com 500 estimadores, paralelismo total e correção de
+desbalanceamento, conforme o Código~\ref{cod:rf}. O número de 500 árvores
+garante estimativas de importância e probabilidade estáveis, pois conjuntos
+menores tendem a apresentar maior variância nas predições. O parâmetro n\_jobs
+= -1 instrui o scikit-learn a utilizar todos os núcleos de processamento
+disponíveis durante o treinamento, reduzindo o tempo de execução sem afetar os
+resultados. O class\_weight = balanced é novamente utilizado para compensar a diferença de
+frequência entre as classes, penalizando mais fortemente os erros sobre a classe
+maligna e incentivando o modelo a aprender padrões relevantes para essa classe
+minoritária.
+
+\begin{codigo}[htb]
+\legenda[cod:rf]{CONFIGURAÇÃO E TREINAMENTO DO RANDOM FOREST}
+\begin{lstlisting}[language=Python]
+rf = RandomForestClassifier(
+    n_estimators=500,
+    random_state=RANDOM_STATE,
+    class_weight='balanced',
+    n_jobs=-1
+)
+rf.fit(X_train_scaled, y_train)
+proba_rf = rf.predict_proba(X_test_scaled)[:, 1]
+pred_rf  = (proba_rf >= 0.5).astype(int)
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+Outro benefício técnico do Random Forest relevante para este projeto é a
+geração nativa de estimativas de importância de variáveis por meio da
+diminuição média de impureza (MDI). Essa métrica calcula, para cada atributo,
+a redução média de entropia que ele proporciona em todas as árvores da floresta,
+oferecendo uma primeira indicação de quais características morfológicas são
+mais discriminativas entre tumores benignos e malignos. Essa informação é
+posteriormente enriquecida e refinada pela análise SHAP, que adiciona a
+dimensão de direção e magnitude por paciente individual, indo além da
+importância global fornecida pelo MDI (\citeauthoronline{Lundberg2017},
+\citeyear{Lundberg2017}).
+
+A seleção do Random Forest como modelo integrado ao software foi fundamentada
+na Sensibilidade obtida no conjunto de teste. Em um contexto oncológico, essa
+é a métrica clinicamente mais crítica: um tumor maligno classificado como
+benigno implica a ausência de tratamento para um paciente que dele necessita,
+configurando o erro de maior impacto humano possível no sistema
+(\citeauthoronline{James2023}, \citeyear{James2023}).
+
+As curvas da Figura~\ref{fig:avaliacao_rf} confirmam o alto desempenho
+discriminativo do Random Forest, com ROC-AUC de 0,997 e PR-AUC de 0,995.
+A curva ROC apresenta subida quase vertical junto ao eixo esquerdo, indicando
+que o modelo atinge sensibilidade próxima a 1,0 com taxa de falsos positivos
+próxima a zero nos primeiros limiares de decisão. A curva Precisão-Revocação
+mantém precisão máxima ao longo de toda a faixa intermediária de revocação, com
+queda gradual apenas nos limiares mais permissivos. Esse comportamento é
+atribuível ao mecanismo de votação entre 500 árvores diversas, que dilui os
+erros individuais e produz estimativas de probabilidade mais calibradas e
+confiáveis do que qualquer classificador único conseguiria oferecer
+(\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+
+\begin{figure}[htbp]
+    \centering
+    \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO RANDOM FOREST}
+    \includegraphics[width=1\textwidth]{avaliacao_rf.png}
+    \label{fig:avaliacao_rf}
+    \fonte{O Autor}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\subsection{Support Vector Machine}
+\label{subsec:svm}
+
+O SVM foi selecionado por sua capacidade de lidar com fronteiras de decisão
+altamente não lineares, característica relevante para dados morfológicos
+oncológicos onde as classes não são linearmente separáveis no espaço original
+de trinta dimensões. O kernel RBF mapeia os atributos para um espaço de dimensão
+superior onde as classes passam a ser separáveis por um hiperplano, contornando
+essa limitação sem aumentar explicitamente a dimensionalidade dos dados
+(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+
+O modelo foi configurado com kernel RBF, habilitação de probabilidades e
+correção de desbalanceamento, conforme o Código~\ref{cod:svm}. O parâmetro
+probability = True é um requisito técnico obrigatório para a geração das curvas
+ROC e Precisão-Revocação pelas funções auxiliares, pois habilita o método
+predict\_proba que estima a probabilidade de cada classe para cada amostra.
+
+\begin{codigo}[htb]
+\legenda[cod:svm]{CONFIGURAÇÃO E TREINAMENTO DO SVM}
+\begin{lstlisting}[language=Python]
+svm = SVC(
+    kernel='rbf',
+    probability=True,
+    class_weight='balanced',
+    random_state=RANDOM_STATE
+)
+svm.fit(X_train_scaled, y_train)
+proba_svm = svm.predict_proba(X_test_scaled)[:, 1]
+pred_svm  = (proba_svm >= 0.5).astype(int)
+\end{lstlisting}
+\fonteautor
+\end{codigo}
+
+Uma característica relevante do SVM no contexto deste projeto é que, ao
+contrário dos modelos baseados em árvores, ele não fornece nativamente uma
+medida de importância de variáveis. As decisões são determinadas pela posição
+dos vetores de suporte no espaço transformado pelo kernel, o que dificulta a
+extração de explicações intuitivas sem ferramentas externas. Por essa razão, o
+SVM não foi selecionado como o modelo integrado ao módulo de software, ainda
+que seus resultados preditivos sejam competitivos: a ausência de compatibilidade
+direta com o TreeExplainer do SHAP tornaria as explicações geradas
+computacionalmente mais custosas e matematicamente aproximadas, em vez de exatas
+(\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
+
+As curvas da Figura~\ref{fig:avaliacao_svm} revelam o SVM como o modelo com
+melhor PR-AUC individual entre os cinco avaliados, atingindo 0,996, com
+ROC-AUC de 0,997. A curva ROC apresenta a subida mais vertical de todo o
+conjunto, com a taxa de verdadeiros positivos atingindo valores próximos a 1,0
+antes mesmo que a taxa de falsos positivos ultrapasse 0,2. A curva
+Precisão-Revocação é a mais estável visualmente, mantendo precisão igual a 1,0
+por toda a faixa de revocação até aproximadamente 0,80, com queda brusca apenas
+no limiar final. Esse comportamento reflete a natureza da margem máxima do SVM:
+ao maximizar a distância entre as classes no espaço transformado pelo kernel RBF,
+o modelo cria uma fronteira de decisão particularmente robusta para os casos
+mais próximos da região de separação (\citeauthoronline{Bishop2006},
+\citeyear{Bishop2006}).
+
+\begin{figure}[htbp]
+    \centering
+    \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO SVM}
+    \includegraphics[width=1\textwidth]{avaliacao_svm.png}
+    \label{fig:avaliacao_svm}
+    \fonte{O Autor}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\subsection{Comparação entre os Modelos}
+\label{subsec:comparacao-modelos}
+
+A Tabela~\ref{tab:comparacao_modelos} consolida as métricas de desempenho
+obtidas pelos cinco classificadores no conjunto de teste, permitindo a
+comparação direta entre as abordagens avaliadas. Os valores destacados em
+negrito correspondem ao melhor resultado obtido em cada métrica.
+
+\begin{table}[htbp]
+    \centering
+    \caption{COMPARAÇÃO DE DESEMPENHO ENTRE OS CLASSIFICADORES}
+    \label{tab:comparacao_modelos}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{lcccccc}
+        \toprule
+        \textbf{Modelo} &
+        \textbf{Acurácia} &
+        \textbf{Sensibilidade} &
+        \textbf{Especificidade} &
+        \textbf{F1-score} &
+        \textbf{ROC-AUC} &
+        \textbf{PR-AUC} \\
+        \midrule
+        Árvore de Decisão   & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
+        KNN                 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
+        Regressão Logística & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
+        Random Forest       & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
+        SVM                 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
+        \bottomrule
+    \end{tabular}
+    }
+    \vspace{0.2cm}
+    \legend{Fonte: O Autor}
+\end{table}
  
 % % ------------------------------------------------------------------------------
 % \section{Análise de Estrutura com UMAP e PCA}
