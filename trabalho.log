@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  15 JUN 2026 23:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  16 JUN 2026 00:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1450,44 +1450,44 @@ Package pdftex.def Info: img/boxplots.png  used on input line 1147.
 LaTeX Warning: Reference `cap:trabalhos_relacionados' on page 52 undefined on input line 1195.
 
 [52]
-<img/avaliacao_dt.png, id=841, 854.9541pt x 349.7868pt>
+<img/avaliacao_dt.png, id=840, 854.9541pt x 349.7868pt>
 File: img/avaliacao_dt.png Graphic file (type png)
 <use img/avaliacao_dt.png>
-Package pdftex.def Info: img/avaliacao_dt.png  used on input line 1255.
-(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
- [53] [54 <./img/avaliacao_dt.png>]
-<img/avaliacao_knn.png, id=872, 854.9541pt x 349.7868pt>
+Package pdftex.def Info: img/avaliacao_dt.png  used on input line 1250.
+(pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
+ [53 <./img/avaliacao_dt.png>]
+<img/avaliacao_knn.png, id=860, 854.9541pt x 349.7868pt>
 File: img/avaliacao_knn.png Graphic file (type png)
 <use img/avaliacao_knn.png>
-Package pdftex.def Info: img/avaliacao_knn.png  used on input line 1316.
-(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
+Package pdftex.def Info: img/avaliacao_knn.png  used on input line 1311.
+(pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
+ [54]
 
-
-LaTeX Warning: Reference `sec:shap' on page 55 undefined on input line 1359.
+LaTeX Warning: Reference `sec:shap' on page 55 undefined on input line 1354.
 
 [55 <./img/avaliacao_knn.png>]
-<img/avaliacao_lr.png, id=882, 854.9541pt x 349.7868pt>
+<img/avaliacao_lr.png, id=892, 854.9541pt x 349.7868pt>
 File: img/avaliacao_lr.png Graphic file (type png)
 <use img/avaliacao_lr.png>
-Package pdftex.def Info: img/avaliacao_lr.png  used on input line 1383.
-(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
- [56]
+Package pdftex.def Info: img/avaliacao_lr.png  used on input line 1378.
+(pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
+ [56 <./img/avaliacao_lr.png>]
 Package microtype Info: Character `texttrademark ' is missing
 (microtype)             in font `TS1/lmtt/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
- [57 <./img/avaliacao_lr.png>]
-<img/avaliacao_rf.png, id=922, 854.9541pt x 349.7868pt>
+ [57]
+<img/avaliacao_rf.png, id=919, 854.9541pt x 349.7868pt>
 File: img/avaliacao_rf.png Graphic file (type png)
 <use img/avaliacao_rf.png>
-Package pdftex.def Info: img/avaliacao_rf.png  used on input line 1463.
-(pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
+Package pdftex.def Info: img/avaliacao_rf.png  used on input line 1457.
+(pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
  [58 <./img/avaliacao_rf.png>]
-<img/avaliacao_svm.png, id=936, 854.9541pt x 349.7868pt>
+<img/avaliacao_svm.png, id=933, 854.9541pt x 349.7868pt>
 File: img/avaliacao_svm.png Graphic file (type png)
 <use img/avaliacao_svm.png>
-Package pdftex.def Info: img/avaliacao_svm.png  used on input line 1529.
+Package pdftex.def Info: img/avaliacao_svm.png  used on input line 1523.
 (pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
- [59] (./trabalho.bbl [60 <./img/avaliacao_svm.png>]
+ [59 <./img/avaliacao_svm.png>] (./trabalho.bbl [60]
 bibitemlist
 [61
 
@@ -1515,18 +1515,18 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 35402 strings out of 467525
- 629925 string characters out of 5418983
- 1354234 words of memory out of 5000000
- 63149 multiletter control sequences out of 15000+600000
+ 35401 strings out of 467525
+ 629909 string characters out of 5418983
+ 1354233 words of memory out of 5000000
+ 63148 multiletter control sequences out of 15000+600000
  676303 words of font info for 266 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  114i,13n,132p,1495b,1745s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on trabalho.pdf (64 pages, 2644633 bytes).
+Output written on trabalho.pdf (64 pages, 2644160 bytes).
 PDF statistics:
- 1297 PDF objects out of 1440 (max. 8388607)
- 1141 compressed objects within 12 object streams
+ 1294 PDF objects out of 1440 (max. 8388607)
+ 1138 compressed objects within 12 object streams
  301 named destinations out of 1000 (max. 500000)
  43013 words of extra memory for PDF output out of 51595 (max. 10000000)
 

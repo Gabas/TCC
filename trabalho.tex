@@ -1211,10 +1211,7 @@ de explicabilidade externas (\citeauthoronline{Faceli2011},
 A configuração adotada utilizou o critério de entropia como função de impureza,
 conforme o Código~\ref{cod:dt}. Essa escolha corresponde diretamente ao ganho
 de informação descrito na fundamentação teórica, privilegiando divisões que
-reduzam ao máximo a incerteza sobre a classe em cada nó da árvore. O modelo
-foi treinado sobre a divisão legada descrita na
-Subseção~\ref{subsec:divisao-legada}, sem padronização \textit{Z-score}, pois
-árvores de decisão são invariantes à escala dos atributos.
+reduzam ao máximo a incerteza sobre a classe em cada nó da árvore.
 
 \begin{codigo}[htb]
 \legenda[cod:dt]{CONFIGURAÇÃO E TREINAMENTO DA ÁRVORE DE DECISÃO}
@@ -1230,17 +1227,15 @@ wisconsin_decision_tree.fit(x_wisconsin_train, y_wisconsin_train)
 
 Do ponto de vista clínico, a Árvore de Decisão oferece uma vantagem singular
 em relação aos demais classificadores: suas regras de decisão podem ser
-traduzidas diretamente em linguagem condicional legível, do tipo "se o
-perímetro médio do núcleo celular for superior a determinado limiar e a
-concavidade máxima exceder certo valor, então classificar como maligno".
+traduzidas diretamente em linguagem condicional legível.
 Essa característica torna o modelo naturalmente auditável por profissionais
 de saúde sem formação em computação, ainda que sua acurácia seja estruturalmente
 limitada pela ausência de mecanismos de ensemble para redução da variância.
 
 As curvas ROC e Precisão-Revocação da Árvore de Decisão, apresentadas na
 Figura~\ref{fig:avaliacao_dt}, evidenciam o comportamento esperado de um modelo
-\textit{baseline}. A curva ROC, com AUC de 0,935, apresenta uma subida inicial
-abrupta seguida de uma progressão mais gradual, refletindo a natureza discreta
+\textit{baseline}. A curva ROC, com AUC de 0,935, apresenta uma subida inicial 
+seguida de uma progressão mais gradual, refletindo a natureza discreta
 das decisões de uma árvore sem mecanismos de suavização probabilística. A curva
 Precisão-Revocação, com PR-AUC de 0,905, mantém precisão próxima a 1,0 até uma
 revocação de aproximadamente 0,85, ponto a partir do qual ocorre uma queda
@@ -1252,7 +1247,7 @@ contexto oncológico (\citeauthoronline{Davis2006}, \citeyear{Davis2006}).
 \begin{figure}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DA ÁRVORE DE DECISÃO}
-    \includegraphics[width=1\textwidth]{avaliacao_dt.png}
+    \includegraphics[width=0.95\textwidth]{avaliacao_dt.png}
     \label{fig:avaliacao_dt}
     \fonte{O Autor}
 \end{figure}
@@ -1313,7 +1308,7 @@ atributos, favorece intrinsecamente os algoritmos baseados em distância
 \begin{figure}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO KNN}
-    \includegraphics[width=1\textwidth]{avaliacao_knn.png}
+    \includegraphics[width=0.95\textwidth]{avaliacao_knn.png}
     \label{fig:avaliacao_knn}
     \fonte{O Autor}
 \end{figure}
@@ -1380,7 +1375,7 @@ lineares diante de dados com alguma sobreposição de classes
 \begin{figure}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DA REGRESSÃO LOGÍSTICA}
-    \includegraphics[width=1\textwidth]{avaliacao_lr.png}
+    \includegraphics[width=0.95\textwidth]{avaliacao_lr.png}
     \label{fig:avaliacao_lr}
     \fonte{O Autor}
 \end{figure}
@@ -1454,13 +1449,12 @@ mantém precisão máxima ao longo de toda a faixa intermediária de revocação
 queda gradual apenas nos limiares mais permissivos. Esse comportamento é
 atribuível ao mecanismo de votação entre 500 árvores diversas, que dilui os
 erros individuais e produz estimativas de probabilidade mais calibradas e
-confiáveis do que qualquer classificador único conseguiria oferecer
-(\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+confiáveis do que qualquer classificador único conseguiria oferecer.
 
 \begin{figure}[htbp]
     \centering
     \caption{CURVAS ROC E PRECISÃO-REVOCAÇÃO DO RANDOM FOREST}
-    \includegraphics[width=1\textwidth]{avaliacao_rf.png}
+    \includegraphics[width=0.95\textwidth]{avaliacao_rf.png}
     \label{fig:avaliacao_rf}
     \fonte{O Autor}
 \end{figure}
@@ -1476,6 +1470,17 @@ de trinta dimensões. O kernel RBF mapeia os atributos para um espaço de dimens
 superior onde as classes passam a ser separáveis por um hiperplano, contornando
 essa limitação sem aumentar explicitamente a dimensionalidade dos dados
 (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+
+Uma característica relevante do SVM no contexto deste projeto é que, ao
+contrário dos modelos baseados em árvores, ele não fornece nativamente uma
+medida de importância de variáveis. As decisões são determinadas pela posição
+dos vetores de suporte no espaço transformado pelo kernel, o que dificulta a
+extração de explicações intuitivas sem ferramentas externas. Por essa razão, o
+SVM não foi selecionado como o modelo integrado ao módulo de software, ainda
+que seus resultados preditivos sejam competitivos: a ausência de compatibilidade
+direta com o TreeExplainer do SHAP tornaria as explicações geradas
+computacionalmente mais custosas e matematicamente aproximadas, em vez de exatas
+(\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
 O modelo foi configurado com kernel RBF, habilitação de probabilidades e
 correção de desbalanceamento, conforme o Código~\ref{cod:svm}. O parâmetro
@@ -1498,17 +1503,6 @@ pred_svm  = (proba_svm >= 0.5).astype(int)
 \end{lstlisting}
 \fonteautor
 \end{codigo}
-
-Uma característica relevante do SVM no contexto deste projeto é que, ao
-contrário dos modelos baseados em árvores, ele não fornece nativamente uma
-medida de importância de variáveis. As decisões são determinadas pela posição
-dos vetores de suporte no espaço transformado pelo kernel, o que dificulta a
-extração de explicações intuitivas sem ferramentas externas. Por essa razão, o
-SVM não foi selecionado como o modelo integrado ao módulo de software, ainda
-que seus resultados preditivos sejam competitivos: a ausência de compatibilidade
-direta com o TreeExplainer do SHAP tornaria as explicações geradas
-computacionalmente mais custosas e matematicamente aproximadas, em vez de exatas
-(\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
 As curvas da Figura~\ref{fig:avaliacao_svm} revelam o SVM como o modelo com
 melhor PR-AUC individual entre os cinco avaliados, atingindo 0,996, com
@@ -1555,11 +1549,11 @@ negrito correspondem ao melhor resultado obtido em cada métrica.
         \textbf{ROC-AUC} &
         \textbf{PR-AUC} \\
         \midrule
-        Árvore de Decisão   & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
-        KNN                 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
-        Regressão Logística & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
-        Random Forest       & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
-        SVM                 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 \\
+        Árvore de Decisão   & 0.947368 & 0.883721 & 0.985915 & 0.926829 & 0.934818 & 0.904921 \\
+        KNN                 & 0.958042 &	0.886792 &	1.0 &	0.94 &	0.997379 &	0.995144 \\
+        Regressão Logística & 0.972028 &	0.943396 &	0.988889 &	0.961538 &	0.994969 &	0.992709 \\
+        Random Forest       & 0.972028 &	0.924528 &	1.0 &	0.960784 &	0.997065 &	0.995445 \\
+        SVM                 & 0.993007 & 0.981132 & 1.0 & 0.990476 & 0.996855 & 0.995838 \\
         \bottomrule
     \end{tabular}
     }
