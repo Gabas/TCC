@@ -1549,17 +1549,55 @@ negrito correspondem ao melhor resultado obtido em cada métrica.
         \textbf{ROC-AUC} &
         \textbf{PR-AUC} \\
         \midrule
-        Árvore de Decisão   & 0.947368 & 0.883721 & 0.985915 & 0.926829 & 0.934818 & 0.904921 \\
-        KNN                 & 0.958042 &	0.886792 &	1.0 &	0.94 &	0.997379 &	0.995144 \\
-        Regressão Logística & 0.972028 &	0.943396 &	0.988889 &	0.961538 &	0.994969 &	0.992709 \\
-        Random Forest       & 0.972028 &	0.924528 &	1.0 &	0.960784 &	0.997065 &	0.995445 \\
-        SVM                 & 0.993007 & 0.981132 & 1.0 & 0.990476 & 0.996855 & 0.995838 \\
+        Árvore de Decisão   & 0.947 & 0.883 & 0.985 & 0.926 & 0.934 & 0.904 \\
+        KNN                 & 0.958 &	0.886 &	1.0 &	0.94 &	0.997 &	0.995 \\
+        Regressão Logística & 0.972 &	0.943 &	0.988 &	0.961 &	0.994 &	0.992 \\
+        Random Forest       & 0.972 &	0.924 &	1.0 &	0.960 &	0.997 &	0.995 \\
+        SVM                 & 0.993 & 0.981 & 1.0 & 0.990 & 0.996 & 0.995 \\
         \bottomrule
     \end{tabular}
     }
     \vspace{0.2cm}
     \legend{Fonte: O Autor}
 \end{table}
+
+Os resultados consolidados na Tabela~\ref{tab:comparacao_modelos} confirmam
+a superioridade dos modelos mais complexos sobre o \textit{baseline} da Árvore
+de Decisão em todas as métricas avaliadas, validando a hipótese de que
+algoritmos com maior capacidade de captura de relações não lineares são mais
+adequados para a separação dos perfis morfológicos da base Wisconsin. A Árvore
+de Decisão, com ROC-AUC de 0,935 e PR-AUC de 0,905, estabelece o patamar
+mínimo de referência. Os demais classificadores atingem ROC-AUC acima de 0,994
+e PR-AUC acima de 0,992, indicando que todos os quatro algoritmos restantes
+possuem capacidade discriminativa consideravelmente superior para este conjunto
+de dados.
+
+Entre os modelos avançados, o SVM obteve os melhores resultados individuais,
+com Acurácia de 0,993, Sensibilidade de 0,981 e F1-score de 0,990, superando
+os demais classificadores em quase todas as métricas. O KNN e o Random Forest
+empataram na Especificidade máxima de 1,0, significando que nenhum tumor benigno
+foi classificado erroneamente como maligno por esses dois modelos. A Regressão
+Logística, apesar de sua estrutura linear, atingiu desempenho comparável ao
+Random Forest em Acurácia e F1-score, o que reforça a observação de que os
+atributos morfológicos da base Wisconsin possuem uma componente de separabilidade
+linear suficientemente forte para ser explorada por modelos mais simples
+(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+
+% Apesar do desempenho superior do SVM nas métricas individuais, o Random Forest
+% foi selecionado como o modelo integrado ao módulo de software por razões que
+% transcendem os números da tabela. O primeiro motivo é a compatibilidade nativa
+% com o TreeExplainer da biblioteca SHAP, que calcula os valores exatos de Shapley
+% aproveitando a estrutura interna das árvores, sem aproximações matemáticas. O
+% SVM, por sua vez, exigiria o uso do KernelExplainer, um método agnóstico que
+% estima os valores de Shapley por amostragem, sendo computacionalmente mais
+% custoso e produzindo explicações aproximadas em vez de exatas
+% (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}). O segundo motivo é
+% a Especificidade de 1,0 obtida pelo Random Forest: em um sistema de apoio ao
+% diagnóstico, a ausência total de falsos positivos significa que nenhum paciente
+% saudável seria encaminhado desnecessariamente para procedimentos invasivos de
+% confirmação, o que possui impacto direto na qualidade de vida dos pacientes e
+% na eficiência do sistema de saúde (\citeauthoronline{James2023},
+% \citeyear{James2023}).
  
 % % ------------------------------------------------------------------------------
 % \section{Análise de Estrutura com UMAP e PCA}
