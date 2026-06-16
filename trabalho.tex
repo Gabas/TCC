@@ -1718,6 +1718,67 @@ linear suficientemente forte para ser explorada por modelos mais simples
 % % pelo profissional de saúde (upload → processamento → visualização →
 % % exportação do relatório) e as decisões de design adotadas.
  
+% ==============================================================================
+% CAPÍTULO 6 — CONSIDERAÇÕES FINAIS
+% ==============================================================================
+\chapter{Considerações Finais}
+\label{cap:consideracoes-finais}
+
+Este trabalho propôs e desenvolveu uma solução computacional integrada para o
+apoio ao diagnóstico preditivo de câncer de mama, unindo aprendizado de máquina
+supervisionado, explicabilidade por valores de Shapley e visualização topológica
+por redução de dimensionalidade. A solução foi estruturada em dois módulos
+desacoplados: um módulo científico responsável pelo treinamento, avaliação e
+exportação dos modelos, e um módulo de software que disponibiliza os diagnósticos
+e suas respectivas explicações a profissionais de saúde por meio de uma interface
+gráfica \textit{desktop}.
+
+O problema central abordado foi a opacidade característica dos modelos de caixa
+preta, que impede a adoção clínica de sistemas preditivos de alto desempenho por
+não fornecerem justificativas morfológicas rastreáveis para suas decisões. A
+integração do SHAP ao Random Forest selecionado demonstrou que é possível unir
+acurácia preditiva elevada à transparência analítica exigida pelo contexto
+oncológico, respondendo ao problema de pesquisa formulado na introdução deste
+trabalho.
+
+As principais limitações identificadas referem-se ao escopo da base de dados
+utilizada, restrita a atributos morfológicos tabulares extraídos via Punção
+Aspirativa por Agulha Fina, e ao caráter de ferramenta de apoio à decisão do
+sistema desenvolvido, que não substitui o julgamento clínico do médico
+patologista. A generalização dos resultados para bases de dados externas ou para
+outros tipos de neoplasias permanece como questão em aberto.
+
+
+% ==============================================================================
+% CAPÍTULO 7 — CONCLUSÃO
+% ==============================================================================
+\chapter{Conclusão}
+\label{cap:conclusao}
+
+O desenvolvimento deste trabalho demonstrou que a combinação de algoritmos
+clássicos de aprendizado de máquina com técnicas modernas de inteligência
+artificial explicável constitui uma abordagem viável e eticamente fundamentada
+para o apoio ao diagnóstico oncológico assistido por computador. O Random Forest
+integrado ao SHAP produziu predições de alta confiabilidade com Especificidade
+de 1,00 e PR-AUC de 1,00 no conjunto de teste, ao mesmo tempo em que forneceu
+explicações individuais auditáveis para cada diagnóstico emitido.
+
+A arquitetura modular adotada, com comunicação por arquivo serializado, garantiu
+o desacoplamento entre o ambiente experimental e o ambiente de produção,
+simplificando a distribuição e a manutenção da ferramenta em contextos clínicos
+reais. O software desenvolvido permite o processamento em lote de planilhas de
+pacientes e a geração de relatórios visuais estruturados, aproximando a solução
+das necessidades operacionais do profissional de saúde.
+
+Como trabalhos futuros, destacam-se a validação da solução com bases de dados
+externas para avaliação da capacidade de generalização, a exploração de técnicas
+complementares de XAI como explicações contrafactuais e o LIME, e a integração
+do sistema com plataformas hospitalares de gestão de pacientes. Adicionalmente,
+propõe-se a incorporação de visão computacional ao módulo de software, permitindo
+que o upload dos dados morfológicos seja realizado diretamente a partir de imagens
+de lâminas histológicas, eliminando a etapa intermediária de extração manual e
+tabulação dos atributos celulares, o que aproximaria o sistema de um fluxo de
+trabalho clínico completamente automatizado.
  
 % % ==============================================================================
 % % CAPÍTULO 5 — FERRAMENTAS PARA IMPLEMENTAÇÃO
