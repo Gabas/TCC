@@ -89,6 +89,13 @@
 % -------------------------------------------------------------------------------------------------
 % =================================================================================================
 
+% Espaçamento entre linhas do texto: 1,5 (ABNT NBR 14724, seção 5.2)
+% O abntex2 aplica \OnehalfSpacing, que no memoir corresponde ao "um e meio"
+% tipográfico (fator 1,241 em 12pt) e não ao 1,5 exigido pela norma.
+% Citações longas, legendas, notas de rodapé, ficha catalográfica e
+% referências continuam em espaçamento simples, como manda a norma.
+\setSpacing{1.5}
+
 % Space between the lines in a table
 \renewcommand{\arraystretch}{1.5}
 \setlength{\belowbottomsep}{0.2cm}
