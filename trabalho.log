@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  8 AUG 2026 01:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.5)  8 AUG 2026 01:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1297,23 +1297,29 @@ Package: multicol 2025/10/21 v2.0b multicolumn formatting (FMi)
 \mc@col@check@num=\count449
 \g__mc_curr_col_int=\count450
 )
+(/usr/local/texlive/2026/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen359
+\c@nlinenum=\count451
+\TeXr@lab=\toks49
+)
 (/usr/local/texlive/2026/texmf-dist/tex/latex/tools/indentfirst.sty
 Package: indentfirst 2023/07/02 v1.03 Indent first paragraph (DPC)
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2026/03/01 v3.2d Micro-typographical refinements (RS)
-\MT@toks=\toks49
+\MT@toks=\toks50
 \MT@tempbox=\box122
-\MT@count=\count451
+\MT@count=\count452
 LaTeX Info: Redefining \noprotrusionifhmode on input line 1084.
 LaTeX Info: Redefining \leftprotrusion on input line 1085.
-\MT@prot@toks=\toks50
+\MT@prot@toks=\toks51
 LaTeX Info: Redefining \rightprotrusion on input line 1104.
 LaTeX Info: Redefining \textls on input line 1449.
-\MT@outer@kern=\dimen359
+\MT@outer@kern=\dimen360
 LaTeX Info: Redefining \microtypecontext on input line 2053.
 LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
-\MT@listname@count=\count452
+\MT@listname@count=\count453
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2026/03/01 v3.2d Definitions specific to pdftex (RS)
@@ -1338,41 +1344,41 @@ Package: xkeyval 2025/11/04 v2.10 package option processing (HA)
 
 (/usr/local/texlive/2026/texmf-dist/tex/generic/xkeyval/xkeyval.tex
 (/usr/local/texlive/2026/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks51
-\XKV@tempa@toks=\toks52
-\XKV@tempb@toks=\toks53
+\XKV@toks=\toks52
+\XKV@tempa@toks=\toks53
+\XKV@tempb@toks=\toks54
 )
-\XKV@depth=\count453
+\XKV@depth=\count454
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-\zifour@ocount=\count454
+\zifour@ocount=\count455
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
 )
-\c@quadro=\count455
-\c@loqdepth=\count456
+\c@quadro=\count456
+\c@loqdepth=\count457
 \cftbeforequadroskip=\skip297
 \cftquadroindent=\skip298
 \cftquadronumwidth=\skip299
-\c@grafico=\count457
-\c@logrdepth=\count458
+\c@grafico=\count458
+\c@logrdepth=\count459
 \cftbeforegraficoskip=\skip300
 \cftgraficoindent=\skip301
 \cftgraficonumwidth=\skip302
-\c@codigo=\count459
-\c@locoddepth=\count460
+\c@codigo=\count460
+\c@locoddepth=\count461
 \cftbeforecodigoskip=\skip303
 \cftcodigoindent=\skip304
 \cftcodigonumwidth=\skip305
-\c@algoritmo=\count461
-\c@loalgdepth=\count462
+\c@algoritmo=\count462
+\c@loalgdepth=\count463
 \cftbeforealgoritmoskip=\skip306
 \cftalgoritmoindent=\skip307
 \cftalgoritmonumwidth=\skip308
-Package hyperref Info: Option `colorlinks' set `true' on input line 575.
-\c@apendiceidx=\count463
-\c@anexoidx=\count464
+Package hyperref Info: Option `colorlinks' set `true' on input line 576.
+\c@apendiceidx=\count464
+\c@anexoidx=\count465
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/xurl/xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
@@ -1449,17 +1455,17 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 (/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count465
-\scratchdimen=\dimen360
+\scratchcounter=\count466
+\scratchdimen=\dimen361
 \scratchbox=\box124
-\nofMPsegments=\count466
-\nofMParguments=\count467
-\everyMPshowfont=\toks54
-\MPscratchCnt=\count468
-\MPscratchDim=\dimen361
-\MPnumerator=\count469
-\makeMPintoPDFobject=\count470
-\everyMPtoPDFconversion=\toks55
+\nofMPsegments=\count467
+\nofMParguments=\count468
+\everyMPshowfont=\toks55
+\MPscratchCnt=\count469
+\MPscratchDim=\dimen362
+\MPnumerator=\count470
+\makeMPintoPDFobject=\count471
+\everyMPtoPDFconversion=\toks56
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1469,10 +1475,10 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\c@lstlisting=\count471
+\c@lstlisting=\count472
 Package microtype Info: Patching varwidth to enable character protrusion.
-\MT@vwid@leftmargin=\dimen362
-\MT@vwid@rightmargin=\dimen363
+\MT@vwid@leftmargin=\dimen363
+\MT@vwid@rightmargin=\dimen364
 LaTeX Info: Redefining \microtypecontext on input line 44.
 Package microtype Info: Applying patch `item' on input line 44.
 Package microtype Info: Applying patch `toc' on input line 44.
@@ -1642,20 +1648,11 @@ File: img/fluxograma1.png Graphic file (type png)
 <use img/fluxograma1.png>
 Package pdftex.def Info: img/fluxograma1.png  used on input line 828.
 (pdftex.def)             Requested size: 455.24411pt x 49.31735pt.
- [51 <./img/fluxograma1.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 901--901
-[]|\T1/phv/m/n/12 (+20) Treinamento dos cinco clas-si-fi-ca-do-res, pré-
- []
-
-
-Underfull \hbox (badness 6842) in paragraph at lines 901--901
-\T1/phv/m/n/12 (+20) processamento (Stan-dardS-ca-ler, train_test_split),
- []
-
-[52] [53]
+ [51 <./img/fluxograma1.png>] [52]
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-942.
- (/usr/local/texlive/2026/texmf-dist/tex/latex/lm/ts1lmtt.fd
+940.
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 Package microtype Info: Loading generic protrusion settings for font family
@@ -1665,52 +1662,52 @@ Package microtype Info: Loading generic protrusion settings for font family
 Package microtype Info: Character `texttrademark ' is missing
 (microtype)             in font `TS1/lmtt/m/it/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
- [54{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [55] [5
-6]
+ [53] [54{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [5
+5] [56]
 <img/distribuicao_classes.png, id=850, 450.2421pt x 334.6101pt>
 File: img/distribuicao_classes.png Graphic file (type png)
 <use img/distribuicao_classes.png>
-Package pdftex.def Info: img/distribuicao_classes.png  used on input line 1104.
+Package pdftex.def Info: img/distribuicao_classes.png  used on input line 1102.
 
 (pdftex.def)             Requested size: 341.43307pt x 253.7549pt.
 <img/histogramas.png, id=852, 1437.4503pt x 1461.2994pt>
 File: img/histogramas.png Graphic file (type png)
 <use img/histogramas.png>
-Package pdftex.def Info: img/histogramas.png  used on input line 1122.
+Package pdftex.def Info: img/histogramas.png  used on input line 1120.
 (pdftex.def)             Requested size: 455.24411pt x 462.78679pt.
-
-[57] [58 <./img/histogramas.png>]
+ [57]
+[58 <./img/histogramas.png>]
 <img/boxplots.png, id=863, 1426.6098pt x 523.2348pt>
 File: img/boxplots.png Graphic file (type png)
 <use img/boxplots.png>
-Package pdftex.def Info: img/boxplots.png  used on input line 1154.
+Package pdftex.def Info: img/boxplots.png  used on input line 1152.
 (pdftex.def)             Requested size: 455.24411pt x 166.9675pt.
  [59 <./img/distribuicao_classes.png>]
 
 LaTeX Warning: Reference `cap:trabalhos_relacionados' on page 60 undefined on i
-nput line 1202.
+nput line 1200.
 
 [60 <./img/boxplots.png>] [61]
 <img/avaliacao_dt.png, id=898, 854.9541pt x 349.7868pt>
 File: img/avaliacao_dt.png Graphic file (type png)
 <use img/avaliacao_dt.png>
-Package pdftex.def Info: img/avaliacao_dt.png  used on input line 1257.
+Package pdftex.def Info: img/avaliacao_dt.png  used on input line 1255.
 (pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
  [62 <./img/avaliacao_dt.png>]
 <img/avaliacao_knn.png, id=912, 854.9541pt x 349.7868pt>
 File: img/avaliacao_knn.png Graphic file (type png)
 <use img/avaliacao_knn.png>
-Package pdftex.def Info: img/avaliacao_knn.png  used on input line 1318.
+Package pdftex.def Info: img/avaliacao_knn.png  used on input line 1316.
 (pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
  [63]
 
-LaTeX Warning: Reference `sec:shap' on page 64 undefined on input line 1361.
+LaTeX Warning: Reference `sec:shap' on page 64 undefined on input line 1359.
 
 [64 <./img/avaliacao_knn.png>]
-<img/avaliacao_lr.png, id=932, 854.9541pt x 349.7868pt>
+<img/avaliacao_lr.png, id=942, 854.9541pt x 349.7868pt>
 File: img/avaliacao_lr.png Graphic file (type png)
 <use img/avaliacao_lr.png>
-Package pdftex.def Info: img/avaliacao_lr.png  used on input line 1385.
+Package pdftex.def Info: img/avaliacao_lr.png  used on input line 1383.
 (pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
  [65 <./img/avaliacao_lr.png>]
 Package microtype Info: Character `texttrademark ' is missing
@@ -1720,15 +1717,15 @@ Package microtype Info: Character `texttrademark ' is missing
 <img/avaliacao_rf.png, id=970, 854.9541pt x 349.7868pt>
 File: img/avaliacao_rf.png Graphic file (type png)
 <use img/avaliacao_rf.png>
-Package pdftex.def Info: img/avaliacao_rf.png  used on input line 1464.
+Package pdftex.def Info: img/avaliacao_rf.png  used on input line 1462.
 (pdftex.def)             Requested size: 432.48051pt x 176.94249pt.
- [67 <./img/avaliacao_rf.png>] [68]
-<img/avaliacao_svm.png, id=998, 854.9541pt x 349.7868pt>
+ [67 <./img/avaliacao_rf.png>]
+<img/avaliacao_svm.png, id=984, 854.9541pt x 349.7868pt>
 File: img/avaliacao_svm.png Graphic file (type png)
 <use img/avaliacao_svm.png>
-Package pdftex.def Info: img/avaliacao_svm.png  used on input line 1530.
+Package pdftex.def Info: img/avaliacao_svm.png  used on input line 1528.
 (pdftex.def)             Requested size: 455.24411pt x 186.2561pt.
- [69 <./img/avaliacao_svm.png>] [70]
+ [68] [69 <./img/avaliacao_svm.png>] [70]
 Cap\'{\i }tulo 5.
 (./trabalho.bbl [71
 
@@ -1766,13 +1763,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 35438 strings out of 467525
- 630243 string characters out of 5418983
- 1350460 words of memory out of 5000000
- 63164 multiletter control sequences out of 15000+600000
- 676303 words of font info for 266 fonts, out of 8000000 for 9000
+ 35595 strings out of 467525
+ 632139 string characters out of 5418983
+ 1352301 words of memory out of 5000000
+ 63320 multiletter control sequences out of 15000+600000
+ 676052 words of font info for 264 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 114i,13n,132p,1450b,1745s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 114i,17n,132p,1450b,1745s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></
@@ -1788,7 +1785,7 @@ texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026/texmf-dist
 pe1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw
 /helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvet
 ic/uhvro8a.pfb>
-Output written on trabalho.pdf (75 pages, 2651182 bytes).
+Output written on trabalho.pdf (75 pages, 2651166 bytes).
 PDF statistics:
  1367 PDF objects out of 1440 (max. 8388607)
  1200 compressed objects within 12 object streams

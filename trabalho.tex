@@ -689,10 +689,11 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
 \begin{quadro}[ht]
     \centering
     \legenda[quad:trabalhos_relacionados]{COMPARAÇÃO ENTRE TRABALHOS RELACIONADOS E O PRESENTE PROJETO}
-    \resizebox{\textwidth}{!}{
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
-        \textbf{Trabalho} & \textbf{ML} & \textbf{Base Pública} & \textbf{Tabular} & \textbf{Câncer de mama} & \textbf{Interface} & \textbf{XAI} \\
+        \textbf{Trabalho} & \textbf{ML} & \makecell{\textbf{Base}\\\textbf{Pública}}
+        & \textbf{Tabular} & \makecell{\textbf{Câncer}\\\textbf{de mama}}
+        & \textbf{Interface} & \textbf{XAI} \\
         \hline
         Street \textit{et al.} (1993)   & Sim & --- & Não & Sim & Sim & Não \\ \hline
         Cruz \& Wishart (2006) & Sim & Sim & Sim & Não & Não & Não \\ \hline
@@ -704,7 +705,6 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
         Shaon \textit{et al.} (2024)    & Sim & Sim & Sim & Sim & Não & Sim \\ \hline
         \textbf{Este Projeto}  & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} \\ \hline
     \end{tabular}
-    }
     \vspace{0.2cm}
     \fonteautor
 \end{quadro}
@@ -874,8 +874,7 @@ no módulo científico, com suas respectivas funções no projeto.
 \begin{quadro}[ht]
     \centering
     \legenda[quad:bibliotecas]{BIBLIOTECAS UTILIZADAS NO MÓDULO CIENTÍFICO}
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{|l|p{10cm}|}
+    \begin{tabular}{|l|p{12.6cm}|}
         \hline
         \textbf{Biblioteca} & \textbf{Função no Projeto} \\
         \hline
@@ -898,7 +897,6 @@ no módulo científico, com suas respectivas funções no projeto.
         pickle & Serialização dos modelos treinados, do escalonador ajustado e da lista
                  de atributos no arquivo wisconsin.pkl. \\ \hline
     \end{tabular}
-    }
     \vspace{0.2cm}
     \fonteautor
 \end{quadro}
@@ -1538,23 +1536,22 @@ mais próximos da região de separação (\citeauthoronline{Bishop2006},
 
 A Tabela~\ref{tab:comparacao_modelos} consolida as métricas de desempenho
 obtidas pelos cinco classificadores no conjunto de teste, permitindo a
-comparação direta entre as abordagens avaliadas. Os valores destacados em
-negrito correspondem ao melhor resultado obtido em cada métrica.
+comparação direta entre as abordagens avaliadas.
 
 \begin{table}[htbp]
     \centering
     \caption{COMPARAÇÃO DE DESEMPENHO ENTRE OS CLASSIFICADORES}
     \label{tab:comparacao_modelos}
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{lcccccc}
+    \setlength{\tabcolsep}{3pt}% aproxima as colunas para caber tudo em 12pt
+    \begin{tabular}{@{}lcccccc@{}}
         \toprule
         \textbf{Modelo} &
         \textbf{Acurácia} &
         \textbf{Sensibilidade} &
         \textbf{Especificidade} &
-        \textbf{F1-score} &
-        \textbf{ROC-AUC} &
-        \textbf{PR-AUC} \\
+        \makecell{\textbf{F1-}\\\textbf{score}} &
+        \makecell{\textbf{ROC-}\\\textbf{AUC}} &
+        \makecell{\textbf{PR-}\\\textbf{AUC}} \\
         \midrule
         Árvore de Decisão   & 0.947 & 0.883 & 0.985 & 0.926 & 0.934 & 0.904 \\
         KNN                 & 0.958 &	0.886 &	1.0 &	0.94 &	0.997 &	0.995 \\
@@ -1563,7 +1560,6 @@ negrito correspondem ao melhor resultado obtido em cada métrica.
         SVM                 & 0.993 & 0.981 & 1.0 & 0.990 & 0.996 & 0.995 \\
         \bottomrule
     \end{tabular}
-    }
     \vspace{0.2cm}
     \legend{Fonte: O Autor}
 \end{table}
