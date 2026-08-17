@@ -584,6 +584,7 @@ A eficácia dessa convergência topológica pode ser observada na Figura \ref{fi
 % % -------------------------------------------------------------------------------------------------
 
 \chapter{TRABALHOS RELACIONADOS}
+\label{cap:trabalhos_relacionados}
 
 Este capítulo apresenta uma análise detalhada da literatura científica que fundamenta o estado da arte no uso de aprendizado de máquina para o diagnóstico oncológico. A seleção abrange desde os estudos seminais que deram origem às bases de dados modernas até pesquisas recentes focadas em inteligência artificial explicável, estabelecendo o contexto necessário para a identificação da lacuna de pesquisa preenchida por este projeto.
 
@@ -1239,10 +1240,10 @@ limitada pela ausência de mecanismos de ensemble para redução da variância.
 
 As curvas ROC e Precisão-Revocação da Árvore de Decisão, apresentadas no
 Gráfico~\ref{fig:avaliacao_dt}, evidenciam o comportamento esperado de um modelo
-\textit{baseline}. A curva ROC, com AUC de 0,935, apresenta uma subida inicial 
+\textit{baseline}. A curva ROC, com AUC de 0,952, apresenta uma subida inicial
 seguida de uma progressão mais gradual, refletindo a natureza discreta
 das decisões de uma árvore sem mecanismos de suavização probabilística. A curva
-Precisão-Revocação, com PR-AUC de 0,905, mantém precisão próxima a 1,0 até uma
+Precisão-Revocação, com PR-AUC de 0,918, mantém precisão próxima a 1,0 até uma
 revocação de aproximadamente 0,85, ponto a partir do qual ocorre uma queda
 abrupta. Esse padrão indica que o modelo é conservador nas predições de
 malignidade, errando por omissão nos casos limítrofes, o que é clinicamente
@@ -1268,19 +1269,32 @@ novos pacientes com base na similaridade geométrica com os casos já conhecidos
 Essa lógica de vizinhança é intuitivamente alinhada ao raciocínio clínico de
 comparar um novo caso com pacientes anteriores de perfil morfológico semelhante.
 
-O algoritmo foi instanciado com 20 vizinhos e peso uniforme entre eles, conforme
-o Código~\ref{cod:knn}. Por ser fundamentado no cálculo de distâncias entre
-atributos, o KNN é altamente sensível à escala das variáveis: atributos com
-maior magnitude dominariam o cálculo da distância euclidiana em detrimento de
-características igualmente relevantes, mas medidas em escalas menores. Por essa
-razão, seu treinamento e inferência utilizam obrigatoriamente os conjuntos
-padronizados X\_train\_scaled e X\_test\_scaled
-(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+O algoritmo foi instanciado com 4 vizinhos, ponderação por distância e métrica
+de Manhattan, conforme o Código~\ref{cod:knn}. A ponderação por distância
+atribui a cada vizinho um peso inversamente proporcional à sua distância ao
+paciente consultado, de modo que casos morfologicamente mais próximos exercem
+maior influência sobre a decisão do que os situados na periferia da vizinhança
+— comportamento mais aderente ao raciocínio clínico do que o voto uniforme, no
+qual um vizinho distante pesa tanto quanto o mais similar. A adoção da distância
+de Manhattan, formalizada na Equação~\ref{eq:distancia_manhattan}, decorre de
+sua menor sensibilidade a valores extremos isolados: por somar os deslocamentos
+absolutos atributo a atributo, em vez de elevá-los ao quadrado como a distância
+euclidiana, ela evita que uma única medida discrepante domine o cálculo da
+similaridade. Por ser fundamentado no cálculo de distâncias entre atributos, o
+KNN é altamente sensível à escala das variáveis: atributos com maior magnitude
+dominariam a métrica em detrimento de características igualmente relevantes,
+mas medidas em escalas menores. Por essa razão, seu treinamento e inferência
+utilizam obrigatoriamente os conjuntos padronizados X\_train\_scaled e
+X\_test\_scaled (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
 
 \begin{codigo}[htb]
 \legenda[cod:knn]{CONFIGURAÇÃO, TREINAMENTO E INFERÊNCIA DO KNN}
 \begin{lstlisting}[language=Python]
-wisconsin_knn = KNeighborsClassifier(n_neighbors=20, weights='uniform')
+wisconsin_knn = KNeighborsClassifier(
+    n_neighbors=4,
+    weights='distance',
+    metric='manhattan'
+)
 wisconsin_knn.fit(X_train_scaled, y_train)
 
 y_pred_knn = wisconsin_knn.predict(X_test_scaled)
@@ -1299,12 +1313,18 @@ sistemas de triagem em larga escala sem otimizações adicionais de indexação
 espacial (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
 As curvas do Gráfico~\ref{fig:avaliacao_knn} revelam um desempenho notavelmente
-superior ao \textit{baseline}. A curva ROC, com AUC de 0,997, apresenta uma
-subida praticamente vertical próxima ao eixo da sensibilidade, indicando que o
-modelo consegue separar as duas classes com altíssima discriminação já nos
-primeiros limiares de decisão. A curva Precisão-Revocação, com PR-AUC de 0,995,
-mantém precisão próxima a 1,0 ao longo de quase toda a faixa de revocação,
-com uma leve queda apenas nos valores extremos. Esse comportamento confirma que
+superior ao \textit{baseline}. A curva ROC, com AUC de 0,980, apresenta uma
+subida acentuada próxima ao eixo da sensibilidade, indicando que o
+modelo consegue separar as duas classes com alta discriminação já nos
+primeiros limiares de decisão. A curva Precisão-Revocação, com PR-AUC de 0,976,
+mantém precisão próxima a 1,0 ao longo da maior parte da faixa de revocação,
+com queda mais pronunciada apenas nos valores extremos. Cabe observar que a
+adoção de uma vizinhança reduzida (\textit{k} = 4) confere ao modelo alta
+Especificidade — nenhum tumor benigno foi classificado como maligno —, mas
+também torna suas estimativas de probabilidade mais discretas, uma vez que
+apenas quatro votos ponderados compõem cada predição. Esse é o motivo pelo qual
+suas áreas sob as curvas, embora elevadas, ficam abaixo das obtidas pelos
+modelos que produzem probabilidades contínuas. Esse comportamento confirma que
 a estrutura geométrica da base Wisconsin, na qual os perfis morfológicos de
 tumores benignos e malignos formam regiões densas e bem separadas no espaço de
 atributos, favorece intrinsecamente os algoritmos baseados em distância
@@ -1331,21 +1351,30 @@ intrínseca a torna um ponto de referência importante para avaliar se a
 explicabilidade \textit{post-hoc} fornecida pelo SHAP sobre modelos mais complexos é
 consistente com o que um modelo interpretável nativo já indicaria.
 
-O modelo foi configurado com o \textit{solver lbfgs}, adequado para bases de tamanho
-médio como a Wisconsin, com limite de 2000 iterações para garantir convergência
-completa e correção automática do desbalanceamento de classes, conforme o
-Código~\ref{cod:lr}. O parâmetro class\_weight = balanced instrui o modelo a
-penalizar proporcionalmente os erros sobre a classe maligna, compensando a
-diferença de frequência entre as classes sem necessidade de técnicas de
-reamostragem.
+O modelo foi configurado com o \textit{solver liblinear}, adequado para bases de
+porte médio como a Wisconsin, com limite de 2000 iterações para garantir
+convergência completa e correção automática do desbalanceamento de classes,
+conforme o Código~\ref{cod:lr}. O parâmetro class\_weight = balanced instrui o
+modelo a penalizar proporcionalmente os erros sobre a classe maligna,
+compensando a diferença de frequência entre as classes sem necessidade de
+técnicas de reamostragem. A regularização foi ajustada para C = 0,1 com
+penalidade L2. Como o parâmetro C é o inverso da intensidade de regularização,
+esse valor corresponde a uma penalização relativamente forte sobre a magnitude
+dos coeficientes, escolha justificada pela alta colinearidade entre os
+atributos da base — raio, perímetro e área descrevem a mesma geometria nuclear
+sob três formulações distintas. Sem essa restrição, o modelo tenderia a
+distribuir pesos elevados e instáveis entre variáveis redundantes, prejudicando
+tanto a generalização quanto a leitura clínica dos coeficientes.
 
 \begin{codigo}[htb]
 \legenda[cod:lr]{CONFIGURAÇÃO E TREINAMENTO DA REGRESSÃO LOGÍSTICA}
 \begin{lstlisting}[language=Python]
 logreg = LogisticRegression(
-    max_iter=2000,
+    C=0.1,
+    penalty='l2',
     class_weight='balanced',
-    solver='lbfgs',
+    solver='liblinear',
+    max_iter=2000,
     random_state=RANDOM_STATE
 )
 logreg.fit(X_train_scaled, y_train)
@@ -1406,18 +1435,39 @@ garante estimativas de importância e probabilidade estáveis, pois conjuntos
 menores tendem a apresentar maior variância nas predições. O parâmetro n\_jobs
 = -1 instrui o scikit-learn a utilizar todos os núcleos de processamento
 disponíveis durante o treinamento, reduzindo o tempo de execução sem afetar os
-resultados. O class\_weight = balanced é novamente utilizado para compensar a diferença de
-frequência entre as classes, penalizando mais fortemente os erros sobre a classe
-maligna e incentivando o modelo a aprender padrões relevantes para essa classe
-minoritária.
+resultados.
+
+À configuração inicial foi acrescentado um conjunto de restrições de
+complexidade destinadas a conter o sobreajuste, dado que a base dispõe de
+apenas 426 registros de treino para 30 atributos. A profundidade máxima foi
+limitada a 10 níveis e exigiu-se um mínimo de 4 amostras para dividir um nó e
+de 2 amostras em cada folha, impedindo que as árvores individuais isolassem
+pacientes únicos em folhas puras — comportamento que memoriza ruído em vez de
+aprender padrões generalizáveis. O parâmetro max\_features = sqrt restringe
+cada divisão a um subconjunto aleatório de aproximadamente seis atributos,
+mecanismo que descorrelaciona as árvores entre si e constitui a própria fonte
+da diversidade que sustenta o ganho do comitê sobre a árvore isolada. O
+critério de entropia foi adotado por coerência com a Árvore de Decisão
+\textit{baseline}, permitindo que a comparação entre os dois modelos isole o
+efeito do \textit{ensemble}. Por fim, o class\_weight =
+balanced\_subsample recalcula os pesos das classes a cada amostra
+\textit{bootstrap}, em vez de fixá-los uma única vez sobre a base completa como
+faz a variante balanced, o que é mais adequado à natureza reamostrada do
+Random Forest e compensa a menor frequência da classe maligna dentro de cada
+árvore.
 
 \begin{codigo}[htb]
 \legenda[cod:rf]{CONFIGURAÇÃO E TREINAMENTO DO RANDOM FOREST}
 \begin{lstlisting}[language=Python]
 rf = RandomForestClassifier(
     n_estimators=500,
+    max_depth=10,
+    min_samples_split=4,
+    min_samples_leaf=2,
+    max_features='sqrt',
+    criterion='entropy',
+    class_weight='balanced_subsample',
     random_state=RANDOM_STATE,
-    class_weight='balanced',
     n_jobs=-1
 )
 rf.fit(X_train_scaled, y_train)
@@ -1446,7 +1496,7 @@ configurando o erro de maior impacto humano possível no sistema
 (\citeauthoronline{James2023}, \citeyear{James2023}).
 
 As curvas do Gráfico~\ref{fig:avaliacao_rf} confirmam o alto desempenho
-discriminativo do Random Forest, com ROC-AUC de 0,997 e PR-AUC de 0,995.
+discriminativo do Random Forest, com ROC-AUC de 0,998 e PR-AUC de 0,997.
 A curva ROC apresenta subida quase vertical junto ao eixo esquerdo, indicando
 que o modelo atinge sensibilidade próxima a 1,0 com taxa de falsos positivos
 próxima a zero nos primeiros limiares de decisão. A curva Precisão-Revocação
@@ -1509,9 +1559,9 @@ pred_svm  = (proba_svm >= 0.5).astype(int)
 \fonteautor
 \end{codigo}
 
-As curvas do Gráfico~\ref{fig:avaliacao_svm} revelam o SVM como o modelo com
-melhor PR-AUC individual entre os cinco avaliados, atingindo 0,996, com
-ROC-AUC de 0,997. A curva ROC apresenta a subida mais vertical de todo o
+As curvas do Gráfico~\ref{fig:avaliacao_svm} revelam o SVM entre os modelos de
+melhor desempenho do conjunto, com PR-AUC de 0,996 e
+ROC-AUC de 0,997. A curva ROC apresenta uma das subidas mais verticais de todo o
 conjunto, com a taxa de verdadeiros positivos atingindo valores próximos a 1,0
 antes mesmo que a taxa de falsos positivos ultrapasse 0,2. A curva
 Precisão-Revocação é a mais estável visualmente, mantendo precisão igual a 1,0
@@ -1553,11 +1603,11 @@ comparação direta entre as abordagens avaliadas.
         \makecell{\textbf{ROC-}\\\textbf{AUC}} &
         \makecell{\textbf{PR-}\\\textbf{AUC}} \\
         \midrule
-        Árvore de Decisão   & 0.947 & 0.883 & 0.985 & 0.926 & 0.934 & 0.904 \\
-        KNN                 & 0.958 &	0.886 &	1.0 &	0.94 &	0.997 &	0.995 \\
-        Regressão Logística & 0.972 &	0.943 &	0.988 &	0.961 &	0.994 &	0.992 \\
-        Random Forest       & 0.972 &	0.924 &	1.0 &	0.960 &	0.997 &	0.995 \\
-        SVM                 & 0.993 & 0.981 & 1.0 & 0.990 & 0.996 & 0.995 \\
+        Árvore de Decisão   & 0,958 & 0,926 & 0,978 & 0,943 & 0,952 & 0,918 \\
+        KNN                 & 0,979 & 0,943 & \textbf{1,000} & 0,971 & 0,980 & 0,976 \\
+        Regressão Logística & \textbf{0,993} & \textbf{0,981} & \textbf{1,000} & \textbf{0,990} & \textbf{0,998} & \textbf{0,998} \\
+        Random Forest       & 0,972 & 0,925 & \textbf{1,000} & 0,961 & \textbf{0,998} & 0,997 \\
+        SVM                 & \textbf{0,993} & \textbf{0,981} & \textbf{1,000} & \textbf{0,990} & 0,997 & 0,996 \\
         \bottomrule
     \end{tabular}
     \vspace{0.2cm}
@@ -1565,26 +1615,41 @@ comparação direta entre as abordagens avaliadas.
 \end{table}
 
 Os resultados consolidados na Tabela~\ref{tab:comparacao_modelos} confirmam
-a superioridade dos modelos mais complexos sobre o \textit{baseline} da Árvore
-de Decisão em todas as métricas avaliadas, validando a hipótese de que
-algoritmos com maior capacidade de captura de relações não lineares são mais
-adequados para a separação dos perfis morfológicos da base Wisconsin. A Árvore
-de Decisão, com ROC-AUC de 0,935 e PR-AUC de 0,905, estabelece o patamar
-mínimo de referência. Os demais classificadores atingem ROC-AUC acima de 0,994
-e PR-AUC acima de 0,992, indicando que todos os quatro algoritmos restantes
-possuem capacidade discriminativa consideravelmente superior para este conjunto
-de dados.
+a superioridade dos demais classificadores sobre o \textit{baseline} da Árvore
+de Decisão em todas as métricas avaliadas. A Árvore
+de Decisão, com ROC-AUC de 0,952 e PR-AUC de 0,918, estabelece o patamar
+mínimo de referência. Os quatro classificadores restantes atingem ROC-AUC igual
+ou superior a 0,980 e PR-AUC igual ou superior a 0,976, indicando capacidade
+discriminativa consideravelmente superior para este conjunto de dados.
 
-Entre os modelos avançados, o SVM obteve os melhores resultados individuais,
-com Acurácia de 0,993, Sensibilidade de 0,981 e F1-score de 0,990, superando
-os demais classificadores em quase todas as métricas. O KNN e o Random Forest
-empataram na Especificidade máxima de 1,0, significando que nenhum tumor benigno
-foi classificado erroneamente como maligno por esses dois modelos. A Regressão
-Logística, apesar de sua estrutura linear, atingiu desempenho comparável ao
-Random Forest em Acurácia e F1-score, o que reforça a observação de que os
+O desempenho máximo do conjunto foi obtido em empate pela Regressão Logística e
+pelo SVM, ambos com Acurácia de 0,993, Sensibilidade de 0,981, Especificidade
+de 1,000 e F1-score de 0,990 — resultado que corresponde, no conjunto de teste
+de 143 pacientes, a um único tumor maligno não detectado e a nenhum falso
+positivo. O desempate ocorre apenas nas áreas sob as curvas, nas quais a
+Regressão Logística lidera com ROC-AUC de 0,998 e PR-AUC de 0,998, seguida de
+perto pelo Random Forest (0,998 e 0,997) e pelo SVM (0,997 e 0,996). Todos os
+quatro modelos avançados alcançaram Especificidade de 1,000, significando que
+nenhum tumor benigno foi classificado erroneamente como maligno.
+
+O achado mais relevante desta comparação é que o melhor desempenho não coube a
+um modelo de fronteira não linear, mas ao classificador linear mais simples do
+conjunto. A Regressão Logística iguala ou supera o SVM e o Random Forest em
+todas as seis métricas, apesar de sua estrutura consideravelmente mais enxuta e
+de produzir coeficientes diretamente interpretáveis, sem necessidade de
+explicabilidade \textit{post-hoc}. Esse resultado reforça a observação de que os
 atributos morfológicos da base Wisconsin possuem uma componente de separabilidade
-linear suficientemente forte para ser explorada por modelos mais simples
-(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+linear suficientemente forte para ser plenamente explorada por modelos simples
+(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}), e tem consequência
+prática direta: nesta base, adotar um modelo de caixa preta não se justifica por
+ganho de desempenho, uma vez que ele não existe.
+
+Cabe ressalvar, contudo, que as diferenças relatadas neste parágrafo foram
+apuradas sobre uma única partição de teste e, portanto, não bastam para
+estabelecer superioridade estatística de um modelo sobre outro. A
+Seção~\ref{sec:rigor-estatistico} retoma essa comparação sob validação cruzada
+repetida e testes de significância, verificando quais dessas diferenças
+resistem à variação amostral.
 
 % Apesar do desempenho superior do SVM nas métricas individuais, o Random Forest
 % foi selecionado como o modelo integrado ao módulo de software por razões que
@@ -1601,7 +1666,288 @@ linear suficientemente forte para ser explorada por modelos mais simples
 % confirmação, o que possui impacto direto na qualidade de vida dos pacientes e
 % na eficiência do sistema de saúde (\citeauthoronline{James2023},
 % \citeyear{James2023}).
- 
+
+% ------------------------------------------------------------------------------
+\section{Rigor Estatístico: Validação Cruzada, Significância e Calibração}
+\label{sec:rigor-estatistico}
+
+Os resultados apresentados na Seção~\ref{sec:treinamento} foram obtidos sobre
+uma única partição de treino e teste. Essa é a forma mais comum de reportar
+desempenho na literatura aplicada, mas ela é insuficiente para sustentar
+afirmações comparativas: uma diferença de um ou dois acertos entre dois modelos
+pode decorrer inteiramente da amostra que a partição selecionou, e não de
+qualquer superioridade real do algoritmo. Esta seção submete os cinco
+classificadores a três análises complementares que endereçam justamente essa
+fragilidade — estabilidade do desempenho, significância estatística das
+diferenças e confiabilidade das probabilidades produzidas.
+
+% ------------------------------------------------------------------------------
+\subsection{Validação Cruzada Estratificada Repetida}
+\label{subsec:validacao-cruzada}
+
+Para estimar o desempenho de forma independente de uma partição específica,
+adotou-se validação cruzada estratificada de 10 dobras repetida 5 vezes,
+totalizando 50 ajustes por modelo. A estratificação preserva em cada dobra a
+proporção original entre tumores benignos e malignos, e a repetição com
+diferentes embaralhamentos reduz a influência de uma divisão particularmente
+favorável ou desfavorável.
+
+Um cuidado metodológico decisivo foi adotado neste procedimento: a padronização
+Z-score é reajustada dentro de cada dobra, utilizando exclusivamente as
+estatísticas do subconjunto de treino daquela iteração. Padronizar a base
+inteira antes de particioná-la, como é frequente em implementações
+descuidadas, faria com que a média e o desvio-padrão dos dados de teste
+influenciassem a transformação aplicada ao treino, configurando vazamento de
+informação e produzindo estimativas otimistas. A Tabela~\ref{tab:validacao_cruzada}
+apresenta a média e o desvio-padrão de cada métrica ao longo das 50 dobras.
+
+\begin{table}[htbp]
+    \centering
+    \caption{DESEMPENHO SOB VALIDAÇÃO CRUZADA (MÉDIA $\pm$ DESVIO-PADRÃO EM 50 DOBRAS)}
+    \label{tab:validacao_cruzada}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        \textbf{Modelo} &
+        \makecell{\textbf{Acu-}\\\textbf{rácia}} &
+        \makecell{\textbf{Sensibi-}\\\textbf{lidade}} &
+        \makecell{\textbf{Especifi-}\\\textbf{cidade}} &
+        \makecell{\textbf{F1-}\\\textbf{score}} &
+        \makecell{\textbf{ROC-}\\\textbf{AUC}} &
+        \makecell{\textbf{PR-}\\\textbf{AUC}} \\
+        \midrule
+        Árvore de Decisão   & \makecell{0,929\\$\pm$ 0,039} & \makecell{0,907\\$\pm$ 0,071}
+                            & \makecell{0,942\\$\pm$ 0,037} & \makecell{0,905\\$\pm$ 0,052}
+                            & \makecell{0,925\\$\pm$ 0,043} & \makecell{0,857\\$\pm$ 0,072} \\
+        KNN                 & \makecell{0,967\\$\pm$ 0,024} & \makecell{0,928\\$\pm$ 0,053}
+                            & \makecell{\textbf{0,990}\\$\pm$ 0,024} & \makecell{0,954\\$\pm$ 0,034}
+                            & \makecell{0,980\\$\pm$ 0,018} & \makecell{0,975\\$\pm$ 0,022} \\
+        Regressão Logística & \makecell{\textbf{0,973}\\$\pm$ 0,023} & \makecell{0,959\\$\pm$ 0,044}
+                            & \makecell{0,982\\$\pm$ 0,024} & \makecell{\textbf{0,964}\\$\pm$ 0,032}
+                            & \makecell{0,994\\$\pm$ 0,011} & \makecell{0,993\\$\pm$ 0,011} \\
+        Random Forest       & \makecell{0,960\\$\pm$ 0,025} & \makecell{0,935\\$\pm$ 0,051}
+                            & \makecell{0,975\\$\pm$ 0,028} & \makecell{0,946\\$\pm$ 0,035}
+                            & \makecell{0,990\\$\pm$ 0,013} & \makecell{0,988\\$\pm$ 0,014} \\
+        SVM                 & \makecell{0,971\\$\pm$ 0,022} & \makecell{\textbf{0,961}\\$\pm$ 0,045}
+                            & \makecell{0,977\\$\pm$ 0,027} & \makecell{0,961\\$\pm$ 0,029}
+                            & \makecell{\textbf{0,995}\\$\pm$ 0,009} & \makecell{\textbf{0,994}\\$\pm$ 0,010} \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \fonteautor
+\end{table}
+
+A comparação entre a Tabela~\ref{tab:validacao_cruzada} e a
+Tabela~\ref{tab:comparacao_modelos} revela que os valores obtidos na partição
+única eram sistematicamente otimistas. A Regressão Logística, que registrara
+Acurácia de 0,993 no conjunto de teste, apresenta média de 0,973 sob validação
+cruzada; o SVM cai de 0,993 para 0,971. Essa diferença não indica erro no
+procedimento anterior, mas sim que aquela partição específica era favorável — o
+que confirma a necessidade da análise ora conduzida.
+
+Os desvios-padrão qualificam a leitura das médias. A Árvore de Decisão não
+apenas obtém o pior desempenho médio como também a maior dispersão, com
+desvio-padrão de 0,071 na Sensibilidade e de 0,072 no PR-AUC: seu comportamento
+depende fortemente de quais pacientes compõem o treino, característica esperada
+de um modelo sem mecanismo de redução de variância. No extremo oposto, o SVM
+apresenta a menor dispersão em ROC-AUC (0,009) e PR-AUC (0,010), configurando-se
+como o classificador mais estável do conjunto. A Regressão Logística mantém a
+melhor Acurácia média (0,973) e o melhor F1-score médio (0,964), ao passo que o
+SVM lidera em Sensibilidade média (0,961) e nas duas áreas sob as curvas — uma
+inversão parcial em relação ao ordenamento observado na partição única, e mais
+uma evidência de que aquele ordenamento não era estável.
+
+% ------------------------------------------------------------------------------
+\subsection{Testes de Significância Estatística}
+\label{subsec:significancia}
+
+Estabelecida a estabilidade do desempenho, resta determinar quais das diferenças
+observadas entre os modelos são estatisticamente reais e quais são
+indistinguíveis do ruído amostral. Adotou-se o nível de significância
+$\alpha = 0{,}05$ e dois testes complementares.
+
+O primeiro é o teste pareado 5$\times$2cv proposto por
+\citeauthoronline{Dietterich1998} (\citeyear{Dietterich1998}), recomendado
+especificamente para a comparação de dois classificadores sobre um único
+conjunto de dados. Sua vantagem sobre o teste $t$ convencional está na correção
+da dependência entre as dobras: como os conjuntos de treino de uma validação
+cruzada se sobrepõem, as estimativas de erro não são independentes, e ignorar
+esse fato eleva a taxa de falsos positivos do teste. Tomou-se como referência a
+Regressão Logística, modelo de melhor Acurácia média na subseção anterior,
+comparada individualmente a cada rival. Os resultados constam da
+Tabela~\ref{tab:teste_5x2cv}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{TESTE PAREADO 5$\times$2CV DA REGRESSÃO LOGÍSTICA CONTRA CADA RIVAL}
+    \label{tab:teste_5x2cv}
+    \begin{tabular}{@{}lccl@{}}
+        \toprule
+        \textbf{Modelo comparado} & \textbf{$t$} & \textbf{$p$} & \textbf{Conclusão} \\
+        \midrule
+        Árvore de Decisão & $+2{,}346$ & 0,0659 & Sem diferença significativa \\
+        KNN               & $+1{,}127$ & 0,3110 & Sem diferença significativa \\
+        Random Forest     & $+2{,}181$ & 0,0810 & Sem diferença significativa \\
+        SVM               & $+0{,}506$ & 0,6341 & Sem diferença significativa \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \fonteautor
+\end{table}
+
+Nenhuma das comparações atingiu significância estatística. Ainda que os valores
+de $t$ sejam sistematicamente positivos — indicando vantagem consistente da
+Regressão Logística —, os valores de $p$ permanecem acima de 0,05 em todos os
+casos, inclusive contra a Árvore de Decisão ($p = 0{,}0659$). Esse resultado
+ilustra a conhecida conservadorismo do teste 5$\times$2cv, que dispõe de apenas
+dez estimativas de diferença e, portanto, de baixo poder estatístico
+(\citeauthoronline{Dietterich1998}, \citeyear{Dietterich1998}).
+
+O segundo teste oferece um panorama global. O teste de Friedman, seguido do
+pós-hoc de Nemenyi, é o procedimento recomendado por
+\citeauthoronline{Demsar2006} (\citeyear{Demsar2006}) para comparar múltiplos
+classificadores simultaneamente, evitando a inflação do erro tipo I decorrente
+de comparações pareadas repetidas. O Friedman rejeitou a hipótese nula de
+equivalência entre os cinco modelos com $\chi^2 = 65{,}766$ e
+$p = 1{,}775 \times 10^{-13}$, confirmando que ao menos dois deles diferem. O
+pós-hoc de Nemenyi identifica quais pares, conforme a
+Tabela~\ref{tab:nemenyi}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{VALORES DE $p$ DO PÓS-HOC DE NEMENYI ENTRE OS CINCO MODELOS}
+    \label{tab:nemenyi}
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{Modelo} & \textbf{AD} & \textbf{KNN} & \textbf{RL} & \textbf{RF} & \textbf{SVM} \\
+        \midrule
+        Árvore de Decisão (AD)   & ---    & 0,0000 & 0,0000 & 0,0004 & 0,0000 \\
+        KNN                      & 0,0000 & ---    & 0,6535 & 0,8500 & 0,9239 \\
+        Regressão Logística (RL) & 0,0000 & 0,6535 & ---    & 0,1231 & 0,9834 \\
+        Random Forest (RF)       & 0,0004 & 0,8500 & 0,1231 & ---    & 0,3538 \\
+        SVM                      & 0,0000 & 0,9239 & 0,9834 & 0,3538 & ---    \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \fonteautor
+\end{table}
+
+A leitura da Tabela~\ref{tab:nemenyi} é inequívoca e constitui o principal
+achado desta seção. A Árvore de Decisão difere significativamente de todos os
+demais classificadores, com valores de $p$ entre 0,0000 e 0,0004 — sua
+inferioridade como \textit{baseline} é estatisticamente sustentada. Entre os
+quatro modelos avançados, porém, nenhum par apresenta diferença significativa:
+o menor valor de $p$ registrado é 0,1231, entre Regressão Logística e Random
+Forest, e o maior chega a 0,9834, entre Regressão Logística e SVM.
+
+A consequência metodológica é relevante e merece ser explicitada. As diferenças
+de desempenho observadas entre KNN, Regressão Logística, Random Forest e SVM na
+Tabela~\ref{tab:comparacao_modelos} não são estatisticamente distinguíveis do
+ruído amostral. Afirmar que um desses modelos é superior aos outros nesta base
+não encontra respaldo estatístico. Em consequência, a escolha do classificador
+a ser integrado ao software não pode ser fundamentada apenas em desempenho
+preditivo, devendo apoiar-se em critérios secundários — interpretabilidade,
+qualidade das probabilidades produzidas e custo computacional da explicação —,
+tema retomado nas subseções seguintes.
+
+% ------------------------------------------------------------------------------
+\subsection{Análise de Calibração das Probabilidades}
+\label{subsec:calibracao}
+
+Um classificador pode apresentar alta acurácia e, ainda assim, produzir
+probabilidades mal calibradas — atribuir 90\% de certeza a um conjunto de casos
+no qual acerta apenas 70\% das vezes. Em um sistema de apoio ao diagnóstico,
+essa distinção deixa de ser um detalhe técnico e passa a ser uma questão de
+confiabilidade clínica: como o software exibe ao profissional de saúde uma
+estimativa numérica de certeza, essa estimativa precisa corresponder à
+frequência real do desfecho, sob pena de induzir decisões equivocadas
+(\citeauthoronline{Guo2017}, \citeyear{Guo2017}).
+
+A qualidade da calibração foi avaliada por dois instrumentos quantitativos. O
+escore de Brier, proposto por \citeauthoronline{Brier1950}
+(\citeyear{Brier1950}), corresponde ao erro quadrático médio entre a
+probabilidade prevista e o desfecho observado, penalizando simultaneamente
+erros de discriminação e de calibração. O ECE (\textit{Expected Calibration
+Error}) particiona as predições em faixas de probabilidade e mede a discrepância
+média entre a confiança declarada e a acurácia efetivamente observada em cada
+faixa (\citeauthoronline{Guo2017}, \citeyear{Guo2017}). Em ambas as métricas,
+valores menores indicam melhor calibração. A Árvore de Decisão foi excluída
+desta análise: suas folhas puras produzem probabilidades degeneradas, iguais a
+0 ou 1, sobre as quais a noção de calibração não se aplica. Os resultados
+constam da Tabela~\ref{tab:calibracao}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{MÉTRICAS DE CALIBRAÇÃO DAS PROBABILIDADES (MENOR É MELHOR)}
+    \label{tab:calibracao}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Modelo} & \textbf{Escore de Brier} & \textbf{ECE} \\
+        \midrule
+        KNN                 & 0,0292 & 0,0429 \\
+        Regressão Logística & 0,0202 & 0,0609 \\
+        Random Forest       & 0,0269 & 0,0420 \\
+        SVM                 & \textbf{0,0156} & \textbf{0,0306} \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \fonteautor
+\end{table}
+
+O SVM apresenta a melhor calibração do conjunto em ambas as métricas, com escore
+de Brier de 0,0156 e ECE de 0,0306. A Regressão Logística exibe um resultado
+aparentemente contraditório que merece explicação: obtém o segundo melhor escore
+de Brier (0,0202), mas o pior ECE (0,0609). A razão está na natureza distinta
+das duas medidas — o escore de Brier agrega discriminação e calibração em um
+único número, ao passo que o ECE isola o desalinhamento entre confiança
+declarada e acurácia observada. Um modelo que separa muito bem as classes, mas
+que sistematicamente subestima ou superestima sua própria confiança, obtém bom
+Brier e ECE ruim, exatamente o padrão observado. Para os fins deste trabalho,
+no qual o valor de certeza é exibido ao usuário, o ECE é a métrica mais
+pertinente.
+
+Diante desse quadro, aplicou-se recalibração às probabilidades por dois métodos
+consolidados: o escalonamento de Platt, que ajusta uma sigmoide sobre os escores
+do modelo (\citeauthoronline{Platt1999}, \citeyear{Platt1999}), e a regressão
+isotônica, método não paramétrico que ajusta uma função monotônica por partes
+(\citeauthoronline{NiculescuMizil2005}, \citeyear{NiculescuMizil2005}). A
+Tabela~\ref{tab:recalibracao} apresenta o efeito de cada método sobre os dois
+modelos de melhor desempenho discriminativo.
+
+\begin{table}[htbp]
+    \centering
+    \caption{ESCORE DE BRIER ANTES E DEPOIS DA RECALIBRAÇÃO}
+    \label{tab:recalibracao}
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Modelo} & \textbf{Original} & \textbf{Platt (sigmoide)} & \textbf{Isotônica} \\
+        \midrule
+        SVM           & 0,0156 & 0,0213 & \textbf{0,0141} \\
+        Random Forest & 0,0269 & 0,0246 & \textbf{0,0221} \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \fonteautor
+\end{table}
+
+A regressão isotônica produziu o melhor escore de Brier para ambos os modelos,
+reduzindo o valor do SVM de 0,0156 para 0,0141 e o do Random Forest de 0,0269
+para 0,0221. O escalonamento de Platt melhorou o Random Forest, mas degradou o
+SVM, elevando seu Brier de 0,0156 para 0,0213 — comportamento compatível com o
+fato de que o SVM já partia de uma calibração adequada, situação na qual a
+imposição de uma forma sigmoidal rígida pode introduzir distorção em vez de
+corrigi-la.
+
+Optou-se, ainda assim, pelo escalonamento de Platt na implementação do software.
+A justificativa é a robustez em amostras pequenas: a regressão isotônica dispõe
+de muito mais graus de liberdade e, em conjuntos do porte da base Wisconsin,
+tende a sobreajustar-se ao conjunto de calibração, produzindo ganhos que não se
+sustentam em dados novos — limitação documentada por
+\citeauthoronline{NiculescuMizil2005} (\citeyear{NiculescuMizil2005}), que
+recomendam o método sigmoidal para amostras reduzidas. São essas probabilidades
+recalibradas por Platt que alimentam a coluna de certeza exibida na interface do
+sistema.
+
 % % ------------------------------------------------------------------------------
 % \section{Análise de Estrutura com UMAP e PCA}
 % \label{sec:umap-pca}
