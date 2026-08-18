@@ -1273,8 +1273,8 @@ O algoritmo foi instanciado com 4 vizinhos, ponderação por distância e métri
 de Manhattan, conforme o Código~\ref{cod:knn}. A ponderação por distância
 atribui a cada vizinho um peso inversamente proporcional à sua distância ao
 paciente consultado, de modo que casos morfologicamente mais próximos exercem
-maior influência sobre a decisão do que os situados na periferia da vizinhança
-— comportamento mais aderente ao raciocínio clínico do que o voto uniforme, no
+maior influência sobre a decisão do que os situados na periferia da vizinhança,
+ comportamento mais aderente ao raciocínio clínico do que o voto uniforme, no
 qual um vizinho distante pesa tanto quanto o mais similar. A adoção da distância
 de Manhattan, formalizada na Equação~\ref{eq:distancia_manhattan}, decorre de
 sua menor sensibilidade a valores extremos isolados: por somar os deslocamentos
@@ -1320,7 +1320,7 @@ primeiros limiares de decisão. A curva Precisão-Revocação, com PR-AUC de 0,9
 mantém precisão próxima a 1,0 ao longo da maior parte da faixa de revocação,
 com queda mais pronunciada apenas nos valores extremos. Cabe observar que a
 adoção de uma vizinhança reduzida (\textit{k} = 4) confere ao modelo alta
-Especificidade — nenhum tumor benigno foi classificado como maligno —, mas
+Especificidade, nenhum tumor benigno foi classificado como maligno, mas
 também torna suas estimativas de probabilidade mais discretas, uma vez que
 apenas quatro votos ponderados compõem cada predição. Esse é o motivo pelo qual
 suas áreas sob as curvas, embora elevadas, ficam abaixo das obtidas pelos
@@ -1360,9 +1360,9 @@ compensando a diferença de frequência entre as classes sem necessidade de
 técnicas de reamostragem. A regularização foi ajustada para C = 0,1 com
 penalidade L2. Como o parâmetro C é o inverso da intensidade de regularização,
 esse valor corresponde a uma penalização relativamente forte sobre a magnitude
-dos coeficientes, escolha justificada pela alta colinearidade entre os
-atributos da base — raio, perímetro e área descrevem a mesma geometria nuclear
-sob três formulações distintas. Sem essa restrição, o modelo tenderia a
+dos coeficientes. Tal escolha se justifica pela alta colinearidade entre os
+atributos da base, uma vez que raio, perímetro e área descrevem a mesma
+geometria nuclear sob três formulações distintas. Sem essa restrição, o modelo tenderia a
 distribuir pesos elevados e instáveis entre variáveis redundantes, prejudicando
 tanto a generalização quanto a leitura clínica dos coeficientes.
 
@@ -1396,15 +1396,18 @@ utilizado.
 
 As curvas do Gráfico~\ref{fig:avaliacao_lr} demonstram que, apesar de sua
 estrutura linear, a Regressão Logística atinge desempenho comparável aos modelos
-mais complexos nesta base de dados. A curva ROC com AUC de 0,995 e a curva
-Precisão-Revocação com PR-AUC de 0,993 confirmam que os atributos morfológicos
+mais complexos nesta base de dados. A curva ROC com AUC de 0,998 e a curva
+Precisão-Revocação com PR-AUC de 0,998 confirmam que os atributos morfológicos
 da base Wisconsin possuem uma relação suficientemente linear com a variável alvo
-para que um modelo probabilístico simples os explore com eficiência. A leve
-queda na curva PR nos valores mais altos de revocação indica que, ao tentar
-recuperar todos os casos malignos, o modelo passa a incorrer em um número
-ligeiramente maior de alarmes falsos, comportamento esperado em classificadores
-lineares diante de dados com alguma sobreposição de classes
-(\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
+para que um modelo probabilístico simples os explore com eficiência. A subida
+praticamente vertical da curva ROC mostra que o modelo já recupera cerca de 98\%
+dos casos malignos sem incorrer em nenhum falso positivo, enquanto a curva PR
+mantém precisão igual a 1,0 em quase toda a faixa de revocação, cedendo apenas
+no extremo final. Essa queda concentrada nos últimos limiares indica que o custo
+em alarmes falsos só se manifesta quando se exige a recuperação da totalidade
+dos casos malignos, comportamento esperado em classificadores lineares diante de
+dados com alguma sobreposição de classes (\citeauthoronline{Bishop2006},
+\citeyear{Bishop2006}).
 
 \begin{grafico}[htbp]
     \centering
