@@ -1485,25 +1485,6 @@ menores tendem a apresentar maior variância nas predições. O parâmetro n\_jo
 disponíveis durante o treinamento, reduzindo o tempo de execução sem afetar os
 resultados.
 
-À configuração inicial foi acrescentado um conjunto de restrições de
-complexidade destinadas a conter o sobreajuste, dado que a base dispõe de
-apenas 426 registros de treino para 30 atributos. A profundidade máxima foi
-limitada a 10 níveis e exigiu-se um mínimo de 4 amostras para dividir um nó e
-de 2 amostras em cada folha, impedindo que as árvores individuais isolassem
-pacientes únicos em folhas puras — comportamento que memoriza ruído em vez de
-aprender padrões generalizáveis. O parâmetro max\_features = sqrt restringe
-cada divisão a um subconjunto aleatório de aproximadamente seis atributos,
-mecanismo que descorrelaciona as árvores entre si e constitui a própria fonte
-da diversidade que sustenta o ganho do comitê sobre a árvore isolada. O
-critério de entropia foi adotado por coerência com a Árvore de Decisão
-\textit{baseline}, permitindo que a comparação entre os dois modelos isole o
-efeito do \textit{ensemble}. Por fim, o class\_weight =
-balanced\_subsample recalcula os pesos das classes a cada amostra
-\textit{bootstrap}, em vez de fixá-los uma única vez sobre a base completa como
-faz a variante balanced, o que é mais adequado à natureza reamostrada do
-Random Forest e compensa a menor frequência da classe maligna dentro de cada
-árvore.
-
 \begin{codigo}[htb]
 \legenda[cod:rf]{CONFIGURAÇÃO E TREINAMENTO DO RANDOM FOREST}
 \begin{lstlisting}[language=Python]
@@ -1524,6 +1505,25 @@ pred_rf  = (proba_rf >= 0.5).astype(int)
 \end{lstlisting}
 \fonteautor
 \end{codigo}
+
+À configuração inicial foi acrescentado um conjunto de restrições de
+complexidade destinadas a conter o sobreajuste, dado que a base dispõe de
+apenas 426 registros de treino para 30 atributos. A profundidade máxima foi
+limitada a 10 níveis e exigiu-se um mínimo de 4 amostras para dividir um nó e
+de 2 amostras em cada folha, impedindo que as árvores individuais isolassem
+pacientes únicos em folhas puras, comportamento que memoriza ruído em vez de
+aprender padrões generalizáveis. O parâmetro max\_features = sqrt restringe
+cada divisão a um subconjunto aleatório de aproximadamente seis atributos,
+mecanismo que descorrelaciona as árvores entre si e constitui a própria fonte
+da diversidade que sustenta o ganho do comitê sobre a árvore isolada. O
+critério de entropia foi adotado por coerência com a Árvore de Decisão
+\textit{baseline}, permitindo que a comparação entre os dois modelos isole o
+efeito do \textit{ensemble}. Por fim, o class\_weight =
+balanced\_subsample recalcula os pesos das classes a cada amostra
+\textit{bootstrap}, em vez de fixá-los uma única vez sobre a base completa como
+faz a variante balanced, o que é mais adequado à natureza reamostrada do
+Random Forest e compensa a menor frequência da classe maligna dentro de cada
+árvore.
 
 Outro benefício técnico do Random Forest relevante para este projeto é a
 geração nativa de estimativas de importância de variáveis por meio da
