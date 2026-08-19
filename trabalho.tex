@@ -280,6 +280,7 @@ Na estatística, essa linha tênue entre memorizar e generalizar é explicada pe
 Essa metodologia de divisão geralmente particiona os dados em três grupos: Treinamento, Validação e Teste. O conjunto de treinamento é o ambiente computacional primário, onde o algoritmo ajusta seus pesos e constrói suas regras de classificação. O conjunto de validação atua como um ambiente de aferição intermediária, permitindo que o desenvolvedor calibre os detalhes matemáticos do modelo e perceba rapidamente se o \textit{overfitting} está ocorrendo. Por fim, o conjunto de teste representa o cenário do mundo real. Ele permanece totalmente isolado e oculto do computador durante todo o processo de desenvolvimento, sendo acionado apenas uma única vez na etapa final. O desempenho alcançado neste conjunto de teste isolado é o indicador soberano que comprova a verdadeira eficácia do sistema em acertar diagnósticos na prática médica (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
 \subsection{Métricas de Avaliação de Desempenho}
+\label{sec:metricas}
 
 % Matriz de Confusão
 Após submeter o conjunto de teste ao algoritmo, é fundamental quantificar o seu desempenho clínico. Na classificação binária, a base para qualquer avaliação é a construção de uma Matriz de Confusão. Essa ferramenta organiza os resultados das previsões em quatro categorias possíveis. Os Verdadeiros Positivos (VP) representam os tumores malignos corretamente identificados, enquanto os Verdadeiros Negativos (VN) são os tumores benignos confirmados. Por outro lado, os erros são divididos em Falsos Positivos (FP), que ocorrem quando um tumor benigno gera um alarme falso de malignidade, e Falsos Negativos (FN), que acontecem quando o sistema ignora um tumor maligno e o classifica como inofensivo. Em um cenário oncológico, o falso negativo representa a falha mais crítica do modelo, pois resulta em um paciente doente que é liberado sem receber o tratamento adequado (\citeauthoronline{James2023}, \citeyear{James2023}).
@@ -481,6 +482,7 @@ Para preencher essa lacuna entre a precisão matemática e a confiança médica,
 Do ponto de vista arquitetônico, \citeonline{Rudin2019} destaca que a explicabilidade se divide em duas abordagens fundamentais. A primeira consiste na utilização de modelos intrinsecamente interpretáveis, como a Regressão Logística ou uma única Árvore de Decisão, cujas equações matemáticas são naturalmente transparentes, embora frequentemente apresentem limitações de desempenho em dados biológicos complexos. A segunda abordagem engloba as técnicas de explicabilidade \textit{post-hoc}. Estas técnicas são acopladas externamente a modelos de caixa preta após a fase de treinamento, extraindo interpretações sem alterar a estrutura interna do algoritmo original. No escopo deste estudo, opta-se pela segunda via. Ao aplicar métodos \textit{post-hoc} sobre classificadores robustos, busca-se entregar ao oncologista uma ferramenta que alie o máximo desempenho preditivo da computação moderna à transparência analítica exigida pela ética médica.
 
 \section{SHapley Additive exPlanations (SHAP)}
+\label{sec:shap}
 
 A técnica \textit{SHapley Additive exPlanations} (SHAP) representa o atual estado da arte em explicabilidade algorítmica. A sua base teórica não nasceu na ciência da computação, mas sim na teoria dos jogos cooperativos, formulada pelo matemático Lloyd Shapley. Na teoria original, o valor de Shapley calcula a contribuição exata e justa de cada jogador para o prêmio final obtido por uma equipe. Quando esse conceito é transportado para o aprendizado de máquina, o modelo preditivo assume o papel do jogo, as características celulares atuam como os jogadores e o prêmio a ser dividido é a predição final do algoritmo. De acordo com a documentação oficial da ferramenta, o SHAP atua como uma abordagem unificada, consolidando diversas metodologias anteriores sob a classe de métodos de atribuição de características aditivas para revelar os bastidores matemáticos da caixa preta (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
@@ -608,16 +610,6 @@ Uma das conclusões mais relevantes deste trabalho foi a identificação de que 
 
 Este estudo corrobora a necessidade de superar as limitações da estatística básica na oncologia. No entanto, a busca por capturar as nuances da malignidade celular não deve resultar em modelos de complexidade interpretativa inacessível. A abordagem deste trabalho enfatiza que, no contexto médico, modelos preditivos que priorizam a simplicidade e a explicabilidade trazem vantagens substanciais, permitindo que a equipe de saúde compreenda e confie nos critérios lógicos que fundamentam o diagnóstico.
 
-\section{Segmentação e Contagem de Células em Imagens (Silva Júnior, 2018)}
-
-Desenvolvido no contexto acadêmico de Curitiba, o trabalho de Silva \citeonline{SilvaJunior2018} focou no desenvolvimento de um \textit{pipeline} detalhado para o processamento digital de imagens microscópicas de câncer de mama. O objetivo era automatizar a tarefa exaustiva de contagem e segmentação de núcleos celulares realizada por patologistas.
-
-A abordagem metodológica utilizou técnicas de processamento de imagens para isolar componentes celulares e reduzir o ruído visual das lâminas. O autor detalhou cada etapa do fluxo de trabalho, desde a captura da imagem até a extração final de dados quantitativos, enfatizando os desafios técnicos de lidar com células sobrepostas ou imagens de baixa qualidade.
-
-Embora o foco principal fosse a segmentação e não a classificação preditiva, o trabalho demonstrou a importância de transformar evidências visuais em dados tabulares estruturados. O autor concluiu que a automação dessas etapas iniciais reduz significativamente a fadiga do profissional de saúde e aumenta a reprodutibilidade dos diagnósticos.
-
-A relevância deste estudo para o presente projeto reside na compreensão da infraestrutura necessária para gerar os dados de entrada. Enquanto este TCC foca na inteligência preditiva e explicável sobre dados já estruturados, o trabalho de Silva Júnior fornece a base sobre como esses dados são extraídos do mundo físico.
-
 \section{Diagnóstico de Câncer de Pulmão e Cólon via Deep Learning (Masud \textit{et al.}, 2021)}
 
 A pesquisa de \citeonline{Masud2021} explorou o uso de Redes Neurais Profundas para o diagnóstico de câncer em tecidos pulmonares e colorretais. O diferencial do trabalho foi o uso de uma estrutura de classificação baseada em imagens de histopatologia para identificar padrões malignos de forma automática.
@@ -640,35 +632,51 @@ Este estudo corrobora a utilidade do UMAP no presente projeto. Ao discutir a red
 
 \section{Abordagens de Machine Learning na Predição do Câncer de Mama (Rabiei \textit{et al.}, 2022)}
 
-O estudo de \citeonline{Rabiei2022} avaliou diferentes algoritmos de aprendizado de máquina aplicados a dados hospitalares reais de câncer de mama. O foco principal foi lidar com o problema de bases de dados desbalanceadas, onde o número de casos benignos costuma ser muito superior aos malignos.
+O estudo de \citeonline{Rabiei2022} avaliou diferentes algoritmos de aprendizado de máquina sobre dados hospitalares reais, obtidos de forma retrospectiva no Motamed Cancer Institute, em Teerã. É importante delimitar o objeto: diferentemente dos demais trabalhos analisados neste capítulo, a pesquisa não classifica a malignidade de um tumor já identificado a partir de sua morfologia, mas estima o risco de desenvolvimento da doença a partir de fatores demográficos, laboratoriais e mamográficos, como idade, índice de massa corporal, tempo de amamentação, histórico familiar e densidade mamária. Dos 5.178 registros iniciais, 1.290 permaneceram após o pré-processamento, cada um descrito por 24 atributos.
 
-Os pesquisadores testaram modelos como Regressão Logística, \textit{Random Forest} e Redes Neurais. Para corrigir o desbalanceamento, utilizaram técnicas de sobreamostragem, permitindo que os algoritmos aprendessem com a mesma eficácia sobre ambas as classes de tumores.
+Os pesquisadores testaram três modelos: \textit{Random Forest}, \textit{Gradient Boosting Trees} e \textit{Multi-Layer Perceptron}. Para corrigir o desbalanceamento entre casos positivos e negativos, aplicaram a técnica de sobreamostragem sintética SMOTE sobre o conjunto de treinamento. A otimização dos hiperparâmetros foi conduzida por um algoritmo genético com validação cruzada de três dobras, enquanto a avaliação final do desempenho recorreu a uma divisão única entre treino e teste, na proporção de 75\% e 25\%.
 
-As conclusões apontaram que o algoritmo \textit{Random Forest} obteve o melhor equilíbrio entre sensibilidade e especificidade. O trabalho enfatizou que o ajuste de hiperparâmetros e o pré-processamento rigoroso são as chaves para a obtenção de modelos confiáveis em ambientes médicos.
+As conclusões apontaram o \textit{Random Forest} como o modelo de melhor desempenho global, com acurácia de 80\%, sensibilidade de 95\% e especificidade de 83\%. Cabe registrar, contudo, que as áreas sob a curva ROC relatadas situam-se entre 0,53 e 0,59 para os três modelos, valores próximos ao acaso, sendo o \textit{Gradient Boosting Trees} o de maior AUC. O trabalho enfatizou que o ajuste de hiperparâmetros e o pré-processamento rigoroso são chaves para a obtenção de modelos confiáveis em ambientes médicos.
 
-Para este TCC, a pesquisa de Rabiei et al. serve como uma referência metodológica para a fase de treinamento dos modelos. Ela valida a inclusão de comitês de árvores no conjunto de classificadores a serem testados e explicados via SHAP.
+Para este TCC, a pesquisa serve como referência metodológica para a fase de treinamento e valida a inclusão de comitês de árvores no conjunto de classificadores testados. Serve igualmente como advertência quanto à comparação direta de métricas entre estudos: o contraste entre as AUC próximas ao acaso obtidas naquele trabalho e os valores superiores a 0,99 alcançados sobre a base Wisconsin não decorre da superioridade dos algoritmos empregados aqui, mas da natureza distinta dos problemas. Predizer o risco de adoecer a partir de fatores de estilo de vida é tarefa substancialmente mais difícil do que classificar a malignidade de um tumor a partir de medidas morfológicas extraídas de seus próprios núcleos celulares.
+
+\section{Segmentação e Contagem de Células em Imagens (Silva Júnior, 2023)}
+
+Desenvolvido no contexto acadêmico de Curitiba, o trabalho de \citeonline{SilvaJunior2018} propôs um \textit{pipeline} de processamento digital de imagens para a segmentação e a contagem de núcleos celulares em lâminas de câncer de mama. O objetivo era automatizar uma tarefa exaustiva do patologista: a quantificação de células positivas em exames de imuno-histoquímica, cujo resultado é expresso em uma escala de quatro classes de intensidade, negativa, fraca, moderada e forte, utilizada na composição do escore de proporção e intensidade.
+
+A abordagem dispensou algoritmos de aprendizado de máquina, apoiando-se integralmente em técnicas clássicas de visão computacional: separação de canais de cor, limiarização, operações de morfologia matemática, detecção de pontos côncavos para a separação de núcleos sobrepostos, transformada de \textit{Watershed} e momentos de Hu para a caracterização geométrica das formas segmentadas. O autor detalhou cada etapa do fluxo de trabalho, desde a captura da imagem até a extração final dos dados quantitativos, enfatizando os desafios técnicos de lidar com células sobrepostas ou imagens de baixa qualidade.
+
+Um aspecto deste trabalho merece registro por seu valor metodológico. O autor declara explicitamente que os resultados não puderam ser validados de forma quantitativa: a aferição da qualidade da segmentação exigiria as contagens reais de células em cada amostra, que dependeriam da disponibilidade de um patologista, o que não foi possível obter dentro do prazo do estudo. A avaliação apresentada é, portanto, qualitativa e visual, e o próprio autor remete a validação a trabalhos futuros, reconhecendo que sua ausência compromete a robustez das conclusões.
+
+A relevância deste estudo para o presente projeto é dupla. Em primeiro lugar, ele esclarece a infraestrutura necessária para gerar os dados de entrada: enquanto este TCC opera sobre atributos morfológicos já tabulados, o trabalho de Silva Júnior mostra como tais medidas são extraídas do mundo físico. Em segundo lugar, a limitação assumida pelo autor ilustra de maneira concreta o problema que a Seção~\ref{sec:rigor-estatistico} deste trabalho procura enfrentar: sem um protocolo capaz de quantificar o desempenho e a sua variabilidade, mesmo um \textit{pipeline} tecnicamente bem construído permanece sem sustentação empírica.
 
 \section{Predição Baseada em Aprendizado de Máquina (Chen \textit{et al.}, 2023)}
 
 A pesquisa de \citeonline{Chen2023} revisitou o desafio da classificação do câncer de mama focando na robustez das métricas de avaliação. O objetivo era determinar quais algoritmos eram mais seguros para a adoção clínica, priorizando a redução de falsos negativos.
 
-O estudo utilizou a base de dados de Wisconsin para treinar modelos e compará-los através de curvas ROC e métricas de precisão. Os autores destacaram que a inteligência artificial não deve ser vista como um substituto para o médico, mas como uma ferramenta de segunda opinião capaz de filtrar casos suspeitos com alta velocidade.
+O estudo utilizou a base de dados de Wisconsin, submetida à padronização \textit{Z-score} e a uma seleção de atributos por correlação de Pearson que reduziu as trinta variáveis originais às quinze mais associadas à variável alvo. Quatro algoritmos foram comparados: XGBoost, \textit{Random Forest}, Regressão Logística e K-Nearest Neighbors. A avaliação empregou acurácia, precisão, revocação e F1-score, elegendo explicitamente a revocação como índice primário, sob o argumento de que deixar de detectar um caso maligno acarreta consequências clínicas mais graves do que emitir um alarme falso. Os autores destacaram que a inteligência artificial não deve ser vista como um substituto para o médico, mas como uma ferramenta de segunda opinião capaz de filtrar casos suspeitos com alta velocidade.
 
-Os resultados confirmaram a eficácia dos modelos de \textit{Boosting} para este tipo de dado tabular. A pesquisa concluiu que a integração desses modelos em sistemas de apoio à decisão poderia acelerar significativamente o início do tratamento de pacientes oncológicos.
+Quanto ao protocolo experimental, o desempenho foi medido sobre divisões estratificadas únicas entre treino e teste, nas proporções de 8:2 e 7:3, recorrendo-se à validação cruzada apenas para a escolha do número de vizinhos do KNN. Os resultados confirmaram a eficácia dos modelos de \textit{Boosting} para este tipo de dado tabular: na divisão 8:2, o XGBoost alcançou acurácia de 0,974, precisão de 0,960, revocação de 1,000 e F1-score de 0,980. A pesquisa concluiu que a integração desses modelos em sistemas de apoio à decisão poderia acelerar significativamente o início do tratamento de pacientes oncológicos.
 
-Este trabalho é relevante por ser uma das publicações mais recentes sobre a mesma base de dados utilizada neste projeto. Ele estabelece o patamar de acurácia que este TCC deve buscar atingir ou superar antes de aplicar as camadas de explicabilidade.
+Este trabalho é relevante por ser uma das publicações mais recentes sobre a mesma base de dados utilizada neste projeto, estabelecendo o patamar de desempenho que este TCC deve buscar atingir antes de aplicar as camadas de explicabilidade. Cabe observar, porém, que a avaliação restringe-se a métricas dependentes de um limiar fixo, sem recorrer a curvas ROC ou Precisão-Revocação, e apoia-se em partições únicas dos dados, sem estimativa da variabilidade do desempenho entre diferentes divisões.
 
 \section{Estudo Comparativo com Seleção LASSO e SHAP (Shaon \textit{et al.}, 2024)}
 
 Considerado o trabalho mais próximo da proposta deste TCC, \citeonline{Shaon2024} realizaram uma comparação de modelos preditivos utilizando técnicas modernas de seleção de atributos e explicabilidade. O objetivo era não apenas prever o câncer, mas entender quais variáveis eram determinantes para o modelo.
 
-A metodologia integrou o uso de LASSO para a regularização dos dados e o SHAP para a interpretabilidade local e global. Os autores alcançaram uma acurácia de noventa e nove por cento, demonstrando que é possível unir alto desempenho com transparência analítica.
+A metodologia comparou cinco modelos tradicionais, Regressão Logística, Árvore de Decisão, \textit{Extremely Randomized Trees}, AdaBoost e Análise Discriminante Linear, e dois meta-modelos construídos por votação, um por voto majoritário e outro por voto suave sobre as probabilidades. Todos foram avaliados sob validação cruzada de dez dobras. O ponto central do estudo está na comparação entre duas estratégias de seleção de atributos: o LASSO e o SHAP. É necessário precisar o papel desempenhado pelo SHAP nesse desenho experimental: ele foi empregado como método de seleção de atributos, isto é, para identificar as vinte variáveis mais frequentemente relevantes ao longo dos sete modelos e, em seguida, retreiná-los apenas sobre esse subconjunto. Não houve produção de explicações individuais por paciente. Os autores alcançaram acurácia de 99,82\% com o \textit{Extremely Randomized Trees} e com ambos os meta-modelos, demonstrando que a seleção orientada por valores de Shapley melhora o desempenho da maioria dos algoritmos testados.
 
-O estudo concluiu que o uso de valores de Shapley oferece uma justificativa robusta para cada diagnóstico, permitindo que médicos confiem nos resultados apresentados. No entanto, o trabalho limitou-se à análise técnica dos dados, sem propor uma ferramenta de interface para o usuário final.
+O estudo concluiu que a seleção de atributos baseada em SHAP produz modelos simultaneamente mais precisos e mais interpretáveis, por concentrar a decisão em um número menor de biomarcadores comprovadamente relevantes. No entanto, o trabalho limitou-se à análise técnica dos dados: os próprios autores registram, nas considerações finais, que ainda seria necessário disponibilizar aplicações práticas para que os modelos chegassem ao usuário final. A avaliação também se apoia exclusivamente em métricas dependentes de limiar, acurácia, precisão, revocação, F1-score, coeficiente de correlação de Matthews e \textit{kappa} de Cohen, sem recorrer a curvas ROC ou Precisão-Revocação.
 
-Este artigo representa o "estado da arte"\ atual e serve como o principal ponto de comparação. O diferencial deste TCC em relação ao trabalho de Shaon et al. é a inclusão do UMAP para visualização topológica e o desenvolvimento de um software completo com interface gráfica, indo além da análise estatística pura.
+Este artigo representa o "estado da arte"\ atual e serve como o principal ponto de comparação. Os diferenciais deste TCC em relação ao trabalho de Shaon et al. são a utilização do SHAP como instrumento de explicação individual de cada diagnóstico emitido, e não apenas como filtro global de atributos; a inclusão do UMAP para visualização topológica; e o desenvolvimento de um software completo com interface gráfica, indo além da análise estatística pura.
 
 \section{Síntese e Lacuna de Pesquisa}
+
+% Permite que os dois quadros comparativos desta seção dividam a mesma página,
+% em vez de ocuparem uma página flutuante cada um.
+\begingroup
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{totalnumber}{4}
 
 A análise dos trabalhos relacionados permite concluir que, embora existam
 pesquisas robustas focadas na acurácia preditiva e estudos recentes explorando
@@ -698,10 +706,10 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
         \hline
         Street \textit{et al.} (1993)   & Sim & --- & Não & Sim & Sim & Não \\ \hline
         Cruz \& Wishart (2006) & Sim & Sim & Sim & Não & Não & Não \\ \hline
-        Silva Júnior (2018)    & Não & Sim & Não & Sim & Não & Não \\ \hline
         Masud \textit{et al.} (2021)    & Sim & Sim & Não & Não & Não & Não \\ \hline
         Abdullah \textit{et al.} (2021)        & Sim & Sim & Sim & Não & Não & Não \\ \hline
         Rabiei \textit{et al.} (2022)   & Sim & Não & Sim & Sim & Não & Não \\ \hline
+        Silva Júnior (2023)    & Não & Sim & Não & Sim & Não & Não \\ \hline
         Chen \textit{et al.} (2023)     & Sim & Sim & Sim & Sim & Não & Não \\ \hline
         Shaon \textit{et al.} (2024)    & Sim & Sim & Sim & Sim & Não & Sim \\ \hline
         \textbf{Este Projeto}  & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} \\ \hline
@@ -709,6 +717,43 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
     \vspace{0.2cm}
     \fonteautor
 \end{quadro}
+
+A comparação por escopo, contudo, não esgota a análise. Como os trabalhos
+diferem sobretudo no rigor com que sustentam empiricamente os seus resultados, o
+Quadro~\ref{quad:comparacao_tecnica} confronta as mesmas obras segundo quatro
+critérios técnicos. Metade dos estudos avalia o desempenho sobre uma partição
+única dos dados; nenhum reporta a área sob a curva Precisão-Revocação, mais
+apropriada a classes desbalanceadas conforme a Seção~\ref{sec:metricas}; nenhum
+submete as diferenças entre modelos a testes de significância; e nenhum avalia a
+calibração das probabilidades. Apenas Shaon \textit{et al.} recorrem ao SHAP, e
+ainda assim como filtro global de atributos, não como justificativa individual
+das predições.
+
+\begin{quadro}[htbp]
+    \centering
+    \legenda[quad:comparacao_tecnica]{COMPARAÇÃO TÉCNICA ENTRE OS TRABALHOS RELACIONADOS E O PRESENTE PROJETO}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}p{3.0cm}|}
+        \hline
+        \textbf{Trabalho} & \makecell[l]{\textbf{Melhor}\\\textbf{algoritmo}}
+        & \makecell[l]{\textbf{Métricas}\\\textbf{reportadas}}
+        & \textbf{Validação}
+        & \textbf{Explicabilidade} \\
+        \hline
+        Street \textit{et al.} (1993) & MSM-T & Acurácia (97,0\%) & Cruzada 10-\textit{fold} & Nenhuma \\ \hline
+        Cruz \& Wishart (2006) & Revisão & --- & Critica a falta de validação & Nenhuma \\ \hline
+        Masud \textit{et al.} (2021) & CNN & Acurácia (96,33\%), F1, MCC & Única 70/30 & Nenhuma \\ \hline
+        Abdullah \textit{et al.} (2021) & SVM & Acurácia (95,56\%), F1, área ROC & Cruzada 10-\textit{fold} & Nenhuma \\ \hline
+        Rabiei \textit{et al.} (2022) & \textit{Random Forest} & Acurácia (80\%), AUC (0,53) & Única 75/25 & Nenhuma \\ \hline
+        Silva Júnior (2023) & Proc. de imagens & Nenhuma & Nenhuma & Nenhuma \\ \hline
+        Chen \textit{et al.} (2023) & XGBoost & Acurácia (97,4\%), revocação, F1 & Únicas 8:2 e 7:3 & Nenhuma \\ \hline
+        Shaon \textit{et al.} (2024) & ERT e votação & Acurácia (99,82\%), F1, MCC & Cruzada 10-\textit{fold} & SHAP global (seleção) \\ \hline
+        \textbf{Este Projeto} & \textbf{Comitê de voto suave} & \textbf{Acurácia, F1, ROC-AUC, PR-AUC, Brier, ECE} & \textbf{Cruzada repetida 10$\times$5, 5$\times$2cv, Friedman} & \textbf{SHAP local e global, UMAP, calibração, OOD} \\ \hline
+    \end{tabular}
+    \vspace{0.2cm}
+    \fonteautor
+\end{quadro}
+\endgroup
 
 
 
