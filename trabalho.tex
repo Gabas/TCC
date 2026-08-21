@@ -1844,8 +1844,8 @@ Tabela~\ref{tab:teste_5x2cv}.
 \end{table}
 
 Nenhuma das comparações atingiu significância estatística. Ainda que os valores
-de $t$ sejam sistematicamente positivos — indicando vantagem consistente da
-Regressão Logística —, os valores de $p$ permanecem acima de 0,05 em todos os
+de $t$ sejam sistematicamente positivos, indicando vantagem consistente da
+Regressão Logística, os valores de $p$ permanecem acima de 0,05 em todos os
 casos, inclusive contra a Árvore de Decisão ($p = 0{,}0659$). Esse resultado
 ilustra a conhecida conservadorismo do teste 5$\times$2cv, que dispõe de apenas
 dez estimativas de diferença e, portanto, de baixo poder estatístico
@@ -1882,7 +1882,7 @@ Tabela~\ref{tab:nemenyi}.
 
 A leitura da Tabela~\ref{tab:nemenyi} é inequívoca e constitui o principal
 achado desta seção. A Árvore de Decisão difere significativamente de todos os
-demais classificadores, com valores de $p$ entre 0,0000 e 0,0004 — sua
+demais classificadores, com valores de $p$ entre 0,0000 e 0,0004, sua
 inferioridade como \textit{baseline} é estatisticamente sustentada. Entre os
 quatro modelos avançados, porém, nenhum par apresenta diferença significativa:
 o menor valor de $p$ registrado é 0,1231, entre Regressão Logística e Random
@@ -1892,19 +1892,14 @@ A consequência metodológica é relevante e merece ser explicitada. As diferen�
 de desempenho observadas entre KNN, Regressão Logística, Random Forest e SVM na
 Tabela~\ref{tab:comparacao_modelos} não são estatisticamente distinguíveis do
 ruído amostral. Afirmar que um desses modelos é superior aos outros nesta base
-não encontra respaldo estatístico. Em consequência, a escolha do classificador
-a ser integrado ao software não pode ser fundamentada apenas em desempenho
-preditivo, devendo apoiar-se em critérios secundários — interpretabilidade,
-qualidade das probabilidades produzidas e custo computacional da explicação —,
-tema retomado nas subseções seguintes.
+não encontra respaldo estatístico.
 
 % ------------------------------------------------------------------------------
 \subsection{Análise de Calibração das Probabilidades}
 \label{subsec:calibracao}
 
 Um classificador pode apresentar alta acurácia e, ainda assim, produzir
-probabilidades mal calibradas — atribuir 90\% de certeza a um conjunto de casos
-no qual acerta apenas 70\% das vezes. Em um sistema de apoio ao diagnóstico,
+probabilidades mal calibradas. Em um sistema de apoio ao diagnóstico,
 essa distinção deixa de ser um detalhe técnico e passa a ser uma questão de
 confiabilidade clínica: como o software exibe ao profissional de saúde uma
 estimativa numérica de certeza, essa estimativa precisa corresponder à
@@ -1946,7 +1941,7 @@ O SVM apresenta a melhor calibração do conjunto em ambas as métricas, com esc
 de Brier de 0,0156 e ECE de 0,0306. A Regressão Logística exibe um resultado
 aparentemente contraditório que merece explicação: obtém o segundo melhor escore
 de Brier (0,0202), mas o pior ECE (0,0609). A razão está na natureza distinta
-das duas medidas — o escore de Brier agrega discriminação e calibração em um
+das duas medidas, o escore de Brier agrega discriminação e calibração em um
 único número, ao passo que o ECE isola o desalinhamento entre confiança
 declarada e acurácia observada. Um modelo que separa muito bem as classes, mas
 que sistematicamente subestima ou superestima sua própria confiança, obtém bom
@@ -1981,16 +1976,13 @@ modelos de melhor desempenho discriminativo.
 A regressão isotônica produziu o melhor escore de Brier para ambos os modelos,
 reduzindo o valor do SVM de 0,0156 para 0,0141 e o do Random Forest de 0,0269
 para 0,0221. O escalonamento de Platt melhorou o Random Forest, mas degradou o
-SVM, elevando seu Brier de 0,0156 para 0,0213 — comportamento compatível com o
-fato de que o SVM já partia de uma calibração adequada, situação na qual a
-imposição de uma forma sigmoidal rígida pode introduzir distorção em vez de
-corrigi-la.
+SVM, elevando seu Brier de 0,0156 para 0,0213.
 
 Optou-se, ainda assim, pelo escalonamento de Platt na implementação do software.
 A justificativa é a robustez em amostras pequenas: a regressão isotônica dispõe
 de muito mais graus de liberdade e, em conjuntos do porte da base Wisconsin,
 tende a sobreajustar-se ao conjunto de calibração, produzindo ganhos que não se
-sustentam em dados novos — limitação documentada por
+sustentam em dados novos, limitação documentada por
 \citeauthoronline{NiculescuMizil2005} (\citeyear{NiculescuMizil2005}), que
 recomendam o método sigmoidal para amostras reduzidas. São essas probabilidades
 recalibradas por Platt que alimentam a coluna de certeza exibida na interface do
