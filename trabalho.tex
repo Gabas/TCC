@@ -1726,7 +1726,7 @@ afirmações comparativas: uma diferença de um ou dois acertos entre dois model
 pode decorrer inteiramente da amostra que a partição selecionou, e não de
 qualquer superioridade real do algoritmo. Esta seção submete os cinco
 classificadores a três análises complementares que endereçam justamente essa
-fragilidade — estabilidade do desempenho, significância estatística das
+fragilidade, estabilidade do desempenho, significância estatística das
 diferenças e confiabilidade das probabilidades produzidas.
 
 % ------------------------------------------------------------------------------
@@ -1757,9 +1757,9 @@ apresenta a média e o desvio-padrão de cada métrica ao longo das 50 dobras.
     \begin{tabular}{@{}lcccccc@{}}
         \toprule
         \textbf{Modelo} &
-        \makecell{\textbf{Acu-}\\\textbf{rácia}} &
-        \makecell{\textbf{Sensibi-}\\\textbf{lidade}} &
-        \makecell{\textbf{Especifi-}\\\textbf{cidade}} &
+        \makecell{\textbf{Acurácia}} &
+        \makecell{\textbf{Sensibilidade}} &
+        \makecell{\textbf{Especificidade}} &
         \makecell{\textbf{F1-}\\\textbf{score}} &
         \makecell{\textbf{ROC-}\\\textbf{AUC}} &
         \makecell{\textbf{PR-}\\\textbf{AUC}} \\
@@ -1768,17 +1768,17 @@ apresenta a média e o desvio-padrão de cada métrica ao longo das 50 dobras.
                             & \makecell{0,942\\$\pm$ 0,037} & \makecell{0,905\\$\pm$ 0,052}
                             & \makecell{0,925\\$\pm$ 0,043} & \makecell{0,857\\$\pm$ 0,072} \\
         KNN                 & \makecell{0,967\\$\pm$ 0,024} & \makecell{0,928\\$\pm$ 0,053}
-                            & \makecell{\textbf{0,990}\\$\pm$ 0,024} & \makecell{0,954\\$\pm$ 0,034}
+                            & \makecell{0,990\\$\pm$ 0,024} & \makecell{0,954\\$\pm$ 0,034}
                             & \makecell{0,980\\$\pm$ 0,018} & \makecell{0,975\\$\pm$ 0,022} \\
-        Regressão Logística & \makecell{\textbf{0,973}\\$\pm$ 0,023} & \makecell{0,959\\$\pm$ 0,044}
-                            & \makecell{0,982\\$\pm$ 0,024} & \makecell{\textbf{0,964}\\$\pm$ 0,032}
+        Regressão Logística & \makecell{0,973\\$\pm$ 0,023} & \makecell{0,959\\$\pm$ 0,044}
+                            & \makecell{0,982\\$\pm$ 0,024} & \makecell{0,964\\$\pm$ 0,032}
                             & \makecell{0,994\\$\pm$ 0,011} & \makecell{0,993\\$\pm$ 0,011} \\
         Random Forest       & \makecell{0,960\\$\pm$ 0,025} & \makecell{0,935\\$\pm$ 0,051}
                             & \makecell{0,975\\$\pm$ 0,028} & \makecell{0,946\\$\pm$ 0,035}
                             & \makecell{0,990\\$\pm$ 0,013} & \makecell{0,988\\$\pm$ 0,014} \\
-        SVM                 & \makecell{0,971\\$\pm$ 0,022} & \makecell{\textbf{0,961}\\$\pm$ 0,045}
+        SVM                 & \makecell{0,971\\$\pm$ 0,022} & \makecell{0,961\\$\pm$ 0,045}
                             & \makecell{0,977\\$\pm$ 0,027} & \makecell{0,961\\$\pm$ 0,029}
-                            & \makecell{\textbf{0,995}\\$\pm$ 0,009} & \makecell{\textbf{0,994}\\$\pm$ 0,010} \\
+                            & \makecell{0,995\\$\pm$ 0,009} & \makecell{0,994\\$\pm$ 0,010} \\
         \bottomrule
     \end{tabular}
     \vspace{0.2cm}
@@ -1790,7 +1790,7 @@ Tabela~\ref{tab:comparacao_modelos} revela que os valores obtidos na partição
 única eram sistematicamente otimistas. A Regressão Logística, que registrara
 Acurácia de 0,993 no conjunto de teste, apresenta média de 0,973 sob validação
 cruzada; o SVM cai de 0,993 para 0,971. Essa diferença não indica erro no
-procedimento anterior, mas sim que aquela partição específica era favorável — o
+procedimento anterior, mas sim que aquela partição específica era favorável, o
 que confirma a necessidade da análise ora conduzida.
 
 Os desvios-padrão qualificam a leitura das médias. A Árvore de Decisão não
@@ -1801,7 +1801,7 @@ de um modelo sem mecanismo de redução de variância. No extremo oposto, o SVM
 apresenta a menor dispersão em ROC-AUC (0,009) e PR-AUC (0,010), configurando-se
 como o classificador mais estável do conjunto. A Regressão Logística mantém a
 melhor Acurácia média (0,973) e o melhor F1-score médio (0,964), ao passo que o
-SVM lidera em Sensibilidade média (0,961) e nas duas áreas sob as curvas — uma
+SVM lidera em Sensibilidade média (0,961) e nas duas áreas sob as curvas, uma
 inversão parcial em relação ao ordenamento observado na partição única, e mais
 uma evidência de que aquele ordenamento não era estável.
 
