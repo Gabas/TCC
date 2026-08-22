@@ -720,22 +720,21 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
     \fonteautor
 \end{quadro}
 
-A comparação por escopo, contudo, não esgota a análise. Como os trabalhos
-diferem sobretudo no rigor com que sustentam empiricamente os seus resultados, o
-Quadro~\ref{quad:comparacao_tecnica} confronta as mesmas obras segundo quatro
-critérios técnicos. Metade dos estudos avalia o desempenho sobre uma partição
-única dos dados; nenhum reporta a área sob a curva Precisão-Revocação, mais
-apropriada a classes desbalanceadas conforme a Seção~\ref{sec:metricas}; nenhum
-submete as diferenças entre modelos a testes de significância; e nenhum avalia a
-calibração das probabilidades. Apenas Shaon \textit{et al.} recorrem ao SHAP, e
-ainda assim como filtro global de atributos, não como justificativa individual
-das predições.
+A comparação por escopo não esgota a análise. Como os trabalhos diferem
+sobretudo no rigor com que sustentam empiricamente seus resultados, o
+Quadro~\ref{quad:comparacao_tecnica} os confronta segundo quatro critérios
+técnicos. Metade avalia o desempenho sobre uma partição única; nenhum reporta a
+área sob a curva Precisão-Revocação, mais apropriada a classes desbalanceadas
+conforme a Seção~\ref{sec:metricas}; nenhum testa a significância das diferenças
+entre modelos; e nenhum avalia a calibração das probabilidades. Apenas Shaon
+\textit{et al.} recorrem ao SHAP, ainda assim como filtro global de atributos.
 
 \begin{quadro}[H]
     \centering
     \legenda[quad:comparacao_tecnica]{COMPARAÇÃO TÉCNICA ENTRE OS TRABALHOS RELACIONADOS E O PRESENTE PROJETO}
-    \setlength{\tabcolsep}{3pt}
-    \begin{tabular}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}p{3.0cm}|}
+    \setlength{\tabcolsep}{2pt}
+    \small
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{3.9cm}|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}p{3.0cm}|}
         \hline
         \textbf{Trabalho} & \makecell[l]{\textbf{Melhor}\\\textbf{algoritmo}}
         & \makecell[l]{\textbf{Métricas}\\\textbf{reportadas}}
@@ -750,7 +749,7 @@ das predições.
         Silva Júnior (2023) & Proc. de imagens & Nenhuma & Nenhuma & Nenhuma \\ \hline
         Chen \textit{et al.} (2023) & XGBoost & Acurácia (97,4\%), revocação, F1 & Únicas 8:2 e 7:3 & Nenhuma \\ \hline
         Shaon \textit{et al.} (2024) & ERT e votação & Acurácia (99,82\%), F1, MCC & Cruzada 10-\textit{fold} & SHAP global (seleção) \\ \hline
-        \textbf{Este Projeto} & \textbf{Comitê de voto suave} & \textbf{Acurácia, F1, ROC-AUC, PR-AUC, Brier, ECE} & \textbf{Cruzada repetida 10$\times$5, 5$\times$2cv, Friedman} & \textbf{SHAP local e global, UMAP, calibração, OOD} \\ \hline
+        \textbf{Este Projeto} & \textbf{Comitê de voto suave} & \textbf{Acurácia, F1, ROC-AUC, PR-AUC, Brier, ECE} & \textbf{Cruzada 10$\times$5, 5$\times$2cv, Friedman} & \textbf{SHAP local e global, UMAP, calibração, OOD} \\ \hline
     \end{tabular}
     \vspace{0.2cm}
     \fonteautor
