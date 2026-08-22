@@ -9,6 +9,7 @@
 % Carrega o pacote da abnt com as adapatções para normas da Tuiuti
 \usepackage{packages/abnt-UTP}
 \usepackage{xurl} % Permite quebra de URL em qualquer caractere
+\usepackage{float} % Permite fixar figuras no ponto exato do texto com [H]
 \counterwithout{equation}{chapter} % Remove a numeração das equações por capítulo
 
 % =================================================================================================
@@ -506,6 +507,7 @@ A interpretação desta equação revela a essência do método explicativo. O t
 A fração que antecede a contribuição marginal atua como um sistema de pesos baseado em probabilidade combinatória. Os termos fatoriais, representados pelo símbolo de exclamação, calculam o peso exato daquela coalizão específica se formar, garantindo que o valor final seja distribuído de maneira perfeitamente justa. Por fim, o somatório agrega todas essas contribuições marginais ponderadas. O resultado é um único valor $\phi_i$ que quantifica, com exatidão matemática, o impacto líquido que aquela característica anatômica exerceu para elevar ou reduzir a probabilidade de o tumor ser classificado como maligno (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
 \section{Redução de Dimensionalidade e UMAP}
+\label{sec:umap}
 
 A análise preditiva de tumores lida com um volume massivo de informações simultâneas. No caso do câncer de mama, o algoritmo avalia dezenas de características anatômicas em um único exame, como o raio, a textura e a simetria de cada núcleo celular (\citeauthoronline{Street1993}, \citeyear{Street1993}). Embora os modelos matemáticos consigam processar e cruzar esses dados em um espaço de trinta dimensões com extrema facilidade, essa estrutura de alta dimensionalidade não possui uma representação física direta que possa ser desenhada ou interpretada visualmente. Essa assimetria estrutural cria um obstáculo analítico significativo na prática médica, pois inviabiliza a observação direta do comportamento de toda a base de pacientes utilizando os eixos convencionais de um gráfico bi ou tridimensional.
 
@@ -729,7 +731,7 @@ calibração das probabilidades. Apenas Shaon \textit{et al.} recorrem ao SHAP, 
 ainda assim como filtro global de atributos, não como justificativa individual
 das predições.
 
-\begin{quadro}[htbp]
+\begin{quadro}[H]
     \centering
     \legenda[quad:comparacao_tecnica]{COMPARAÇÃO TÉCNICA ENTRE OS TRABALHOS RELACIONADOS E O PRESENTE PROJETO}
     \setlength{\tabcolsep}{3pt}
@@ -1988,125 +1990,259 @@ recomendam o método sigmoidal para amostras reduzidas. São essas probabilidade
 recalibradas por Platt que alimentam a coluna de certeza exibida na interface do
 sistema.
 
-% % ------------------------------------------------------------------------------
-% \section{Análise de Estrutura com UMAP e PCA}
-% \label{sec:umap-pca}
- 
-% % TODO: Introduzir o objetivo da seção: verificar visualmente a separabilidade
-% % natural das classes na base completa padronizada (X_scaled_all, 569 pacientes)
-% % antes de qualquer intervenção dos modelos preditivos.
- 
-% \subsection{Projeção UMAP}
-% \label{subsec:projecao-umap}
- 
-% % TODO: Descrever a configuração aplicada: n_neighbors=15, min_dist=0.1,
-% % random_state=42. Apresentar o gráfico de dispersão 2D colorido por classe
-% % (azul=Benigno, vermelho=Maligno) e analisar os clusters formados,
-% % evidenciando a separabilidade topológica natural dos dados da base Wisconsin.
- 
-% \subsection{Projeção PCA}
-% \label{subsec:projecao-pca}
- 
-% % TODO: Descrever a aplicação do PCA com n_components=2 para comparação
-% % com o UMAP. Discutir a diferença fundamental entre as abordagens: PCA é
-% % uma redução linear que preserva variância global; UMAP é não-linear e
-% % preserva estrutura local e global simultaneamente. Usar a comparação
-% % para justificar a escolha do UMAP no produto final.
- 
-% % ------------------------------------------------------------------------------
-% \section{Explicabilidade com SHAP}
-% \label{sec:shap}
- 
-% % TODO: Introduzir o papel do SHAP neste projeto: converter o Random Forest
-% % de caixa preta em uma ferramenta auditável, fornecendo ao profissional de
-% % saúde a justificativa morfológica de cada diagnóstico emitido.
- 
-% \subsection{Configuração do Explainer}
-% \label{subsec:explainer}
- 
-% % TODO: Descrever o uso de shap.Explainer aplicado sobre o Random Forest
-% % treinado e sobre X_scaled_all. Explicar que a biblioteca detecta
-% % automaticamente o TreeExplainer como otimizador mais eficiente para
-% % modelos baseados em árvores, calculando valores exatos de Shapley
-% % sem aproximações.
- 
-% \subsection{Importância Global dos Atributos}
-% \label{subsec:shap-global}
- 
-% % TODO: Descrever o shap.summary_plot (beeswarm plot): quais atributos
-% % mais influenciam as predições do modelo em toda a base, em qual direção
-% % e com qual magnitude. Identificar e comentar os atributos com maior
-% % importância global.
- 
-% \subsection{Explicação Local por Paciente}
-% \label{subsec:shap-local}
- 
-% % TODO: Descrever o shap.plots.waterfall para um paciente individual:
-% % como cada atributo empurrou a probabilidade de malignidade para cima
-% % ou para baixo a partir do valor base da população. Associar diretamente
-% % essa visualização ao relatório gerado pela interface para o profissional.
- 
-% % ------------------------------------------------------------------------------
-% \section{Serialização e Integração com a Aplicação}
-% \label{sec:serializacao}
- 
-% % TODO: Descrever o dicionário serializado via pickle.dump no arquivo
-% % wisconsin.pkl. Listar e justificar cada objeto armazenado:
-% % — scaler: necessário para normalizar novos dados recebidos pela interface;
-% % — feature_names: garante a ordem consistente das 30 colunas entre
-% %   notebook e aplicação;
-% % — X_train_scaled, y_train, X_test_scaled, y_test: conjuntos de avaliação;
-% % — model_dt, model_rf, model_svm, model_knn, model_lr: todos os modelos.
-% % Explicar que a aplicação carrega esse único arquivo e instancia qualquer
-% % um dos cinco modelos sem necessidade de retreinamento.
- 
-% % ------------------------------------------------------------------------------
-% \section{Desenvolvimento do Software}
-% \label{sec:software}
- 
-% % NOTA: Esta seção será completada após o envio do código da pasta app.
-% % Os subtópicos abaixo estão preparados para receber o conteúdo.
- 
-% \subsection{Arquitetura da Aplicação}
-% \label{subsec:arq-app}
- 
-% % TODO: Descrever a estrutura de arquivos da pasta app, o papel do main.py
-% % como ponto de entrada e os módulos auxiliares presentes.
- 
-% \subsection{Carregamento dos Artefatos}
-% \label{subsec:carregamento-artefatos}
- 
-% % TODO: Descrever como o main.py carrega o arquivo wisconsin.pkl e
-% % instancia o modelo selecionado para uso nas predições.
- 
-% \subsection{Recebimento de Dados em Lote}
-% \label{subsec:dados-lote}
- 
-% % TODO: Descrever o mecanismo de upload de planilha (CSV/Excel),
-% % validação das colunas esperadas, tratamento de dados ausentes e
-% % aplicação do scaler carregado sobre os novos dados recebidos.
- 
-% \subsection{Geração dos Diagnósticos}
-% \label{subsec:geracao-diagnosticos}
- 
-% % TODO: Descrever a chamada ao predict_proba, a definição do limiar de
-% % corte e a classificação final Benigno/Maligno para cada amostra da
-% % planilha enviada.
- 
-% \subsection{Geração dos Relatórios Visuais}
-% \label{subsec:relatorios}
- 
-% % TODO: Descrever como os gráficos SHAP (waterfall por paciente) e o
-% % gráfico UMAP são gerados e incorporados ao relatório de saída
-% % (PDF, Excel ou CSV) entregue ao profissional de saúde.
- 
-% \subsection{Interface Gráfica}
-% \label{subsec:interface}
- 
-% % TODO: Descrever os componentes visuais da interface, o fluxo de uso
-% % pelo profissional de saúde (upload → processamento → visualização →
-% % exportação do relatório) e as decisões de design adotadas.
- 
+% ------------------------------------------------------------------------------
+\section{Estado Atual do Software}
+\label{sec:software}
+
+O módulo de software apresentado na Seção~\ref{sec:visao-geral} encontra-se
+implementado e operacional. Esta seção documenta sua organização interna, o
+fluxo de trabalho oferecido ao profissional de saúde e, sobretudo, os recursos
+de explicabilidade que convertem a saída numérica dos classificadores em
+justificativa auditável.
+
+\subsection{Organização do Código}
+\label{subsec:organizacao-codigo}
+
+A aplicação separa lógica de apresentação: app/core concentra as regras de
+negócio, sem dependência da interface; app/views reúne as telas em
+CustomTkinter; e app/utils, os utilitários de apoio. Isso permite verificar a
+lógica isoladamente, e o projeto conta hoje com 146 testes automatizados em
+pytest. O Quadro~\ref{quad:modulos-core} descreve cada módulo.
+
+\begin{quadro}[htbp]
+    \centering
+    \legenda[quad:modulos-core]{MÓDULOS DE LÓGICA DA APLICAÇÃO (app/core)}
+    \begin{tabular}{|l|p{11.2cm}|}
+        \hline
+        \textbf{Módulo} & \textbf{Responsabilidade} \\
+        \hline
+        inference.py & Carrega o arquivo wisconsin.pkl e disponibiliza modelos, escalonador,
+                       explicadores e artefatos SHAP à aplicação. \\ \hline
+        batch\_processor.py & Higieniza a planilha recebida e aplica o escalonador
+                              \textit{Z-score} ajustado no conjunto de treino. \\ \hline
+        decision.py & Política de decisão: limiar de operação de cada modelo, faixa de
+                      revisão e rótulo de recusa. \\ \hline
+        predictor.py & Motor de inferência: produz o diagnóstico e as colunas de
+                       confiabilidade de cada paciente. \\ \hline
+        ood\_detector.py & Sinaliza perfis atípicos pela distância de Mahalanobis ao
+                           conjunto de treino. \\ \hline
+        explainers.py & Explicadores exatos da Árvore de Decisão, Regressão Logística,
+                        KNN, Random Forest e SVM. \\ \hline
+        shap\_explainer.py & Cálculo sob demanda dos valores de Shapley de cada modelo. \\ \hline
+        committee.py & Explica o comitê de voto suave pela concordância entre seus
+                       membros. \\ \hline
+        biomarkers.py & Glossário dos trinta biomarcadores, exibido na aba Sobre e nas
+                        dicas da tabela de resultados. \\ \hline
+        metrics.py & Métricas da auditoria acadêmica e respectiva leitura crítica por
+                     modelo. \\ \hline
+        history\_manager.py & Persistência das sessões de diagnóstico no histórico. \\ \hline
+    \end{tabular}
+    \vspace{0.2cm}
+    \fonteautor
+\end{quadro}
+
+Os testes dividem-se em dois grupos. Os isolados treinam modelos na hora, sobre a
+base pública distribuída com o scikit-learn, e verificam se a decisão exibida na
+interface corresponde à decisão real do classificador, tipo de inconsistência
+encontrado e corrigido no SVM e no KNN durante o desenvolvimento. Os de
+integração exercitam o próprio wisconsin.pkl versionado no repositório e acusam
+qualquer alteração no formato do artefato.
+
+\subsection{Fluxo de Trabalho}
+\label{subsec:fluxo-trabalho}
+
+A tela de diagnóstico organiza a operação em seis passos sequenciais, cada um
+liberado somente após a conclusão do anterior, conforme a
+Figura~\ref{fig:app_pipeline}. O encadeamento é deliberado: impede que o
+operador submeta à inferência dados que ainda não foram padronizados, erro que
+produziria diagnósticos silenciosamente incorretos.
+
+\begin{figure}[H]
+    \centering
+    \caption{TELA DE DIAGNÓSTICO COM OS SEIS PASSOS DO FLUXO DE TRABALHO}
+    \includegraphics[width=\textwidth]{app_pipeline.png}
+    \label{fig:app_pipeline}
+    \fonte{O Autor}
+\end{figure}
+
+Nos dois primeiros passos o profissional importa uma planilha em formato CSV
+contendo os trinta atributos morfológicos e aplica a padronização
+\textit{Z-score}, executada com o escalonador ajustado no treino e recuperado do
+arquivo wisconsin.pkl. No terceiro passo seleciona o classificador, qualquer um
+dos cinco modelos avaliados na Seção~\ref{sec:treinamento}, o comitê de voto
+suave ou o modo de comparação simultânea, e processa o lote. Os passos
+seguintes são de leitura e verificação: auditoria acadêmica contra um gabarito,
+abertura dos relatórios de explicabilidade e exportação dos resultados.
+
+\subsection{Sinais de Confiabilidade}
+\label{subsec:sinais-confiabilidade}
+
+Entregar apenas o rótulo Benigno ou Maligno seria repetir o problema da caixa
+preta em outra forma. A tabela de resultados acrescenta, portanto, três colunas
+que qualificam cada previsão, exibidas na Figura~\ref{fig:app_confiabilidade}.
+
+\begin{figure}[H]
+    \centering
+    \caption{COLUNAS DE CONFIABILIDADE NA TABELA DE RESULTADOS}
+    \includegraphics[width=\textwidth]{app_confiabilidade.png}
+    \label{fig:app_confiabilidade}
+    \fonte{O Autor}
+\end{figure}
+
+A coluna de certeza apresenta a probabilidade de malignidade recalibrada pelo
+escalonamento de Platt, conforme discutido na
+Subseção~\ref{subsec:calibracao}. A decisão, contudo, não é tomada em 50\%. Em
+rastreio oncológico o falso negativo custa muito mais que o falso positivo, e o
+limiar de operação de cada modelo foi obtido por validação cruzada no conjunto
+de treino, tomando o menor corte que preserva especificidade
+\textit{out-of-fold} de ao menos 92\%. Para o Random Forest esse limiar é de
+12,05\%, com sensibilidade de 96,9\% no treino. Os valores são lidos do arquivo
+limiares.json e exibidos ao operador na própria tela, de modo que o critério de
+corte seja explícito e não uma convenção oculta.
+
+A coluna Decisão marca como limítrofe o paciente cuja certeza calibrada fique a
+menos de dez pontos percentuais do limiar, caso em que um deslocamento pequeno
+inverteria o diagnóstico. A coluna Perfil sinaliza pacientes atípicos pela
+distância de Mahalanobis ao centro do treino, medida sobre os trinta atributos
+padronizados com covariância regularizada por Ledoit-Wolf e cortada no percentil
+99. Perfil atípico indica extrapolação para uma região pouco observada no
+aprendizado, não malignidade.
+
+Há ainda uma opção de recusa deliberada: casos dentro de uma faixa de incerteza
+calibrada recebem o rótulo Revisar. Não é uma classe intermediária, e sim a
+ausência intencional de resposta onde decidir equivaleria a adivinhar.
+
+\subsection{Relatórios de Explicabilidade}
+\label{subsec:relatorios-xai}
+
+O quinto passo abre uma janela de explicabilidade específica para o modelo
+executado. A opção por explicadores distintos, em vez de uma única visualização
+comum, decorre de uma constatação simples: cada algoritmo decide por um
+mecanismo próprio, e apresentar todos sob a mesma representação obscureceria
+justamente aquilo que os torna auditáveis.
+
+A Árvore de Decisão é o caso mais direto, pois sua estrutura já é a própria
+explicação. A janela correspondente, na Figura~\ref{fig:app_xai_arvore}, ordena
+os biomarcadores pelo ganho de informação, a redução de entropia que cada um
+promove, e reconstrói, para o paciente selecionado, o caminho de regras
+percorrido da raiz até a folha.
+
+\begin{figure}[H]
+    \centering
+    \caption{RELATÓRIO DA ÁRVORE DE DECISÃO: GANHO DE INFORMAÇÃO E CAMINHO DE REGRAS}
+    \includegraphics[width=\textwidth]{app_xai_arvore.png}
+    \label{fig:app_xai_arvore}
+    \fonte{O Autor}
+\end{figure}
+
+O Random Forest exige outra abordagem, uma vez que sua decisão emerge da
+agregação de quinhentas árvores. A janela da Figura~\ref{fig:app_xai_rf}
+apresenta a importância global por impureza de Gini e, para o paciente
+selecionado, a distribuição das probabilidades atribuídas individualmente por
+cada árvore, acompanhada da contagem de votos. A representação distingue duas
+situações que a média isolada confunde: o consenso amplo da floresta e a divisão
+interna entre árvores discordantes.
+
+\begin{figure}[H]
+    \centering
+    \caption{RELATÓRIO DO RANDOM FOREST: CONSENSO ENTRE AS ÁRVORES DA FLORESTA}
+    \includegraphics[width=\textwidth]{app_xai_rf.png}
+    \label{fig:app_xai_rf}
+    \fonte{O Autor}
+\end{figure}
+
+No SVM, o elemento a tornar visível é a margem definida pela
+Equação~\ref{eq:margem_svm}. A janela da Figura~\ref{fig:app_xai_svm} posiciona
+o paciente em relação à fronteira de decisão, destaca os vetores de suporte que
+a sustentam e informa a distância do caso analisado até o hiperplano separador. A Regressão Logística e o KNN dispõem de
+janelas equivalentes: a primeira exibe a curva sigmoide com o escore linear do
+paciente e a função matemática da decisão; o segundo, o mapa de vizinhança com
+os quatro vizinhos que efetivamente votaram.
+
+\begin{figure}[H]
+    \centering
+    \caption{RELATÓRIO DO SVM: VETORES DE SUPORTE E DISTÂNCIA ATÉ A MARGEM}
+    \includegraphics[width=\textwidth]{app_xai_svm.png}
+    \label{fig:app_xai_svm}
+    \fonte{O Autor}
+\end{figure}
+
+Complementando os explicadores específicos, o SHAP oferece a base comparável
+entre todos os modelos. A Figura~\ref{fig:app_xai_shap} traz a importância
+global dos biomarcadores e o gráfico em cascata do paciente selecionado, no qual
+cada atributo desloca a probabilidade de malignidade a partir do valor base da
+população, segundo a Seção~\ref{sec:shap}. Como a escala dos valores de Shapley
+é a mesma em qualquer modelo, as justificativas tornam-se confrontáveis.
+
+\begin{figure}[H]
+    \centering
+    \caption{RELATÓRIO SHAP: IMPORTÂNCIA GLOBAL E CONTRIBUIÇÃO POR PACIENTE}
+    \includegraphics[width=0.95\textwidth]{app_xai_shap.png}
+    \label{fig:app_xai_shap}
+    \fonte{O Autor}
+\end{figure}
+
+O mapa populacional, apresentado na Figura~\ref{fig:app_xai_umap}, projeta os
+pacientes do lote sobre o \textit{embedding} UMAP ajustado no conjunto de
+treino, discutido na Seção~\ref{sec:umap}. Ele situa cada caso em relação à
+população conhecida e evidencia visualmente os que se afastam dos agrupamentos
+formados. Uma versão interativa, construída em Bokeh e aberta no navegador,
+permite inspecionar os dados de cada ponto individualmente.
+
+\begin{figure}[H]
+    \centering
+    \caption{MAPA POPULACIONAL: PROJEÇÃO UMAP DO LOTE SOBRE O CONJUNTO DE TREINO}
+    \includegraphics[width=\textwidth]{app_xai_umap.png}
+    \label{fig:app_xai_umap}
+    \fonte{O Autor}
+\end{figure}
+
+O comitê de voto suave, que agrega Regressão Logística, Random Forest, SVM e
+KNN, constitui o único modelo sem explicador próprio, pois não possui
+coeficientes, regras ou vetores de suporte. Sua janela mostra a concordância
+entre os membros e distingue três origens possíveis para um caso devolvido à
+revisão: divergência entre os modelos, proximidade do limiar de operação ou
+conservadorismo da própria política de decisão. Cada uma dessas situações pede
+conduta diferente do profissional, distinção que a média das probabilidades,
+isoladamente, não permitiria.
+
+\subsection{Auditoria, Exportação e Consulta}
+\label{subsec:auditoria-exportacao}
+
+O quarto passo, opcional e voltado ao uso acadêmico, recebe um gabarito com os
+diagnósticos reais do mesmo lote e avalia o desempenho dos modelos sobre ele. A
+Figura~\ref{fig:app_auditoria} exibe a tabela resultante, com acurácia,
+sensibilidade, especificidade, precisão, F1 e a matriz de confusão de cada
+modelo, seguida de uma leitura crítica em texto que interpreta os números em
+termos dos custos clínicos assimétricos entre falso negativo e falso positivo.
+
+\begin{figure}[H]
+    \centering
+    \caption{AUDITORIA ACADÊMICA: DESEMPENHO DOS MODELOS CONTRA O GABARITO}
+    \includegraphics[width=\textwidth]{app_auditoria.png}
+    \label{fig:app_auditoria}
+    \fonte{O Autor}
+\end{figure}
+
+O sexto passo exporta os resultados em CSV, preservando as colunas de
+confiabilidade, ou em PDF, no formato de relatório do lote, e cada janela de
+explicabilidade exporta o laudo individual de um paciente com a justificativa do
+modelo. As sessões ficam registradas na aba Histórico, de onde os relatórios são
+reabertos sem reprocessar o lote. A aba Sobre reúne o glossário dos trinta
+biomarcadores, com o registro explícito de que a maioria não tem unidade física,
+e as mesmas descrições aparecem como dicas nos cabeçalhos da tabela.
+
+\subsection{Limitações da Versão Atual}
+\label{subsec:limitacoes-software}
+
+A aplicação opera apenas sobre os trinta atributos da base Wisconsin, já
+extraídos das imagens: não faz segmentação de núcleos nem processamento de
+imagem, etapa que permanece a cargo do laboratório. Os modelos são estáticos e
+herdam as limitações da base de origem, 569 amostras de uma população
+específica. A validação até aqui é técnica: os testes verificam a coerência
+entre o diagnóstico exibido e a decisão efetiva dos modelos, mas o sistema ainda
+não passou por avaliação de usabilidade com profissionais de saúde.
+
 % ==============================================================================
 % CAPÍTULO 6 — CONSIDERAÇÕES FINAIS
 % ==============================================================================

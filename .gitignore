@@ -25,10 +25,17 @@
 *.alg
 *.xdy
 *.ist
-*.synctex.gz
 
 # Listas personalizadas (geradas automaticamente)
 *.loalg
 *.locod
 *.logr
 *.loq
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configuração local de ferramentas
+.claude/
+.vscode/
