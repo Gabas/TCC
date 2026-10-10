@@ -848,21 +848,32 @@ aplicação foi projetada para receber diretamente arquivos de planilhas
 formatadas, eliminando a necessidade de inserção manual dos trinta atributos
 preditivos por parte do operador.
 
-A comunicação e a transferência de inteligência entre esses dois ambientes
-independentes ocorrem por meio do arquivo serializado wisconsin.pkl, gerado
-através da biblioteca pickle. Este artefato estático encapsula os modelos
-preditivos previamente treinados, os parâmetros ajustados do padronizador
-\textit{Z-score} e a lista ordenada dos nomes dos atributos morfológicos. Dessa
-forma, o módulo de software realiza inferências em tempo real de modo puramente
-local, sem a necessidade de retreinar os algoritmos ou expor os dados a
-servidores externos, garantindo desempenho computacional e privacidade à
-infraestrutura de saúde.
+A comunicação entre esses dois ambientes independentes ocorre por meio de
+artefatos gerados no módulo científico. O principal é o arquivo serializado
+wisconsin.pkl, gravado com a biblioteca cloudpickle, que reúne os cinco
+classificadores treinados, as versões recalibradas pelo escalonamento de Platt
+dos quatro que produzem probabilidade informativa, o padronizador
+\textit{Z-score}, a lista ordenada dos atributos, as partições de treino e
+teste, os explicadores de cada modelo e a amostra de referência e as
+importâncias globais do SHAP. Os explicadores são serializados por referência à
+sua definição em app/core/explainers.py, de modo que o \textit{notebook} e a
+aplicação executam o mesmo código. O segundo artefato, limiares.json, é gerado
+pelo script scripts/calibrar\_limiares.py a partir do próprio wisconsin.pkl e
+guarda o limiar de operação e a faixa de recusa de cada modelo, descritos na
+Subseção~\ref{subsec:ponto-operacao}; o terceiro, umap\_train\_2d.npy, guarda o
+\textit{embedding} UMAP do treino usado pelo mapa populacional. Dessa forma, o
+módulo de software realiza inferências de modo puramente local, sem a
+necessidade de retreinar os algoritmos ou expor os dados a servidores externos,
+garantindo desempenho computacional e privacidade à infraestrutura de saúde.
 
 A escolha por uma arquitetura desacoplada em dois módulos distintos também
 reflete uma decisão de manutenibilidade a longo prazo. Caso seja necessário
-retreinar os modelos com uma base de dados atualizada ou substituir o algoritmo
-principal, basta reexecutar o módulo científico e gerar um novo arquivo
-wisconsin.pkl, sem qualquer alteração no código do módulo de software. Da mesma
+retreinar os modelos com uma base de dados atualizada ou substituir um
+algoritmo, basta reexecutar o módulo científico, que regrava o wisconsin.pkl,
+e em seguida o script calibrar\_limiares.py, que recalcula os limiares sobre os
+novos modelos, sem qualquer alteração no código do módulo de software; para a
+versão distribuída, o executável é então regenerado, conforme a
+Subseção~\ref{subsec:distribuicao}. Da mesma
 forma, melhorias na interface gráfica ou na lógica de geração de relatórios podem
 ser realizadas de forma independente, sem risco de comprometer a integridade dos
 modelos preditivos já validados. O fluxo completo de processamento e a respectiva transição dos dados entre as
@@ -900,49 +911,56 @@ da base original. Após essas remoções, o conjunto de dados utilizado para
 modelagem passa a conter 569 amostras e 31 colunas: a variável alvo e os trinta
 atributos preditivos.
 
-O ambiente de desenvolvimento foi fixado na versão Python 3.11.15, decisão
-motivada pela necessidade de compatibilidade entre o módulo científico
-(Wisconsin.ipynb) e o módulo de software (app/main.py). A fixação da versão
-garante que os artefatos serializados via pickle sejam carregados corretamente
-pela aplicação, evitando incompatibilidades entre versões do interpretador que
-poderiam corromper os objetos scikit-learn persistidos no arquivo wisconsin.pkl.
+O ambiente de desenvolvimento utiliza Python 3.12.3, a mesma versão com que o
+executável da aplicação é gerado. Manter uma única versão entre o módulo
+científico (Wisconsin.ipynb), o módulo de software (app/main.py) e o executável
+garante que os objetos persistidos no arquivo wisconsin.pkl sejam lidos no
+mesmo ambiente em que foram gravados.
 
-Todo o desenvolvimento foi realizado em um ambiente virtual isolado, garantindo
-que as versões das bibliotecas listadas no arquivo requirements.txt permanecessem
-estáveis e reprodutíveis independentemente do sistema operacional utilizado.
-Essa prática é amplamente recomendada em projetos de ciência de dados, pois
-elimina conflitos entre dependências e assegura que qualquer colaborador ou
-avaliador consiga reproduzir os experimentos nas mesmas condições em que foram
-conduzidos
+Todo o desenvolvimento foi realizado em um ambiente virtual isolado. O arquivo
+requirements.txt lista as dependências com versões mínimas, o que basta para
+reproduzir os experimentos; as versões exatas do ambiente que gerou o
+wisconsin.pkl ficam fixadas em requirements-executavel.txt, usado na geração do
+executável, pois uma versão diferente do scikit-learn pode não conseguir abrir
+os objetos serializados.
 
 O Quadro~\ref{quad:bibliotecas} apresenta as principais bibliotecas empregadas
-no módulo científico, com suas respectivas funções no projeto.
+nos dois módulos, com suas respectivas funções no projeto.
 
 \begin{quadro}[ht]
     \centering
-    \legenda[quad:bibliotecas]{BIBLIOTECAS UTILIZADAS NO MÓDULO CIENTÍFICO}
+    \legenda[quad:bibliotecas]{BIBLIOTECAS UTILIZADAS NO PROJETO}
     \begin{tabular}{|l|p{12.6cm}|}
         \hline
         \textbf{Biblioteca} & \textbf{Função no Projeto} \\
         \hline
+        \multicolumn{2}{|l|}{\textit{Módulo científico e aplicação}} \\ \hline
+        numpy & Operações vetoriais sobre os atributos, as probabilidades e os
+                valores de Shapley. \\ \hline
         pandas & Carregamento do arquivo CSV, remoção das colunas id e Unnamed: 32,
                  codificação da variável alvo e manipulação dos subconjuntos de dados. \\ \hline
         scikit-learn & Treinamento dos cinco classificadores, pré-processamento
-                       (StandardScaler, train\_test\_split), decomposição linear via PCA
-                       e cálculo das métricas de avaliação. \\ \hline
-        umap-learn & Redução de dimensionalidade não linear para visualização topológica
-                     da separabilidade natural entre tumores benignos e malignos. \\ \hline
-        shap & Cálculo dos valores de Shapley para explicabilidade global
-               (\textit{summary plot}) e local (\textit{waterfall plot}) das predições
-               do modelo selecionado. \\ \hline
-        matplotlib & Geração das visualizações estáticas: histogramas, \textit{boxplots}
-                     e projeções UMAP e PCA. \\ \hline
-        seaborn & Geração de gráficos estatísticos: \textit{countplot} de distribuição
-                  de classes e \textit{heatmap} das matrizes de confusão. \\ \hline
-        yellowbrick & Visualização complementar de métricas e diagnósticos do processo
-                      de aprendizado de máquina. \\ \hline
-        pickle & Serialização dos modelos treinados, do escalonador ajustado e da lista
-                 de atributos no arquivo wisconsin.pkl. \\ \hline
+                       (StandardScaler, train\_test\_split), PCA, validação cruzada,
+                       calibração de Platt, covariância de Ledoit-Wolf e métricas de
+                       avaliação. \\ \hline
+        shap & Cálculo dos valores de Shapley para explicabilidade global e local
+               dos cinco classificadores. \\ \hline
+        matplotlib & Visualizações estáticas do \textit{notebook} e gráficos embutidos
+                     nas janelas de explicabilidade. \\ \hline
+        cloudpickle & Serialização do wisconsin.pkl, inclusive dos explicadores. \\ \hline
+        \multicolumn{2}{|l|}{\textit{Somente no módulo científico}} \\ \hline
+        umap-learn & Redução de dimensionalidade não linear para visualização da
+                     separabilidade entre tumores benignos e malignos. \\ \hline
+        seaborn & \textit{Countplot} da distribuição de classes e \textit{heatmap}
+                  das matrizes de confusão. \\ \hline
+        scipy & Teste de Friedman entre os cinco modelos. \\ \hline
+        mlxtend & Teste pareado 5$\times$2cv de Dietterich. \\ \hline
+        scikit-posthocs & Pós-hoc de Nemenyi após o teste de Friedman. \\ \hline
+        \multicolumn{2}{|l|}{\textit{Somente na aplicação}} \\ \hline
+        customtkinter & Interface gráfica \textit{desktop}. \\ \hline
+        reportlab & Relatórios em PDF do lote e de cada paciente. \\ \hline
+        bokeh & Versões interativas do mapa populacional e da margem do SVM, abertas
+                no navegador. \\ \hline
     \end{tabular}
     \vspace{0.2cm}
     \fonteautor
@@ -1040,9 +1058,9 @@ Essa transformação recalcula cada valor subtraindo a média da coluna e dividi
 pelo desvio padrão, de forma que todos os atributos passem a operar em uma escala
 comum com média zero e variância unitária. Essa etapa é indispensável para
 algoritmos sensíveis à magnitude das variáveis, como a Regressão Logística,
-o SVM e o KNN, nos quais diferenças de escala entre atributos, como o raio
-celular medido em micrômetros e a textura medida em níveis de cinza, distorceriam
-o cálculo das distâncias e dos gradientes.
+o SVM e o KNN, nos quais diferenças de escala entre atributos, como a área,
+medida em pixels quadrados da imagem e na casa das centenas a milhares, e a simetria,
+índice adimensional entre 0 e 1, distorceriam o cálculo das distâncias.
 
 A decisão mais importante desta etapa, ilustrada no Código~\ref{cod:scaler},
 é que o StandardScaler é ajustado exclusivamente sobre o conjunto de treino.
@@ -1065,34 +1083,10 @@ X_scaled_all   = scaler.transform(X)   # base completa - visualizacoes e SHAP
 \fonteautor
 \end{codigo}
 
-% ------------------------------------------------------------------------------
-\subsection{Divisão Legada para a Árvore de Decisão}
-\label{subsec:divisao-legada}
-
-O módulo científico mantém uma segunda partição dos dados, independente da
-descrita na Subseção~\ref{subsec:divisao-treino-teste}, utilizada exclusivamente
-pela Árvore de Decisão em sua função de modelo \textit{baseline}. Essa divisão
-adota a proporção 80/20 e não aplica padronização \textit{Z-score}, pois árvores
-de decisão são algoritmos invariantes à escala dos atributos, uma vez que suas
-regras de divisão baseiam-se em limiares de valor absoluto, não em distâncias ou
-gradientes (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}). A manutenção
-dessa partição separada preserva os resultados obtidos nas etapas iniciais de
-desenvolvimento do projeto, anteriores à refatoração do \textit{pipeline}
-principal, garantindo a rastreabilidade e a reprodutibilidade do histórico
-experimental.
-
-\begin{codigo}[htb]
-\legenda[cod:split-legado]{DIVISÃO LEGADA UTILIZADA PELA ÁRVORE DE DECISÃO}
-\begin{lstlisting}[language=Python]
-# Divisao legada: 80% treino | 20% teste (sem padronizacao)
-# Mantida para preservar os resultados originais da Arvore de Decisao
-x_wisconsin_train, x_wisconsin_test, y_wisconsin_train, y_wisconsin_test = \
-    train_test_split(
-        X.values, y.values, test_size=0.2, random_state=RANDOM_STATE
-    )
-\end{lstlisting}
-\fonteautor
-\end{codigo}
+A Árvore de Decisão é a única exceção: utiliza a mesma partição da
+Subseção~\ref{subsec:divisao-treino-teste}, mas sobre os valores brutos, pois
+suas regras comparam cada atributo com um limiar de valor absoluto, não com
+distâncias ou gradientes, e são, portanto, invariantes à escala.
 
 % ------------------------------------------------------------------------------
 \section{Análise Exploratória dos Dados}
@@ -1195,7 +1189,7 @@ omitidos da figura por questões de espaço.
 
 \begin{figure}[htbp]
     \centering
-    \caption{BOXPLOTS DOS TRINTA ATRIBUTOS MORFOLÓGICOS DA BASE WISCONSIN}
+    \caption{BOXPLOTS DOS ATRIBUTOS DO GRUPO MEAN DA BASE WISCONSIN}
     \includegraphics[width=1\textwidth]{boxplots.png}
     \label{fig:boxplots}
     \fonte{O Autor}
@@ -1263,11 +1257,17 @@ de explicabilidade externas (\citeauthoronline{Faceli2011},
 A configuração adotada utilizou o critério de entropia como função de impureza,
 conforme o Código~\ref{cod:dt}. Essa escolha corresponde diretamente ao ganho
 de informação descrito na fundamentação teórica, privilegiando divisões que
-reduzam ao máximo a incerteza sobre a classe em cada nó da árvore.
+reduzam ao máximo a incerteza sobre a classe em cada nó da árvore. Nenhum
+parâmetro de poda foi definido, como profundidade máxima ou número mínimo de
+amostras por folha: a árvore cresce até que todas as folhas sejam puras,
+chegando a profundidade 7 e 18 folhas e acertando os 426 pacientes do treino.
 
 \begin{codigo}[htb]
 \legenda[cod:dt]{CONFIGURAÇÃO E TREINAMENTO DA ÁRVORE DE DECISÃO}
 \begin{lstlisting}[language=Python]
+# Mesma particao estratificada dos demais modelos, sem Z-score
+x_wisconsin_train, y_wisconsin_train = X_train.values, y_train.values
+
 wisconsin_decision_tree = DecisionTreeClassifier(
     criterion='entropy',
     random_state=RANDOM_STATE
@@ -1284,17 +1284,20 @@ Essa característica torna o modelo naturalmente auditável por profissionais
 de saúde sem formação em computação, ainda que sua acurácia seja estruturalmente
 limitada pela ausência de mecanismos de ensemble para redução da variância.
 
-As curvas ROC e Precisão-Revocação da Árvore de Decisão, apresentadas no
-Gráfico~\ref{fig:avaliacao_dt}, evidenciam o comportamento esperado de um modelo
-\textit{baseline}. A curva ROC, com AUC de 0,952, apresenta uma subida inicial
-seguida de uma progressão mais gradual, refletindo a natureza discreta
-das decisões de uma árvore sem mecanismos de suavização probabilística. A curva
-Precisão-Revocação, com PR-AUC de 0,918, mantém precisão próxima a 1,0 até uma
-revocação de aproximadamente 0,85, ponto a partir do qual ocorre uma queda
-abrupta. Esse padrão indica que o modelo é conservador nas predições de
-malignidade, errando por omissão nos casos limítrofes, o que é clinicamente
-desfavorável dado que falsos negativos representam o erro mais crítico no
-contexto oncológico (\citeauthoronline{Davis2006}, \citeyear{Davis2006}).
+A ausência de poda determina a forma das curvas do
+Gráfico~\ref{fig:avaliacao_dt}. Como toda folha é pura, a árvore atribui a cada
+paciente probabilidade 0 ou 1, e não um escore graduado; as curvas, que variam
+o limiar sobre esse escore, reduzem-se a um único ponto de operação ligado aos
+extremos por segmentos de reta. Na curva ROC, esse ponto corresponde à
+Sensibilidade de 0,887 com taxa de falsos positivos de 0,022, e a ROC-AUC de
+0,932 equivale à simples média entre Sensibilidade e Especificidade, sem medir
+a capacidade de ordenar pacientes por risco que essa métrica expressa nos
+demais modelos. Na curva Precisão-Revocação, a precisão vale 0,959 nesse ponto
+e cai para 0,371, a proporção de malignos no teste, quando a revocação é levada
+a 1, o que resulta em PR-AUC de 0,893. No conjunto de teste, a árvore deixa de
+detectar 6 dos 53 tumores malignos e classifica 2 dos 90 benignos como
+malignos, erro concentrado no lado clinicamente mais grave, o do falso negativo
+(\citeauthoronline{Davis2006}, \citeyear{Davis2006}).
 
 \begin{grafico}[htbp]
     \centering
@@ -1326,7 +1329,13 @@ de Manhattan, formalizada na Equação~\ref{eq:distancia_manhattan}, decorre de
 sua menor sensibilidade a valores extremos isolados: por somar os deslocamentos
 absolutos atributo a atributo, em vez de elevá-los ao quadrado como a distância
 euclidiana, ela evita que uma única medida discrepante domine o cálculo da
-similaridade. Por ser fundamentado no cálculo de distâncias entre atributos, o
+similaridade. A combinação foi escolhida por validação cruzada estratificada de
+5 dobras no treino, na qual superou a configuração com 20 vizinhos e voto
+uniforme. O valor par $k = 4$ contraria a recomendação de $k$ ímpar apresentada
+na fundamentação teórica, mas não produz empates na prática: com o voto
+ponderado pela distância, um empate exigiria que os pesos somados das duas
+classes coincidissem exatamente, o que não ocorre com distâncias contínuas.
+Por ser fundamentado no cálculo de distâncias entre atributos, o
 KNN é altamente sensível à escala das variáveis: atributos com maior magnitude
 dominariam a métrica em detrimento de características igualmente relevantes,
 mas medidas em escalas menores. Por essa razão, seu treinamento e inferência
@@ -1435,10 +1444,15 @@ a análise de explicabilidade conduzida pelo SHAP na Seção~\ref{sec:shap}.
 Enquanto o SHAP quantifica a contribuição de cada atributo para uma predição
 específica, os coeficientes logísticos fornecem uma perspectiva global e
 estática dos pesos aprendidos pelo modelo linear sobre toda a base de
-treinamento. A convergência entre as duas perspectivas serve como evidência
-adicional de que os atributos morfológicos identificados como relevantes pelo
-Random Forest possuem sustentação estatística independente do algoritmo
-utilizado.
+treinamento. A concordância entre as duas perspectivas, contudo, é apenas
+parcial: dos seis atributos de maior coeficiente absoluto na Regressão
+Logística, quatro estão entre os seis de maior importância SHAP no Random
+Forest (perimeter\_worst, area\_worst, radius\_worst e concave points\_mean),
+enquanto texture\_worst e radius\_se aparecem apenas no modelo linear. O núcleo
+comum, ligado ao tamanho do núcleo celular e às suas concavidades, é o que se
+sustenta independentemente do algoritmo; a ordem dos demais atributos depende
+do modelo e, entre variáveis colineares, da forma como cada um distribui o peso
+entre elas.
 
 As curvas do Gráfico~\ref{fig:avaliacao_lr} demonstram que, apesar de sua
 estrutura linear, a Regressão Logística atinge desempenho comparável aos modelos
@@ -1467,14 +1481,12 @@ dados com alguma sobreposição de classes (\citeauthoronline{Bishop2006},
 \subsection{Random Forest}
 \label{subsec:random-forest}
 
-O Random Forest foi selecionado como o modelo principal da solução por reunir
-três características fundamentais para o contexto oncológico. Primeiro, sua
-arquitetura de comitê de árvores produz estimativas de probabilidade robustas e
+O Random Forest reúne três características relevantes para o contexto
+oncológico. Primeiro, sua arquitetura de comitê de árvores produz estimativas
 estáveis, menos suscetíveis ao sobreajuste que uma árvore individual. Segundo,
-o mecanismo de votação majoritária entre centenas de árvores diversas torna o
-modelo naturalmente resistente a ruídos e valores extremos presentes nos dados
-morfológicos. Terceiro, e mais relevante para este projeto, o Random Forest é
-plenamente compatível com o TreeExplainer da biblioteca SHAP, que calcula os
+o mecanismo de votação entre centenas de árvores diversas torna o modelo
+resistente a ruídos e valores extremos presentes nos dados morfológicos.
+Terceiro, é compatível com o TreeExplainer da biblioteca SHAP, que calcula os
 valores exatos de Shapley aproveitando a estrutura interna das árvores, sem
 aproximações.
 
@@ -1537,13 +1549,6 @@ dimensão de direção e magnitude por paciente individual, indo além da
 importância global fornecida pelo MDI (\citeauthoronline{Lundberg2017},
 \citeyear{Lundberg2017}).
 
-A seleção do Random Forest como modelo integrado ao software foi fundamentada
-na Sensibilidade obtida no conjunto de teste. Em um contexto oncológico, essa
-é a métrica clinicamente mais crítica: um tumor maligno classificado como
-benigno implica a ausência de tratamento para um paciente que dele necessita,
-configurando o erro de maior impacto humano possível no sistema
-(\citeauthoronline{James2023}, \citeyear{James2023}).
-
 As curvas do Gráfico~\ref{fig:avaliacao_rf} confirmam o alto desempenho
 discriminativo do Random Forest, com ROC-AUC de 0,998 e PR-AUC de 0,997.
 A curva ROC apresenta subida quase vertical junto ao eixo esquerdo, indicando
@@ -1552,8 +1557,12 @@ próxima a zero nos primeiros limiares de decisão. A curva Precisão-Revocaçã
 mantém precisão máxima ao longo de toda a faixa intermediária de revocação, com
 queda gradual apenas nos limiares mais permissivos. Esse comportamento é
 atribuível ao mecanismo de votação entre 500 árvores diversas, que dilui os
-erros individuais e produz estimativas de probabilidade mais calibradas e
-confiáveis do que qualquer classificador único conseguiria oferecer.
+erros individuais e produz um escore capaz de ordenar os pacientes por risco.
+Ordenar bem, porém, não equivale a estar calibrado: como mostra a
+Subseção~\ref{subsec:calibracao}, a probabilidade bruta do Random Forest tem
+escore de Brier de 0,0269, pior que o da Regressão Logística e o do SVM. No
+corte padrão de 50\%, o modelo deixa de detectar 4 dos 53 tumores malignos do
+teste, a menor Sensibilidade entre os quatro modelos avançados.
 
 \begin{grafico}[htbp]
     \centering
@@ -1640,7 +1649,7 @@ obtidas pelos cinco classificadores no conjunto de teste, permitindo a
 comparação direta entre as abordagens avaliadas. Os resultados consolidados confirmam
 a superioridade dos demais classificadores sobre o \textit{baseline} da Árvore
 de Decisão em todas as métricas avaliadas. A Árvore
-de Decisão, com ROC-AUC de 0,952 e PR-AUC de 0,918, estabelece o patamar
+de Decisão, com ROC-AUC de 0,932 e PR-AUC de 0,893, estabelece o patamar
 mínimo de referência. Os quatro classificadores restantes atingem ROC-AUC igual
 ou superior a 0,980 e PR-AUC igual ou superior a 0,976, indicando capacidade
 discriminativa consideravelmente superior para este conjunto de dados.
@@ -1660,7 +1669,7 @@ discriminativa consideravelmente superior para este conjunto de dados.
         \makecell{\textbf{ROC-}\\\textbf{AUC}} &
         \makecell{\textbf{PR-}\\\textbf{AUC}} \\
         \midrule
-        Árvore de Decisão   & 0,958 & 0,926 & 0,978 & 0,943 & 0,952 & 0,918 \\
+        Árvore de Decisão   & 0,944 & 0,887 & 0,978 & 0,922 & 0,932 & 0,893 \\
         KNN                 & 0,979 & 0,943 & 1,000 & 0,971 & 0,980 & 0,976 \\
         Regressão Logística & 0,993 & 0,981 & 1,000 & 0,990 & 0,998 & 0,998 \\
         Random Forest       & 0,972 & 0,925 & 1,000 & 0,961 & 0,998 & 0,997 \\
@@ -1694,11 +1703,12 @@ prática direta: nesta base, adotar um modelo de caixa preta não se justifica p
 ganho de desempenho, uma vez que ele não existe.
 
 Cabe ressalvar, contudo, que as diferenças relatadas neste parágrafo foram
-apuradas sobre uma única partição de teste e, portanto, não bastam para
-estabelecer superioridade estatística de um modelo sobre outro. A
-Seção~\ref{sec:rigor-estatistico} retoma essa comparação sob validação cruzada
-repetida e testes de significância, verificando quais dessas diferenças
-resistem à variação amostral.
+apuradas sobre uma única partição de teste, no corte padrão de 50\%, e,
+portanto, não bastam para estabelecer superioridade estatística de um modelo
+sobre outro. A Seção~\ref{sec:rigor-estatistico} retoma essa comparação sob
+validação cruzada repetida e testes de significância, verificando quais dessas
+diferenças resistem à variação amostral, e descreve o ponto de operação com que
+o software efetivamente decide.
 
 % Apesar do desempenho superior do SVM nas métricas individuais, o Random Forest
 % foi selecionado como o modelo integrado ao módulo de software por razões que
@@ -1717,7 +1727,7 @@ resistem à variação amostral.
 % \citeyear{James2023}).
 
 % ------------------------------------------------------------------------------
-\section{Rigor Estatístico: Validação Cruzada, Significância e Calibração}
+\section{Rigor Estatístico: Validação Cruzada, Significância, Calibração e Ponto de Operação}
 \label{sec:rigor-estatistico}
 
 Os resultados apresentados na Seção~\ref{sec:treinamento} foram obtidos sobre
@@ -1728,7 +1738,9 @@ pode decorrer inteiramente da amostra que a partição selecionou, e não de
 qualquer superioridade real do algoritmo. Esta seção submete os cinco
 classificadores a três análises complementares que endereçam justamente essa
 fragilidade, estabilidade do desempenho, significância estatística das
-diferenças e confiabilidade das probabilidades produzidas.
+diferenças e confiabilidade das probabilidades produzidas, e encerra com o
+ponto de operação que converte essas probabilidades na decisão exibida pelo
+software.
 
 % ------------------------------------------------------------------------------
 \subsection{Validação Cruzada Estratificada Repetida}
@@ -1987,7 +1999,107 @@ sustentam em dados novos, limitação documentada por
 \citeauthoronline{NiculescuMizil2005} (\citeyear{NiculescuMizil2005}), que
 recomendam o método sigmoidal para amostras reduzidas. São essas probabilidades
 recalibradas por Platt que alimentam a coluna de certeza exibida na interface do
-sistema.
+sistema. Na versão serializada para o software, a calibração cobre os quatro
+modelos de probabilidade informativa, com um único estimador ajustado sobre
+todo o treino e o calibrador sobre ele; no SVM, o calibrador atua diretamente
+sobre a função de decisão, em vez de sobre probabilidades que já resultam de um
+ajuste de Platt interno. Nessa configuração, o escore de Brier no teste passa
+de 0,0292 para 0,0243 no KNN, de 0,0202 para 0,0156 na Regressão Logística e de
+0,0269 para 0,0232 no Random Forest, e permanece em 0,0156 no SVM.
+
+% ------------------------------------------------------------------------------
+\subsection{Ponto de Operação e Curva Risco-Cobertura}
+\label{subsec:ponto-operacao}
+
+Uma probabilidade calibrada ainda não é uma decisão. O método predict() do
+scikit-learn corta em 50\%, valor que trata falso positivo e falso negativo
+como igualmente custosos, o que não vale em rastreio oncológico: o primeiro
+custa um exame adicional; o segundo, um tumor não tratado. O software decide,
+por isso, com dois parâmetros por modelo, ambos escolhidos pelo script
+calibrar\_limiares.py sobre probabilidades \textit{out-of-fold} do treino:
+cada paciente recebe a probabilidade de um modelo que não o viu, em 5 dobras
+estratificadas com o escalonamento de Platt refeito dentro de cada dobra. O
+conjunto de teste não participa da escolha. O limiar de operação é o menor
+corte cuja especificidade \textit{out-of-fold} atinge 92\%. A faixa de recusa
+vai da menor certeza atribuída a um paciente maligno à maior atribuída a um
+benigno: fora dela, nenhum caso do treino seria decidido errado, e os casos
+dentro dela são devolvidos para revisão humana. A faixa só é adotada se o modelo
+continuar decidindo ao menos 45\% do treino. O comitê de voto suave entra nessa
+análise como a média simples das probabilidades calibradas de Regressão
+Logística, Random Forest, SVM e KNN; a Árvore de Decisão fica de fora por não
+ter probabilidade calibrada.
+
+Recusar casos sempre melhora as métricas entre os decididos, bastando adiar os
+difíceis, de modo que esse número isolado nada informa. A curva
+risco--cobertura do Gráfico~\ref{fig:risco_cobertura} mostra o custo: para cada
+fração do lote que o modelo aceita decidir, adiando primeiro os casos de maior
+risco previsto, o erro entre os decididos e o número de falsos negativos. A
+Tabela~\ref{tab:ponto_operacao} resume o ponto em vigor no software.
+
+\begin{grafico}[htbp]
+    \centering
+    \caption{CURVA RISCO-COBERTURA NO TREINO (\textit{OUT-OF-FOLD}), COM O PONTO DE OPERAÇÃO DE CADA MODELO}
+    \includegraphics[width=\textwidth]{risco_cobertura.png}
+    \label{fig:risco_cobertura}
+    \fonte{O Autor}
+\end{grafico}
+
+\begin{table}[htbp]
+    \centering
+    \caption{PONTO DE OPERAÇÃO: LIMIAR, FAIXA DE RECUSA, COBERTURA E ERRO}
+    \label{tab:ponto_operacao}
+    \small
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        & & & \multicolumn{2}{c}{\textbf{Treino (\textit{out-of-fold})}} &
+        \multicolumn{2}{c}{\textbf{Teste}} \\
+        \cmidrule(lr){4-5} \cmidrule(l){6-7}
+        \textbf{Modelo} & \textbf{Limiar} & \makecell{\textbf{Faixa de}\\\textbf{recusa}} &
+        \makecell{\textbf{Erro sem}\\\textbf{recusa}} &
+        \makecell{\textbf{Com a faixa:}\\\textbf{cobertura / erro}} &
+        \makecell{\textbf{Erro sem}\\\textbf{recusa}} &
+        \makecell{\textbf{Com a faixa:}\\\textbf{cobertura / erro}} \\
+        \midrule
+        Regressão Logística & 0,151 & 0,003--0,670 & 5,87\% (4) & 60,1\% / 0,39\% (1) & 4,90\% (1) & 69,9\% / 0\% (0) \\
+        Random Forest       & 0,120 & 0,013--0,922 & 6,10\% (5) & 54,5\% / 0,00\% (0) & 2,10\% (1) & 67,8\% / 0\% (0) \\
+        SVM                 & 0,155 & 0,004--0,730 & 5,87\% (4) & 65,3\% / 0,36\% (1) & 3,50\% (1) & 74,1\% / 0\% (0) \\
+        KNN                 & 0,170 & ---          & 6,34\% (6) & 100\% / 6,34\% (6)  & 3,50\% (2) & 100\% / 3,50\% (2) \\
+        Comitê              & 0,146 & 0,011--0,682 & 5,63\% (3) & 50,0\% / 0,47\% (1) & 2,10\% (1) & 67,1\% / 0\% (0) \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \legend{Nota: entre parênteses, o número de falsos negativos.}
+    \fonteautor
+\end{table}
+
+A curva mostra que o erro se concentra nos últimos casos. Decidindo 80\% do
+treino, o erro entre os decididos fica entre 0,29\% e 1,17\%, conforme o modelo;
+decidindo todos, sobe para 5,63\% a 6,34\%, e o do comitê passa de 0,78\% a
+90\% de cobertura para 5,63\% a 100\%. Os
+modelos não erram de forma espalhada, mas num pequeno grupo de casos difíceis,
+situação em que abster-se compensa. Com a faixa, os quatro modelos que a
+possuem decidem entre 50\% e 65\% do treino com no máximo um falso negativo,
+contra três a cinco se decidissem todos os casos. O preço é explícito: cerca de
+um terço do lote volta para revisão humana. O KNN não recebe faixa, pois suas
+probabilidades calibradas, com $k = 4$, assumem poucos valores distintos, e a
+faixa que zeraria seus erros o faria decidir menos de 45\% do treino; ele opera
+com cobertura total e o maior erro do conjunto. Como a faixa foi ajustada com
+tolerância zero sobre as mesmas probabilidades \textit{out-of-fold}, seu bom
+desempenho no treino é esperado por construção. A evidência está no teste, que
+não participou da escolha: ali, os quatro modelos com faixa decidem entre 67\% e
+74\% do lote sem nenhum erro.
+
+Esses resultados situam o comitê na solução. Como a
+Subseção~\ref{subsec:significancia} não encontrou diferença significativa entre
+os quatro modelos avançados, nenhum deles se justifica isoladamente, e o
+software não elege um modelo único: o operador escolhe entre os cinco
+classificadores, o comitê e um modo de comparação simultânea. O comitê é a
+opção que menos erra sem recusa no treino \textit{out-of-fold}, com 5,63\% e
+três falsos negativos, e, com a faixa, decide 67,1\% do teste sem falso
+negativo nem falso positivo. A média dilui o engano isolado de um membro, ao
+custo de executar os quatro modelos a cada lote e de oferecer uma explicação
+que também é média, como discutido na Subseção~\ref{subsec:relatorios-xai}.
 
 % ------------------------------------------------------------------------------
 \section{Estado Atual do Software}
@@ -2004,9 +2116,14 @@ justificativa auditável.
 
 A aplicação separa lógica de apresentação: app/core concentra as regras de
 negócio, sem dependência da interface; app/views reúne as telas em
-CustomTkinter; e app/utils, os utilitários de apoio. Isso permite verificar a
-lógica isoladamente, e o projeto conta hoje com 146 testes automatizados em
-pytest. O Quadro~\ref{quad:modulos-core} descreve cada módulo.
+CustomTkinter; e app/utils, os utilitários de apoio, como a geração de PDF e os
+mapas interativos. Isso permite verificar a lógica isoladamente, e o projeto
+conta hoje com 231 testes automatizados em pytest. O
+Quadro~\ref{quad:modulos-core} descreve cada módulo de app/core. Fora dele,
+app/autoteste.py percorre sem interface o fluxo completo de uso, recurso
+empregado na validação do executável (Subseção~\ref{subsec:distribuicao}), e
+scripts/calibrar\_limiares.py gera o arquivo limiares.json
+(Subseção~\ref{subsec:ponto-operacao}).
 
 \begin{quadro}[htbp]
     \centering
@@ -2017,23 +2134,32 @@ pytest. O Quadro~\ref{quad:modulos-core} descreve cada módulo.
         \hline
         inference.py & Carrega o arquivo wisconsin.pkl e disponibiliza modelos, escalonador,
                        explicadores e artefatos SHAP à aplicação. \\ \hline
-        batch\_processor.py & Higieniza a planilha recebida e aplica o escalonador
+        caminhos.py & Define onde a aplicação lê seus recursos e grava os dados do usuário,
+                      pelo código-fonte ou no executável. \\ \hline
+        validacao.py & Valida a planilha recebida antes de qualquer cálculo e recusa lotes
+                       malformados. \\ \hline
+        batch\_processor.py & Higieniza a planilha e aplica o escalonador
                               \textit{Z-score} ajustado no conjunto de treino. \\ \hline
-        decision.py & Política de decisão: limiar de operação de cada modelo, faixa de
-                      revisão e rótulo de recusa. \\ \hline
+        decision.py & Política de decisão: limiar de operação, faixa de recusa, banda de
+                      limítrofe e zona de decisão de cada paciente. \\ \hline
         predictor.py & Motor de inferência: produz o diagnóstico e as colunas de
                        confiabilidade de cada paciente. \\ \hline
         ood\_detector.py & Sinaliza perfis atípicos pela distância de Mahalanobis ao
                            conjunto de treino. \\ \hline
         explainers.py & Explicadores exatos da Árvore de Decisão, Regressão Logística,
                         KNN, Random Forest e SVM. \\ \hline
-        shap\_explainer.py & Cálculo sob demanda dos valores de Shapley de cada modelo. \\ \hline
+        fatores.py & Fatores que mais pesaram: valores de Shapley exatos por fator, sobre
+                     a certeza calibrada. \\ \hline
+        shap\_explainer.py & Valores de Shapley coluna a coluna de cada modelo, calculados
+                             sob demanda. \\ \hline
         committee.py & Explica o comitê de voto suave pela concordância entre seus
                        membros. \\ \hline
+        metrics.py & Métricas da auditoria acadêmica, com cobertura e intervalo de
+                     confiança de Wilson, e leitura crítica por modelo. \\ \hline
+        calculos.py & Memorial de cálculo da aba Sobre, fonte única dos números que a
+                      interface cita. \\ \hline
         biomarkers.py & Glossário dos trinta biomarcadores, exibido na aba Sobre e nas
                         dicas da tabela de resultados. \\ \hline
-        metrics.py & Métricas da auditoria acadêmica e respectiva leitura crítica por
-                     modelo. \\ \hline
         history\_manager.py & Persistência das sessões de diagnóstico no histórico. \\ \hline
     \end{tabular}
     \vspace{0.2cm}
@@ -2043,9 +2169,11 @@ pytest. O Quadro~\ref{quad:modulos-core} descreve cada módulo.
 Os testes dividem-se em dois grupos. Os isolados treinam modelos na hora, sobre a
 base pública distribuída com o scikit-learn, e verificam se a decisão exibida na
 interface corresponde à decisão real do classificador, tipo de inconsistência
-encontrado e corrigido no SVM e no KNN durante o desenvolvimento. Os de
-integração exercitam o próprio wisconsin.pkl versionado no repositório e acusam
-qualquer alteração no formato do artefato.
+encontrado e corrigido no SVM e no KNN durante o desenvolvimento; os do memorial
+de cálculo conferem os números citados na aba Sobre com os que o código usa. Os
+de integração exercitam o próprio wisconsin.pkl versionado no repositório,
+conferem que o bloco de fatores fecha na certeza exibida e acusam qualquer
+alteração no formato do artefato.
 
 \subsection{Fluxo de Trabalho}
 \label{subsec:fluxo-trabalho}
@@ -2067,18 +2195,25 @@ produziria diagnósticos silenciosamente incorretos.
 Nos dois primeiros passos o profissional importa uma planilha em formato CSV
 contendo os trinta atributos morfológicos e aplica a padronização
 \textit{Z-score}, executada com o escalonador ajustado no treino e recuperado do
-arquivo wisconsin.pkl. No terceiro passo seleciona o classificador, qualquer um
-dos cinco modelos avaliados na Seção~\ref{sec:treinamento}, o comitê de voto
-suave ou o modo de comparação simultânea, e processa o lote. Os passos
-seguintes são de leitura e verificação: auditoria acadêmica contra um gabarito,
-abertura dos relatórios de explicabilidade e exportação dos resultados.
+arquivo wisconsin.pkl. Antes de padronizar, o segundo passo valida a planilha e
+recusa o lote inteiro quando faltam colunas de biomarcadores, há células vazias,
+texto onde se esperava número, valores negativos ou nenhuma linha de dados, com
+mensagem que indica a coluna e a linha do problema. No terceiro passo seleciona
+o classificador, qualquer um dos cinco modelos avaliados na
+Seção~\ref{sec:treinamento}, o comitê de voto suave ou o modo de comparação
+simultânea, no qual a tela abre, e processa o lote; a mesma tela exibe a régua
+de decisão do modelo escolhido, descrita a seguir. Os passos seguintes são de
+leitura e verificação: auditoria acadêmica contra um gabarito, abertura dos
+relatórios de explicabilidade e exportação dos resultados.
 
 \subsection{Sinais de Confiabilidade}
 \label{subsec:sinais-confiabilidade}
 
 Entregar apenas o rótulo Benigno ou Maligno seria repetir o problema da caixa
-preta em outra forma. A tabela de resultados acrescenta, portanto, três colunas
-que qualificam cada previsão, exibidas na Figura~\ref{fig:app_confiabilidade}.
+preta em outra forma. Ao lado do diagnóstico, a tabela de resultados traz,
+portanto, três colunas que qualificam cada previsão, Certeza\_Maligno(\%),
+Zona\_de\_Decisão e Perfil, exibidas na Figura~\ref{fig:app_confiabilidade}; no
+comitê, a tabela mostra também a certeza calibrada de cada membro.
 
 \begin{figure}[H]
     \centering
@@ -2089,27 +2224,29 @@ que qualificam cada previsão, exibidas na Figura~\ref{fig:app_confiabilidade}.
 \end{figure}
 
 A coluna de certeza apresenta a probabilidade de malignidade recalibrada pelo
-escalonamento de Platt, conforme discutido na
-Subseção~\ref{subsec:calibracao}. A decisão, contudo, não é tomada em 50\%. Em
-rastreio oncológico o falso negativo custa muito mais que o falso positivo, e o
-limiar de operação de cada modelo foi obtido por validação cruzada no conjunto
-de treino, tomando o menor corte que preserva especificidade
-\textit{out-of-fold} de ao menos 92\%. Para o Random Forest esse limiar é de
-12,05\%, com sensibilidade de 96,9\% no treino. Os valores são lidos do arquivo
-limiares.json e exibidos ao operador na própria tela, de modo que o critério de
-corte seja explícito e não uma convenção oculta.
+escalonamento de Platt, conforme a Subseção~\ref{subsec:calibracao}, e o
+diagnóstico sai dessa mesma probabilidade, comparada aos cortes da
+Subseção~\ref{subsec:ponto-operacao}, e não a 50\%. Os cortes são lidos do
+arquivo limiares.json e exibidos no terceiro passo como uma régua de três faixas
+contíguas, acompanhada do critério que as gerou e do desempenho medido. No
+comitê, a régua indica Benigno abaixo de 1,1\% de certeza, Revisar de 1,1\% a
+68,2\% e Maligno a partir de 68,2\%. A régua acompanha o lote nos PDFs
+exportados, para que cada diagnóstico possa ser conferido fora da aplicação.
 
-A coluna Decisão marca como limítrofe o paciente cuja certeza calibrada fique a
-menos de dez pontos percentuais do limiar, caso em que um deslocamento pequeno
-inverteria o diagnóstico. A coluna Perfil sinaliza pacientes atípicos pela
-distância de Mahalanobis ao centro do treino, medida sobre os trinta atributos
-padronizados com covariância regularizada por Ledoit-Wolf e cortada no percentil
-99. Perfil atípico indica extrapolação para uma região pouco observada no
-aprendizado, não malignidade.
+A recusa vem ligada por padrão: os casos da faixa do meio recebem o rótulo
+Revisar, que não é uma classe intermediária, e sim a ausência intencional de
+resposta onde decidir equivaleria a adivinhar. O operador pode desligá-la; o
+modelo passa então a decidir todos os casos pelo limiar de operação, de 14,6\%
+no comitê, e a coluna Zona\_de\_Decisão marca como Limítrofe o paciente cuja
+certeza fique a menos de dez pontos percentuais do limiar. Com a recusa ligada,
+a coluna indica Revisar para os casos devolvidos e Definida para os demais. O
+KNN e a Árvore de Decisão não oferecem a recusa e decidem todos os casos: o
+primeiro não tem faixa calibrada, e a segunda não tem probabilidade calibrada.
 
-Há ainda uma opção de recusa deliberada: casos dentro de uma faixa de incerteza
-calibrada recebem o rótulo Revisar. Não é uma classe intermediária, e sim a
-ausência intencional de resposta onde decidir equivaleria a adivinhar.
+A coluna Perfil sinaliza pacientes atípicos pela distância de Mahalanobis ao
+centro do treino, medida sobre os trinta atributos padronizados com covariância
+regularizada por Ledoit-Wolf e cortada no percentil 99. Perfil atípico indica
+extrapolação para uma região pouco observada no aprendizado, não malignidade.
 
 \subsection{Relatórios de Explicabilidade}
 \label{subsec:relatorios-xai}
@@ -2120,6 +2257,24 @@ comum, decorre de uma constatação simples: cada algoritmo decide por um
 mecanismo próprio, e apresentar todos sob a mesma representação obscureceria
 justamente aquilo que os torna auditáveis.
 
+Antes do raciocínio próprio de cada algoritmo, porém, o detalhe de todo
+paciente abre pelo mesmo bloco, Fatores que mais pesaram, presente na janela de
+cada modelo e na do comitê. O bloco decompõe a certeza exibida na tabela pelos
+valores de Shapley da Seção~\ref{sec:shap}, com três adaptações. Primeiro, as
+trinta colunas são agrupadas em oito fatores, as dez medições de base da
+Wisconsin com raio, perímetro e área fundidos no tamanho do núcleo, pois essas
+três têm correlação entre 0,98 e 0,998 no treino; cada fator leva junto sua
+média, seu erro padrão e seu pior valor. Segundo, com oito fatores há apenas
+$2^8 = 256$ coalizões, e o valor de Shapley de cada fator é calculado por
+enumeração completa, sem a amostragem do KernelExplainer. Terceiro, a função
+explicada é a própria certeza calibrada (na Árvore de Decisão, que não a
+possui, a saída da folha), e o ponto de partida é a certeza média
+do modelo sobre todo o treino, próxima da prevalência de malignos (37,3\%), de
+modo que a cascata fecha exatamente no número da tabela. O bloco lista os seis
+fatores de maior efeito e soma os demais em uma linha. Como toda explicação
+SHAP, descreve o que o modelo usou para chegar à certeza, não a causa biológica
+do tumor.
+
 A Árvore de Decisão é o caso mais direto, pois sua estrutura já é a própria
 explicação. A janela correspondente, na Figura~\ref{fig:app_xai_arvore}, ordena
 os biomarcadores pelo ganho de informação, a redução de entropia que cada um
@@ -2128,19 +2283,19 @@ percorrido da raiz até a folha.
 
 \begin{figure}[H]
     \centering
-    \caption{RELATÓRIO DA ÁRVORE DE DECISÃO: GANHO DE INFORMAÇÃO E CAMINHO DE REGRAS}
-    \includegraphics[width=\textwidth]{app_xai_arvore.png}
+    \caption{RELATÓRIO DA ÁRVORE DE DECISÃO: GANHO DE INFORMAÇÃO E DETALHE DO PACIENTE}
+    \includegraphics[width=0.8\textwidth]{app_xai_arvore.png}
     \label{fig:app_xai_arvore}
     \fonte{O Autor}
 \end{figure}
 
 O Random Forest exige outra abordagem, uma vez que sua decisão emerge da
 agregação de quinhentas árvores. A janela da Figura~\ref{fig:app_xai_rf}
-apresenta a importância global por impureza de Gini e, para o paciente
-selecionado, a distribuição das probabilidades atribuídas individualmente por
-cada árvore, acompanhada da contagem de votos. A representação distingue duas
-situações que a média isolada confunde: o consenso amplo da floresta e a divisão
-interna entre árvores discordantes.
+apresenta a importância global pela redução média de entropia (MDI) e, para o
+paciente selecionado, a distribuição das probabilidades atribuídas
+individualmente por cada árvore, acompanhada da contagem de votos. A
+representação distingue duas situações que a média isolada confunde: o
+consenso amplo da floresta e a divisão interna entre árvores discordantes.
 
 \begin{figure}[H]
     \centering
@@ -2151,27 +2306,41 @@ interna entre árvores discordantes.
 \end{figure}
 
 No SVM, o elemento a tornar visível é a margem definida pela
-Equação~\ref{eq:margem_svm}. A janela da Figura~\ref{fig:app_xai_svm} posiciona
-o paciente em relação à fronteira de decisão, destaca os vetores de suporte que
-a sustentam e informa a distância do caso analisado até o hiperplano separador. A Regressão Logística e o KNN dispõem de
-janelas equivalentes: a primeira exibe a curva sigmoide com o escore linear do
-paciente e a função matemática da decisão; o segundo, o mapa de vizinhança com
-os quatro vizinhos que efetivamente votaram.
+Equação~\ref{eq:margem_svm}. A janela da Figura~\ref{fig:app_xai_svm} combina
+duas vistas. No mapa populacional, cada paciente de treino é colorido pelo seu
+escore de decisão $z$, o valor real da função de decisão do modelo, e os
+vetores de suporte recebem um anel que distingue os situados dentro da margem
+($|z| < 1$) dos demais. No painel da margem, o eixo horizontal é o próprio $z$,
+de modo que a faixa entre $z = -1$ e $z = +1$ que o SVM maximiza e a fronteira
+em $z = 0$ aparecem sem aproximação; para o paciente selecionado, a janela
+mostra ainda o balanço de forças entre os vetores de suporte das duas classes
+que compõem seu escore. A margem não é traçada sobre o mapa porque o UMAP não
+tem inversa: não há como avaliar a função de decisão em um ponto arbitrário do
+plano, apenas interpolar o escore dos pacientes vizinhos. Medida por validação
+\textit{leave-one-out} sobre o treino, essa interpolação acerta o lado da
+fronteira em cerca de 96\% dos casos, mas desenharia metade dos pacientes com
+$|z| < 1$ fora da margem, errando justamente nos casos limítrofes. A Regressão
+Logística e o KNN dispõem de janelas equivalentes: a primeira exibe a curva
+sigmoide com o escore linear do paciente e a função matemática da decisão; o
+segundo, o mapa de vizinhança com os quatro vizinhos que efetivamente votaram.
 
 \begin{figure}[H]
     \centering
-    \caption{RELATÓRIO DO SVM: VETORES DE SUPORTE E DISTÂNCIA ATÉ A MARGEM}
+    \caption{RELATÓRIO DO SVM: MAPA COLORIDO PELO ESCORE DE DECISÃO E PAINEL DA MARGEM}
     \includegraphics[width=\textwidth]{app_xai_svm.png}
     \label{fig:app_xai_svm}
     \fonte{O Autor}
 \end{figure}
 
-Complementando os explicadores específicos, o SHAP oferece a base comparável
-entre todos os modelos. A Figura~\ref{fig:app_xai_shap} traz a importância
-global dos biomarcadores e o gráfico em cascata do paciente selecionado, no qual
-cada atributo desloca a probabilidade de malignidade a partir do valor base da
-população, segundo a Seção~\ref{sec:shap}. Como a escala dos valores de Shapley
-é a mesma em qualquer modelo, as justificativas tornam-se confrontáveis.
+A janela SHAP, na Figura~\ref{fig:app_xai_shap}, mantém o detalhe coluna a
+coluna para os cinco classificadores: a importância global dos trinta atributos
+e o gráfico em cascata do paciente selecionado. Ela decompõe a probabilidade do
+modelo antes da calibração, que não é a certeza da tabela, e por isso exibe os
+dois números lado a lado, cada um com seu nome. Na Árvore de Decisão e no
+Random Forest, os valores vêm do TreeExplainer e são exatos; na Regressão
+Logística, no SVM e no KNN, vêm do KernelExplainer e são aproximados. A
+explicação comparável entre modelos, que fecha na certeza exibida, é o bloco de
+fatores descrito acima.
 
 \begin{figure}[H]
     \centering
@@ -2183,53 +2352,103 @@ população, segundo a Seção~\ref{sec:shap}. Como a escala dos valores de Shap
 
 O mapa populacional, apresentado na Figura~\ref{fig:app_xai_umap}, projeta os
 pacientes do lote sobre o \textit{embedding} UMAP ajustado no conjunto de
-treino, discutido na Seção~\ref{sec:umap}. Ele situa cada caso em relação à
-população conhecida e evidencia visualmente os que se afastam dos agrupamentos
-formados. Uma versão interativa, construída em Bokeh e aberta no navegador,
-permite inspecionar os dados de cada ponto individualmente.
+treino, discutido na Seção~\ref{sec:umap}. Como o UMAP não é reajustado a cada
+lote, cada paciente novo é posicionado pela média das posições de seus vizinhos
+de treino mais próximos no espaço dos trinta atributos, ponderada pela
+distância. O mapa situa o caso em relação à população conhecida, mas nenhum
+ponto cai fora da nuvem do treino; a atipicidade é medida pela coluna Perfil,
+no espaço completo dos atributos. Uma versão interativa, construída em Bokeh e
+aberta no navegador, permite inspecionar os dados de cada ponto
+individualmente.
 
 \begin{figure}[H]
     \centering
     \caption{MAPA POPULACIONAL: PROJEÇÃO UMAP DO LOTE SOBRE O CONJUNTO DE TREINO}
-    \includegraphics[width=\textwidth]{app_xai_umap.png}
+    \includegraphics[width=0.85\textwidth]{app_xai_umap.png}
     \label{fig:app_xai_umap}
     \fonte{O Autor}
 \end{figure}
 
 O comitê de voto suave, que agrega Regressão Logística, Random Forest, SVM e
-KNN, constitui o único modelo sem explicador próprio, pois não possui
-coeficientes, regras ou vetores de suporte. Sua janela mostra a concordância
-entre os membros e distingue três origens possíveis para um caso devolvido à
-revisão: divergência entre os modelos, proximidade do limiar de operação ou
-conservadorismo da própria política de decisão. Cada uma dessas situações pede
-conduta diferente do profissional, distinção que a média das probabilidades,
-isoladamente, não permitiria.
+KNN, não tem mecanismo interno a expor, pois não possui coeficientes, regras ou
+vetores de suporte. O que pesou em sua decisão vem do bloco de fatores: como sua
+certeza é a média das certezas dos membros e o valor de Shapley é linear, seus
+fatores são exatamente a média dos fatores dos membros. Sua janela, na
+Figura~\ref{fig:app_xai_comite}, responde a outra pergunta, a de como os quatro
+chegaram, ou não, a um acordo. Ela mostra em que fração do lote cada membro,
+sozinho e pelo próprio limiar, chegaria ao mesmo lado que a média e, para cada
+paciente, a posição de cada membro e a origem de um caso devolvido à revisão:
+divergência entre os modelos, proximidade da fronteira ou conservadorismo da
+própria política de decisão. Cada uma dessas situações pede conduta diferente do
+profissional. Quando os membros discordam, a média dos fatores esconde a
+divergência, e o relatório de cada membro permanece disponível para consulta.
+
+\begin{figure}[H]
+    \centering
+    \caption{RELATÓRIO DO COMITÊ: CONCORDÂNCIA DOS MEMBROS E FATORES QUE MAIS PESARAM}
+    \includegraphics[width=\textwidth]{app_xai_comite.png}
+    \label{fig:app_xai_comite}
+    \fonte{O Autor}
+\end{figure}
 
 \subsection{Auditoria, Exportação e Consulta}
 \label{subsec:auditoria-exportacao}
 
 O quarto passo, opcional e voltado ao uso acadêmico, recebe um gabarito com os
-diagnósticos reais do mesmo lote e avalia o desempenho dos modelos sobre ele. A
-Figura~\ref{fig:app_auditoria} exibe a tabela resultante, com acurácia,
-sensibilidade, especificidade, precisão, F1 e a matriz de confusão de cada
-modelo, seguida de uma leitura crítica em texto que interpreta os números em
-termos dos custos clínicos assimétricos entre falso negativo e falso positivo.
+diagnósticos reais do mesmo lote e avalia o desempenho sobre ele. A
+Figura~\ref{fig:app_auditoria} exibe a tabela resultante para o comitê. A
+primeira coluna é a cobertura, a fração do lote que o modelo decidiu: com a
+recusa ligada, as demais métricas descrevem apenas os casos decididos, e
+comparar a acurácia de um modelo que decidiu dois terços do lote com a de outro
+que decidiu todo ele é comparar coisas diferentes. Seguem acurácia,
+sensibilidade, especificidade, precisão e F1, e a matriz de confusão de onde
+todas derivam. Uma leitura crítica em texto traz o intervalo de confiança de
+Wilson de 95\% da sensibilidade e da especificidade, interpreta os números em
+termos dos custos clínicos assimétricos entre falso negativo e falso positivo e
+repete por extenso a ressalva de cobertura. No lote de teste, o comitê decide
+96 dos 143 pacientes, sem nenhum erro, e devolve os outros 47, dos quais 5 são
+malignos. No modo de comparação, a auditoria avalia lado a lado os
+cinco classificadores individuais; o comitê é auditado à parte, quando
+selecionado no terceiro passo.
 
 \begin{figure}[H]
     \centering
-    \caption{AUDITORIA ACADÊMICA: DESEMPENHO DOS MODELOS CONTRA O GABARITO}
+    \caption{AUDITORIA ACADÊMICA: DESEMPENHO DO COMITÊ CONTRA O GABARITO}
     \includegraphics[width=\textwidth]{app_auditoria.png}
     \label{fig:app_auditoria}
     \fonte{O Autor}
 \end{figure}
 
 O sexto passo exporta os resultados em CSV, preservando as colunas de
-confiabilidade, ou em PDF, no formato de relatório do lote, e cada janela de
-explicabilidade exporta o laudo individual de um paciente com a justificativa do
-modelo. As sessões ficam registradas na aba Histórico, de onde os relatórios são
-reabertos sem reprocessar o lote. A aba Sobre reúne o glossário dos trinta
-biomarcadores, com o registro explícito de que a maioria não tem unidade física,
-e as mesmas descrições aparecem como dicas nos cabeçalhos da tabela.
+confiabilidade, ou em PDF, no formato de relatório do lote acompanhado da régua
+de decisão, e cada janela de modelo exporta o laudo individual de um paciente,
+com o bloco de fatores e a justificativa do modelo. As sessões ficam registradas
+na aba Histórico, que guarda também os relatórios de explicabilidade, reabertos
+sem reprocessar o lote. A aba Sobre reúne o memorial de cálculo, que percorre na
+ordem dos passos a origem de cada número exibido, da padronização à matemática
+de cada explicador, e o glossário dos trinta biomarcadores, com o registro
+explícito de que a maioria não tem unidade física; as mesmas descrições
+aparecem como dicas nos cabeçalhos da tabela.
+
+\subsection{Distribuição}
+\label{subsec:distribuicao}
+
+A aplicação é distribuída como executável para Windows e Linux, que dispensa a
+instalação do Python. O empacotamento usa o PyInstaller no modo de pasta,
+compactada em um arquivo .zip, com as versões exatas de
+requirements-executavel.txt. Como o PyInstaller só gera executável para o
+sistema em que roda, um fluxo do GitHub Actions compila as duas versões em
+máquinas Windows e Linux a cada etiqueta de versão (v*) e as publica em um
+\textit{Release} do repositório. Antes de compactar, o script de geração
+executa o programa pronto com a opção \texttt{-}\texttt{-autoteste}, que
+percorre sem interface as catorze etapas do uso real, do carregamento do
+wisconsin.pkl e da régua ao diagnóstico com todos os modelos, à auditoria, às
+explicações, aos fatores, ao SHAP, ao mapa interativo, aos PDFs e ao histórico,
+e interrompe a geração se alguma falhar. A verificação é necessária porque o
+PyInstaller inclui apenas o que enxerga nas importações, e o que fica de fora só
+se manifesta com o programa em execução. No executável, o histórico e os PDFs
+são gravados na pasta DiagnosisXAI do diretório pessoal do usuário, pois a
+pasta do programa pode ser somente leitura.
 
 \subsection{Limitações da Versão Atual}
 \label{subsec:limitacoes-software}
@@ -2238,9 +2457,15 @@ A aplicação opera apenas sobre os trinta atributos da base Wisconsin, já
 extraídos das imagens: não faz segmentação de núcleos nem processamento de
 imagem, etapa que permanece a cargo do laboratório. Os modelos são estáticos e
 herdam as limitações da base de origem, 569 amostras de uma população
-específica. A validação até aqui é técnica: os testes verificam a coerência
-entre o diagnóstico exibido e a decisão efetiva dos modelos, mas o sistema ainda
-não passou por avaliação de usabilidade com profissionais de saúde.
+específica. A recusa tem custo explícito: no conjunto de teste, cerca de um
+terço do lote volta para revisão humana, e o KNN, sem faixa calibrada, decide
+todos os casos. Os fatores que mais pesaram descrevem o que o modelo usou para
+chegar à certeza, não a causa biológica do tumor, e os valores SHAP coluna a
+coluna da Regressão Logística, do SVM e do KNN são aproximações do
+KernelExplainer. A validação até aqui é técnica: os testes verificam a
+coerência entre o diagnóstico exibido e a decisão efetiva dos modelos, mas o
+sistema ainda não passou por avaliação de usabilidade com profissionais de
+saúde.
 
 % ==============================================================================
 % CAPÍTULO 6 — CONSIDERAÇÕES FINAIS
