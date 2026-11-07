@@ -57,7 +57,12 @@ como requisito à obtenção do grau de Bacharel.}
 
 % % Resumo do trabalho
 \begin{resumo}
-    Este trabalho propõe o desenvolvimento de um software integrado a um modelo preditivo para a classificação de tumores mamários como benignos ou malignos, utilizando a base de dados pública Breast Cancer Wisconsin. O objetivo central é mitigar a opacidade característica dos modelos de caixa preta, fornecendo diagnósticos que unam alta precisão analítica a justificativas clínicas interpretáveis por profissionais de saúde. A metodologia contempla o treinamento e a comparação de algoritmos clássicos de aprendizado de máquina supervisionado, avaliados por métricas estatísticas. A explicabilidade das decisões é garantida pela integração da biblioteca SHAP, enquanto o algoritmo UMAP é aplicado para a análise visual da separabilidade entre tumores benignos e malignos. O sistema disponibiliza uma interface capaz de receber dados em lote via upload de planilhas e gerar relatórios estruturados com os diagnósticos e suas respectivas fundamentações visuais. Os resultados esperados indicam que a combinação de modelos preditivos de alto desempenho com técnicas de inteligência artificial explicável constitui uma solução viável e eticamente fundamentada para o apoio ao diagnóstico oncológico assistido por computador.
+    Este trabalho desenvolveu um software integrado a um modelo preditivo para a classificação de tumores mamários como benignos ou malignos, utilizando a base de dados pública Breast Cancer Wisconsin. 
+    O objetivo central é mitigar a opacidade característica dos modelos de caixa preta, fornecendo diagnósticos que unam alta precisão analítica a justificativas clínicas interpretáveis por profissionais de saúde. 
+    A metodologia contempla o treinamento e a comparação de algoritmos clássicos de aprendizado de máquina supervisionado, avaliados por métricas estatísticas. 
+    A explicabilidade é oferecida por valores de Shapley, que decompõem cada diagnóstico nas contribuições dos atributos, e o algoritmo UMAP é aplicado para a análise visual da separabilidade entre tumores benignos e malignos.
+    O sistema disponibiliza uma interface capaz de receber dados em lote via upload de planilhas e gerar relatórios estruturados com os diagnósticos e suas respectivas fundamentações visuais. 
+    Os resultados quanto à explicabilidade indicam que o software acompanha cada diagnóstico de uma justificativa que decompõe a certeza exibida nos atributos que mais pesaram na decisão, em valores de Shapley, e cujo conteúdo é coerente com alterações morfológicas associadas à malignidade. Contudo, essa interpretabilidade ainda não foi avaliada por profissionais de saúde.
 
     \palavraschave{Aprendizado de máquina; Base de dados Wisconsin; Inteligência Artificial Explicável; SHAP; UMAP}
 \end{resumo}
@@ -200,8 +205,9 @@ Diante da necessidade de conciliar desempenho preditivo e interpretabilidade cl�
 
 O objetivo deste trabalho é desenvolver um software integrado a um modelo preditivo para a classificação de tumores mamários (benignos ou malignos), utilizando algoritmos de Machine Learning e a base de dados pública Breast Cancer Wisconsin. O intuito principal é mitigar a opacidade característica dos modelos de "caixa preta", fornecendo aos profissionais de saúde diagnósticos preditivos que unam alta precisão analítica a justificativas clínicas transparentes.
 
-Para alcançar esse propósito, o projeto engloba o treinamento e a seleção de classificadores, bem como a aplicação do UMAP para a análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (\textit{clusters}) e anomalias (\textit{outliers}) biológicas. Em paralelo, o sistema integrará a biblioteca SHAP para garantir a explicabilidade das decisões, quantificando o impacto de cada variável celular no risco de malignidade apontado pelo modelo. Por fim, visando a viabilidade de uso no cotidiano médico, o trabalho contempla a criação de uma interface capaz de receber dados em lote via upload de planilhas, automatizando a geração de relatórios de saída estruturados (como PDF, Excel ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
+Para alcançar esse propósito, o trabalho compreende o treinamento e a comparação de classificadores e a explicação de cada diagnóstico pela biblioteca SHAP, que quantifica o impacto de cada variável celular no risco de malignidade apontado pelo modelo. O UMAP foi aplicado à análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (clusters) e a localização de cada paciente na população de treino. Inicialmente, previa-se que o UMAP também identificasse anomalias (outliers). Essa função, porém, não se mostrou adequada à projeção bidimensional, e a sinalização de perfis atípicos passou a ser feita pela distância de Mahalanobis, medida no espaço completo dos atributos. Por fim, visando a viabilidade de uso no cotidiano médico, foi desenvolvida uma interface capaz de receber dados em lote via upload de planilhas e de gerar relatórios estruturados (em PDF ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
 
+Este trabalho está organizado em cinco capítulos. O Capítulo 2 apresenta a fundamentação teórica, abordando o câncer de mama e sua análise morfológica, os conceitos de aprendizado de máquina, as métricas de avaliação, os algoritmos classificadores e as técnicas de explicabilidade (SHAP) e de redução de dimensionalidade (UMAP). O Capítulo 3 analisa os trabalhos relacionados e identifica a lacuna que este projeto busca preencher. O Capítulo 4 descreve a metodologia de construção da solução, desde o pré-processamento e a análise exploratória até o treinamento, a avaliação e a calibração dos modelos, e o estado atual do software. O Capítulo 5 retoma os resultados obtidos, suas limitações e os trabalhos futuros.
 
 % -------------------------------------------------------------------------------------------------
 % -------------------------------------------------------------------------------------------------
@@ -278,7 +284,7 @@ O \textit{underfitting} ocorre quando o modelo matemático é estruturalmente si
 
 Na estatística, essa linha tênue entre memorizar e generalizar é explicada pelo dilema viés e variância (\textit{bias-variance tradeoff}). O viés representa a limitação estrutural do modelo em enxergar a complexidade dos dados reais, o que causa o \textit{underfitting}. Já a variância mede o quanto o modelo altera sua fronteira de decisão de forma exagerada diante de pequenas mudanças nos dados, o que resulta no \textit{overfitting}. Para garantir que o classificador encontre o equilíbrio estatístico perfeito e seja seguro para uso clínico, é obrigatório adotar um ciclo de vida rigoroso no qual a base de dados original nunca é entregue inteira de uma só vez ao algoritmo. Ela precisa ser metodologicamente dividida em subconjuntos separados (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
 
-Essa metodologia de divisão geralmente particiona os dados em três grupos: Treinamento, Validação e Teste. O conjunto de treinamento é o ambiente computacional primário, onde o algoritmo ajusta seus pesos e constrói suas regras de classificação. O conjunto de validação atua como um ambiente de aferição intermediária, permitindo que o desenvolvedor calibre os detalhes matemáticos do modelo e perceba rapidamente se o \textit{overfitting} está ocorrendo. Por fim, o conjunto de teste representa o cenário do mundo real. Ele permanece totalmente isolado e oculto do computador durante todo o processo de desenvolvimento, sendo acionado apenas uma única vez na etapa final. O desempenho alcançado neste conjunto de teste isolado é o indicador soberano que comprova a verdadeira eficácia do sistema em acertar diagnósticos na prática médica (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+Essa metodologia de divisão geralmente particiona os dados em três grupos: Treinamento, Validação e Teste. O conjunto de treinamento é o ambiente computacional primário, onde o algoritmo ajusta seus pesos e constrói suas regras de classificação. O conjunto de validação atua como um ambiente de aferição intermediária, permitindo que o desenvolvedor calibre os detalhes matemáticos do modelo e perceba rapidamente se o \textit{overfitting} está ocorrendo. Por fim, o conjunto de teste representa o cenário do mundo real. Ele permanece totalmente isolado e oculto do computador durante todo o processo de desenvolvimento, sendo acionado apenas uma única vez na etapa final. O desempenho alcançado neste conjunto de teste isolado é o principal indicador disponível do desempenho do sistema diante de casos inéditos, embora dependa de uma única partição e precise ser complementado pela validação cruzada apresentada na metodologia (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
 \subsection{Métricas de Avaliação de Desempenho}
 \label{sec:metricas}
@@ -487,11 +493,11 @@ Do ponto de vista arquitetônico, \citeonline{Rudin2019} destaca que a explicabi
 
 A técnica \textit{SHapley Additive exPlanations} (SHAP) representa o atual estado da arte em explicabilidade algorítmica. A sua base teórica não nasceu na ciência da computação, mas sim na teoria dos jogos cooperativos, formulada pelo matemático Lloyd Shapley. Na teoria original, o valor de Shapley calcula a contribuição exata e justa de cada jogador para o prêmio final obtido por uma equipe. Quando esse conceito é transportado para o aprendizado de máquina, o modelo preditivo assume o papel do jogo, as características celulares atuam como os jogadores e o prêmio a ser dividido é a predição final do algoritmo. De acordo com a documentação oficial da ferramenta, o SHAP atua como uma abordagem unificada, consolidando diversas metodologias anteriores sob a classe de métodos de atribuição de características aditivas para revelar os bastidores matemáticos da caixa preta (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
-Um dos grandes trunfos arquitetônicos da biblioteca SHAP, conforme detalhado em seu manual técnico, é a disponibilidade de otimizadores algorítmicos específicos denominados \textit{explainers}. Como o cálculo de todas as combinações possíveis de variáveis possui um custo computacional altíssimo, a ferramenta oferece soluções otimizadas para diferentes modelos. Para algoritmos baseados em árvores, como o \textit{Random Forest} e o \textit{XGBoost}, a biblioteca disponibiliza o \textit{TreeExplainer}, um algoritmo capaz de calcular os valores exatos de Shapley de forma extremamente rápida aproveitando a estrutura de roteamento interna das árvores. Para arquiteturas matemáticas distintas ou caixas pretas absolutas, o sistema recorre a algoritmos agnósticos, como o \textit{KernelExplainer}, garantindo que qualquer modelo oncológico possa ser dissecado independentemente de sua complexidade teórica (\citeauthoronline{SHAPDocs2026}, \citeyear{SHAPDocs2026}).
+Um dos grandes trunfos arquitetônicos da biblioteca SHAP, conforme detalhado em seu manual técnico, é a disponibilidade de otimizadores algorítmicos específicos denominados \textit{explainers}. Como o cálculo de todas as combinações possíveis de variáveis possui um custo computacional altíssimo, a ferramenta oferece soluções otimizadas para diferentes modelos. Para algoritmos baseados em árvores, como o \textit{Random Forest} e o \textit{XGBoost}, a biblioteca disponibiliza o \textit{TreeExplainer}, um algoritmo capaz de calcular os valores exatos de Shapley de forma extremamente rápida aproveitando a estrutura de roteamento interna das árvores. Para arquiteturas matemáticas distintas ou modelos de caixa preta, o sistema recorre a algoritmos agnósticos, como o \textit{KernelExplainer}, que podem explicar modelos de qualquer natureza, ao custo de valores aproximados (\citeauthoronline{SHAPDocs2026}, \citeyear{SHAPDocs2026}).
 
 O resultado desse robusto processamento matemático é traduzido em visualizações gráficas projetadas especificamente para a prática clínica e auditoria de dados. No escopo da interpretabilidade local, voltada para o diagnóstico de um único paciente, o SHAP fornece gráficos de cascata (\textit{waterfall plots}) (\citeauthoronline{dutta2024}, \citeyear{dutta2024}). Essas representações ilustram milimetricamente como cada característica, como a textura ou a área do núcleo celular, empurrou a probabilidade do diagnóstico para cima ou para baixo a partir do valor base da população. No escopo global, o algoritmo compila todas as predições em gráficos de enxame (\textit{beeswarm plots} ou \textit{summary plots}). Esse panorama permite que o médico observe não apenas quais variáveis são globalmente mais importantes para o classificador, mas também a direção biomédica desse impacto, revelando se os valores altos de uma determinada característica estão sistematicamente associados a tumores malignos (\citeauthoronline{Adadi2018}, \citeyear{Adadi2018}).
 
-Em comparação com outras ferramentas de explicabilidade disponíveis na literatura, como o modelo LIME, o método SHAP destaca-se por sua extrema robustez teórica. Enquanto outras técnicas tentam adivinhar o comportamento do algoritmo criando aproximações em torno dos dados locais, o SHAP garante propriedades matemáticas vitais de consistência e precisão local. Na prática, isso significa que a soma de todos os valores e pesos atribuídos a cada característica celular pelo SHAP resultará exatamente na predição percentual final emitida pelo sistema principal. Essa garantia de exatidão torna o método estatisticamente seguro e incontestável para auditar diagnósticos críticos na área da saúde (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
+Em comparação com outras ferramentas de explicabilidade disponíveis na literatura, como o modelo LIME, o método SHAP se destaca por sua fundamentação teórica sólida. Enquanto outras técnicas aproximam o comportamento do algoritmo a partir de vizinhanças locais dos dados, o SHAP possui propriedades matemáticas de consistência e de precisão local. Na prática, a soma dos valores atribuídos a cada característica celular pelo SHAP, acrescida do valor de base, reproduz a predição do modelo. Os valores são exatos nos explicadores de árvores, como o TreeExplainer, e aproximados nos demais, como o KernelExplainer, o que deve ser considerado ao auditar cada diagnóstico (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
 \subsection{Fundamentação Matemática: A Equação de Shapley}
 
@@ -894,12 +900,7 @@ na Figura~\ref{fig:fluxograma_solucao}.
 
 A base de dados utilizada neste projeto é a \textit{Breast Cancer Wisconsin
 (Diagnostic)}, disponibilizada publicamente no repositório UCI Machine Learning
-Repository e referenciada ao longo deste trabalho como base Wisconsin. O arquivo
-data.csv é composto por 569 amostras e 32 colunas em sua forma bruta: um
-identificador numérico único (id), a variável alvo (diagnosis) e trinta atributos
-morfológicos numéricos extraídos computacionalmente dos núcleos celulares obtidos
-via Punção Aspirativa por Agulha Fina, conforme descrito por
-\citeonline{Street1993}.
+Repository e referenciada ao longo deste trabalho como base Wisconsin. O arquivo data.csv é composto por 569 amostras e 33 colunas em sua forma bruta: um identificador numérico único (id), a variável alvo (diagnosis), trinta atributos morfológicos numéricos extraídos computacionalmente dos núcleos celulares obtidos via Punção Aspirativa por Agulha Fina, conforme descrito por \citeonline{Street1993}, e uma coluna sem nome (Unnamed: 32).
 
 Antes do início do \textit{pipeline} de modelagem, duas colunas foram removidas
 da base por não agregarem valor preditivo ao sistema. A coluna id consiste em um
@@ -2473,104 +2474,29 @@ saúde.
 \chapter{Conclusão}
 \label{cap:consideracoes-finais}
 
-Este trabalho partiu de um obstáculo à adoção clínica do aprendizado de máquina
-no diagnóstico do câncer de mama: modelos de alto desempenho preditivo que não
-revelam o raciocínio por trás de suas decisões. Diante dele, formulou-se a
-pergunta de como integrar técnicas de explicabilidade e de redução de
-dimensionalidade a um modelo preditivo, de modo a fornecer diagnósticos ao mesmo
-tempo acurados e interpretáveis por profissionais de saúde. O objetivo foi
-desenvolver um software que classificasse tumores mamários como benignos ou
-malignos a partir da base Wisconsin e acompanhasse cada diagnóstico de uma
-justificativa transparente.
+Este trabalho partiu de um obstáculo à adoção clínica do aprendizado de máquina no diagnóstico do câncer de mama: modelos de alto desempenho que não revelam o raciocínio por trás de suas decisões. Perguntou-se como integrar técnicas de explicabilidade e de redução de dimensionalidade a um modelo preditivo, de modo a obter diagnósticos acurados e interpretáveis por profissionais de saúde. O objetivo foi desenvolver um software que classificasse tumores benignos ou malignos a partir da base Wisconsin e acompanhasse cada diagnóstico de uma justificativa transparente.
 
-Os experimentos mostraram, em primeiro lugar, que nesta base o desempenho não
-depende de um modelo complexo. A Regressão Logística, modelo linear e
-intrinsecamente interpretável, igualou ou superou o SVM e o Random Forest no
-conjunto de teste. A validação cruzada repetida revelou que essa partição única
-era otimista, e os testes de significância mostraram que, entre os quatro
-modelos avançados, com acurácia média entre 0,960 e 0,973, nenhuma diferença se
-distingue do ruído amostral; apenas a inferioridade da Árvore de Decisão tem
-respaldo estatístico. O ganho que justificaria trocar um modelo transparente por
-uma caixa preta, portanto, não se verificou, e o software, em vez de eleger um
-modelo único, oferece os cinco classificadores e um comitê de voto suave.
+Os experimentos mostraram, em primeiro lugar, que nesta base o desempenho não depende de um modelo complexo. A Regressão Logística, intrinsecamente interpretável, igualou ou superou o SVM e o Random Forest no conjunto de teste. A validação cruzada repetida revelou que essa partição única era otimista. Os testes de significância não encontraram diferença entre os quatro modelos avançados, com acurácia média entre 0,960 e 0,973, e confirmaram apenas a inferioridade da Árvore de Decisão. Trocar um modelo transparente por uma caixa preta não se justificou por ganho de desempenho, e por isso o software oferece os cinco classificadores e um comitê de voto suave, sem eleger um único modelo.
 
-Em segundo lugar, constatou-se que acertar não basta: a certeza exibida ao
-profissional precisa corresponder à frequência real do desfecho. As
-probabilidades foram, por isso, recalibradas pelo escalonamento de Platt, e a
-decisão deixou de usar o corte padrão de 50\%, passando a depender de um limiar
-de operação e de uma faixa de recusa definidos sem o conjunto de teste. Nesse
-conjunto, os quatro modelos com faixa, entre eles o comitê, decidiram entre
-67\% e 74\% dos pacientes sem nenhum erro. O preço é explícito: cerca de um
-terço do lote volta para revisão humana.
+Em segundo lugar, acertar não basta: a certeza exibida precisa corresponder à frequência real do desfecho. As probabilidades foram recalibradas pelo escalonamento de Platt, e a decisão deixou de usar o corte de 50\%, passando a depender de um limiar de operação e de uma faixa de recusa definidos sem o conjunto de teste. Nesse conjunto, os quatro modelos com faixa, entre eles o comitê, decidiram entre 67\% e 74\% dos pacientes sem nenhum erro. O preço é explícito: cerca de um terço do lote volta para revisão humana.
 
-Em terceiro lugar, quanto à explicabilidade, os coeficientes da Regressão
-Logística e os valores SHAP do Random Forest concordaram apenas em parte, mas o
-que têm em comum, atributos ligados ao tamanho e às concavidades do núcleo
-celular, coincide com alterações morfológicas que a fundamentação teórica
-associa à malignidade. No software, cada modelo é explicado pelo próprio
-mecanismo de decisão, e todos partilham um bloco de fatores que decompõe a
-certeza exibida em valores de Shapley exatos, de modo que a explicação fecha no
-mesmo número que o profissional lê na tabela. O UMAP, por sua vez, mostrou-se
-útil para situar cada paciente na população de treino, mas não para explicar,
-por si só, a decisão; também não revela casos atípicos, que passaram a ser
-sinalizados pela distância de Mahalanobis no espaço completo dos atributos.
+Em terceiro lugar, quanto à explicabilidade, os coeficientes da Regressão Logística e os valores SHAP do Random Forest concordaram apenas em parte. O núcleo comum, atributos ligados ao tamanho e às concavidades do núcleo celular, coincide com alterações morfológicas associadas à malignidade. No software, cada modelo é explicado pelo próprio mecanismo de decisão, e todos compartilham um bloco de fatores que decompõe a certeza exibida em valores de Shapley exatos, de modo que a explicação fecha no mesmo número que o profissional lê na tabela. O UMAP serve para situar cada paciente na população de treino, mas não explica a decisão nem revela casos atípicos; esses são sinalizados pela distância de Mahalanobis no espaço completo dos atributos.
 
-A resposta à pergunta de pesquisa é, portanto, que a integração não se resume a
-acoplar uma técnica de explicabilidade a um classificador. Diagnósticos
-simultaneamente acurados e interpretáveis exigiram combinar uma certeza
-calibrada, uma regra de decisão capaz de se abster, explicações coerentes com
-essa certeza e recursos que situam o paciente na população conhecida e sinalizam
-quando ele se afasta dela. Nesse sentido, o objetivo geral foi atingido: o
-software está implementado, é distribuído como executável para Windows e Linux,
-processa lotes de pacientes recebidos em planilha e exporta os resultados em CSV
-e os relatórios em PDF, com a fundamentação de cada diagnóstico. A
-interpretabilidade, contudo, foi assegurada no plano técnico e ainda precisa ser
-confirmada pelos profissionais a quem a ferramenta se destina.
+A resposta à pergunta de pesquisa é que a integração não se resume a acoplar uma técnica de explicabilidade a um classificador. Diagnósticos acurados e interpretáveis exigiram combinar certeza calibrada, regra de decisão capaz de se abster, explicações coerentes com essa certeza e recursos que situam o paciente na população conhecida e sinalizam quando ele se afasta dela. O objetivo geral foi atingido: o software está implementado, é distribuído como executável para Windows e Linux, processa lotes recebidos em planilha e exporta os resultados em CSV e os relatórios em PDF, com a fundamentação de cada diagnóstico. A interpretabilidade, porém, foi assegurada no plano técnico e ainda precisa ser confirmada pelos profissionais a quem a ferramenta se destina.
 
-Do ponto de vista acadêmico, o trabalho contribui em duas frentes. A primeira é
-metodológica: ao complementar a validação cruzada com testes de significância e
-análise de calibração, procedimentos que nenhum dos trabalhos relacionados
-empregou, mostrou que uma partição única pode produzir estimativas otimistas e
-não basta para sustentar a superioridade de um algoritmo sobre outro. A segunda
-é reunir, em uma ferramenta utilizável, elementos que a literatura revisada
-explorava isoladamente: a comparação sistemática de classificadores, o SHAP
-local e global, o UMAP, a calibração das probabilidades e a sinalização de
-perfis atípicos. Do ponto de vista prático, a solução mostra como um sistema de
-apoio ao diagnóstico pode ser transparente quanto à própria incerteza,
-devolvendo os casos duvidosos ao especialista e avisando quando o paciente foge
-do perfil de treino; por operar localmente, preserva a privacidade dos
-pacientes, e sua arquitetura pode servir de referência a empresas que
-desenvolvem software para a saúde. Para a sociedade, o trabalho aponta um
-caminho para que a inteligência artificial chegue à prática clínica como apoio
-auditável ao profissional, e não como seu substituto.
+Ao longo do desenvolvimento, três obstáculos exigiram ajustes que alteraram o resultado inicial. O primeiro foi a divergência entre a decisão exibida ao profissional e a decisão efetiva do classificador, identificada no SVM e no KNN. A correção foi incorporada ao código, e um conjunto de testes automatizados passou a verificar que o diagnóstico exibido corresponde à decisão de cada modelo. O segundo foi a calibração: a regressão isotônica produziu o menor escore de Brier no teste, mas foi descartada em favor do escalonamento de Platt, mais robusto em amostras pequenas. Como a aplicação direta de Platt sobre o SVM piorava sua calibração, o ajuste passou a ser feito sobre a função de decisão desse modelo. O KNN, cujas probabilidades assumem poucos valores distintos, ficou sem faixa de recusa. O terceiro foi o empacotamento. O PyInstaller inclui apenas o que identifica nas importações, e as falhas de módulos ausentes só apareciam com o programa em execução; a solução foi um modo de autoteste que percorre o fluxo completo antes de gerar o executável. Como o arquivo de modelos exige a mesma versão do scikit-learn para ser lido, as versões foram fixadas em um arquivo próprio. Como o PyInstaller só gera executáveis para o sistema em que roda, a compilação para Windows e Linux foi automatizada com GitHub Actions. Por fim, a pasta do programa pode ser somente leitura, e por isso o histórico e os relatórios são gravados no diretório do usuário.
 
-Essas conclusões têm limites. A base Wisconsin reúne apenas 569 amostras de uma
-população específica, e os modelos, estáticos, não foram avaliados em dados de
-outras instituições, de modo que sua capacidade de generalização permanece em
-aberto. Os atributos restringem-se a trinta medidas morfológicas já extraídas
-das imagens, algumas fortemente correlacionadas e a maioria sem unidade física,
-e não incluem informações clínicas do paciente; a aplicação não processa
-imagens e depende da extração feita pelo laboratório. As explicações descrevem
-o que o modelo usou para chegar à certeza, não a causa biológica do tumor, e os
-valores SHAP coluna a coluna da Regressão Logística, do SVM e do KNN são
-aproximações. Por fim, a validação foi apenas técnica: o sistema ainda não
-passou por avaliação de usabilidade com profissionais de saúde.
+O trabalho contribui em duas frentes. A metodológica: ao complementar a validação cruzada com testes de significância e análise de calibração, procedimentos que nenhum dos trabalhos relacionados empregou, mostrou que uma partição única pode produzir estimativas otimistas e não basta para sustentar a superioridade de um algoritmo. A prática: reúne, em uma ferramenta utilizável, elementos que a literatura explorava isoladamente (comparação sistemática de classificadores, SHAP local e global, UMAP, calibração e sinalização de perfis atípicos), e mostra como um sistema de apoio ao diagnóstico pode ser transparente quanto à própria incerteza, devolvendo os casos duvidosos ao especialista e avisando quando o paciente foge do perfil de treino. Por operar localmente, preserva a privacidade dos pacientes, e sua arquitetura pode servir de referência a empresas que desenvolvem software para a saúde. Para a sociedade, aponta um caminho em que a inteligência artificial chega à prática clínica como apoio auditável ao profissional, e não como seu substituto.
 
-Esses limites indicam os próximos passos. O primeiro é validar os modelos em
-bases externas, de outras populações e laboratórios, recalculando limiares e
-faixas de recusa sobre os novos dados, o que a arquitetura já permite sem
-alterar a aplicação. O segundo é avaliar a ferramenta com patologistas e
-oncologistas, verificando se as explicações de fato apoiam a decisão e se a
-parcela de casos devolvidos é aceitável na rotina clínica. Sugere-se ainda
-incorporar a segmentação dos núcleos celulares, para que o sistema receba
-diretamente as imagens da punção, e investigar se variáveis clínicas
-complementares permitem decidir parte dos casos que hoje retornam à revisão.
+Durante o desenvolvimento, três dificuldades exigiram ajustes. A decisão exibida na interface divergia da decisão real do SVM e do KNN, o que foi corrigido e passou a ser verificado por testes automatizados. A regressão isotônica, apesar do melhor escore de Brier, tende a se sobreajustar em amostras pequenas, e por isso foi adotado o escalonamento de Platt, que no SVM atua sobre a função de decisão. Por fim, equilibrar a sensibilidade com a precisão, que o F1-score combina, exigiu maximizar a detecção de malignos sem que o programa sinalizasse câncer em pacientes saudáveis. Essa tensão foi resolvida com o menor limiar cuja especificidade, medida sobre as probabilidades out-of-fold do treino, atingisse 92\%, e com uma faixa de recusa para os casos intermediários, sem que o conjunto de teste participasse da escolha.
 
-Em síntese, os resultados indicam que, na base estudada, acurácia e
-transparência não precisaram ser trocadas uma pela outra. O desafio de um
-sistema de apoio ao diagnóstico mostrou-se menos o de escolher o algoritmo mais
-preciso do que o de deixar explícito, para cada paciente, quão segura é a
-resposta, o que a sustenta e quando o sistema deve se abster.
+Essas conclusões têm limites. A base Wisconsin reúne 569 amostras de uma população específica, e os modelos, estáticos, não foram avaliados em dados de outras instituições. Os atributos são trinta medidas morfológicas já extraídas das imagens, algumas fortemente correlacionadas, a maioria sem unidade física e sem informações clínicas do paciente; a aplicação não processa imagens e depende da extração feita pelo laboratório. As explicações descrevem o que o modelo usou para chegar à certeza, não a causa biológica do tumor, e os valores SHAP coluna a coluna da Regressão Logística, do SVM e do KNN são aproximações. Por fim, a validação foi apenas técnica, sem avaliação de usabilidade com profissionais de saúde.
+
+Os próximos passos são validar os modelos em bases externas, recalculando limiares e faixas de recusa, o que a arquitetura já permite sem alterar a aplicação; avaliar a ferramenta com patologistas e oncologistas, verificando se as explicações apoiam a decisão e se a parcela de casos devolvidos é aceitável na rotina clínica; incorporar a segmentação dos núcleos, para que o sistema receba diretamente as imagens da punção; e investigar se variáveis clínicas complementares permitem decidir parte dos casos hoje devolvidos à revisão.
+
+Em síntese, na base estudada, acurácia e transparência não precisaram ser trocadas uma pela outra. O desafio mostrou-se menos o de escolher o algoritmo mais preciso do que o de deixar explícito, para cada paciente, quão segura é a resposta, o que a sustenta e quando o sistema deve se abster.
+
+
 
 % ==============================================================================
 % CAPÍTULO 7 — CONCLUSÃO
