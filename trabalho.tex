@@ -199,7 +199,7 @@ O uso de tecnologias computacionais para enfrentar essa carga de adoecimento est
 
 Apesar do notável desempenho preditivo, a adoção clínica dessas tecnologias esbarra no chamado "problema da caixa preta". Algoritmos avançados fornecem predições altamente acuradas, mas não revelam o raciocínio matemático interno que levou àquela conclusão. Na prática médica, entregar um diagnóstico de malignidade automatizado sem uma fundamentação biológica rastreável é insuficiente e eticamente questionável. O profissional de saúde necessita compreender quais fatores morfológicos e celulares pesaram na decisão para validar a predição, confiar no modelo e transmitir o diagnóstico com segurança ao paciente.
 
-É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir" essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) e anomalias de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
+É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir"\ essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) e anomalias de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
 
 Diante da necessidade de conciliar desempenho preditivo e interpretabilidade clínica, formula-se o seguinte problema de pesquisa: como integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde?
 
@@ -243,7 +243,7 @@ Para alcançar esse resultado, os pesquisadores utilizaram amostras coletadas vi
 
 \section{Inteligência Artificial e Machine Learning: Definições e Hierarquia}
 
-A Inteligência Artificial (IA) é uma área da ciência da computação que teve um marco histórico em 1956, durante a Conferência de Dartmouth, quando o termo foi formalmente cunhado (Russel; Norvig, 2010). Desde então, a área evoluiu e ramificou-se em diversas vertentes de pesquisa. Segundo \citeonline{Russell2010}, as definições históricas e contemporâneas de IA podem ser organizadas em quatro categorias principais, divididas entre abordagens que buscam simular o comportamento ou o pensamento humano, e abordagens focadas puramente no conceito de racionalidade. No contexto computacional moderno, a abordagem mais adotada e cientificamente rigorosa é a dos "agentes racionais", que são sistemas que operam de forma autônoma e agem para alcançar o melhor resultado possível diante de um problema, dado o conhecimento e as percepções que possuem do ambiente.
+A Inteligência Artificial (IA) é uma área da ciência da computação que teve um marco histórico em 1956, durante a Conferência de Dartmouth, quando o termo foi formalmente cunhado (Russell; Norvig, 2010). Desde então, a área evoluiu e ramificou-se em diversas vertentes de pesquisa. Segundo \citeonline{Russell2010}, as definições históricas e contemporâneas de IA podem ser organizadas em quatro categorias principais, divididas entre abordagens que buscam simular o comportamento ou o pensamento humano, e abordagens focadas puramente no conceito de racionalidade. No contexto computacional moderno, a abordagem mais adotada e cientificamente rigorosa é a dos "agentes racionais", que são sistemas que operam de forma autônoma e agem para alcançar o melhor resultado possível diante de um problema, dado o conhecimento e as percepções que possuem do ambiente.
 
 Para que um sistema alcance essa racionalidade em ambientes complexos, a programação de regras lógicas estáticas (\textit{if-then}) torna-se inviável. É para solucionar esta limitação que surge o \textit{Machine Learning} (ML), o principal subcampo da Inteligência Artificial. Em vez de serem explicitamente programados para executar uma tarefa passo a passo, os algoritmos de ML utilizam métodos estatísticos para extrair padrões diretamente dos dados. A definição formal mais consolidada na literatura é proposta por \citeonline{Mitchell1997}, que estabelece que um programa de computador aprende a partir da experiência $E$, em relação a uma classe de tarefas $T$ e uma medida de desempenho $P$, se o seu desempenho em $T$, quantificado por $P$, melhora com a experiência $E$.
 
@@ -264,7 +264,7 @@ Essa estrutura demonstra que todo Aprendizado Profundo é uma forma de Aprendiza
 \section{Machine Learning: Conceitos e Paradigmas}
 % Aprendizado Supervisionado. Classificação Binária. O Ciclo de Vida: Coleta, pré-processamento, treinamento e avaliação. Desafios: Overfitting, underfitting, viés e variância. Importância da validação cruzada e do conjunto de teste. Métricas de avaliação: acurácia, precisão, recall, F1-score, AUC-ROC. Algoritmos comuns: Regressão Logística, SVM, Random Forest, XGBoost, Redes Neurais. 
 
-O desenvolvimento de um modelo de IA não segue uma receita universal, a abordagem escolhida depende fundamentalmente da natureza dos dados disponíveis e do objetivo do problema. Na literatura clássica de \textit{Machine Learning}, os algoritmos são categorizados em três grandes paradigmas de aprendizado: Não Supervisionado, Aprendizado por Reforço e Aprendizado Supervisionado. Como o escopo deste trabalho visa prever um diagnóstico clínico a partir de dados históricos previamente validados por médicos patologistas, o referencial teórico e metodológico desta pesquisa concentra-se exclusivamente no paradigma do Aprendizado Supervisionado (\citeauthoronline{Cruz2006}, \citeyear{Cruz2006}).
+O desenvolvimento de um modelo de IA não segue uma receita universal. A abordagem escolhida depende fundamentalmente da natureza dos dados disponíveis e do objetivo do problema. Na literatura clássica de \textit{Machine Learning}, os algoritmos são categorizados em três grandes paradigmas de aprendizado: Não Supervisionado, Aprendizado por Reforço e Aprendizado Supervisionado. Como o escopo deste trabalho visa prever um diagnóstico clínico a partir de dados históricos previamente validados por médicos patologistas, o referencial teórico e metodológico desta pesquisa concentra-se exclusivamente no paradigma do Aprendizado Supervisionado (\citeauthoronline{Cruz2006}, \citeyear{Cruz2006}).
 
 \subsection{O Paradigma do Aprendizado Supervisionado e a Classificação Binária}
 
@@ -415,7 +415,7 @@ viável (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
     \caption{REPRESENTAÇÃO GEOMÉTRICA DO HIPERPLANO E MARGENS DE SEPARAÇÃO DO SVM}
     \includegraphics[width=0.7\textwidth]{hyperplane.png}
     \label{fig:hiperplano_svm}
-    \fonte{\citeauthoronline{AIOnlineCourse2023}, \citeyear{AIOnlineCourse2023}, Disponível em: \url{https://www.coursera.org/learn/machine-learning/lecture/2s9nP/support-vector-machines}}
+        \fonte{\citeauthoronline{AIOnlineCourse2023}, \citeyear{AIOnlineCourse2023}, Disponível em: \url{https://www.aionlinecourse.com/tutorial/machine-learning/kernel-svm}}
 \end{figure}
 
 O propósito central do algoritmo é encontrar a orientação ideal dessa fronteira para que ela maximize a distância ou a margem entre os pontos mais próximos de classes distintas, conhecidos como vetores de suporte (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Essa lógica é frequentemente comparada ao ajuste da "rua mais larga possível"\ entre os dados, garantindo que o modelo não apenas separe os grupos, mas o faça com uma folga que favoreça a generalização para novos diagnósticos clínicos (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Matematicamente, o hiperplano separador é descrito formalmente pela Equação \ref{eq:hiperplano}, onde $w$ é o vetor de peso que dita a inclinação da fronteira, $x$ é o vetor de entrada e $b$ representa o termo de viés que define a posição do plano no espaço (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
@@ -434,7 +434,7 @@ O modelo pode adotar uma configuração de margem rígida, exigindo que todos os
 
 Para lidar com a complexidade e os ruídos inerentes aos dados oncológicos reais, utiliza-se alternativamente a classificação de margem flexível. Essa técnica permite estrategicamente a ocorrência de pequenos erros de classificação através do uso de variáveis de folga ($\xi$) e do hiperparâmetro de regularização $C$. Um valor de $C$ elevado estreita a margem para minimizar classificações incorretas, enquanto um valor menor amplia a margem, permitindo uma maior tolerância a ruídos para evitar o sobreajuste e melhorar o desempenho preditivo (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
-Outra abordagem geométrica muito intuitiva para a classificação é o algoritmo KNN (\textit{K-Nearest Neighbors}). Diferente dos modelos que processam os dados para construir uma equação fixa durante o treinamento, o KNN adota um método de aprendizado baseado em instâncias. Na prática, ele memoriza todo o conjunto de dados históricos de tumores. Quando os dados de um novo paciente são inseridos no sistema, o algoritmo calcula a distância matemática espacial, como a distância Euclidiana, entre as características dessa nova célula e todas as células antigas já armazenadas. O sistema então identifica os "K" vizinhos mais próximos, ou seja, os exames históricos que possuem as medidas anatômicas mais idênticas ao caso atual. O diagnóstico preditivo é determinado por uma votação simples nessa vizinhança. Se a maioria dos tumores vizinhos for maligna, o novo caso será classificado como maligno. A sua aplicação em sistemas médicos destaca-se pela facilidade de interpretação espacial por parte do profissional de saúde, embora o esforço computacional para calcular essas distâncias aumente consideravelmente em bases de dados muito volumosas (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
+Outra abordagem geométrica muito intuitiva para a classificação é o algoritmo KNN (\textit{K-Nearest Neighbors}). Diferente dos modelos que processam os dados para construir uma equação fixa durante o treinamento, o KNN adota um método de aprendizado baseado em instâncias. Na prática, ele memoriza todo o conjunto de dados históricos de tumores. Quando os dados de um novo paciente são inseridos no sistema, o algoritmo calcula a distância matemática espacial, como a distância Euclidiana, entre as características dessa nova célula e todas as células antigas já armazenadas. O sistema então identifica os "K" vizinhos mais próximos, ou seja, os exames históricos que possuem as medidas anatômicas mais semelhantes ao caso atual. O diagnóstico preditivo é determinado por uma votação simples nessa vizinhança. Se a maioria dos tumores vizinhos for maligna, o novo caso será classificado como maligno. A sua aplicação em sistemas médicos destaca-se pela facilidade de interpretação espacial por parte do profissional de saúde, embora o esforço computacional para calcular essas distâncias aumente consideravelmente em bases de dados muito volumosas (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
 Os conceitos iniciais que fundamentam o KNN foram propostos em 1951, sendo o modelo categorizado como de "aprendizado preguiçoso"\ ou baseado em memória. Isso significa que não há fase formal de treinamento prévio, pois o algoritmo apenas armazena os dados, exigindo que toda a computação ocorra no exato momento da previsão. Para determinar os vizinhos, o modelo fundamenta-se em métricas de distância, como a euclidiana ou a distância de Manhattan. Recomenda-se que o número de vizinhos ($k$) seja definido de forma ímpar para evitar empates decisórios. Apesar da simplicidade, o KNN sofre com a "maldição da dimensionalidade"\ e torna-se ineficiente em termos de memória à medida que a base cresce (\citeauthoronline{ibm_knn_2026}, \citeyear{ibm_knn_2026}).
 
@@ -898,9 +898,11 @@ na Figura~\ref{fig:fluxograma_solucao}.
 \section{Base de Dados e Ambiente de Desenvolvimento}
 \label{sec:base-ambiente}
 
-A base de dados utilizada neste projeto é a \textit{Breast Cancer Wisconsin
+A base utilizada neste projeto é a \textit{Breast Cancer Wisconsin
 (Diagnostic)}, disponibilizada publicamente no repositório UCI Machine Learning
-Repository e referenciada ao longo deste trabalho como base Wisconsin. O arquivo data.csv é composto por 569 amostras e 33 colunas em sua forma bruta: um identificador numérico único (id), a variável alvo (diagnosis), trinta atributos morfológicos numéricos extraídos computacionalmente dos núcleos celulares obtidos via Punção Aspirativa por Agulha Fina, conforme descrito por \citeonline{Street1993}, e uma coluna sem nome (Unnamed: 32).
+Repository \cite{Wolberg1995}, e referenciada ao longo
+deste trabalho como base Wisconsin.
+
 
 Antes do início do \textit{pipeline} de modelagem, duas colunas foram removidas
 da base por não agregarem valor preditivo ao sistema. A coluna id consiste em um
@@ -1133,7 +1135,7 @@ A contagem confirmou um leve desbalanceamento entre as classes: 357 amostras
 pertencem à classe benigna (62,7\%) e 212 à classe maligna (37,3\%). Embora
 essa proporção não caracterize um desbalanceamento severo, ela é suficiente para
 que a acurácia isolada se torne uma métrica enganosa, na qual um classificador
-trivial que sempre predisse benigno atingiria 62,7\% de acurácia sem aprender
+trivial que sempre predissesse a classe benigna atingiria 62,7\% de acurácia sem aprender
 nenhum padrão real. Por essa razão, a avaliação dos modelos prioriza métricas
 como Sensibilidade, F1-score e PR-AUC, que mensuram o desempenho sobre a classe
 minoritária de forma mais fiel.
@@ -1767,7 +1769,8 @@ apresenta a média e o desvio-padrão de cada métrica ao longo das 50 dobras.
     \centering
     \caption{DESEMPENHO SOB VALIDAÇÃO CRUZADA (MÉDIA $\pm$ DESVIO-PADRÃO EM 50 DOBRAS)}
     \label{tab:validacao_cruzada}
-    \setlength{\tabcolsep}{3pt}
+    \footnotesize
+    \setlength{\tabcolsep}{2pt}
     \begin{tabular}{@{}lcccccc@{}}
         \toprule
         \textbf{Modelo} &
@@ -1861,19 +1864,11 @@ Nenhuma das comparações atingiu significância estatística. Ainda que os valo
 de $t$ sejam sistematicamente positivos, indicando vantagem consistente da
 Regressão Logística, os valores de $p$ permanecem acima de 0,05 em todos os
 casos, inclusive contra a Árvore de Decisão ($p = 0{,}0659$). Esse resultado
-ilustra a conhecida conservadorismo do teste 5$\times$2cv, que dispõe de apenas
+ilustra o conhecido conservadorismo do teste 5$\times$2cv, que dispõe de apenas
 dez estimativas de diferença e, portanto, de baixo poder estatístico
 (\citeauthoronline{Dietterich1998}, \citeyear{Dietterich1998}).
 
-O segundo teste oferece um panorama global. O teste de Friedman, seguido do
-pós-hoc de Nemenyi, é o procedimento recomendado por
-\citeauthoronline{Demsar2006} (\citeyear{Demsar2006}) para comparar múltiplos
-classificadores simultaneamente, evitando a inflação do erro tipo I decorrente
-de comparações pareadas repetidas. O Friedman rejeitou a hipótese nula de
-equivalência entre os cinco modelos com $\chi^2 = 65{,}766$ e
-$p = 1{,}775 \times 10^{-13}$, confirmando que ao menos dois deles diferem. O
-pós-hoc de Nemenyi identifica quais pares, conforme a
-Tabela~\ref{tab:nemenyi}.
+O segundo teste oferece um panorama global. O teste de Friedman, seguido do pós-hoc de Nemenyi, é o procedimento recomendado por \citeauthoronline{Demsar2006} (\citeyear{Demsar2006}) para comparar múltiplos classificadores simultaneamente, evitando a inflação do erro tipo I decorrente de comparações pareadas repetidas. Nesse teste, os blocos são as 50 dobras da validação cruzada 10×5 sobre o conjunto de treino, e cada dobra fornece a acurácia dos cinco modelos. Como as dobras compartilham parte dos dados de treino, suas estimativas não são independentes, o que tende a tornar os valores de $p$ otimistas, por isso, o Friedman e o Nemenyi são lidos como panorama. O Friedman rejeitou a hipótese nula de equivalência entre os cinco modelos com $\chi^2 = 65{,}766$ e $p = 1{,}775 \times 10^{-13}$, confirmando que ao menos dois deles diferem. O pós-hoc de Nemenyi identifica quais pares, conforme a Tabela~\ref{tab:nemenyi}.
 
 \begin{table}[htbp]
     \centering
@@ -1901,6 +1896,8 @@ inferioridade como \textit{baseline} é estatisticamente sustentada. Entre os
 quatro modelos avançados, porém, nenhum par apresenta diferença significativa:
 o menor valor de $p$ registrado é 0,1231, entre Regressão Logística e Random
 Forest, e o maior chega a 0,9834, entre Regressão Logística e SVM.
+
+A diferença entre os dois testes para a Árvore de Decisão decorre do que cada um usa. O 5×2cv compara dois modelos com apenas dez estimativas de diferença, cada uma obtida treinando em metade do conjunto de treino, o que reduz seu poder. O Nemenyi usa as posições dos cinco modelos nas 50 dobras, e nelas a Árvore de Decisão fica quase sempre entre as piores, o que produz uma diferença de postos superior à distância crítica do teste. Assim, o resultado do 5×2cv não contradiz o do Nemenyi: o primeiro não tem poder para detectar essa diferença.
 
 A consequência metodológica é relevante e merece ser explicitada. As diferenças
 de desempenho observadas entre KNN, Regressão Logística, Random Forest e SVM na
@@ -2049,8 +2046,8 @@ Tabela~\ref{tab:ponto_operacao} resume o ponto em vigor no software.
     \centering
     \caption{PONTO DE OPERAÇÃO: LIMIAR, FAIXA DE RECUSA, COBERTURA E ERRO}
     \label{tab:ponto_operacao}
-    \small
-    \setlength{\tabcolsep}{3pt}
+    \footnotesize
+    \setlength{\tabcolsep}{2pt}
     \begin{tabular}{@{}lcccccc@{}}
         \toprule
         & & & \multicolumn{2}{c}{\textbf{Treino (\textit{out-of-fold})}} &
@@ -2074,22 +2071,7 @@ Tabela~\ref{tab:ponto_operacao} resume o ponto em vigor no software.
     \fonteautor
 \end{table}
 
-A curva mostra que o erro se concentra nos últimos casos. Decidindo 80\% do
-treino, o erro entre os decididos fica entre 0,29\% e 1,17\%, conforme o modelo;
-decidindo todos, sobe para 5,63\% a 6,34\%, e o do comitê passa de 0,78\% a
-90\% de cobertura para 5,63\% a 100\%. Os
-modelos não erram de forma espalhada, mas num pequeno grupo de casos difíceis,
-situação em que abster-se compensa. Com a faixa, os quatro modelos que a
-possuem decidem entre 50\% e 65\% do treino com no máximo um falso negativo,
-contra três a cinco se decidissem todos os casos. O preço é explícito: cerca de
-um terço do lote volta para revisão humana. O KNN não recebe faixa, pois suas
-probabilidades calibradas, com $k = 4$, assumem poucos valores distintos, e a
-faixa que zeraria seus erros o faria decidir menos de 45\% do treino; ele opera
-com cobertura total e o maior erro do conjunto. Como a faixa foi ajustada com
-tolerância zero sobre as mesmas probabilidades \textit{out-of-fold}, seu bom
-desempenho no treino é esperado por construção. A evidência está no teste, que
-não participou da escolha: ali, os quatro modelos com faixa decidem entre 67\% e
-74\% do lote sem nenhum erro.
+A curva mostra que o erro se concentra nos últimos casos. Decidindo 80\% do treino, o erro entre os decididos fica entre 0,29\% e 1,17\%, conforme o modelo, decidindo todos, sobe para 5,63\% a 6,34\%, e o do comitê passa de 0,78\% a 90\% de cobertura para 5,63\% a 100\%. Os modelos não erram de forma espalhada, mas num pequeno grupo de casos difíceis, situação em que abster-se compensa. Com a faixa, os quatro modelos que a possuem decidem entre 50\% e 65\% do treino, contra três a cinco falsos negativos se decidissem todos os casos, assim, entre 35\% e 50\% dos pacientes do treino voltam para revisão humana. A faixa foi construída para não produzir erro no treino: com os limites exatos, os quatro modelos não cometem nenhum erro entre os casos decididos. Os limites gravados em \texttt{limiares.json}, porém, têm quatro casas decimais, e o arredondamento do limite inferior para cima faz um paciente maligno, com certeza logo abaixo desse limite, ser decidido como benigno. Esse é o falso negativo que aparece na Tabela~\ref{tab:ponto_operacao}, em três dos quatro modelos com faixa (Regressão Logística, SVM e comitê). O KNN não recebe faixa, pois suas probabilidades calibradas, com $k = 4$, assumem poucos valores distintos, e a faixa que zeraria seus erros o faria decidir menos de 45\% do treino, ele opera com cobertura total e o maior erro do conjunto. Como a faixa foi ajustada com tolerância zero sobre as mesmas probabilidades \textit{out-of-fold}, seu bom desempenho no treino é esperado por construção. A evidência está no teste, que não participou da escolha: ali, os quatro modelos com faixa decidem entre 67\% e 74\% do lote sem nenhum erro, e devolvem entre 26\% e 33\% dos pacientes à revisão humana, cerca de um terço do lote de teste.
 
 Esses resultados situam o comitê na solução. Como a
 Subseção~\ref{subsec:significancia} não encontrou diferença significativa entre
@@ -2201,8 +2183,8 @@ recusa o lote inteiro quando faltam colunas de biomarcadores, há células vazia
 texto onde se esperava número, valores negativos ou nenhuma linha de dados, com
 mensagem que indica a coluna e a linha do problema. No terceiro passo seleciona
 o classificador, qualquer um dos cinco modelos avaliados na
-Seção~\ref{sec:treinamento}, o comitê de voto suave ou o modo de comparação
-simultânea, no qual a tela abre, e processa o lote; a mesma tela exibe a régua
+Seção~\ref{sec:treinamento}, o comitê de voto suave ou o modo de comparação simultânea, que é a opção inicial do seletor e já vem selecionado, e processa o lote;
+ a mesma tela exibe a régua
 de decisão do modelo escolhido, descrita a seguir. Os passos seguintes são de
 leitura e verificação: auditoria acadêmica contra um gabarito, abertura dos
 relatórios de explicabilidade e exportação dos resultados.
