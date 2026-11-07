@@ -2468,23 +2468,109 @@ sistema ainda não passou por avaliação de usabilidade com profissionais de
 saúde.
 
 % ==============================================================================
-% CAPÍTULO 6 — CONSIDERAÇÕES FINAIS
+% CAPÍTULO 5 — CONSIDERAÇÕES FINAIS
 % ==============================================================================
-\chapter{Considerações Finais}
+\chapter{Conclusão}
 \label{cap:consideracoes-finais}
 
-O presente trabalho encontra-se em desenvolvimento. As etapas concluídas até o
-momento abrangem a fundamentação teórica, a revisão dos trabalhos relacionados,
-o módulo científico completo com treinamento e avaliação dos classificadores,
-e a estrutura inicial do módulo de software. As etapas pendentes compreendem
-a conclusão do desenvolvimento da interface gráfica, a integração completa entre
-os módulos e a validação final do sistema com profissionais da área da saúde.
+Este trabalho partiu de um obstáculo à adoção clínica do aprendizado de máquina
+no diagnóstico do câncer de mama: modelos de alto desempenho preditivo que não
+revelam o raciocínio por trás de suas decisões. Diante dele, formulou-se a
+pergunta de como integrar técnicas de explicabilidade e de redução de
+dimensionalidade a um modelo preditivo, de modo a fornecer diagnósticos ao mesmo
+tempo acurados e interpretáveis por profissionais de saúde. O objetivo foi
+desenvolver um software que classificasse tumores mamários como benignos ou
+malignos a partir da base Wisconsin e acompanhasse cada diagnóstico de uma
+justificativa transparente.
 
-Os resultados parciais obtidos até o momento são promissores e indicam que a
-abordagem proposta é tecnicamente viável. A combinação de algoritmos de
-aprendizado de máquina com técnicas de explicabilidade demonstrou potencial
-para atender simultaneamente aos requisitos de desempenho preditivo e de
-transparência clínica que motivaram este projeto.
+Os experimentos mostraram, em primeiro lugar, que nesta base o desempenho não
+depende de um modelo complexo. A Regressão Logística, modelo linear e
+intrinsecamente interpretável, igualou ou superou o SVM e o Random Forest no
+conjunto de teste. A validação cruzada repetida revelou que essa partição única
+era otimista, e os testes de significância mostraram que, entre os quatro
+modelos avançados, com acurácia média entre 0,960 e 0,973, nenhuma diferença se
+distingue do ruído amostral; apenas a inferioridade da Árvore de Decisão tem
+respaldo estatístico. O ganho que justificaria trocar um modelo transparente por
+uma caixa preta, portanto, não se verificou, e o software, em vez de eleger um
+modelo único, oferece os cinco classificadores e um comitê de voto suave.
+
+Em segundo lugar, constatou-se que acertar não basta: a certeza exibida ao
+profissional precisa corresponder à frequência real do desfecho. As
+probabilidades foram, por isso, recalibradas pelo escalonamento de Platt, e a
+decisão deixou de usar o corte padrão de 50\%, passando a depender de um limiar
+de operação e de uma faixa de recusa definidos sem o conjunto de teste. Nesse
+conjunto, os quatro modelos com faixa, entre eles o comitê, decidiram entre
+67\% e 74\% dos pacientes sem nenhum erro. O preço é explícito: cerca de um
+terço do lote volta para revisão humana.
+
+Em terceiro lugar, quanto à explicabilidade, os coeficientes da Regressão
+Logística e os valores SHAP do Random Forest concordaram apenas em parte, mas o
+que têm em comum, atributos ligados ao tamanho e às concavidades do núcleo
+celular, coincide com alterações morfológicas que a fundamentação teórica
+associa à malignidade. No software, cada modelo é explicado pelo próprio
+mecanismo de decisão, e todos partilham um bloco de fatores que decompõe a
+certeza exibida em valores de Shapley exatos, de modo que a explicação fecha no
+mesmo número que o profissional lê na tabela. O UMAP, por sua vez, mostrou-se
+útil para situar cada paciente na população de treino, mas não para explicar,
+por si só, a decisão; também não revela casos atípicos, que passaram a ser
+sinalizados pela distância de Mahalanobis no espaço completo dos atributos.
+
+A resposta à pergunta de pesquisa é, portanto, que a integração não se resume a
+acoplar uma técnica de explicabilidade a um classificador. Diagnósticos
+simultaneamente acurados e interpretáveis exigiram combinar uma certeza
+calibrada, uma regra de decisão capaz de se abster, explicações coerentes com
+essa certeza e recursos que situam o paciente na população conhecida e sinalizam
+quando ele se afasta dela. Nesse sentido, o objetivo geral foi atingido: o
+software está implementado, é distribuído como executável para Windows e Linux,
+processa lotes de pacientes recebidos em planilha e exporta os resultados em CSV
+e os relatórios em PDF, com a fundamentação de cada diagnóstico. A
+interpretabilidade, contudo, foi assegurada no plano técnico e ainda precisa ser
+confirmada pelos profissionais a quem a ferramenta se destina.
+
+Do ponto de vista acadêmico, o trabalho contribui em duas frentes. A primeira é
+metodológica: ao complementar a validação cruzada com testes de significância e
+análise de calibração, procedimentos que nenhum dos trabalhos relacionados
+empregou, mostrou que uma partição única pode produzir estimativas otimistas e
+não basta para sustentar a superioridade de um algoritmo sobre outro. A segunda
+é reunir, em uma ferramenta utilizável, elementos que a literatura revisada
+explorava isoladamente: a comparação sistemática de classificadores, o SHAP
+local e global, o UMAP, a calibração das probabilidades e a sinalização de
+perfis atípicos. Do ponto de vista prático, a solução mostra como um sistema de
+apoio ao diagnóstico pode ser transparente quanto à própria incerteza,
+devolvendo os casos duvidosos ao especialista e avisando quando o paciente foge
+do perfil de treino; por operar localmente, preserva a privacidade dos
+pacientes, e sua arquitetura pode servir de referência a empresas que
+desenvolvem software para a saúde. Para a sociedade, o trabalho aponta um
+caminho para que a inteligência artificial chegue à prática clínica como apoio
+auditável ao profissional, e não como seu substituto.
+
+Essas conclusões têm limites. A base Wisconsin reúne apenas 569 amostras de uma
+população específica, e os modelos, estáticos, não foram avaliados em dados de
+outras instituições, de modo que sua capacidade de generalização permanece em
+aberto. Os atributos restringem-se a trinta medidas morfológicas já extraídas
+das imagens, algumas fortemente correlacionadas e a maioria sem unidade física,
+e não incluem informações clínicas do paciente; a aplicação não processa
+imagens e depende da extração feita pelo laboratório. As explicações descrevem
+o que o modelo usou para chegar à certeza, não a causa biológica do tumor, e os
+valores SHAP coluna a coluna da Regressão Logística, do SVM e do KNN são
+aproximações. Por fim, a validação foi apenas técnica: o sistema ainda não
+passou por avaliação de usabilidade com profissionais de saúde.
+
+Esses limites indicam os próximos passos. O primeiro é validar os modelos em
+bases externas, de outras populações e laboratórios, recalculando limiares e
+faixas de recusa sobre os novos dados, o que a arquitetura já permite sem
+alterar a aplicação. O segundo é avaliar a ferramenta com patologistas e
+oncologistas, verificando se as explicações de fato apoiam a decisão e se a
+parcela de casos devolvidos é aceitável na rotina clínica. Sugere-se ainda
+incorporar a segmentação dos núcleos celulares, para que o sistema receba
+diretamente as imagens da punção, e investigar se variáveis clínicas
+complementares permitem decidir parte dos casos que hoje retornam à revisão.
+
+Em síntese, os resultados indicam que, na base estudada, acurácia e
+transparência não precisaram ser trocadas uma pela outra. O desafio de um
+sistema de apoio ao diagnóstico mostrou-se menos o de escolher o algoritmo mais
+preciso do que o de deixar explícito, para cada paciente, quão segura é a
+resposta, o que a sustenta e quando o sistema deve se abster.
 
 % ==============================================================================
 % CAPÍTULO 7 — CONCLUSÃO
