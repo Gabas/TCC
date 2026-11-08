@@ -1,0 +1,222 @@
+% =================================================================================================
+% APÊNDICES A E B: MANUAIS DE INSTALAÇÃO E DE USO DO DIAGNOSISXAI
+% -------------------------------------------------------------------------------------------------
+% Onde colar: no trabalho.tex, logo DEPOIS destas duas linhas e ANTES de \end{document}:
+%
+%     % Carrega o arquivo referencias.bib
+%     \bibliography{referencias}
+%
+% Regras do manual da UTP (Normas Técnicas, 4. ed., 2024) aplicadas aqui:
+%  - apêndice é texto elaborado pelo próprio autor; "os manuais de instrução ou
+%    instalação do produto prototipado" são um dos exemplos do manual (p. 48);
+%  - vem depois das referências (estrutura da monografia, p. 143);
+%  - identificação por letra maiúscula consecutiva, travessão e título, tudo em
+%    maiúsculas: "APÊNDICE A – QUESTIONÁRIO..." (p. 49);
+%  - título sem indicativo numérico, centralizado (p. 16), começando em página
+%    nova, como os de nível 1 (p. 16); o comando \apendice do template já faz isso;
+%  - o título vai em MAIÚSCULAS também no argumento de \apendice, porque o
+%    sumário repete o texto do argumento e deve ter a "mesma grafia" do texto
+%    (p. 42); o exemplo de sumário do manual traz os apêndices em maiúsculas (p. 43);
+%  - subtítulos de nível 2 em MAIÚSCULAS, sem negrito, indicativo separado do
+%    título por um espaço, sem traço nem parêntese (p. 16);
+%  - alíneas: texto anterior termina em dois-pontos; cada alínea começa com
+%    letra minúscula e termina em ponto e vírgula; a última, em ponto final;
+%  - itálico só para palavras estrangeiras (p. 20), como software, notebook e
+%    Releases; aspas para destacar uma expressão (p. 19), aqui a mensagem
+%    literal exibida pelo Windows.
+%
+% Conferido em 08/11/2026 contra o repositório Gabas/DiagnosisXAI (commit 22cbe5a),
+% o LEIA-ME do empacotamento e o Release v1.0 (arquivos DiagnosisXAI-windows-x64.zip e
+% DiagnosisXAI-linux-x64.zip). Um Release novo (v1.1, recomendado, ver
+% 01_pendencias_email.md, item 18) mantém os mesmos nomes de arquivo.
+% =================================================================================================
+
+\apendice{MANUAL DE INSTALAÇÃO DO DIAGNOSISXAI}
+
+Este apêndice descreve como instalar e executar o DiagnosisXAI, \textit{software}
+desenvolvido neste trabalho. Há duas formas de uso: o executável, indicado a
+quem deseja apenas operar o sistema, e o código-fonte, necessário para
+reproduzir os experimentos ou retreinar os modelos. O código-fonte e os
+executáveis estão disponíveis no repositório
+\url{https://github.com/Gabas/DiagnosisXAI}.
+
+\section*{A.1 REQUISITOS}
+
+Para utilizar o sistema, são necessários:
+
+\begin{alineas}
+    \item computador com Windows ou Linux de 64 bits, para o executável, ou com
+          Windows, Linux ou macOS, para o código-fonte;
+    \item tela com resolução de 1920~$\times$~1080 pixels ou próxima dela; em
+          telas menores, cada janela é limitada a 90\% da área disponível;
+    \item navegador web, para as versões interativas do mapa populacional e da
+          margem do SVM;
+    \item o Python 3.12 e o Git, somente para a execução pelo código-fonte.
+\end{alineas}
+
+\section*{A.2 INSTALAÇÃO DO EXECUTÁVEL}
+
+O executável dispensa a instalação do Python e de qualquer biblioteca. Para
+instalá-lo:
+
+\begin{alineas}
+    \item acesse a página de versões (\textit{Releases}) do repositório,
+          \url{https://github.com/Gabas/DiagnosisXAI/releases}, e baixe o
+          arquivo DiagnosisXAI-windows-x64.zip ou DiagnosisXAI-linux-x64.zip
+          da versão mais recente, conforme o sistema operacional;
+    \item extraia o conteúdo do arquivo .zip em uma pasta de sua escolha,
+          mantendo todos os arquivos juntos, pois o programa depende da pasta
+          inteira, e não apenas do executável;
+    \item no Windows, abra o arquivo DiagnosisXAI.exe; caso o sistema exiba o
+          aviso ``O Windows protegeu o computador'', emitido porque o programa
+          não tem assinatura digital, selecione Mais informações e, em seguida,
+          Executar assim mesmo;
+    \item no Linux, abra um terminal na pasta extraída e execute
+          \texttt{./DiagnosisXAI}; se necessário, conceda antes a permissão de
+          execução com \texttt{chmod +x DiagnosisXAI};
+    \item opcionalmente, para conferir a instalação, execute o programa com a
+          opção \texttt{-}\texttt{-autoteste}, que percorre sem interface as
+          catorze etapas do uso real e grava o resultado no arquivo
+          autoteste.txt, em uma pasta temporária.
+\end{alineas}
+
+A primeira abertura leva alguns segundos. A pasta exemplos, que acompanha o
+executável, traz o conjunto de teste da base Wisconsin em dois arquivos:
+dataTeste\_sem\_diagnostico.csv, para o primeiro passo, e
+dataTeste\_com\_diagnostico.csv, gabarito para a auditoria do quarto passo.
+
+O executável grava o histórico de sessões e os relatórios em PDF na pasta
+DiagnosisXAI do diretório pessoal do usuário (C:\textbackslash
+Users\textbackslash \textless usuário\textgreater \textbackslash DiagnosisXAI,
+no Windows, e \textasciitilde/DiagnosisXAI, no Linux), pois a pasta do programa
+pode ser somente leitura. Para desinstalar o sistema, basta apagar a pasta
+extraída e, se desejado, essa pasta de dados.
+
+\section*{A.3 EXECUÇÃO A PARTIR DO CÓDIGO-FONTE}
+
+A execução pelo código-fonte é indicada para reproduzir os experimentos do
+Capítulo~\ref{cap:metodologia}. No macOS e no Linux, a biblioteca gráfica
+Tkinter, usada pela interface, é distribuída separadamente do Python e deve ser
+instalada junto com ele, por exemplo pelo pacote python3-tk, no Ubuntu, ou
+python-tk@3.12, no Homebrew; no Windows, o instalador oficial do Python já a
+inclui. Os passos são:
+
+\begin{alineas}
+    \item clone o repositório com o comando \texttt{git clone}, seguido do
+          endereço \url{https://github.com/Gabas/DiagnosisXAI.git}, e entre na
+          pasta DiagnosisXAI;
+    \item crie um ambiente virtual com \texttt{python3 -m venv .venv} e
+          ative-o com \texttt{source .venv/bin/activate}, no Linux e no macOS,
+          ou \texttt{.venv\textbackslash Scripts\textbackslash activate}, no
+          Windows;
+    \item instale as dependências com
+          \texttt{pip install -r requirements.txt}; para reproduzir exatamente o
+          ambiente que gerou o arquivo wisconsin.pkl, use o arquivo
+          requirements-executavel.txt, que fixa as versões exatas;
+    \item entre na pasta app e inicie a aplicação com
+          \texttt{python main.py}.
+\end{alineas}
+
+Os modelos treinados já acompanham o repositório, no arquivo
+data/wisconsin.pkl. Para retreiná-los, abra o \textit{notebook}
+notebooks/Wisconsin.ipynb no Jupyter e execute todas as células, o que regrava o
+wisconsin.pkl; em seguida, execute \texttt{python scripts/calibrar\_limiares.py}
+a partir da raiz do repositório, para recalcular os limiares e as faixas de
+recusa gravados em data/limiares.json. Os testes automatizados são executados
+com o comando \texttt{pytest}, também a partir da raiz.
+
+\apendice{MANUAL DE USO DO DIAGNOSISXAI}
+
+Este apêndice orienta a operação do DiagnosisXAI. As telas mencionadas estão
+ilustradas na Seção~\ref{sec:software}.
+
+\section*{B.1 ORGANIZAÇÃO DA INTERFACE}
+
+A barra lateral dá acesso a quatro abas:
+
+\begin{alineas}
+    \item a aba Início exibe o estado do sistema, como os modelos carregados;
+    \item a aba Novo Diagnóstico conduz o processamento de um lote em seis
+          passos;
+    \item a aba Histórico lista as sessões anteriores e permite reabrir seus
+          relatórios de explicabilidade sem reprocessar o lote;
+    \item a aba Sobre reúne o memorial de cálculo, que explica a origem de cada
+          número exibido, e o glossário dos trinta biomarcadores.
+\end{alineas}
+
+O tema claro ou escuro da interface pode ser trocado no seletor Tema, no rodapé
+da barra lateral.
+
+\section*{B.2 PREPARAÇÃO DA PLANILHA DE ENTRADA}
+
+O sistema recebe os pacientes em um arquivo CSV, uma linha por paciente, com as
+trinta colunas morfológicas da base Wisconsin, nomeadas como na base original
+(radius\_mean, texture\_mean, \ldots, fractal\_dimension\_worst). Os valores
+devem ser os brutos, medidos pelo laboratório, e não padronizados, pois a
+padronização é feita pelo próprio sistema. A planilha não deve conter as colunas
+id nem diagnosis. O lote é recusado, com mensagem que indica a coluna e a linha
+do problema, quando falta alguma coluna, há células vazias, texto no lugar de
+número, valores negativos ou nenhuma linha de dados.
+
+Para a auditoria do quarto passo, usa-se um segundo arquivo, o gabarito, com as
+mesmas colunas acrescidas da coluna diagnosis, preenchida com 1 para maligno e
+0 para benigno, como no arquivo dataTeste\_com\_diagnostico.csv.
+
+\section*{B.3 PROCESSAMENTO DE UM LOTE}
+
+Na aba Novo Diagnóstico, cada passo é liberado somente após a conclusão do
+anterior, conforme a Figura~\ref{fig:app_pipeline}:
+
+\begin{alineas}
+    \item no Passo 1, Importar Dados Brutos (CSV), selecione a planilha; os
+          valores aparecem na tabela;
+    \item no Passo 2, Higienizar e Escalar (Z-Score), clique em Aplicar
+          Padronização; o sistema valida a planilha e aplica a padronização
+          ajustada no conjunto de treino;
+    \item no Passo 3, Inteligência Artificial, escolha na lista um dos cinco
+          classificadores, o Comitê (voto suave) ou Todos (Comparação), que é a
+          opção inicial; confira a régua de decisão exibida e clique em
+          Processar Diagnóstico; a opção Adiar casos incertos em vez de decidir
+          vem ligada e só está disponível para a Regressão Logística, o Random
+          Forest, o SVM e o comitê;
+    \item no Passo 4, Auditoria Acadêmica, que é opcional, carregue o gabarito
+          para obter a cobertura, as métricas de desempenho, a matriz de
+          confusão e uma leitura crítica dos resultados;
+    \item no Passo 5, Explicabilidade (XAI), abra a janela de explicação do
+          modelo executado e selecione um paciente para ver os fatores que mais
+          pesaram e o raciocínio próprio do modelo; nessa janela, o botão
+          Exportar Paciente (PDF) gera o laudo individual do paciente;
+    \item no Passo 6, Exportar Resultados, salve a tabela completa em CSV ou o
+          relatório do lote em PDF, acompanhado da régua de decisão.
+\end{alineas}
+
+\section*{B.4 LEITURA DOS RESULTADOS}
+
+A tabela de resultados traz, para cada paciente, as seguintes colunas:
+
+\begin{alineas}
+    \item a coluna Diagnóstico\_IA indica Maligno, Benigno ou Revisar; Revisar
+          não é uma classe intermediária, e sim a indicação de que o sistema se
+          absteve e de que o caso deve ser avaliado pelo especialista;
+    \item a coluna Certeza\_Maligno(\%) mostra a probabilidade calibrada de
+          malignidade, que não deve ser comparada a 50\%, pois o diagnóstico
+          decorre dos cortes da régua exibida no terceiro passo;
+    \item a coluna Zona\_de\_Decisão indica Definida, Revisar ou, quando a
+          recusa está desligada, Limítrofe, para os casos a menos de dez pontos
+          percentuais do limiar de operação;
+    \item a coluna Perfil indica Típico ou Atípico; Atípico significa que o
+          paciente se afasta da população de treino, situação em que a
+          predição merece cautela, e não que o tumor seja maligno.
+\end{alineas}
+
+No modo Todos (Comparação), essas colunas são substituídas por uma coluna por
+modelo, com o diagnóstico que cada um daria ao mesmo paciente.
+
+\section*{B.5 CUIDADOS DE USO}
+
+O DiagnosisXAI é um \textit{software} acadêmico de apoio, não é um dispositivo
+médico e não substitui o diagnóstico do profissional de saúde. O sistema não
+processa imagens: opera apenas sobre os trinta atributos já extraídos pelo
+laboratório, obtidos pelo mesmo procedimento da base Wisconsin. Os casos
+devolvidos para revisão e os pacientes de perfil atípico devem ser examinados
+com atenção redobrada.
