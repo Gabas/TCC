@@ -207,7 +207,7 @@ O objetivo deste trabalho é desenvolver um software integrado a um modelo predi
 
 Para alcançar esse propósito, o trabalho compreende o treinamento e a comparação de classificadores e a explicação de cada diagnóstico pela biblioteca SHAP, que quantifica o impacto de cada variável celular no risco de malignidade apontado pelo modelo. O UMAP foi aplicado à análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (clusters) e a localização de cada paciente na população de treino. Inicialmente, previa-se que o UMAP também identificasse anomalias (outliers). Essa função, porém, não se mostrou adequada à projeção bidimensional, e a sinalização de perfis atípicos passou a ser feita pela distância de Mahalanobis, medida no espaço completo dos atributos. Por fim, visando a viabilidade de uso no cotidiano médico, foi desenvolvida uma interface capaz de receber dados em lote via upload de planilhas e de gerar relatórios estruturados (em PDF ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
 
-Este trabalho está organizado em cinco capítulos. O Capítulo 2 apresenta a fundamentação teórica, abordando o câncer de mama e sua análise morfológica, os conceitos de aprendizado de máquina, as métricas de avaliação, os algoritmos classificadores e as técnicas de explicabilidade (SHAP) e de redução de dimensionalidade (UMAP). O Capítulo 3 analisa os trabalhos relacionados e identifica a lacuna que este projeto busca preencher. O Capítulo 4 descreve a metodologia de construção da solução, desde o pré-processamento e a análise exploratória até o treinamento, a avaliação e a calibração dos modelos, e o estado atual do software. O Capítulo 5 retoma os resultados obtidos, suas limitações e os trabalhos futuros.
+Este trabalho está organizado em cinco capítulos. O Capítulo 2 apresenta a fundamentação teórica, abordando o câncer de mama e sua análise morfológica, os conceitos de aprendizado de máquina, as métricas de avaliação, os algoritmos classificadores e as técnicas de explicabilidade (SHAP) e de redução de dimensionalidade (UMAP). O Capítulo 3 analisa os trabalhos relacionados e identifica a lacuna que este projeto busca preencher. O Capítulo 4 descreve a metodologia de construção da solução, desde o pré-processamento e a análise exploratória até o treinamento, a avaliação e a calibração dos modelos, e o estado atual do software. O Capítulo 5 retoma os resultados obtidos, suas limitações e os trabalhos futuros. Os Apêndices A e B trazem, respectivamente, os manuais de instalação e de uso do software.
 
 % -------------------------------------------------------------------------------------------------
 % -------------------------------------------------------------------------------------------------
@@ -2095,7 +2095,8 @@ O módulo de software apresentado na Seção~\ref{sec:visao-geral} encontra-se
 implementado e operacional. Esta seção documenta sua organização interna, o
 fluxo de trabalho oferecido ao profissional de saúde e, sobretudo, os recursos
 de explicabilidade que convertem a saída numérica dos classificadores em
-justificativa auditável.
+justificativa auditável. As instruções de instalação e de uso estão nos
+Apêndices~A e~B.
 
 \subsection{Organização do Código}
 \label{subsec:organizacao-codigo}
@@ -2182,11 +2183,10 @@ Nos dois primeiros passos o profissional importa uma planilha em formato CSV
 contendo os trinta atributos morfológicos e aplica a padronização
 \textit{Z-score}, executada com o escalonador ajustado no treino e recuperado do
 arquivo wisconsin.pkl. Antes de padronizar, o segundo passo valida a planilha e
-recusa o lote inteiro quando faltam colunas de biomarcadores, há células vazias,
-texto onde se esperava número, valores negativos ou nenhuma linha de dados, com
-mensagem que indica a coluna e a linha do problema. No terceiro passo seleciona
+recusa o lote inteiro quando ela está malformada, com mensagem que indica a
+coluna e a linha do problema; os critérios de recusa estão no Apêndice~B. No terceiro passo seleciona
 o classificador, qualquer um dos cinco modelos avaliados na
-Seção~\ref{sec:treinamento}, o comitê de voto suave ou o modo de comparação simultânea, que é a opção inicial do seletor e já vem selecionado, e processa o lote;
+Seção~\ref{sec:treinamento}, o comitê de voto suave ou o modo de comparação simultânea, e processa o lote;
  a mesma tela exibe a régua
 de decisão do modelo escolhido, descrita a seguir. Os passos seguintes são de
 leitura e verificação: auditoria acadêmica contra um gabarito, abertura dos
@@ -2393,9 +2393,7 @@ Wilson de 95\% da sensibilidade e da especificidade, interpreta os números em
 termos dos custos clínicos assimétricos entre falso negativo e falso positivo e
 repete por extenso a ressalva de cobertura. No lote de teste, o comitê decide
 96 dos 143 pacientes, sem nenhum erro, e devolve os outros 47, dos quais 5 são
-malignos. No modo de comparação, a auditoria avalia lado a lado os
-cinco classificadores individuais; o comitê é auditado à parte, quando
-selecionado no terceiro passo.
+malignos.
 
 \begin{figure}[H]
     \centering
@@ -2409,12 +2407,8 @@ O sexto passo exporta os resultados em CSV, preservando as colunas de
 confiabilidade, ou em PDF, no formato de relatório do lote acompanhado da régua
 de decisão, e cada janela de modelo exporta o laudo individual de um paciente,
 com o bloco de fatores e a justificativa do modelo. As sessões ficam registradas
-na aba Histórico, que guarda também os relatórios de explicabilidade, reabertos
-sem reprocessar o lote. A aba Sobre reúne o memorial de cálculo, que percorre na
-ordem dos passos a origem de cada número exibido, da padronização à matemática
-de cada explicador, e o glossário dos trinta biomarcadores, com o registro
-explícito de que a maioria não tem unidade física; as mesmas descrições
-aparecem como dicas nos cabeçalhos da tabela.
+na aba Histórico, e a aba Sobre reúne o memorial de cálculo e o glossário dos
+trinta biomarcadores, descritos no Apêndice~B.
 
 \subsection{Distribuição}
 \label{subsec:distribuicao}
@@ -3513,4 +3507,206 @@ Em síntese, na base estudada, acurácia e transparência não precisaram ser tr
 % Ambos, apêndices e anexos, devem ser listados em uma página específica após a conclusão do trabalho, de forma a facilitar a consulta por parte do leitor. A correta distinção entre apêndices e anexos, bem como o seu uso apropriado, é essencial para a organização e a credibilidade do TCC. Ao fornecer informações adicionais de maneira clara e sistemática, o autor contribui para uma melhor compreensão do seu trabalho, enriquecendo a experiência do leitor.
 
 
+
+
+\apendice{MANUAL DE INSTALAÇÃO DO DIAGNOSISXAI}
+
+Este apêndice descreve como instalar e executar o DiagnosisXAI, software
+desenvolvido neste trabalho. Há duas formas de uso: o executável, indicado a
+quem deseja apenas operar o sistema, e o código-fonte, necessário para
+reproduzir os experimentos ou retreinar os modelos. O código-fonte e os
+executáveis estão disponíveis no repositório
+\url{https://github.com/Gabas/DiagnosisXAI}.
+
+\section*{A.1 REQUISITOS}
+
+Para utilizar o sistema, são necessários:
+
+\begin{alineas}
+    \item computador com Windows ou Linux de 64 bits, para o executável, ou com
+          Windows, Linux ou macOS, para o código-fonte;
+    \item tela com resolução de 1920~$\times$~1080 pixels ou próxima dela; em
+          telas menores, cada janela é limitada a 90\% da área disponível;
+    \item navegador web, para as versões interativas do mapa populacional e da
+          margem do SVM;
+    \item o Python 3.12 e o Git, somente para a execução pelo código-fonte.
+\end{alineas}
+
+\section*{A.2 INSTALAÇÃO DO EXECUTÁVEL}
+
+O executável dispensa a instalação do Python e de qualquer biblioteca. Para
+instalá-lo:
+
+\begin{alineas}
+    \item acesse a página de versões (\textit{Releases}) do repositório,
+          \url{https://github.com/Gabas/DiagnosisXAI/releases}, e baixe o
+          arquivo DiagnosisXAI-windows-x64.zip ou DiagnosisXAI-linux-x64.zip
+          da versão mais recente, conforme o sistema operacional;
+    \item extraia o conteúdo do arquivo .zip em uma pasta de sua escolha,
+          mantendo todos os arquivos juntos, pois o programa depende da pasta
+          inteira, e não apenas do executável;
+    \item no Windows, abra o arquivo DiagnosisXAI.exe; caso o sistema exiba o
+          aviso ``O Windows protegeu o computador'', emitido porque o programa
+          não tem assinatura digital, selecione Mais informações e, em seguida,
+          Executar assim mesmo;
+    \item no Linux, abra um terminal na pasta extraída e execute
+          \texttt{./DiagnosisXAI}; se necessário, conceda antes a permissão de
+          execução com \texttt{chmod +x DiagnosisXAI};
+    \item opcionalmente, para conferir a instalação, execute o programa com a
+          opção \texttt{-}\texttt{-autoteste}, que percorre sem interface as
+          catorze etapas do uso real e grava o resultado no arquivo
+          autoteste.txt, em uma pasta temporária.
+\end{alineas}
+
+A primeira abertura leva alguns segundos. A pasta exemplos, que acompanha o
+executável, traz o conjunto de teste da base Wisconsin em dois arquivos:
+dataTeste\_sem\_diagnostico.csv, para o primeiro passo, e
+dataTeste\_com\_diagnostico.csv, gabarito para a auditoria do quarto passo.
+
+O executável grava o histórico de sessões e os relatórios em PDF na pasta
+DiagnosisXAI do diretório pessoal do usuário (C:\textbackslash
+Users\textbackslash \textless usuário\textgreater \textbackslash DiagnosisXAI,
+no Windows, e \textasciitilde/DiagnosisXAI, no Linux), pois a pasta do programa
+pode ser somente leitura. Para desinstalar o sistema, basta apagar a pasta
+extraída e, se desejado, essa pasta de dados.
+
+\section*{A.3 EXECUÇÃO A PARTIR DO CÓDIGO-FONTE}
+
+A execução pelo código-fonte é indicada para reproduzir os experimentos do
+Capítulo~\ref{cap:metodologia}. No macOS e no Linux, a biblioteca gráfica
+Tkinter, usada pela interface, é distribuída separadamente do Python e deve ser
+instalada junto com ele, por exemplo pelo pacote python3-tk, no Ubuntu, ou
+python-tk@3.12, no Homebrew; no Windows, o instalador oficial do Python já a
+inclui. Os passos são:
+
+\begin{alineas}
+    \item clone o repositório com o comando \texttt{git clone}, seguido do
+          endereço \url{https://github.com/Gabas/DiagnosisXAI.git}, e entre na
+          pasta DiagnosisXAI;
+    \item crie um ambiente virtual com \texttt{python3 -m venv .venv} e
+          ative-o com \texttt{source .venv/bin/activate}, no Linux e no macOS,
+          ou \texttt{.venv\textbackslash Scripts\textbackslash activate}, no
+          Windows;
+    \item instale as dependências com
+          \texttt{pip install -r requirements.txt}; para reproduzir exatamente o
+          ambiente que gerou o arquivo wisconsin.pkl, use o arquivo
+          requirements-executavel.txt, que fixa as versões exatas;
+    \item entre na pasta app e inicie a aplicação com
+          \texttt{python main.py}.
+\end{alineas}
+
+Os modelos treinados já acompanham o repositório, no arquivo
+data/wisconsin.pkl. Para retreiná-los, abra o \textit{notebook}
+notebooks/Wisconsin.ipynb no Jupyter e execute todas as células, o que regrava o
+wisconsin.pkl; em seguida, execute \texttt{python scripts/calibrar\_limiares.py}
+a partir da raiz do repositório, para recalcular os limiares e as faixas de
+recusa gravados em data/limiares.json. Os testes automatizados são executados
+com o comando \texttt{pytest}, também a partir da raiz.
+
+\apendice{MANUAL DE USO DO DIAGNOSISXAI}
+
+Este apêndice orienta a operação do DiagnosisXAI. As telas mencionadas estão
+ilustradas na Seção~\ref{sec:software}.
+
+\section*{B.1 ORGANIZAÇÃO DA INTERFACE}
+
+A barra lateral dá acesso a quatro abas:
+
+\begin{alineas}
+    \item a aba Início exibe o estado do sistema, como os modelos carregados;
+    \item a aba Novo Diagnóstico conduz o processamento de um lote em seis
+          passos;
+    \item a aba Histórico lista as sessões anteriores e permite reabrir seus
+          relatórios de explicabilidade sem reprocessar o lote;
+    \item a aba Sobre reúne o memorial de cálculo, que percorre, na ordem dos
+          passos, a origem de cada número exibido, da padronização à
+          matemática de cada explicador, e o glossário dos trinta
+          biomarcadores, com o registro de que a maioria deles não tem
+          unidade física; as descrições do glossário aparecem também como
+          dicas nos cabeçalhos da tabela de resultados.
+\end{alineas}
+
+O tema claro ou escuro da interface pode ser trocado no seletor Tema, no rodapé
+da barra lateral.
+
+\section*{B.2 PREPARAÇÃO DA PLANILHA DE ENTRADA}
+
+O sistema recebe os pacientes em um arquivo CSV, uma linha por paciente, com as
+trinta colunas morfológicas da base Wisconsin, nomeadas como na base original
+(radius\_mean, texture\_mean, \ldots, fractal\_dimension\_worst). Os valores
+devem ser os brutos, medidos pelo laboratório, e não padronizados, pois a
+padronização é feita pelo próprio sistema. A planilha não deve conter as colunas
+id nem diagnosis. O lote é recusado, com mensagem que indica a coluna e a linha
+do problema, quando falta alguma coluna, há células vazias, texto no lugar de
+número, valores negativos ou nenhuma linha de dados.
+
+Para a auditoria do quarto passo, usa-se um segundo arquivo, o gabarito, com as
+mesmas colunas acrescidas da coluna diagnosis, preenchida com 1 para maligno e
+0 para benigno, como no arquivo dataTeste\_com\_diagnostico.csv.
+
+\section*{B.3 PROCESSAMENTO DE UM LOTE}
+
+Na aba Novo Diagnóstico, cada passo é liberado somente após a conclusão do
+anterior, conforme a Figura~\ref{fig:app_pipeline}:
+
+\begin{alineas}
+    \item no Passo 1, Importar Dados Brutos (CSV), selecione a planilha; os
+          valores aparecem na tabela;
+    \item no Passo 2, Higienizar e Escalar (Z-Score), clique em Aplicar
+          Padronização; o sistema valida a planilha e aplica a padronização
+          ajustada no conjunto de treino;
+    \item no Passo 3, Inteligência Artificial, escolha na lista um dos cinco
+          classificadores, o Comitê (voto suave) ou Todos (Comparação), que é a
+          opção inicial; confira a régua de decisão exibida e clique em
+          Processar Diagnóstico; a opção Adiar casos incertos em vez de decidir
+          vem ligada e só está disponível para a Regressão Logística, o Random
+          Forest, o SVM e o comitê;
+    \item no Passo 4, Auditoria Acadêmica, que é opcional, carregue o gabarito
+          para obter a cobertura, as métricas de desempenho, a matriz de
+          confusão e uma leitura crítica dos resultados; no modo Todos
+          (Comparação), a auditoria avalia lado a lado os cinco
+          classificadores individuais, e, para auditar o comitê, é preciso
+          selecioná-lo no Passo 3;
+    \item no Passo 5, Explicabilidade (XAI), abra a janela de explicação do
+          modelo executado e selecione um paciente para ver os fatores que mais
+          pesaram e o raciocínio próprio do modelo; nessa janela, o botão
+          Exportar Paciente (PDF) gera o laudo individual do paciente;
+    \item no Passo 6, Exportar Resultados, salve a tabela completa em CSV ou o
+          relatório do lote em PDF, acompanhado da régua de decisão.
+\end{alineas}
+
+\section*{B.4 LEITURA DOS RESULTADOS}
+
+A tabela de resultados traz, para cada paciente, as seguintes colunas:
+
+\begin{alineas}
+    \item a coluna Diagnóstico\_IA indica Maligno, Benigno ou Revisar; Revisar
+          não é uma classe intermediária, e sim a indicação de que o sistema se
+          absteve e de que o caso deve ser avaliado pelo especialista;
+    \item a coluna Certeza\_Maligno(\%) mostra a probabilidade calibrada de
+          malignidade, que não deve ser comparada a 50\%, pois o diagnóstico
+          decorre dos cortes da régua exibida no terceiro passo;
+    \item a coluna Zona\_de\_Decisão indica Definida, Revisar ou, quando a
+          recusa está desligada, Limítrofe, para os casos a menos de dez pontos
+          percentuais do limiar de operação;
+    \item a coluna Perfil indica Típico ou Atípico; Atípico significa que o
+          paciente se afasta da população de treino, situação em que a
+          predição merece cautela, e não que o tumor seja maligno.
+\end{alineas}
+
+No modo Todos (Comparação), essas colunas são substituídas por uma coluna por
+modelo, com o diagnóstico que cada um daria ao mesmo paciente.
+
+\section*{B.5 CUIDADOS DE USO}
+
+O DiagnosisXAI é um software acadêmico de apoio, não é um dispositivo
+médico e não substitui o diagnóstico do profissional de saúde. O sistema não
+processa imagens: opera apenas sobre os trinta atributos já extraídos pelo
+laboratório, obtidos pelo mesmo procedimento da base Wisconsin. Os casos
+devolvidos para revisão e os pacientes de perfil atípico devem ser examinados
+com atenção redobrada.
+
 \end{document}
+
+
+
