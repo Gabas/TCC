@@ -2179,18 +2179,19 @@ produziria diagnósticos silenciosamente incorretos.
     \fonte{O Autor}
 \end{figure}
 
-Nos dois primeiros passos o profissional importa uma planilha em formato CSV
+Primeiro, o profissional importa uma planilha em formato CSV
 contendo os trinta atributos morfológicos e aplica a padronização
 \textit{Z-score}, executada com o escalonador ajustado no treino e recuperado do
-arquivo wisconsin.pkl. Antes de padronizar, o segundo passo valida a planilha e
+arquivo wisconsin.pkl. Antes de padronizar, o sistema valida a planilha e
 recusa o lote inteiro quando ela está malformada, com mensagem que indica a
-coluna e a linha do problema; os critérios de recusa estão no Apêndice~B. No terceiro passo seleciona
+coluna e a linha do problema. Em seguida, seleciona
 o classificador, qualquer um dos cinco modelos avaliados na
 Seção~\ref{sec:treinamento}, o comitê de voto suave ou o modo de comparação simultânea, e processa o lote;
  a mesma tela exibe a régua
 de decisão do modelo escolhido, descrita a seguir. Os passos seguintes são de
 leitura e verificação: auditoria acadêmica contra um gabarito, abertura dos
-relatórios de explicabilidade e exportação dos resultados.
+relatórios de explicabilidade e exportação dos resultados. Os critérios de
+recusa da planilha e a operação de cada passo estão no Apêndice~B.
 
 \subsection{Sinais de Confiabilidade}
 \label{subsec:sinais-confiabilidade}
@@ -2213,7 +2214,7 @@ A coluna de certeza apresenta a probabilidade de malignidade recalibrada pelo
 escalonamento de Platt, conforme a Subseção~\ref{subsec:calibracao}, e o
 diagnóstico sai dessa mesma probabilidade, comparada aos cortes da
 Subseção~\ref{subsec:ponto-operacao}, e não a 50\%. Os cortes são lidos do
-arquivo limiares.json e exibidos no terceiro passo como uma régua de três faixas
+arquivo limiares.json e exibidos na tela de diagnóstico como uma régua de três faixas
 contíguas, acompanhada do critério que as gerou e do desempenho medido. No
 comitê, a régua indica Benigno abaixo de 1,1\% de certeza, Revisar de 1,1\% a
 68,2\% e Maligno a partir de 68,2\%. A régua acompanha o lote nos PDFs
@@ -2237,7 +2238,7 @@ extrapolação para uma região pouco observada no aprendizado, não malignidade
 \subsection{Relatórios de Explicabilidade}
 \label{subsec:relatorios-xai}
 
-O quinto passo abre uma janela de explicabilidade específica para o modelo
+A aplicação abre uma janela de explicabilidade específica para o modelo
 executado. A opção por explicadores distintos, em vez de uma única visualização
 comum, decorre de uma constatação simples: cada algoritmo decide por um
 mecanismo próprio, e apresentar todos sob a mesma representação obscureceria
@@ -2378,7 +2379,7 @@ divergência, e o relatório de cada membro permanece disponível para consulta.
 \subsection{Auditoria, Exportação e Consulta}
 \label{subsec:auditoria-exportacao}
 
-O quarto passo, opcional e voltado ao uso acadêmico, recebe um gabarito com os
+A auditoria, opcional e voltada ao uso acadêmico, recebe um gabarito com os
 diagnósticos reais do mesmo lote e avalia o desempenho sobre ele. A
 Figura~\ref{fig:app_auditoria} exibe a tabela resultante para o comitê. A
 primeira coluna é a cobertura, a fração do lote que o modelo decidiu: com a
@@ -2401,7 +2402,7 @@ malignos.
     \fonte{O Autor}
 \end{figure}
 
-O sexto passo exporta os resultados em CSV, preservando as colunas de
+A aplicação exporta os resultados em CSV, preservando as colunas de
 confiabilidade, ou em PDF, no formato de relatório do lote acompanhado da régua
 de decisão, e cada janela de modelo exporta o laudo individual de um paciente,
 com o bloco de fatores e a justificativa do modelo. As sessões ficam registradas
