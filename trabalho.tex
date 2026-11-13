@@ -203,11 +203,11 @@ Apesar do notável desempenho preditivo, a adoção clínica dessas tecnologias 
 
 Diante da necessidade de conciliar desempenho preditivo e interpretabilidade clínica, formula-se o seguinte problema de pesquisa: como integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde?
 
-O objetivo deste trabalho é desenvolver um software integrado a um modelo preditivo para a classificação de tumores mamários (benignos ou malignos), utilizando algoritmos de Machine Learning e a base de dados pública Breast Cancer Wisconsin. O intuito principal é mitigar a opacidade característica dos modelos de "caixa preta", fornecendo aos profissionais de saúde diagnósticos preditivos que unam alta precisão analítica a justificativas clínicas transparentes.
+O objetivo deste trabalho é desenvolver um software integrado a um modelo preditivo para a classificação de tumores mamários (benignos ou malignos), utilizando algoritmos de \textit{Machine Learning} e a base de dados pública Breast Cancer Wisconsin. O intuito principal é mitigar a opacidade característica dos modelos de "caixa preta", fornecendo aos profissionais de saúde diagnósticos preditivos que unam alta precisão analítica a justificativas clínicas transparentes.
 
-Para alcançar esse propósito, o trabalho compreende o treinamento e a comparação de classificadores e a explicação de cada diagnóstico pela biblioteca SHAP, que quantifica o impacto de cada variável celular no risco de malignidade apontado pelo modelo. O UMAP foi aplicado à análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (clusters) e a localização de cada paciente na população de treino. Inicialmente, previa-se que o UMAP também identificasse anomalias (outliers). Essa função, porém, não se mostrou adequada à projeção bidimensional, e a sinalização de perfis atípicos passou a ser feita pela distância de Mahalanobis, medida no espaço completo dos atributos. Por fim, visando a viabilidade de uso no cotidiano médico, foi desenvolvida uma interface capaz de receber dados em lote via upload de planilhas e de gerar relatórios estruturados (em PDF ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
+Para alcançar esse propósito, o trabalho compreende o treinamento e a comparação de classificadores e a explicação de cada diagnóstico pela biblioteca SHAP, que quantifica o impacto de cada variável celular no risco de malignidade apontado pelo modelo. O UMAP foi aplicado à análise visual da separabilidade natural dos dados, facilitando a identificação de agrupamentos (\textit{clusters}) e a localização de cada paciente na população de treino. Inicialmente, previa-se que o UMAP também identificasse anomalias (\textit{outliers}). Essa função, porém, não se mostrou adequada à projeção bidimensional, e a sinalização de perfis atípicos passou a ser feita pela distância de Mahalanobis, medida no espaço completo dos atributos. Por fim, visando a viabilidade de uso no cotidiano médico, foi desenvolvida uma interface capaz de receber dados em lote via upload de planilhas e de gerar relatórios estruturados (em PDF ou CSV) com os resumos dos diagnósticos e suas respectivas fundamentações visuais.
 
-Este trabalho está organizado em cinco capítulos. O Capítulo 2 apresenta a fundamentação teórica, abordando o câncer de mama e sua análise morfológica, os conceitos de aprendizado de máquina, as métricas de avaliação, os algoritmos classificadores e as técnicas de explicabilidade (SHAP) e de redução de dimensionalidade (UMAP). O Capítulo 3 analisa os trabalhos relacionados e identifica a lacuna que este projeto busca preencher. O Capítulo 4 descreve a metodologia de construção da solução, desde o pré-processamento e a análise exploratória até o treinamento, a avaliação e a calibração dos modelos, e o estado atual do software. O Capítulo 5 retoma os resultados obtidos, suas limitações e os trabalhos futuros. Os Apêndices A e B trazem, respectivamente, os manuais de instalação e de uso do software.
+Este trabalho está organizado em cinco capítulos. O Capítulo 2 apresenta a fundamentação teórica, abordando o câncer de mama e sua análise morfológica, os conceitos de aprendizado de máquina, as métricas de avaliação, os algoritmos classificadores e as técnicas de explicabilidade (SHAP) e de redução de dimensionalidade (UMAP). O Capítulo 3 analisa os trabalhos relacionados e identifica a lacuna que este projeto busca preencher. O Capítulo 4 descreve a metodologia de construção da solução, desde o pré-processamento e a análise exploratória até o treinamento, a avaliação e a calibração dos modelos, e o software desenvolvido. O Capítulo 5 retoma os resultados obtidos, suas limitações e os trabalhos futuros. Os Apêndices A e B trazem, respectivamente, os manuais de instalação e de uso do software.
 
 % -------------------------------------------------------------------------------------------------
 % -------------------------------------------------------------------------------------------------
@@ -247,9 +247,9 @@ A Inteligência Artificial (IA) é uma área da ciência da computação que tev
 
 Para que um sistema alcance essa racionalidade em ambientes complexos, a programação de regras lógicas estáticas (\textit{if-then}) torna-se inviável. É para solucionar esta limitação que surge o \textit{Machine Learning} (ML), o principal subcampo da Inteligência Artificial. Em vez de serem explicitamente programados para executar uma tarefa passo a passo, os algoritmos de ML utilizam métodos estatísticos para extrair padrões diretamente dos dados. A definição formal mais consolidada na literatura é proposta por \citeonline{Mitchell1997}, que estabelece que um programa de computador aprende a partir da experiência $E$, em relação a uma classe de tarefas $T$ e uma medida de desempenho $P$, se o seu desempenho em $T$, quantificado por $P$, melhora com a experiência $E$.
 
-Para compreender essa definição de forma mais prática, pode-se estabelecer um paralelo com o aprendizado humano em jogos. A tarefa $T$ representa o objetivo, como identificar tumores; a experiência $E$ consiste nos dados históricos e exemplos fornecidos ao sistema (como a base de dados Wisconsin), e o desempenho $P$ atua como a métrica de sucesso, indicando quantos diagnósticos a máquina acertou. O algoritmo é considerado capaz de "aprender"\ quando, ao ser exposto a mais dados (maior $E$), ele aumenta sua taxa de acertos (maior $P$) ao realizar o diagnóstico (tarefa $T$).
+Para compreender essa definição de forma mais prática, pode-se estabelecer um paralelo com o aprendizado humano. A tarefa $T$ representa o objetivo, como identificar tumores; a experiência $E$ consiste nos dados históricos e exemplos fornecidos ao sistema (como a base de dados Wisconsin), e o desempenho $P$ atua como a métrica de sucesso, indicando quantos diagnósticos a máquina acertou. O algoritmo é considerado capaz de "aprender"\ quando, ao ser exposto a mais dados (maior $E$), ele aumenta sua taxa de acertos (maior $P$) ao realizar o diagnóstico (tarefa $T$).
 
-A hierarquia da inteligência computacional estende-se ainda a camadas mais especializadas, como o \textit{Deep Learning} (DL), ou Aprendizado Profundo. Esta vertente do machine learning usa redes neurais artificiais para processar grandes volumes de dados (\citeauthoronline{RedHat-IAML}, \citeyear{RedHat-IAML}). Essa relação hierárquica e de pertencimento entre os campos pode ser visualizada por meio de um diagrama de conjuntos, conforme ilustrado na Figura \ref{fig:hierarquia_ia}. 
+A hierarquia da inteligência computacional estende-se ainda a camadas mais especializadas, como o \textit{Deep Learning} (DL), ou Aprendizado Profundo. Esta vertente do \textit{Machine Learning} usa redes neurais artificiais para processar grandes volumes de dados (\citeauthoronline{RedHat-IAML}, \citeyear{RedHat-IAML}). Essa relação hierárquica e de pertencimento entre os campos pode ser visualizada por meio de um diagrama de conjuntos, conforme ilustrado na Figura \ref{fig:hierarquia_ia}. 
 
 \begin{figure}[htb]
     \centering
@@ -266,7 +266,8 @@ Essa estrutura demonstra que todo Aprendizado Profundo é uma forma de Aprendiza
 
 O desenvolvimento de um modelo de IA não segue uma receita universal. A abordagem escolhida depende fundamentalmente da natureza dos dados disponíveis e do objetivo do problema. Na literatura clássica de \textit{Machine Learning}, os algoritmos são categorizados em três grandes paradigmas de aprendizado: Não Supervisionado, Aprendizado por Reforço e Aprendizado Supervisionado. Como o escopo deste trabalho visa prever um diagnóstico clínico a partir de dados históricos previamente validados por médicos patologistas, o referencial teórico e metodológico desta pesquisa concentra-se exclusivamente no paradigma do Aprendizado Supervisionado (\citeauthoronline{Cruz2006}, \citeyear{Cruz2006}).
 
-\subsection{O Paradigma do Aprendizado Supervisionado e a Classificação Binária}
+\subsection{O paradigma do aprendizado supervisionado e a classificação binária}
+
 
 O Aprendizado Supervisionado, que a literatura classifica como uma tarefa preditiva de aprendizagem indutiva, caracteriza-se sobretudo pela presença de um "gabarito"\ nos dados de treinamento. Neste paradigma, o algoritmo é alimentado com um conjunto de dados históricos contendo tanto as variáveis independentes de entrada, conhecidas como \textit{features} ou atributos, quanto as suas respectivas variáveis dependentes de saída, os rótulos ou \textit{labels}. O objetivo deste método é fazer com que o modelo descubra e mapeie a relação matemática entre as entradas e a saída. Dessa forma, ao aprender as regras ocultas que conectam as características observadas ao resultado final, o sistema torna-se capaz de generalizar esse conhecimento para realizar predições automáticas quando exposto a novos dados não rotulados no futuro (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
@@ -276,7 +277,7 @@ Dentro do Aprendizado Supervisionado, \citeonline{Bishop2006} divide os problema
 
 No contexto da oncologia e da base de dados \textit{Breast Cancer Wisconsin}, a tarefa computacional se enquadra como um problema de Classificação Binária. Isso significa que a variável de saída que o modelo deve prever possui apenas dois estados: o tumor é Benigno ou Maligno (\citeauthoronline{Street1993}, \citeyear{Street1993}). Todo o esforço de treinamento e otimização dos algoritmos neste trabalho visa buscar a melhor fronteira de decisão matemática capaz de separar essas duas classes, minimizando ao máximo os erros de categorização, dada a criticidade de um falso diagnóstico médico.
 
-\subsection{O Dilema da Generalização e o Ciclo de Vida do Modelo}
+\subsection{O dilema da generalização e o ciclo de vida do modelo}
 
 A construção de um classificador médico eficiente vai muito além do simples processamento numérico de dados históricos. O objetivo central de um modelo de aprendizado de máquina não é apenas memorizar os exemplos exatos que foram apresentados durante o treinamento, mas sim desenvolver a capacidade de generalização. Ou seja, o sistema precisa aprender a regra geral para conseguir prever com precisão o diagnóstico de novos pacientes que nunca processou antes. Nesse processo de aprendizado, o algoritmo pode cometer dois erros estatísticos extremos: o \textit{underfitting} e o \textit{overfitting} (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
@@ -286,7 +287,7 @@ Na estatística, essa linha tênue entre memorizar e generalizar é explicada pe
 
 Essa metodologia de divisão geralmente particiona os dados em três grupos: Treinamento, Validação e Teste. O conjunto de treinamento é o ambiente computacional primário, onde o algoritmo ajusta seus pesos e constrói suas regras de classificação. O conjunto de validação atua como um ambiente de aferição intermediária, permitindo que o desenvolvedor calibre os detalhes matemáticos do modelo e perceba rapidamente se o \textit{overfitting} está ocorrendo. Por fim, o conjunto de teste representa o cenário do mundo real. Ele permanece totalmente isolado e oculto do computador durante todo o processo de desenvolvimento, sendo acionado apenas uma única vez na etapa final. O desempenho alcançado neste conjunto de teste isolado é o principal indicador disponível do desempenho do sistema diante de casos inéditos, embora dependa de uma única partição e precise ser complementado pela validação cruzada apresentada na metodologia (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-\subsection{Métricas de Avaliação de Desempenho}
+\subsection{Métricas de avaliação de desempenho}
 \label{sec:metricas}
 
 % Matriz de Confusão
@@ -323,7 +324,7 @@ Para contornar essa ilusão estatística, o desempenho do modelo deve ser avalia
 
 
 % Precisão
-Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era, expressada pela Equação \ref{eq:precisao} (\citeauthoronline{Davis2006}, \citeyear{Davis2006}). Essa métrica está diretamente relacionada à taxa de alarmes falsos do sistema, refletindo o quanto as predições positivas podem ser consideradas confiáveis na prática. Assim, modelos com alta precisão tendem a evitar intervenções desnecessárias em pacientes saudáveis.
+Em paralelo, a precisão (\textit{precision}) avalia a confiabilidade técnica do alerta, ou seja, de todos os tumores que o sistema afirmou serem malignos, qual proporção realmente era, expressa pela Equação \ref{eq:precisao} (\citeauthoronline{Davis2006}, \citeyear{Davis2006}). Essa métrica está diretamente relacionada à taxa de alarmes falsos do sistema, refletindo o quanto as predições positivas podem ser consideradas confiáveis na prática. Assim, modelos com alta precisão tendem a evitar intervenções desnecessárias em pacientes saudáveis.
 
 \begin{equation}
     \label{eq:precisao}
@@ -359,7 +360,7 @@ Essa discrepância ocorre porque a taxa de falsos positivos utilizada na Curva R
 
 Dessa forma, em cenários oncológicos, onde o interesse principal está na correta identificação de casos positivos (tumores malignos), a Curva PR e sua respectiva área sob a curva (PR-AUC) fornecem uma avaliação mais fiel do desempenho do classificador. Uma alta PR-AUC indica que o modelo consegue manter elevada precisão mesmo com altos níveis de sensibilidade, sendo, portanto, uma métrica mais adequada para validação em problemas com classes desbalanceadas (\citeauthoronline{saito2015}, \citeyear{saito2015}).
 
-\subsection{Principais Algoritmos Classificadores}
+\subsection{Principais algoritmos classificadores}
 
 Com a base de dados metodologicamente preparada e as métricas de avaliação estabelecidas, o desenvolvimento do sistema avança para o seu núcleo computacional: a escolha do algoritmo de classificação. O campo do aprendizado supervisionado dispõe de um vasto leque de modelos matemáticos, variando desde equações probabilísticas mais tradicionais até arquiteturas estruturalmente complexas. Embora todos esses algoritmos compartilhem o mesmo propósito central de traçar uma fronteira capaz de separar as células benignas das malignas, cada um deles interpreta os dados e resolve esse problema geométrico utilizando lógicas completamente distintas (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
@@ -377,7 +378,7 @@ O modelo de base mais clássico na modelagem estatística em saúde é a Regress
 
 Estruturalmente, a regressão logística integra a família dos modelos lineares generalizados (GLMs). Em vez de modelar probabilidades diretamente com uma função linear, o algoritmo trabalha com a chance logarítmica (\textit{log-odds}), também conhecida como função \textit{logit}, para mapear a relação entre variáveis (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}).
 
-Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo $[0, 1]$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}). Como o denominador é sempre estritamente superior ao numerador, a fração resultante converge para uma escala de probabilidade válida, conforme demonstrado na Equação \ref{eq:sigmoide}.
+Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo aberto $[0, 1]$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}). Como o denominador é sempre estritamente superior ao numerador, a fração resultante fica sempre entre 0 e 1 e pode ser lida como probabilidade, conforme demonstrado na Equação \ref{eq:sigmoide}.
 
 \begin{equation}
 \label{eq:sigmoide}
@@ -393,7 +394,7 @@ L(\beta_0, \beta_1) = \prod_{i=1}^n p(x_i)^{y_i} \cdot (1 - p(x_i))^{1 - y_i}
 
 Quando a dispersão entre as características de células benignas e malignas apresenta uma distribuição complexa que não pode ser separada por uma linha reta simples, a computação recorre às Máquinas de Vetores de Suporte, frequentemente referenciadas pela sigla SVM. O objetivo primário deste algoritmo é encontrar uma fronteira de decisão geométrica, denominada hiperplano, que consiga separar as duas classes de tumores garantindo a maior margem de segurança possível entre elas. Os vetores de suporte, que dão nome ao modelo, são justamente os dados dos pacientes que estão posicionados de forma mais arriscada, ou seja, mais próximos a essa fronteira crítica. Eles atuam como os pilares estruturais que sustentam e definem o formato da decisão final do algoritmo (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}).
 
-Entretanto, nos problemas oncológicos reais, é muito comum que os dados das células estejam sobrepostos, configurando um cenário não linear. Para solucionar essa limitação e viabilizar a classificação, o SVM utiliza uma operação matemática sofisticada conhecida como truque de \textit{kernel}. Conforme detalhado por \citeonline{AIOnlineCourse2023}, o \textit{kernel} atua como uma função de mapeamento que eleva os dados originais de um espaço de baixa dimensão para um espaço de dimensão superior. Nessa nova perspectiva matemática ampliada, as células malignas e benignas que antes pareciam misturadas passam a se afastar, tornando-se linearmente separáveis por um hiperplano. Existem diversas funções capazes de realizar essa transformação geométrica, sendo o \textit{kernel} Polinomial e o \textit{kernel} Gaussiano RBF os mais utilizados na prática para garantir que o algoritmo se adapte perfeitamente à complexidade biológica do câncer.
+Entretanto, nos problemas oncológicos reais, é muito comum que os dados das células estejam sobrepostos, configurando um cenário não linear. Para solucionar essa limitação e viabilizar a classificação, o SVM utiliza uma operação matemática sofisticada conhecida como truque de \textit{kernel}. Conforme detalhado por \citeonline{AIOnlineCourse2023}, o \textit{kernel} permite operar como se os dados originais fossem elevados de um espaço de baixa dimensão para um espaço de dimensão superior, calculando os produtos internos nesse novo espaço sem construí-lo explicitamente. Nessa nova perspectiva matemática ampliada, as células malignas e benignas que antes pareciam misturadas passam a se afastar, tornando-se linearmente separáveis por um hiperplano. Existem diversas funções capazes de realizar essa transformação geométrica, sendo o \textit{kernel} Polinomial e o \textit{kernel} Gaussiano RBF os mais utilizados na prática para garantir que o algoritmo se adapte perfeitamente à complexidade biológica do câncer.
 
 Desenvolvidas na década de 1990 por Vladimir N. Vapnik, as SVMs tornaram-se aliadas robustas na pesquisa médica devido à sua capacidade de detectar tendências sutis em bases de dados complexas (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). O fundamento geométrico do algoritmo baseia-se na criação de uma fronteira de separação cuja natureza dimensional depende diretamente da quantidade de atributos dos dados de entrada: em um espaço 2D, essa fronteira é uma linha simples, enquanto em espaços de dimensões superiores ela se projeta como um hiperplano n-dimensional (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
@@ -418,7 +419,7 @@ viável (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
         \fonte{\citeauthoronline{AIOnlineCourse2023}, \citeyear{AIOnlineCourse2023}, Disponível em: \url{https://www.aionlinecourse.com/tutorial/machine-learning/kernel-svm}}
 \end{figure}
 
-O propósito central do algoritmo é encontrar a orientação ideal dessa fronteira para que ela maximize a distância ou a margem entre os pontos mais próximos de classes distintas, conhecidos como vetores de suporte (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Essa lógica é frequentemente comparada ao ajuste da "rua mais larga possível"\ entre os dados, garantindo que o modelo não apenas separe os grupos, mas o faça com uma folga que favoreça a generalização para novos diagnósticos clínicos (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Matematicamente, o hiperplano separador é descrito formalmente pela Equação \ref{eq:hiperplano}, onde $w$ é o vetor de peso que dita a inclinação da fronteira, $x$ é o vetor de entrada e $b$ representa o termo de viés que define a posição do plano no espaço (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
+O propósito central do algoritmo é encontrar a orientação ideal dessa fronteira para que ela maximize a distância ou a margem entre os pontos mais próximos de classes distintas, conhecidos como vetores de suporte (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Essa lógica é frequentemente comparada ao ajuste da "rua mais larga possível"\ entre os dados, garantindo que o modelo não apenas separe os grupos, mas o faça com uma folga que favoreça a generalização para novos diagnósticos clínicos (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}). Matematicamente, o hiperplano separador é descrito formalmente pela Equação \ref{eq:hiperplano}, em que $w$ é o vetor de pesos que dita a inclinação da fronteira, $x$ é o vetor de entrada e $b$ representa o termo de viés que define a posição do plano no espaço (\citeauthoronline{ibm_svm_2026}, \citeyear{ibm_svm_2026}).
 
 \begin{equation}
 \label{eq:hiperplano}
@@ -474,7 +475,7 @@ Esse critério é a base do algoritmo ID3, desenvolvido por Ross Quinlan em 1986
 
 Para sanar essa vulnerabilidade da árvore única, a estatística computacional recorre à técnica \textit{Random Forest}, ou Floresta Aleatória. Este modelo opera sob o paradigma de comitês de máquinas, criando grandes quantidades de árvores de decisão simultâneas de forma paralela. Para garantir que as árvores não tomem decisões idênticas, o algoritmo força uma diversidade matemática ao treinar cada uma delas com um subconjunto aleatório de pacientes e características. Ao submeter os dados de um novo exame ao modelo, o diagnóstico final não é imposto por uma única regra, mas determinado por uma votação majoritária entre todas as árvores que compõem a floresta. Essa dinâmica de sabedoria coletiva dilui os erros de árvores individuais e gera um sistema preditivo altamente estável e protegido contra anomalias (\citeauthoronline{Faceli2011}, \citeyear{Faceli2011}).
 
-A essência da floresta aleatória consiste em atuar como uma expansão avançada do método \textit{bagging} (agregação \textit{bootstrap}), incorporando também a aleatoriedade de características (método do subespaço aleatório) para forçar uma correlação extremamente baixa entre as árvores \cite{ibm_random_forest_2026}. Durante as amostragens no conjunto original, um terço dos dados é estrategicamente blindado sob a nomenclatura de amostra \textit{out-of-bag} (oob), servindo primariamente para validações cruzadas \cite{ibm_random_forest_2026}. Um grande benefício clínico do \textit{Random Forest} é a sua clareza na atribuição de importância preditiva das variáveis, mensurada com ferramentas como a diminuição média da impureza (MDI) e a importância por permutação (MDA) \cite{ibm_random_forest_2026}.
+A essência da floresta aleatória consiste em atuar como uma expansão avançada do método \textit{bagging} (agregação \textit{bootstrap}), incorporando também a aleatoriedade de características (método do subespaço aleatório) para forçar uma correlação extremamente baixa entre as árvores \cite{ibm_random_forest_2026}. Em cada amostragem \textit{bootstrap}, cerca de um terço dos dados (aproximadamente 37\%) fica fora do treino da árvore; essa amostra \textit{out-of-bag} (OOB) permite estimar o erro de generalização sem um conjunto de validação separado \cite{ibm_random_forest_2026}. Um grande benefício clínico do \textit{Random Forest} é a sua clareza na atribuição de importância preditiva das variáveis, mensurada com ferramentas como a diminuição média da impureza (MDI) e a importância por permutação (MDA) \cite{ibm_random_forest_2026}.
 
 Entre os algoritmos apresentados, a Regressão Logística e a Árvore de Decisão expõem diretamente sua lógica de decisão, enquanto o SVM com \textit{kernel} e o \textit{Random Forest} decidem por mecanismos cuja leitura direta é mais difícil para o profissional de saúde. É essa diferença de transparência, e não necessariamente de desempenho, que motiva a discussão sobre explicabilidade apresentada a seguir.
 
@@ -497,7 +498,7 @@ O resultado desse robusto processamento matemático é traduzido em visualizaç�
 
 Em comparação com outras ferramentas de explicabilidade disponíveis na literatura, como o modelo LIME, o método SHAP se destaca por sua fundamentação teórica sólida. Enquanto outras técnicas aproximam o comportamento do algoritmo a partir de vizinhanças locais dos dados, o SHAP possui propriedades matemáticas de consistência e de precisão local. Na prática, a soma dos valores atribuídos a cada característica celular pelo SHAP, acrescida do valor de base, reproduz a predição do modelo. Os valores são exatos nos explicadores de árvores, como o TreeExplainer, e aproximados nos demais, como o KernelExplainer, o que deve ser considerado ao auditar cada diagnóstico (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}).
 
-\subsection{Fundamentação Matemática: A Equação de Shapley}
+\subsection{Fundamentação matemática: a equação de Shapley}
 
 Para compreender como a biblioteca computacional distribui os pesos das características oncológicas, é estritamente necessário analisar a equação matemática original proposta para o Valor de Shapley. O cálculo baseia-se na análise de todas as permutações e subconjuntos possíveis de jogadores em um cenário cooperativo. Seja $N$ o conjunto total de características celulares disponíveis em um exame e $S$ um subconjunto específico dessas características, o valor de Shapley para uma característica isolada $i$, denotado por $\phi_i$, é definido pela Equação \ref{eq:shapley} (\citeauthoronline{Lundberg2017}, \citeyear{Lundberg2017}):
 
@@ -551,7 +552,7 @@ Métrica de Saída & Determina o espaço geométrico (como Euclidiano ou Esféri
 \end{quadro}
 
 
-No ambiente de desenvolvimento, a implementação desta técnica é frequentemente realizada por meio da biblioteca \textit{umap-learn} em Python. O Código \ref{cod:umap-python} ilustra a instanciação do algoritmo com a definição de seus respectivos hiperparâmetros para a posterior redução de dimensionalidade de um conjunto de dados clínicos.
+No ambiente de desenvolvimento, a implementação desta técnica é frequentemente realizada por meio da biblioteca \textit{umap-learn} em Python. O Código \ref{cod:umap-python} ilustra a instanciação do algoritmo com a definição de seus respectivos hiperparâmetros para a posterior redução de dimensionalidade de um conjunto de dados clínicos. Os valores do exemplo são ilustrativos.
 
 \begin{codigo}[htb]
 \legenda[cod:umap-python]{IMPLEMENTAÇÃO DA REDUÇÃO DIMENSIONAL UTILIZANDO O ALGORITMO UMAP EM PYTHON}
@@ -600,7 +601,7 @@ Este capítulo apresenta uma análise detalhada da literatura científica que fu
 
 O trabalho conduzido por \citeonline{Street1993} é considerado a pedra angular para o desenvolvimento de sistemas de diagnóstico assistido por computador aplicados ao câncer de mama. O objetivo primordial da pesquisa foi desenvolver um sistema que pudesse processar imagens digitais de aspirados por agulha fina para fornecer um diagnóstico maligno ou benigno de forma automatizada e precisa.
 
-A metodologia baseou-se na criação de um sistema de análise de imagens que permitia ao usuário delimitar grosseiramente as bordas dos núcleos celulares. A partir dessa interação inicial, o software calculava automaticamente dez características geométricas distintas para cada núcleo, incluindo o raio, o perímetro, a textura e a simetria. Esse processo gerou a base de dados conhecida como \textit{Wisconsin Diagnostic Breast Cancer} (WDBC), que é utilizada como padrão ouro na literatura acadêmica até os dias atuais.
+A metodologia baseou-se na criação de um sistema de análise de imagens que permitia ao usuário delimitar grosseiramente as bordas dos núcleos celulares. A partir dessa interação inicial, o software calculava automaticamente dez características geométricas distintas para cada núcleo, incluindo o raio, o perímetro, a textura e a simetria. Esse processo gerou a base de dados conhecida como \textit{Wisconsin Diagnostic Breast Cancer} (WDBC), que é utilizada como referência na literatura acadêmica até os dias atuais.
 
 Os resultados obtidos na época demonstraram uma acurácia de classificação de noventa e sete por cento utilizando um classificador baseado em programação linear. O trabalho provou que as medidas nucleares, quando extraídas de forma sistemática, continham informações estatísticas suficientes para diferenciar tumores sem a necessidade de intervenções invasivas imediatas.
 
@@ -634,7 +635,7 @@ A metodologia utilizou a ferramenta WEKA para testar diversos classificadores, c
 
 Os resultados mostraram que modelos com menos variáveis, porém mais significativas, apresentavam desempenho equivalente ou superior a modelos que utilizavam todos os dados disponíveis. Isso demonstrou que o excesso de informação pode, por vezes, prejudicar o aprendizado da máquina.
 
-Este estudo corrobora a utilidade do UMAP no presente projeto. Ao discutir a redução de dimensionalidade, o trabalho de Abdullah et al. fornece o embasamento sobre como a simplificação de dados complexos pode levar a diagnósticos mais precisos e interpretáveis.
+Este estudo dialoga com o presente projeto na questão dos atributos redundantes. Ao mostrar que a remoção de variáveis correlacionadas não prejudica o desempenho, o trabalho de Abdullah, Abdulazeez e Sallow ampara o tratamento da colinearidade adotado aqui, como a regularização da Regressão Logística e o agrupamento de raio, perímetro e área em um único fator nas explicações.
 
 \section{Abordagens de Machine Learning na Predição do Câncer de Mama (Rabiei \textit{et al.}, 2022)}
 
@@ -711,7 +712,7 @@ gerar relatórios estruturados com as fundamentações visuais dos diagnósticos
         & \textbf{Interface} & \textbf{XAI} \\
         \hline
         Street \textit{et al.} (1993)   & Sim & --- & Não & Sim & Sim & Não \\ \hline
-        Cruz \& Wishart (2006) & Sim & Sim & Sim & Não & Não & Não \\ \hline
+        Cruz \& Wishart (2006) & Sim & Sim & Sim & Sim & Não & Não \\ \hline
         Masud \textit{et al.} (2021)    & Sim & Sim & Não & Não & Não & Não \\ \hline
         Abdullah \textit{et al.} (2021)        & Sim & Sim & Sim & Não & Não & Não \\ \hline
         Rabiei \textit{et al.} (2022)   & Sim & Não & Sim & Sim & Não & Não \\ \hline
@@ -753,7 +754,7 @@ entre modelos; e nenhum avalia a calibração das probabilidades. Apenas Shaon
         Silva Júnior (2023) & Proc. de imagens & Nenhuma & Nenhuma & Nenhuma \\ \hline
         Chen \textit{et al.} (2023) & XGBoost & Acurácia (97,4\%), revocação, F1 & Únicas 8:2 e 7:3 & Nenhuma \\ \hline
         Shaon \textit{et al.} (2024) & ERT e votação & Acurácia (99,82\%), F1, MCC & Cruzada 10-\textit{fold} & SHAP global (seleção) \\ \hline
-        \textbf{Este Projeto} & \textbf{Comitê de voto suave} & \textbf{Acurácia, F1, ROC-AUC, PR-AUC, Brier, ECE} & \textbf{Cruzada 10$\times$5, 5$\times$2cv, Friedman} & \textbf{SHAP local e global, UMAP, calibração, OOD} \\ \hline
+        \textbf{Este Projeto} & \textbf{Sem diferença entre RL, SVM, RF e KNN} & \textbf{Acurácia, F1, ROC-AUC, PR-AUC, Brier, ECE} & \textbf{Cruzada 10$\times$5, 5$\times$2cv, Friedman} & \textbf{SHAP local e global, UMAP, calibração, OOD} \\ \hline
     \end{tabular}
     \vspace{0.2cm}
     \fonteautor
@@ -979,7 +980,7 @@ para o treinamento supervisionado. As subseções a seguir detalham cada etapa
 desse \textit{pipeline}, executado na ordem em que aparece no módulo científico.
 
 % ------------------------------------------------------------------------------
-\subsection{Codificação da Variável Alvo}
+\subsection{Codificação da variável alvo}
 \label{subsec:codificacao-alvo}
 
 A variável alvo da base Wisconsin, denominada diagnosis, armazena os rótulos
@@ -1016,7 +1017,7 @@ y = wisconsin_base['diagnosis']
 \end{codigo}
 
 % ------------------------------------------------------------------------------
-\subsection{Divisão Treino e Teste}
+\subsection{Divisão treino e teste}
 \label{subsec:divisao-treino-teste}
 
 Após a codificação da variável alvo, a base é particionada em dois subconjuntos
@@ -1103,7 +1104,7 @@ morfológicos, subsidiando decisões metodológicas nas etapas subsequentes do
 \textit{pipeline}.
 
 % ------------------------------------------------------------------------------
-\subsection{Estatísticas Descritivas}
+\subsection{Estatísticas descritivas}
 \label{subsec:estatisticas-descritivas}
 
 A primeira etapa da EDA consistiu na inspeção estrutural do \textit{DataFrame}
@@ -1124,7 +1125,7 @@ para os algoritmos sensíveis à escala, como a Regressão Logística, o SVM e
 o KNN.
 
 % ------------------------------------------------------------------------------
-\subsection{Distribuição das Classes}
+\subsection{Distribuição das classes}
 \label{subsec:distribuicao-classes}
 
 A distribuição da variável alvo foi verificada por meio de um gráfico de barras
@@ -1149,7 +1150,7 @@ minoritária de forma mais fiel.
 
 
 % ------------------------------------------------------------------------------
-\subsection{Histogramas dos Atributos}
+\subsection{Histogramas dos atributos}
 \label{subsec:histogramas}
 
 Os trinta atributos morfológicos foram inspecionados por meio de uma grade de
@@ -1178,7 +1179,7 @@ um indicativo qualitativo da separabilidade entre as classes que será
 explorada formalmente nas projeções UMAP e PCA.
 
 % ------------------------------------------------------------------------------
-\subsection{Boxplots dos Atributos}
+\subsection{Boxplots dos atributos}
 \label{subsec:boxplots}
 
 Complementando a análise dos histogramas, \textit{boxplots} foram gerados
@@ -1380,7 +1381,7 @@ Especificidade, nenhum tumor benigno foi classificado como maligno, mas
 também torna suas estimativas de probabilidade mais discretas, uma vez que
 apenas quatro votos ponderados compõem cada predição. Esse é o motivo pelo qual
 suas áreas sob as curvas, embora elevadas, ficam abaixo das obtidas pelos
-modelos que produzem probabilidades contínuas. Esse comportamento confirma que
+modelos que produzem probabilidades contínuas. Esse comportamento sugere que
 a estrutura geométrica da base Wisconsin, na qual os perfis morfológicos de
 tumores benignos e malignos formam regiões densas e bem separadas no espaço de
 atributos, favorece intrinsecamente os algoritmos baseados em distância
@@ -1527,7 +1528,7 @@ limitada a 10 níveis e exigiu-se um mínimo de 4 amostras para dividir um nó e
 de 2 amostras em cada folha, impedindo que as árvores individuais isolassem
 pacientes únicos em folhas puras, comportamento que memoriza ruído em vez de
 aprender padrões generalizáveis. O parâmetro max\_features = sqrt restringe
-cada divisão a um subconjunto aleatório de aproximadamente seis atributos,
+cada divisão a um subconjunto aleatório de cinco atributos,
 mecanismo que descorrelaciona as árvores entre si e constitui a própria fonte
 da diversidade que sustenta o ganho do comitê sobre a árvore isolada. O
 critério de entropia foi adotado por coerência com a Árvore de Decisão
@@ -1598,9 +1599,11 @@ ponderados pela contribuição de cada um na função de decisão.
 
 O modelo foi configurado com kernel RBF, habilitação de probabilidades e
 correção de desbalanceamento, conforme o Código~\ref{cod:svm}. O parâmetro
-probability = True é um requisito técnico obrigatório para a geração das curvas
-ROC e Precisão-Revocação pelas funções auxiliares, pois habilita o método
-predict\_proba que estima a probabilidade de cada classe para cada amostra.
+probability = True habilita o método predict\_proba, que estima a probabilidade
+de cada classe por um ajuste de Platt interno e é usado pelas funções auxiliares
+para traçar as curvas ROC e Precisão-Revocação; as curvas também poderiam ser
+obtidas diretamente da função de decisão, como na validação cruzada da
+Seção~\ref{sec:rigor-estatistico}.
 
 \begin{codigo}[htb]
 \legenda[cod:svm]{CONFIGURAÇÃO E TREINAMENTO DO SVM}
@@ -1624,7 +1627,7 @@ ROC-AUC de 0,997. A curva ROC apresenta a subida mais vertical de todo o conjunt
 verdadeiros positivos alcança 0,981 com a taxa de falsos positivos ainda igual
 a zero, ou seja, o modelo identifica corretamente 52 dos 53 tumores malignos do
 conjunto de teste sem classificar erroneamente um único caso benigno. A
-sensibilidade completa a unidade em falsos positivos de 0,167. A curva
+sensibilidade chega a 1,0 quando a taxa de falsos positivos atinge 0,167. A curva
 Precisão-Revocação é a mais estável visualmente, mantendo precisão igual a 1,0
 por toda a faixa de revocação até 0,981, com queda brusca apenas no limiar
 final. Esse comportamento reflete a natureza da margem máxima do SVM:
@@ -1642,7 +1645,7 @@ mais próximos da região de separação (\citeauthoronline{Bishop2006},
 \end{grafico}
 
 % ------------------------------------------------------------------------------
-\subsection{Comparação entre os Modelos}
+\subsection{Comparação entre os modelos}
 \label{subsec:comparacao-modelos}
 
 A Tabela~\ref{tab:comparacao_modelos} consolida as métricas de desempenho
@@ -1701,7 +1704,7 @@ atributos morfológicos da base Wisconsin possuem uma componente de separabilida
 linear suficientemente forte para ser plenamente explorada por modelos simples
 (\citeauthoronline{Bishop2006}, \citeyear{Bishop2006}), e tem consequência
 prática direta: nesta base, adotar um modelo de caixa preta não se justifica por
-ganho de desempenho, uma vez que ele não existe.
+ganho de desempenho, uma vez que esse ganho não foi observado.
 
 Cabe ressalvar, contudo, que as diferenças relatadas neste parágrafo foram
 apuradas sobre uma única partição de teste, no corte padrão de 50\%, e,
@@ -1744,7 +1747,7 @@ ponto de operação que converte essas probabilidades na decisão exibida pelo
 software.
 
 % ------------------------------------------------------------------------------
-\subsection{Validação Cruzada Estratificada Repetida}
+\subsection{Validação cruzada estratificada repetida}
 \label{subsec:validacao-cruzada}
 
 Para estimar o desempenho de forma independente de uma partição específica,
@@ -1821,7 +1824,7 @@ inversão parcial em relação ao ordenamento observado na partição única, e 
 uma evidência de que aquele ordenamento não era estável.
 
 % ------------------------------------------------------------------------------
-\subsection{Testes de Significância Estatística}
+\subsection{Testes de significância estatística}
 \label{subsec:significancia}
 
 Estabelecida a estabilidade do desempenho, resta determinar quais das diferenças
@@ -1904,7 +1907,7 @@ ruído amostral. Afirmar que um desses modelos é superior aos outros nesta base
 não encontra respaldo estatístico.
 
 % ------------------------------------------------------------------------------
-\subsection{Análise de Calibração das Probabilidades}
+\subsection{Análise de calibração das probabilidades}
 \label{subsec:calibracao}
 
 Um classificador pode apresentar alta acurácia e, ainda assim, produzir
@@ -1925,12 +1928,12 @@ média entre a confiança declarada e a acurácia efetivamente observada em cada
 faixa (\citeauthoronline{Guo2017}, \citeyear{Guo2017}). Em ambas as métricas,
 valores menores indicam melhor calibração. A Árvore de Decisão foi excluída
 desta análise: suas folhas puras produzem probabilidades degeneradas, iguais a
-0 ou 1, sobre as quais a noção de calibração não se aplica. Os resultados
+0 ou 1, sobre as quais a análise de calibração é pouco informativa. Os resultados
 constam da Tabela~\ref{tab:calibracao}.
 
 \begin{table}[htbp]
     \centering
-    \caption{MÉTRICAS DE CALIBRAÇÃO DAS PROBABILIDADES (MENOR É MELHOR)}
+    \caption{MÉTRICAS DE CALIBRAÇÃO DAS PROBABILIDADES NO CONJUNTO DE TESTE (MENOR É MELHOR)}
     \label{tab:calibracao}
     \begin{tabular}{@{}lcc@{}}
         \toprule
@@ -1963,8 +1966,9 @@ consolidados: o escalonamento de Platt, que ajusta uma sigmoide sobre os escores
 do modelo (\citeauthoronline{Platt1999}, \citeyear{Platt1999}), e a regressão
 isotônica, método não paramétrico que ajusta uma função monotônica por partes
 (\citeauthoronline{NiculescuMizil2005}, \citeyear{NiculescuMizil2005}). A
-Tabela~\ref{tab:recalibracao} apresenta o efeito de cada método sobre os dois
-modelos de melhor desempenho discriminativo.
+Tabela~\ref{tab:recalibracao} apresenta o efeito de cada método sobre o SVM e
+o Random Forest, cujos escores de origem são, respectivamente, uma distância à
+margem e uma fração de votos entre árvores.
 
 \begin{table}[htbp]
     \centering
@@ -2009,7 +2013,7 @@ dobra, e faz a média de suas probabilidades; na versão do software, um único
 SVM, ajustado sobre todo o treino, é calibrado uma única vez.
 
 % ------------------------------------------------------------------------------
-\subsection{Ponto de Operação e Curva Risco-Cobertura}
+\subsection{Ponto de operação e curva risco-cobertura}
 \label{subsec:ponto-operacao}
 
 Uma probabilidade calibrada ainda não é uma decisão. O método predict() do
@@ -2033,8 +2037,8 @@ ter probabilidade calibrada.
 Recusar casos sempre melhora as métricas entre os decididos, bastando adiar os
 difíceis, de modo que esse número isolado nada informa. A curva
 risco--cobertura do Gráfico~\ref{fig:risco_cobertura} mostra o custo: para cada
-fração do lote que o modelo aceita decidir, adiando primeiro os casos de maior
-risco previsto, o erro entre os decididos e o número de falsos negativos. A
+fração do lote que o modelo aceita decidir, adiando primeiro os casos cuja
+decisão tem maior probabilidade estimada de estar errada, o erro entre os decididos e o número de falsos negativos. A
 Tabela~\ref{tab:ponto_operacao} resume o ponto em vigor no software.
 
 \begin{grafico}[htbp]
@@ -2074,7 +2078,7 @@ Tabela~\ref{tab:ponto_operacao} resume o ponto em vigor no software.
     \fonteautor
 \end{table}
 
-A curva mostra que o erro se concentra nos últimos casos. Decidindo 80\% do treino, o erro entre os decididos fica entre 0,29\% e 1,17\%, conforme o modelo, decidindo todos, sobe para 5,63\% a 6,34\%, e o do comitê passa de 0,78\% a 90\% de cobertura para 5,63\% a 100\%. Os modelos não erram de forma espalhada, mas num pequeno grupo de casos difíceis, situação em que abster-se compensa. Com a faixa, os quatro modelos que a possuem decidem entre 50\% e 65\% do treino, contra três a cinco falsos negativos se decidissem todos os casos, assim, entre 35\% e 50\% dos pacientes do treino voltam para revisão humana. A faixa foi construída para não produzir erro no treino: com os limites exatos, os quatro modelos não cometem nenhum erro entre os casos decididos. Os limites gravados em \texttt{limiares.json}, porém, têm quatro casas decimais, e o arredondamento do limite inferior para cima faz um paciente maligno, com certeza logo abaixo desse limite, ser decidido como benigno. Esse é o falso negativo que aparece na Tabela~\ref{tab:ponto_operacao}, em três dos quatro modelos com faixa (Regressão Logística, SVM e comitê). O KNN não recebe faixa, pois suas probabilidades calibradas, com $k = 4$, assumem poucos valores distintos, e a faixa que zeraria seus erros o faria decidir menos de 45\% do treino, ele opera com cobertura total e o maior erro do conjunto. Como a faixa foi ajustada com tolerância zero sobre as mesmas probabilidades \textit{out-of-fold}, seu bom desempenho no treino é esperado por construção. A evidência está no teste, que não participou da escolha: ali, os quatro modelos com faixa decidem entre 67\% e 74\% do lote sem nenhum erro, e devolvem entre 26\% e 33\% dos pacientes à revisão humana, cerca de um terço do lote de teste.
+A curva mostra que o erro se concentra nos últimos casos. Decidindo 80\% do treino, o erro entre os decididos fica entre 0,29\% e 1,17\%, conforme o modelo; decidindo todos, sobe para 5,63\% a 6,34\%, e o do comitê passa de 0,78\% a 90\% de cobertura para 5,63\% a 100\%. Os modelos não erram de forma espalhada, mas num pequeno grupo de casos difíceis, situação em que abster-se compensa. Com a faixa, os quatro modelos que a possuem decidem entre 50\% e 65\% do treino, contra três a cinco falsos negativos se decidissem todos os casos; assim, entre 35\% e 50\% dos pacientes do treino voltam para revisão humana. A faixa foi construída para não produzir erro no treino: com os limites exatos, os quatro modelos não cometem nenhum erro entre os casos decididos. Os limites gravados em \texttt{limiares.json}, porém, têm quatro casas decimais, e o arredondamento do limite inferior para cima faz um paciente maligno, com certeza logo abaixo desse limite, ser decidido como benigno. Esse é o falso negativo que aparece na Tabela~\ref{tab:ponto_operacao}, em três dos quatro modelos com faixa (Regressão Logística, SVM e comitê). O KNN não recebe faixa, pois suas probabilidades calibradas, com $k = 4$, assumem poucos valores distintos, e a faixa que zeraria seus erros o faria decidir menos de 45\% do treino; por isso, opera com cobertura total e o maior erro do conjunto. Como a faixa foi ajustada com tolerância zero sobre as mesmas probabilidades \textit{out-of-fold}, seu bom desempenho no treino é esperado por construção. A evidência está no teste, que não participou da escolha: ali, os quatro modelos com faixa decidem entre 67\% e 74\% do lote sem nenhum erro, e devolvem entre 26\% e 33\% dos pacientes à revisão humana, cerca de um terço do lote de teste.
 
 Esses resultados situam o comitê na solução. Como a
 Subseção~\ref{subsec:significancia} não encontrou diferença significativa entre
@@ -2088,7 +2092,7 @@ custo de executar os quatro modelos a cada lote e de oferecer uma explicação
 que também é média, como discutido na Subseção~\ref{subsec:relatorios-xai}.
 
 % ------------------------------------------------------------------------------
-\section{Estado Atual do Software}
+\section{O Software Desenvolvido}
 \label{sec:software}
 
 O módulo de software apresentado na Seção~\ref{sec:visao-geral} encontra-se
@@ -2098,7 +2102,7 @@ de explicabilidade que convertem a saída numérica dos classificadores em
 justificativa auditável. As instruções de instalação e de uso estão nos
 Apêndices~A e~B.
 
-\subsection{Organização do Código}
+\subsection{Organização do código}
 \label{subsec:organizacao-codigo}
 
 A aplicação separa lógica de apresentação: app/core concentra as regras de
@@ -2162,7 +2166,7 @@ de integração exercitam o próprio wisconsin.pkl versionado no repositório,
 conferem que o bloco de fatores fecha na certeza exibida e acusam qualquer
 alteração no formato do artefato.
 
-\subsection{Fluxo de Trabalho}
+\subsection{Fluxo de trabalho}
 \label{subsec:fluxo-trabalho}
 
 A tela de diagnóstico organiza a operação em seis passos sequenciais, cada um
@@ -2193,7 +2197,7 @@ leitura e verificação: auditoria acadêmica contra um gabarito, abertura dos
 relatórios de explicabilidade e exportação dos resultados. Os critérios de
 recusa da planilha e a operação de cada passo estão no Apêndice~B.
 
-\subsection{Sinais de Confiabilidade}
+\subsection{Sinais de confiabilidade}
 \label{subsec:sinais-confiabilidade}
 
 Entregar apenas o rótulo Benigno ou Maligno seria repetir o problema da caixa
@@ -2235,7 +2239,7 @@ centro do treino, medida sobre os trinta atributos padronizados com covariância
 regularizada por Ledoit-Wolf e cortada no percentil 99. Perfil atípico indica
 extrapolação para uma região pouco observada no aprendizado, não malignidade.
 
-\subsection{Relatórios de Explicabilidade}
+\subsection{Relatórios de explicabilidade}
 \label{subsec:relatorios-xai}
 
 A aplicação abre uma janela de explicabilidade específica para o modelo
@@ -2302,7 +2306,7 @@ de modo que a faixa entre $z = -1$ e $z = +1$ que o SVM maximiza e a fronteira
 em $z = 0$ aparecem sem aproximação; para o paciente selecionado, a janela
 mostra ainda o balanço de forças entre os vetores de suporte das duas classes
 que compõem seu escore. A margem não é traçada sobre o mapa porque o UMAP não
-tem inversa: não há como avaliar a função de decisão em um ponto arbitrário do
+tem inversa exata (a biblioteca oferece apenas uma aproximação): não há como avaliar a função de decisão em um ponto arbitrário do
 plano, apenas interpolar o escore dos pacientes vizinhos. Medida por validação
 \textit{leave-one-out} sobre o treino, essa interpolação acerta o lado da
 fronteira em cerca de 96\% dos casos, mas desenharia metade dos pacientes com
@@ -2376,7 +2380,7 @@ divergência, e o relatório de cada membro permanece disponível para consulta.
     \fonte{O Autor}
 \end{figure}
 
-\subsection{Auditoria, Exportação e Consulta}
+\subsection{Auditoria, exportação e consulta}
 \label{subsec:auditoria-exportacao}
 
 A auditoria, opcional e voltada ao uso acadêmico, recebe um gabarito com os
@@ -2429,7 +2433,7 @@ se manifesta com o programa em execução. No executável, o histórico e os PDF
 são gravados na pasta DiagnosisXAI do diretório pessoal do usuário, pois a
 pasta do programa pode ser somente leitura.
 
-\subsection{Limitações da Versão Atual}
+\subsection{Limitações do software}
 \label{subsec:limitacoes-software}
 
 A aplicação opera apenas sobre os trinta atributos da base Wisconsin, já
