@@ -5,7 +5,7 @@ As perguntas estão em nove blocos, na ordem em que o trabalho se apresenta, par
 - **Onde:** a seção do trabalho que sustenta a resposta;
 - **Pontos-chave:** o que a resposta precisa conter. Os números foram conferidos contra o notebook e o código.
 
-As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As marcadas com ⚠️ tocam em pontos que o texto ainda trata de forma frágil; o arquivo `02_revisao_completa.md` traz a correção.
+As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As marcadas com ⚠️ tocam em pontos que o texto ainda trata de forma frágil; o arquivo `01_pendencias.md` traz a correção.
 
 | Bloco | Tema | Perguntas |
 |---|---|---|
@@ -32,7 +32,7 @@ As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As
 *Pontos-chave:* "Como integrar explicabilidade e redução de dimensionalidade a um modelo preditivo de modo que os diagnósticos sejam acurados e interpretáveis?" A resposta é que não basta acoplar o SHAP a um classificador. É preciso combinar certeza **calibrada**, uma regra de decisão capaz de **se abster**, explicações que **fecham** na certeza exibida e recursos que **situam** o paciente na população e avisam quando ele foge dela.
 
 **3. 🎯 Se a Regressão Logística empatou com os modelos de caixa preta, por que manter SVM, Random Forest e o SHAP no sistema? Rudin (2019) não diria para usar só o modelo interpretável?**
-*Onde:* Seções 2.4, 4.6.6 e 4.7.2. ⚠️ Ver o item 7 do `01`: hoje o texto atribui a Rudin a ideia oposta.
+*Onde:* Seções 2.4, 4.6.6 e 4.7.2. ⚠️ Ver o item 4 do `01_pendencias.md`: hoje o texto atribui a Rudin a ideia oposta.
 *Pontos-chave:* concordar com Rudin e mostrar que o resultado do trabalho é **coerente** com ela: nesta base, a complexidade não trouxe ganho significativo. O sistema mantém os outros modelos porque (a) o empate vale para esta base e talvez não para outra; (b) comparar mecanismos diferentes é parte da contribuição; (c) o comitê dilui o erro de um membro e expõe a divergência entre eles. O SHAP serve também à RL: o bloco de fatores dá a todos os modelos a mesma linguagem de explicação.
 
 **4. O objetivo geral foi atingido? O que ficou de fora?**
@@ -56,7 +56,7 @@ As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As
 ## Bloco 2. Base de dados e pré-processamento
 
 **8. 🎯 De onde veio exatamente o arquivo que você usou? Qual versão?**
-*Onde:* Seção 4.3. ⚠️ Ver o item 16 do `01`.
+*Onde:* Seção 4.3. ⚠️ Ver o item 8 do `01_pendencias.md`.
 *Pontos-chave:* a base é a WDBC, de Wolberg, Street e Mangasarian, no UCI Machine Learning Repository (DOI 10.24432/C5DW2B). O `data.csv`, com cabeçalho e a coluna `Unnamed: 32`, é o formato da cópia do Kaggle. Tenha a resposta exata (site e data do download).
 
 **9. O que significam os sufixos _mean, _se e _worst? Como esses números foram obtidos?**
@@ -120,7 +120,7 @@ As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As
 *Pontos-chave:* por coerência com a fundamentação (ganho de informação, ID3/C4.5) e para que a comparação Árvore × RF isole o efeito do comitê. Na prática, os dois critérios costumam produzir árvores muito parecidas. A janela do RF mostra a importância como "redução média de entropia (MDI)" justamente porque o critério é a entropia.
 
 **23. ⚠️ Como o Random Forest decide: por votação majoritária ou pela média das probabilidades? Quantos atributos ele sorteia por divisão?**
-*Onde:* Seções 2.3.4 e 4.6.4. Ver os itens A4 e A8 do `02`.
+*Onde:* Seções 2.3.4 e 4.6.4.
 *Pontos-chave:* no scikit-learn, pela **média das probabilidades** das 500 árvores (voto suave). A votação majoritária é a formulação clássica de Breiman. O `max_features='sqrt'` sorteia **5** atributos (a parte inteira de √30 ≈ 5,48), e não "aproximadamente seis", como diz o texto atual.
 
 **24. 🎯 Os trabalhos relacionados usam XGBoost e redes neurais, e Chen et al. tiveram o XGBoost como melhor modelo. Por que eles não estão no seu trabalho?**
@@ -144,7 +144,7 @@ As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As
 *Pontos-chave:* a curva ROC usa a taxa de falsos positivos, normalizada pelos negativos, que são a maioria; a curva PR olha diretamente a classe de interesse, a maligna (Davis e Goadrich, 2006; Saito e Rehmsmeier, 2015). Com 37% de malignos, as duas contam praticamente a mesma história: é complemento, não substituição.
 
 **28. ⚠️ Defina especificidade. Por que ela é o critério do limiar, e não a precisão?**
-*Onde:* Seção 4.7.4. A especificidade ainda não está definida na fundamentação (item A2 do `02`).
+*Onde:* Seção 4.7.4. A especificidade ainda não está definida na fundamentação (item 12 do `01_pendencias.md`).
 *Pontos-chave:* especificidade = VN / (VN + FP), a proporção de benignos reconhecidos como benignos. A especificidade não depende da prevalência; a precisão depende (muda se a proporção de malignos no lote mudar). Por isso o piso foi posto na especificidade.
 
 **29. 🎯 Explique o teste 5×2cv de Dietterich. Por que não um teste t comum sobre as 50 dobras?**
@@ -192,11 +192,11 @@ As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As
 *Pontos-chave:* a isotônica é uma função em degraus com muitos graus de liberdade e, em bases pequenas, sobreajusta o conjunto de calibração (Niculescu-Mizil e Caruana, 2005). O Platt ajusta só dois parâmetros (uma sigmoide) e é monotônico, então preserva a ordem dos pacientes. Escolher a isotônica **por ter sido melhor no teste** seria usar o teste para decidir.
 
 **39. 🎯 Em que dados o calibrador foi ajustado? Não há vazamento?**
-*Onde:* Seção 4.7.3. Ver o item A1 do `02`.
+*Onde:* Seção 4.7.3.
 *Pontos-chave:* `CalibratedClassifierCV(method='sigmoid', cv=5, ensemble=False)`: o calibrador é ajustado sobre as previsões ***out-of-fold*** de 5 dobras do treino, e o modelo final é treinado em todo o treino. O teste não participa.
 
-**40. ⚠️ Na Tabela 6, o Platt piorou o SVM (Brier de 0,0156 para 0,0213), mas no software o SVM calibrado ficou em 0,0156. Por quê?**
-*Onde:* Seção 4.7.3. **O texto atual dá uma explicação incorreta** (item A1 do `02`).
+**40. Na Tabela 6, o Platt piorou o SVM (Brier de 0,0156 para 0,0213), mas no software o SVM calibrado ficou em 0,0156. Por quê?**
+*Onde:* Seção 4.7.3 (parágrafo após a Tabela 6, já corrigido).
 *Pontos-chave:* na Tabela 6 foi usado `ensemble=True` (cinco SVMs, cada um treinado em 80% dos dados, com a média das cinco probabilidades). No software, `ensemble=False` (um único SVM em 100% do treino, calibrado uma vez). Testei as combinações: `probability=True` ou `False` não muda nada (o calibrador sempre usa a função de decisão); o que muda o resultado é o `ensemble`.
 
 **41. 🎯 Como foi escolhido o limiar de operação? Por que 92% de especificidade?**
@@ -205,10 +205,10 @@ As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As
 
 **42. 🎯 Se a faixa de recusa foi construída para não errar no treino, por que a Tabela 7 mostra um falso negativo?**
 *Onde:* Seção 4.7.4.
-*Pontos-chave:* com os limites exatos, não há nenhum erro. O `limiares.json` grava os limites com 4 casas, e o limite inferior é **arredondado para cima** em alguns modelos. Com isso, o maligno de menor certeza fica logo abaixo do limite e é decidido como benigno. Isso ocorre na RL, no SVM e no comitê. A correção é arredondar o limite inferior para baixo. Tenha uma resposta pronta para "por que não corrigiu?" (ver o item 12 do `01`).
+*Pontos-chave:* com os limites exatos, não há nenhum erro. O `limiares.json` grava os limites com 4 casas, e o limite inferior é **arredondado para cima** em alguns modelos. Com isso, o maligno de menor certeza fica logo abaixo do limite e é decidido como benigno. Isso ocorre na RL, no SVM e no comitê. A correção é arredondar o limite inferior para baixo. Tenha uma resposta pronta para "por que não corrigiu?" (ver a seção "O que depende de você" do `01_pendencias.md`).
 
 **43. Os limites da faixa estão dentro ou fora dela?**
-*Onde:* Seção 4.7.4 (item 12 do `01`).
+*Onde:* Seção 4.7.4 (item 6 do `01_pendencias.md`).
 *Pontos-chave:* a faixa é [inferior; superior). Certeza abaixo do inferior → Benigno; entre os dois, incluindo o inferior → Revisar; a partir do superior → Maligno. O superior é gravado 0,0001 acima do benigno de maior certeza, para que esse benigno não seja decidido. No comitê: Benigno abaixo de 1,1%; Revisar de 1,1% a 68,2%; Maligno a partir de 68,2%.
 
 **44. 🎯 Devolver cerca de um terço dos pacientes não torna o sistema inútil?**
@@ -268,11 +268,11 @@ As marcadas com 🎯 são as que considero **mais prováveis** (26 no total). As
 *Pontos-chave:* o app não reajusta o UMAP a cada lote nem usa o umap-learn em tempo de execução: um paciente novo é posicionado pela média ponderada das posições dos seus vizinhos de treino, o que é rápido e determinístico. Por construção, então, ele **nunca cai fora da nuvem**, mesmo sendo muito diferente. E mesmo o `transform()` da biblioteca não resolveria, porque a projeção em 2D distorce as distâncias: "longe no mapa" não é uma medida confiável de "atípico". A atipicidade passou a ser medida no espaço completo de 30 dimensões, pela distância de Mahalanobis.
 
 **56. ⚠️ Quais hiperparâmetros do UMAP você usou, e por quê?**
-*Onde:* Seção 2.6 (Código 1) e célula 48 do notebook. Ver o item A3 do `02`.
+*Onde:* Seção 2.6 (Código 1) e célula 48 do notebook. Ver o item 13 do `01_pendencias.md`.
 *Pontos-chave:* `n_neighbors=15`, `min_dist=0.1` (os padrões da biblioteca), `random_state=42`, ajustado só nos 426 pacientes de treino. O Código 1 do Cap. 2 mostra 65 e 0,0, que são valores ilustrativos, inspirados em Bollon et al.; deixe isso claro no texto. `n_neighbors` equilibra a estrutura local e a global; `min_dist` controla o quanto os pontos se compactam.
 
 **57. Dá para ler as distâncias no mapa UMAP? Dois grupos distantes no mapa são muito diferentes?**
-*Onde:* Seção 2.6. ⚠️ Ver o item 7(g) do `01`.
+*Onde:* Seção 2.6. ⚠️ Ver o item 4 do `01_pendencias.md` (frase da p. 41).
 *Pontos-chave:* não. O UMAP preserva vizinhanças (topologia), e não distâncias. O tamanho dos grupos e a distância entre eles no mapa não têm significado métrico. O mapa serve para **situar** o paciente ("ele está entre os malignos"), não para medir quão diferente ele é.
 
 **58. Por que a distância de Mahalanobis, e não a euclidiana? Por que Ledoit-Wolf e o percentil 99?**
