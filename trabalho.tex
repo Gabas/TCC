@@ -4,7 +4,8 @@
     ,a4paper
     ,chapter=TITLE
     ,section=TITLE
-    ,sumario=abnt-6027-2012]{abntex2}
+    ,sumario=abnt-6027-2012
+    ,english,brazil]{abntex2} % english: hifenização do abstract; brazil (último) segue como idioma principal
 
 % Carrega o pacote da abnt com as adapatções para normas da Tuiuti
 \usepackage{packages/abnt-UTP}
@@ -65,6 +66,20 @@ como requisito à obtenção do grau de Bacharel.}
     Os resultados quanto à explicabilidade indicam que o software acompanha cada diagnóstico de uma justificativa que decompõe a certeza exibida nos atributos que mais pesaram na decisão, em valores de Shapley, e cujo conteúdo é coerente com alterações morfológicas associadas à malignidade. Contudo, essa interpretabilidade ainda não foi avaliada por profissionais de saúde.
 
     \palavraschave{Aprendizado de máquina; Base de dados Wisconsin; Inteligência Artificial Explicável; SHAP; UMAP}
+\end{resumo}
+
+% % Resumo em língua estrangeira (obrigatório pelo manual da UTP)
+\begin{resumo}[ABSTRACT]
+\begin{otherlanguage*}{english}
+    This work developed software integrated with a predictive model for classifying breast tumors as benign or malignant, using the public Breast Cancer Wisconsin dataset.
+    The main objective is to mitigate the opacity characteristic of black-box models by providing diagnoses that combine high analytical precision with clinical justifications that health professionals can interpret.
+    The methodology comprises the training and comparison of classical supervised machine learning algorithms, evaluated by statistical metrics.
+    Explainability is provided by Shapley values, which decompose each diagnosis into the contributions of the attributes, and the UMAP algorithm is applied to the visual analysis of the separability between benign and malignant tumors.
+    The system provides an interface that receives batch data through spreadsheet upload and generates structured reports with the diagnoses and their visual justifications.
+    Regarding explainability, the results show that the software accompanies each diagnosis with a justification that decomposes the displayed certainty, in Shapley values, into the attributes that weighed most in the decision, and whose content is consistent with morphological changes associated with malignancy. However, this interpretability has not yet been evaluated by health professionals.
+
+    \vspace{.6cm}\textbf{Keywords}: Machine learning; Wisconsin dataset; Explainable Artificial Intelligence; SHAP; UMAP.
+\end{otherlanguage*}
 \end{resumo}
 
 
@@ -199,7 +214,7 @@ O uso de tecnologias computacionais para enfrentar essa carga de adoecimento est
 
 Apesar do notável desempenho preditivo, a adoção clínica dessas tecnologias esbarra no chamado "problema da caixa preta". Algoritmos avançados fornecem predições altamente acuradas, mas não revelam o raciocínio matemático interno que levou àquela conclusão. Na prática médica, entregar um diagnóstico de malignidade automatizado sem uma fundamentação biológica rastreável é insuficiente e eticamente questionável. O profissional de saúde necessita compreender quais fatores morfológicos e celulares pesaram na decisão para validar a predição, confiar no modelo e transmitir o diagnóstico com segurança ao paciente.
 
-É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir"\ essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) e anomalias de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
+É nesse cenário que a Inteligência Artificial Explicável (XAI - \textit{eXplainable AI}) se faz estritamente necessária. A aplicação de técnicas de interpretabilidade, como o \textit{SHapley Additive exPlanations} (SHAP), permite "abrir"\ essa caixa preta ao quantificar o impacto exato e a contribuição de cada variável clínica no risco de malignidade. Em paralelo, a utilização de algoritmos de redução de dimensionalidade, como o \textit{Uniform Manifold Approximation and Projection for Dimension Reduction} (UMAP), facilita a análise visual da separabilidade natural dos dados, identificando agrupamentos (\textit{clusters}) de forma gráfica. Dessa forma, o sistema computacional deixa de ser apenas um classificador opaco e passa a atuar como uma ferramenta de apoio transparente, unindo a precisão analítica à explicabilidade exigida pelo campo oncológico.
 
 Diante da necessidade de conciliar desempenho preditivo e interpretabilidade clínica, formula-se o seguinte problema de pesquisa: como integrar técnicas de explicabilidade e redução de dimensionalidade em um modelo preditivo de câncer de mama, de modo a fornecer diagnósticos que sejam, simultaneamente, acurados e interpretáveis por profissionais de saúde?
 
@@ -380,7 +395,7 @@ O modelo de base mais clássico na modelagem estatística em saúde é a Regress
 
 Estruturalmente, a regressão logística integra a família dos modelos lineares generalizados (GLMs). Em vez de modelar probabilidades diretamente com uma função linear, o algoritmo trabalha com a chance logarítmica (\textit{log-odds}), também conhecida como função \textit{logit}, para mapear a relação entre variáveis (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}).
 
-Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo aberto $[0, 1]$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}). Como o denominador é sempre estritamente superior ao numerador, a fração resultante fica sempre entre 0 e 1 e pode ser lida como probabilidade, conforme demonstrado na Equação \ref{eq:sigmoide}.
+Matematicamente, a função sigmoide comprime valores reais ilimitados para o intervalo aberto $(0, 1)$ ao calcular a razão entre a base exponencial da entrada e essa mesma base acrescida de uma unidade (\citeauthoronline{ibm_logistic_regression_2026}, \citeyear{ibm_logistic_regression_2026}). Como o denominador é sempre estritamente superior ao numerador, a fração resultante fica sempre entre 0 e 1 e pode ser lida como probabilidade, conforme demonstrado na Equação \ref{eq:sigmoide}.
 
 \begin{equation}
 \label{eq:sigmoide}
@@ -1683,7 +1698,7 @@ discriminativa consideravelmente superior para este conjunto de dados.
         \bottomrule
     \end{tabular}
     \vspace{0.2cm}
-    \legend{Fonte: O Autor}
+    \fonteautor
 \end{table}
 
 O desempenho máximo do conjunto foi obtido em empate pela Regressão Logística e
@@ -2028,7 +2043,11 @@ conjunto de teste não participa da escolha. O limiar de operação é o menor
 corte cuja especificidade \textit{out-of-fold} atinge 92\%. A faixa de recusa
 vai da menor certeza atribuída a um paciente maligno à maior atribuída a um
 benigno: fora dela, nenhum caso do treino seria decidido errado, e os casos
-dentro dela são devolvidos para revisão humana. A faixa só é adotada se o modelo
+dentro dela são devolvidos para revisão humana. A faixa inclui o limite
+inferior e exclui o superior: o paciente com certeza igual ao limite inferior é
+devolvido para revisão, e o paciente com certeza igual ou maior que o limite
+superior é decidido como maligno, razão pela qual esse limite é gravado
+0,0001 acima da maior certeza atribuída a um benigno. A faixa só é adotada se o modelo
 continuar decidindo ao menos 45\% do treino. O comitê de voto suave entra nessa
 análise como a média simples das probabilidades calibradas de Regressão
 Logística, Random Forest, SVM e KNN; a Árvore de Decisão fica de fora por não
