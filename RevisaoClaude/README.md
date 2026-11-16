@@ -8,6 +8,7 @@ Situação conferida em 13/11/2026 sobre o `trabalho.tex` do commit `71aac81` e 
 | `03_perguntas_banca.md` | 70 perguntas prováveis da banca, com onde está a resposta no texto e os pontos-chave de cada uma |
 | `apendices_A_B.tex` | Rascunho original dos Apêndices A e B (já incorporados ao `trabalho.tex`) |
 | `Apresentacao_TCC*.pptx` | Slides da defesa |
+| `04_roteiro_apresentacao.md` | Roteiro fala a fala do `Apresentacao3TCC.pptx` (19 min 30 s), com a demonstração, o plano de corte e as respostas às perguntas |
 
 O `01_pendencias.md` substitui os antigos `01_pendencias_email.md` e `02_revisao_completa.md`. Todos os blocos dele foram aplicados numa cópia do projeto e compilados (pdflatex + bibtex + pdflatex ×2), junto com a troca no `.sty` do item 10. O resultado não teve erro nem estouro de margem, saiu com 114 páginas e manteve a conclusão em 3 páginas.
 
